@@ -1,0 +1,11 @@
+requests
+pandas
+numpy
+matplotlib
+Pillow
+tqdm
+beautifulsoup4
+lxml
+jupyter
+ipykernel
+python-dotenv
