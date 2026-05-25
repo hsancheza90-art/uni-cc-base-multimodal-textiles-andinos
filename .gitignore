@@ -16,3 +16,8 @@ data/processed/*.zip
 # Allow small sample outputs
 !outputs/samples/
 !outputs/samples/**
+
+# Virtual environments
+.venv/
+venv/
+env/
