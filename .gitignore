@@ -16,8 +16,11 @@ data/processed/*.zip
 # Allow small sample outputs
 !outputs/samples/
 !outputs/samples/**
+!data/processed/*.csv
 
 # Virtual environments
 .venv/
 venv/
 env/
+__pycache__/
+.ipynb_checkpoints/
