@@ -1,6 +1,8 @@
-# UNI-CC Andean Textiles Multimodal Dataset
+# UNI-CC Base Multimodal de Textiles Andinos
 
 Repositorio académico para la construcción de una base multimodal trazable de textiles andinos a partir de colecciones oficiales digitalizadas.
+
+El proyecto integra imágenes, metadatos curatoriales, descripciones y referencias institucionales con fines de investigación en ciencias computacionales, aprendizaje multimodal y análisis computacional del patrimonio textil andino.
 
 ## Objetivo general
 
