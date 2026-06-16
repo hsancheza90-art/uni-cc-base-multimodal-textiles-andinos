@@ -38,7 +38,7 @@ La información oficial del museo se conserva como metadata curatorial. Los atri
 | `material_normalizado` | Material normalizado desde metadata oficial | algodón, fibra de camélido, lana, plumas |
 | `tecnica` | Técnica identificada desde metadata oficial | tejido, tapiz, bordado, trabajo con plumas |
 | `tipo_objeto` | Tipo de textil | manto, túnica, bolso textil, panel textil, fragmento textil, tapiz textil |
-| `tipo_superficie` | Utilidad morfológica para análisis visual | superficie_amplia, formato_estrecho, revision_morfologica |
+| `tipo_superficie` | Utilidad morfológica para análisis visual | superficie_amplia, objeto_tridimensional_iconografico, formato_estrecho, borde_o_fragmento_lineal, objeto_tridimensional_no_prioritario, revision_morfologica |
 
 ---
 

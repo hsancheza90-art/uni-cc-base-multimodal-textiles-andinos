@@ -143,7 +143,16 @@ def build_corpus_piloto(
         surface_info = classify_surface_type(row_dict)
         tipo_objeto = normalize_object_type(row_dict)
 
-        if surface_info["corpus_analisis"] == "corpus_secundario_formato_estrecho":
+        # El corpus piloto principal incluye textiles con superficie amplia
+        # y la excepción de sombreros Wari/Huari con potencial iconográfico.
+        # Otros textiles válidos quedan documentados en met_textiles_pilot_clean.csv,
+        # pero no entran a esta primera muestra experimental.
+        corpus_principal_values = [
+            "corpus_principal_superficie_amplia",
+            "corpus_principal_iconografia_wari",
+        ]
+
+        if surface_info["corpus_analisis"] not in corpus_principal_values:
             continue
 
         record = {

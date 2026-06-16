@@ -31,25 +31,27 @@
 
 | tipo_objeto | conteo |
 |---|---:|
-| objeto_textil | 23 |
-| tunica | 13 |
-| panel_textil | 9 |
-| bolso_textil | 4 |
+| tunica | 19 |
+| panel_textil | 11 |
+| bolso_textil | 10 |
+| sombrero_wari_iconografico | 4 |
+| vestimenta_textil | 3 |
+| tapiz_textil | 2 |
 | manto | 1 |
 
 ## Distribución por tipo de superficie
 
 | tipo_superficie | conteo |
 |---|---:|
-| superficie_amplia | 27 |
-| revision_morfologica | 23 |
+| superficie_amplia | 46 |
+| objeto_tridimensional_iconografico | 4 |
 
 ## Distribución por corpus de análisis
 
 | corpus_analisis | conteo |
 |---|---:|
-| corpus_principal_superficie_amplia | 27 |
-| revision_morfologica | 23 |
+| corpus_principal_superficie_amplia | 46 |
+| corpus_principal_iconografia_wari | 4 |
 
 ## Posibles formatos estrechos detectados
 

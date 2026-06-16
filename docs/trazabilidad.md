@@ -25,3 +25,7 @@ Ejemplo:
 id_registro: MET-319523
 fuente: met
 institucion: The Metropolitan Museum of Art
+
+## Criterio morfologico
+
+Se conserva como excepción metodológica el caso de sombreros o gorros Wari/Huari cuando presentan potencial iconográfico visible, aun cuando no correspondan estrictamente a una superficie plana. Esta excepción se justifica porque algunos objetos tridimensionales textiles pueden contener patrones visuales relevantes para la primera etapa exploratoria.
