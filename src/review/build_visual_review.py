@@ -8,15 +8,14 @@ import pandas as pd
 
 ACCEPTED_PATH = Path("data/processed/met_textiles_pilot_clean.csv")
 REJECTED_PATH = Path("data/processed/met_textiles_rejected.csv")
-
 CORPUS_PILOTO_PATH = Path("data/metadata/corpus_piloto.csv")
+CORPUS_CLEAN_PATH = Path("data/metadata/corpus_piloto_clean.csv")
 
 OUTPUT_DIR = Path("outputs/review")
-
-CORPUS_PILOTO_HTML = OUTPUT_DIR / "corpus_piloto_revision.html"
-
 ACCEPTED_HTML = OUTPUT_DIR / "aceptados_revision.html"
 REJECTED_HTML = OUTPUT_DIR / "rechazados_revision.html"
+CORPUS_PILOTO_HTML = OUTPUT_DIR / "corpus_piloto_revision.html"
+CORPUS_CLEAN_HTML = OUTPUT_DIR / "corpus_piloto_clean_revision.html"
 REVIEW_TEMPLATE = Path("data/metadata/revision_visual_template.csv")
 
 
@@ -302,6 +301,17 @@ def main() -> None:
             CORPUS_PILOTO_HTML,
             title="Revisión visual del corpus piloto principal",
             group="corpus_piloto",
+            max_records=160,
+        )
+
+    if CORPUS_CLEAN_PATH.exists():
+        corpus_clean = pd.read_csv(CORPUS_CLEAN_PATH)
+
+        build_html_page(
+            corpus_clean,
+            CORPUS_CLEAN_HTML,
+            title="Revisión visual del corpus piloto limpio",
+            group="corpus_piloto_clean",
             max_records=160,
         )
 
