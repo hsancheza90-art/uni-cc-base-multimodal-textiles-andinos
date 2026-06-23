@@ -26,3 +26,6 @@ __pycache__/
 .ipynb_checkpoints/
 # Notebooks locales temporales
 notebooks/prueba.ipynb
+
+# Archivos historicos de auditoria local
+outputs/archive/
