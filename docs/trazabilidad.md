@@ -25,7 +25,16 @@ Ejemplo:
 id_registro: MET-319523
 fuente: met
 institucion: The Metropolitan Museum of Art
+```
+
+---
 
 ## Criterio morfologico
 
 Se conserva como excepción metodológica el caso de sombreros o gorros Wari/Huari cuando presentan potencial iconográfico visible, aun cuando no correspondan estrictamente a una superficie plana. Esta excepción se justifica porque algunos objetos tridimensionales textiles pueden contener patrones visuales relevantes para la primera etapa exploratoria.
+
+## Criterio sobre featherwork y plumas
+
+En la primera etapa experimental se separan los objetos de featherwork o con presencia dominante de plumas hacia un corpus secundario. Esta decisión no implica descartar su valor cultural o visual, sino controlar la variabilidad material del corpus principal. 
+
+El corpus principal prioriza textiles tejidos, bordados o con superficie visual amplia comparable. Los objetos con plumas se conservan como registros secundarios para una posible fase posterior de análisis material o iconográfico diferenciado.

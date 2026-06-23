@@ -8,4 +8,5 @@ beautifulsoup4
 lxml
 jupyter
 ipykernel
-python-dotenv
+python-dotenvopenpyxl
+openpyxl

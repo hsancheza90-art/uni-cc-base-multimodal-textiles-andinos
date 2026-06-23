@@ -10,12 +10,15 @@ ACCEPTED_PATH = Path("data/processed/met_textiles_pilot_clean.csv")
 REJECTED_PATH = Path("data/processed/met_textiles_rejected.csv")
 CORPUS_PILOTO_PATH = Path("data/metadata/corpus_piloto.csv")
 CORPUS_CLEAN_PATH = Path("data/metadata/corpus_piloto_clean.csv")
+ANNOTATION_SAMPLE_PATH = Path("data/metadata/corpus_piloto_annotation_sample.csv")
 
 OUTPUT_DIR = Path("outputs/review")
 ACCEPTED_HTML = OUTPUT_DIR / "aceptados_revision.html"
 REJECTED_HTML = OUTPUT_DIR / "rechazados_revision.html"
 CORPUS_PILOTO_HTML = OUTPUT_DIR / "corpus_piloto_revision.html"
 CORPUS_CLEAN_HTML = OUTPUT_DIR / "corpus_piloto_clean_revision.html"
+ANNOTATION_SAMPLE_HTML = OUTPUT_DIR / "annotation_sample_revision.html"
+
 REVIEW_TEMPLATE = Path("data/metadata/revision_visual_template.csv")
 
 
@@ -315,6 +318,17 @@ def main() -> None:
             max_records=160,
         )
 
+    if ANNOTATION_SAMPLE_PATH.exists():
+        annotation_sample = pd.read_csv(ANNOTATION_SAMPLE_PATH)
+
+        build_html_page(
+            annotation_sample,
+            ANNOTATION_SAMPLE_HTML,
+            title="Revisión visual de muestra para anotación manual",
+            group="annotation_sample",
+            max_records=160,
+        )
+        
     build_review_template(accepted, rejected)
 
 if __name__ == "__main__":

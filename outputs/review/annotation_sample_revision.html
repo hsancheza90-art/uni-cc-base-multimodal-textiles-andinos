@@ -1,0 +1,830 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Revisión visual de muestra para anotación manual</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f5f5;
+            margin: 24px;
+            color: #222;
+        }
+        h1 {
+            margin-bottom: 8px;
+        }
+        .summary {
+            background: #fff;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+        }
+        .card {
+            display: grid;
+            grid-template-columns: 320px 1fr;
+            gap: 20px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            margin-bottom: 18px;
+            padding: 16px;
+        }
+        .image-box {
+            width: 320px;
+            min-height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #eee;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        img {
+            max-width: 100%;
+            max-height: 320px;
+            object-fit: contain;
+        }
+        h2 {
+            margin-top: 0;
+            font-size: 18px;
+        }
+        p {
+            margin: 5px 0;
+            line-height: 1.35;
+        }
+        .review-box {
+            margin-top: 12px;
+            padding: 10px;
+            background: #f0f4ff;
+            border-left: 4px solid #4f6bed;
+        }
+        code {
+            font-size: 13px;
+        }
+        .no-image {
+            color: #777;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <h1>Revisión visual de muestra para anotación manual</h1>
+    <div class="summary">
+        <p><strong>Registros mostrados:</strong> 30</p>
+        <p><strong>Grupo:</strong> annotation_sample</p>
+        <p>Usar esta galería para revisar visualmente los registros y completar la plantilla <code>data/metadata/revision_visual_template.csv</code>.</p>
+    </div>
+    
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DP101353.jpg" alt="Tapestry Fragment" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>1. Tapestry Fragment</h2>
+            <p><strong>ID:</strong> 308083</p>
+            <p><strong>Título sugerido:</strong> Fragmento textil</p>
+            <p><strong>Cultura:</strong> Inca (?)</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 18</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | nombre de objeto contiene términos textiles: [&#x27;textile&#x27;] | material contiene fibras o soporte textil: [&#x27;camelid&#x27;] | título contiene términos textiles: [&#x27;tapestry&#x27;] | título contiene términos débiles asociados a fragmentos o paneles: [&#x27;fragment&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;inca&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/308083" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/1994.35.81.jpg" alt="Tunic Fragment" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>2. Tunic Fragment</h2>
+            <p><strong>ID:</strong> 316906</p>
+            <p><strong>Título sugerido:</strong> Túnica textil</p>
+            <p><strong>Cultura:</strong> Peruvian</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 18</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | nombre de objeto contiene términos textiles: [&#x27;tunic&#x27;] | material contiene fibras o soporte textil: [&#x27;cotton&#x27;, &#x27;camelid&#x27;] | título contiene términos textiles: [&#x27;tunic&#x27;] | título contiene términos débiles asociados a fragmentos o paneles: [&#x27;fragment&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;peruvian&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/316906" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/77991.jpg" alt="Tunic fragment" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>3. Tunic fragment</h2>
+            <p><strong>ID:</strong> 307991</p>
+            <p><strong>Título sugerido:</strong> Túnica textil</p>
+            <p><strong>Cultura:</strong> Wari</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 18</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | nombre de objeto contiene términos textiles: [&#x27;tunic&#x27;] | material contiene fibras o soporte textil: [&#x27;cotton&#x27;, &#x27;camelid&#x27;] | título contiene términos textiles: [&#x27;tunic&#x27;] | título contiene términos débiles asociados a fragmentos o paneles: [&#x27;fragment&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;wari&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/307991" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/TP412.jpg" alt="Tunic Fragment" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>4. Tunic Fragment</h2>
+            <p><strong>ID:</strong> 312615</p>
+            <p><strong>Título sugerido:</strong> Túnica textil</p>
+            <p><strong>Cultura:</strong> Wari</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 18</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | nombre de objeto contiene términos textiles: [&#x27;tunic&#x27;] | material contiene fibras o soporte textil: [&#x27;cotton&#x27;, &#x27;camelid&#x27;] | título contiene términos textiles: [&#x27;tunic&#x27;] | título contiene términos débiles asociados a fragmentos o paneles: [&#x27;fragment&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;wari&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/312615" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DP18689.jpg" alt="Bag" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>5. Bag</h2>
+            <p><strong>ID:</strong> 307842</p>
+            <p><strong>Título sugerido:</strong> Bolsa textil</p>
+            <p><strong>Cultura:</strong> Peruvian</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 17</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | nombre de objeto contiene términos textiles: [&#x27;bag&#x27;] | material contiene fibras o soporte textil: [&#x27;camelid&#x27;] | título contiene términos textiles: [&#x27;bag&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;peruvian&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/307842" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DP18687_28.171.4,1.jpg" alt="Bag Tassel" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>6. Bag Tassel</h2>
+            <p><strong>ID:</strong> 307941</p>
+            <p><strong>Título sugerido:</strong> Bolsa textil</p>
+            <p><strong>Cultura:</strong> Inca</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 17</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | nombre de objeto contiene términos textiles: [&#x27;bag&#x27;] | material contiene fibras o soporte textil: [&#x27;cotton&#x27;, &#x27;camelid&#x27;] | título contiene términos textiles: [&#x27;bag&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;inca&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/307941" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DP-26536-001.jpg" alt="Tunic" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>7. Tunic</h2>
+            <p><strong>ID:</strong> 308120</p>
+            <p><strong>Título sugerido:</strong> Túnica textil</p>
+            <p><strong>Cultura:</strong> Inca</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 17</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | nombre de objeto contiene términos textiles: [&#x27;tunic&#x27;] | material contiene fibras o soporte textil: [&#x27;cotton&#x27;, &#x27;camelid&#x27;] | título contiene términos textiles: [&#x27;tunic&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;inca&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/308120" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DT1269.jpg" alt="Shirt" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>8. Shirt</h2>
+            <p><strong>ID:</strong> 315786</p>
+            <p><strong>Título sugerido:</strong> Objeto textil</p>
+            <p><strong>Cultura:</strong> Moche</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 17</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | nombre de objeto contiene términos textiles: [&#x27;shirt&#x27;] | material contiene fibras o soporte textil: [&#x27;cotton&#x27;, &#x27;camelid&#x27;] | título contiene términos textiles: [&#x27;shirt&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;moche&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/315786" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DP244273.jpg" alt="Tunic" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>9. Tunic</h2>
+            <p><strong>ID:</strong> 313152</p>
+            <p><strong>Título sugerido:</strong> Túnica textil</p>
+            <p><strong>Cultura:</strong> Inca</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 17</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | nombre de objeto contiene términos textiles: [&#x27;tunic&#x27;] | material contiene fibras o soporte textil: [&#x27;camelid&#x27;] | título contiene términos textiles: [&#x27;tunic&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;inca&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/313152" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DP120795.jpg" alt="Tunic" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>10. Tunic</h2>
+            <p><strong>ID:</strong> 319574</p>
+            <p><strong>Título sugerido:</strong> Túnica textil</p>
+            <p><strong>Cultura:</strong> Inca</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 17</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | nombre de objeto contiene términos textiles: [&#x27;tunic&#x27;] | material contiene fibras o soporte textil: [&#x27;camelid&#x27;, &#x27;fiber&#x27;] | título contiene términos textiles: [&#x27;tunic&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;inca&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/319574" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DP-14285-001.jpg" alt="Votive checkerboard tunic" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>11. Votive checkerboard tunic</h2>
+            <p><strong>ID:</strong> 751900</p>
+            <p><strong>Título sugerido:</strong> Túnica textil</p>
+            <p><strong>Cultura:</strong> Inca</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 17</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | nombre de objeto contiene términos textiles: [&#x27;tunic&#x27;] | material contiene fibras o soporte textil: [&#x27;camelid&#x27;, &#x27;fiber&#x27;] | título contiene términos textiles: [&#x27;tunic&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;inca&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/751900" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DT3832rev.jpg" alt="Woman&#x27;s Mantle (lliclla)" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>12. Woman&#x27;s Mantle (lliclla)</h2>
+            <p><strong>ID:</strong> 316892</p>
+            <p><strong>Título sugerido:</strong> Manto textil</p>
+            <p><strong>Cultura:</strong> Peruvian</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 17</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | nombre de objeto contiene términos textiles: [&#x27;mantle&#x27;] | material contiene fibras o soporte textil: [&#x27;camelid&#x27;] | título contiene términos textiles: [&#x27;mantle&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;peruvian&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/316892" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DP-21885-001.jpg" alt="Tunic" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>13. Tunic</h2>
+            <p><strong>ID:</strong> 675980</p>
+            <p><strong>Título sugerido:</strong> Túnica textil</p>
+            <p><strong>Cultura:</strong> Wari</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 17</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | nombre de objeto contiene términos textiles: [&#x27;tunic&#x27;] | material contiene fibras o soporte textil: [&#x27;cotton&#x27;, &#x27;camelid&#x27;] | título contiene términos textiles: [&#x27;tunic&#x27;] | evidencia cultural/geográfica andina: [&#x27;andean&#x27;, &#x27;wari&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/675980" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DP-26535-001.jpg" alt="Embroidered bag with fringe" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>14. Embroidered bag with fringe</h2>
+            <p><strong>ID:</strong> 308024</p>
+            <p><strong>Título sugerido:</strong> Bolsa textil</p>
+            <p><strong>Cultura:</strong> Nasca</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 17</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | nombre de objeto contiene términos textiles: [&#x27;bag&#x27;] | material contiene fibras o soporte textil: [&#x27;camelid&#x27;] | título contiene términos textiles: [&#x27;embroidered&#x27;, &#x27;bag&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;nasca&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/308024" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DP-13440-003.jpg" alt="Miniature Tunic" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>15. Miniature Tunic</h2>
+            <p><strong>ID:</strong> 316939</p>
+            <p><strong>Título sugerido:</strong> Túnica textil</p>
+            <p><strong>Cultura:</strong> Inca</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 17</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | nombre de objeto contiene términos textiles: [&#x27;tunic&#x27;] | material contiene fibras o soporte textil: [&#x27;cotton&#x27;, &#x27;camelid&#x27;] | título contiene términos textiles: [&#x27;tunic&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;inca&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/316939" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DP-41567-001.jpg" alt="Chuspa (coca bag)" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>16. Chuspa (coca bag)</h2>
+            <p><strong>ID:</strong> 316913</p>
+            <p><strong>Título sugerido:</strong> Bolsa textil</p>
+            <p><strong>Cultura:</strong> Moche</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 17</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | nombre de objeto contiene términos textiles: [&#x27;bag&#x27;] | material contiene fibras o soporte textil: [&#x27;cotton&#x27;, &#x27;camelid&#x27;] | título contiene términos textiles: [&#x27;bag&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;moche&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/316913" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DP18706_1987.394.642.jpg" alt="Bag" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>17. Bag</h2>
+            <p><strong>ID:</strong> 315690</p>
+            <p><strong>Título sugerido:</strong> Bolsa textil</p>
+            <p><strong>Cultura:</strong> Inca</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 17</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | nombre de objeto contiene términos textiles: [&#x27;bag&#x27;] | material contiene fibras o soporte textil: [&#x27;cotton&#x27;, &#x27;camelid&#x27;] | título contiene términos textiles: [&#x27;bag&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;inca&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/315690" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DT829.jpg" alt="Tunic with Confronting Catfish" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>18. Tunic with Confronting Catfish</h2>
+            <p><strong>ID:</strong> 307975</p>
+            <p><strong>Título sugerido:</strong> Túnica textil</p>
+            <p><strong>Cultura:</strong> Nasca-Wari</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 17</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | nombre de objeto contiene términos textiles: [&#x27;tunic&#x27;] | material contiene fibras o soporte textil: [&#x27;camelid&#x27;] | título contiene términos textiles: [&#x27;tunic&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;nasca&#x27;, &#x27;wari&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/307975" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DP-39316-001.jpg" alt="Tunic with Felines" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>19. Tunic with Felines</h2>
+            <p><strong>ID:</strong> 313153</p>
+            <p><strong>Título sugerido:</strong> Túnica textil</p>
+            <p><strong>Cultura:</strong> Chimú</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 17</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | nombre de objeto contiene términos textiles: [&#x27;tunic&#x27;] | material contiene fibras o soporte textil: [&#x27;cotton&#x27;, &#x27;camelid&#x27;] | título contiene términos textiles: [&#x27;tunic&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;chimú&#x27;, &#x27;chimu&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/313153" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DP-26541-001.jpg" alt="Embroidered bag with fringe" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>20. Embroidered bag with fringe</h2>
+            <p><strong>ID:</strong> 315700</p>
+            <p><strong>Título sugerido:</strong> Bolsa textil</p>
+            <p><strong>Cultura:</strong> Nasca</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 17</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | nombre de objeto contiene términos textiles: [&#x27;bag&#x27;] | material contiene fibras o soporte textil: [&#x27;camelid&#x27;] | título contiene términos textiles: [&#x27;embroidered&#x27;, &#x27;bag&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;nasca&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/315700" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/TR.489.2010_a.jpg" alt="Hanging (?) Fragment" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>21. Hanging (?) Fragment</h2>
+            <p><strong>ID:</strong> 320804</p>
+            <p><strong>Título sugerido:</strong> Fragmento textil</p>
+            <p><strong>Cultura:</strong> Peruvian</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 15</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | nombre de objeto contiene términos textiles: [&#x27;tapestry&#x27;] | material contiene fibras o soporte textil: [&#x27;cotton&#x27;, &#x27;camelid&#x27;] | título contiene términos débiles asociados a fragmentos o paneles: [&#x27;fragment&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;peruvian&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/320804" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DP18702_33.149.44.jpg" alt="Tapestry Panel with Stars" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>22. Tapestry Panel with Stars</h2>
+            <p><strong>ID:</strong> 308079</p>
+            <p><strong>Título sugerido:</strong> Panel textil</p>
+            <p><strong>Cultura:</strong> Inca</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 14</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | material contiene fibras o soporte textil: [&#x27;cotton&#x27;, &#x27;camelid&#x27;] | título contiene términos textiles: [&#x27;tapestry&#x27;] | título contiene términos débiles asociados a fragmentos o paneles: [&#x27;panel&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;inca&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/308079" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/2004.406_detail.jpg" alt="Fragmentary Woman&#x27;s Dress" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>23. Fragmentary Woman&#x27;s Dress</h2>
+            <p><strong>ID:</strong> 319524</p>
+            <p><strong>Título sugerido:</strong> Fragmento textil</p>
+            <p><strong>Cultura:</strong> Inca</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 11</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | material contiene fibras o soporte textil: [&#x27;camelid&#x27;, &#x27;fiber&#x27;] | título contiene términos débiles asociados a fragmentos o paneles: [&#x27;fragment&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;inca&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/319524" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/88392.jpg" alt="Panel with Birds" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>24. Panel with Birds</h2>
+            <p><strong>ID:</strong> 307846</p>
+            <p><strong>Título sugerido:</strong> Panel textil</p>
+            <p><strong>Cultura:</strong> Inca</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 11</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | material contiene fibras o soporte textil: [&#x27;camelid&#x27;] | título contiene términos débiles asociados a fragmentos o paneles: [&#x27;panel&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;inca&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/307846" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DP-29609-001.jpg" alt="Four-Cornered Hat" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>25. Four-Cornered Hat</h2>
+            <p><strong>ID:</strong> 316962</p>
+            <p><strong>Título sugerido:</strong> Objeto textil</p>
+            <p><strong>Cultura:</strong> Wari</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 10</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | material contiene fibras o soporte textil: [&#x27;camelid&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;wari&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/316962" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DP-29598-001.jpg" alt="Four-Cornered Hat" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>26. Four-Cornered Hat</h2>
+            <p><strong>ID:</strong> 316978</p>
+            <p><strong>Título sugerido:</strong> Objeto textil</p>
+            <p><strong>Cultura:</strong> Tiwanaku or Wari</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 10</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | material contiene fibras o soporte textil: [&#x27;camelid&#x27;, &#x27;fiber&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;wari&#x27;, &#x27;tiwanaku&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/316978" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DP-29599-001.jpg" alt="Four-Cornered Hat" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>27. Four-Cornered Hat</h2>
+            <p><strong>ID:</strong> 308121</p>
+            <p><strong>Título sugerido:</strong> Objeto textil</p>
+            <p><strong>Cultura:</strong> Wari</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 10</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | material contiene fibras o soporte textil: [&#x27;cotton&#x27;, &#x27;camelid&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;wari&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/308121" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DP-29604-001.jpg" alt="Four-Cornered Hat" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>28. Four-Cornered Hat</h2>
+            <p><strong>ID:</strong> 314623</p>
+            <p><strong>Título sugerido:</strong> Objeto textil</p>
+            <p><strong>Cultura:</strong> Wari</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 10</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | material contiene fibras o soporte textil: [&#x27;camelid&#x27;, &#x27;fiber&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;wari&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/314623" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DT1275.jpg" alt="Woman&#x27;s Dress" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>29. Woman&#x27;s Dress</h2>
+            <p><strong>ID:</strong> 317736</p>
+            <p><strong>Título sugerido:</strong> Objeto textil</p>
+            <p><strong>Cultura:</strong> Chuquibamba</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 10</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | material contiene fibras o soporte textil: [&#x27;camelid&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/317736" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+
+    <article class="card">
+        <div class="image-box">
+            <img src="https://images.metmuseum.org/CRDImages/ao/web-large/DP107700.jpg" alt="Miniature tabard" loading="lazy">
+        </div>
+        <div class="content">
+            <h2>30. Miniature tabard</h2>
+            <p><strong>ID:</strong> 320054</p>
+            <p><strong>Título sugerido:</strong> Objeto textil</p>
+            <p><strong>Cultura:</strong> Inca and Spanish</p>
+            <p><strong>Periodo:</strong> </p>
+            <p><strong>Clasificación:</strong> </p>
+            <p><strong>Nombre objeto:</strong> </p>
+            <p><strong>Material:</strong> </p>
+            <p><strong>Puntaje:</strong> 10</p>
+            <p><strong>Motivo filtro:</strong> clasificación contiene evidencia textil: [&#x27;textile&#x27;, &#x27;textiles&#x27;] | nombre de objeto contiene términos textiles: [&#x27;tunic&#x27;] | material contiene fibras o soporte textil: [&#x27;cotton&#x27;, &#x27;camelid&#x27;] | evidencia cultural/geográfica andina: [&#x27;peru&#x27;, &#x27;inca&#x27;] | material sugiere objeto no textil: [&#x27;metal&#x27;]</p>
+            <p><strong>Enlace:</strong> <a href="https://www.metmuseum.org/art/collection/search/320054" target="_blank">Ficha oficial</a></p>
+            <div class="review-box">
+                <p><strong>Revisión sugerida en CSV:</strong></p>
+                <code>revision_visual = correcto / falso_positivo / falso_negativo / revisar</code><br>
+                <code>accion_sugerida = mantener / mover_a_rechazados / mover_a_aceptados / revisar_metadata</code>
+            </div>
+        </div>
+    </article>
+    
+</body>
+</html>
