@@ -1,31 +1,62 @@
-# UNI-CC Base Multimodal de Textiles Andinos
+﻿# Corpus MET de Textiles Andinos v1.0
 
-Repositorio académico para la construcción de una base multimodal trazable de textiles andinos a partir de colecciones oficiales digitalizadas.
+Base multimodal trazable de textiles andinos construida a partir de registros oficiales de The Metropolitan Museum of Art para investigacion en ciencias computacionales.
 
-## Objetivo
+## Descripcion
 
-Construir una base de datos multimodal de textiles andinos que integre imágenes, descripciones curatoriales y metadatos culturales provenientes de fuentes oficiales, con el fin de apoyar investigaciones en ciencias computacionales, aprendizaje multimodal y análisis computacional del patrimonio textil andino.
+Este repositorio contiene el Corpus MET de Textiles Andinos v1.0, un entregable academico orientado a la organizacion, curacion y documentacion de registros textiles andinos procedentes de la coleccion digital de The Metropolitan Museum of Art.
 
-## Alcance actual
+El corpus integra metadatos curatoriales, enlaces oficiales, enlaces a imagenes institucionales, decisiones de curacion y documentacion metodologica. Su finalidad es servir como base para tareas de vision por computadora, aprendizaje multimodal, recuperacion imagen-texto y analisis computacional de patrimonio textil andino.
 
-En la etapa inicial del proyecto se ha implementado un primer pipeline de recolección y curaduría sobre la colección digital de The Metropolitan Museum of Art (The Met). Este pipeline:
+## Alcance de la version v1.0
 
-- recupera objetos candidatos mediante la API oficial,
-- normaliza los registros en un esquema académico en español,
-- aplica reglas de inclusión y exclusión para identificar textiles,
-- separa candidatos generales de un subconjunto curado,
-- descarga únicamente imágenes de registros aceptados como textiles.
+La version v1.0 considera exclusivamente registros procedentes de The Metropolitan Museum of Art. Otras fuentes museograficas quedan documentadas como fuentes futuras, pero no forman parte del corpus consolidado en esta version.
 
-## Estructura general
+## Archivos principales
 
+| Archivo | Descripcion | Filas |
+|---|---:|---:|
+| `data/processed/corpus_met_textiles_andinos_v1_inventario_base.csv` | Inventario base normalizado desde la fuente oficial | 295 |
+| `data/processed/corpus_met_textiles_andinos_v1_principal.csv` | Corpus principal para analisis multimodal | 132 |
+| `data/processed/corpus_met_textiles_andinos_v1_complementario.csv` | Corpus complementario para contraste o ampliacion | 50 |
+| `data/processed/corpus_met_textiles_andinos_v1_exclusiones_curatoriales.csv` | Registros excluidos con motivo documentado | 29 |
+| `data/processed/corpus_met_textiles_andinos_v1_duplicados.csv` | Control de duplicados | 0 |
+| `data/metadata/corpus_met_textiles_andinos_v1_fuentes_licencias.csv` | Fuentes, licencias y estado de inclusion | 5 |
+
+## Estructura del repositorio
+
+- `data/processed/`: archivos finales del Corpus MET de Textiles Andinos v1.0.
+- `data/metadata/`: fuentes, licencias y metadatos de trazabilidad.
+- `data/interim/`: archivos intermedios conservados para auditoria interna.
 - `data/raw/`: datos crudos descargados desde fuentes oficiales.
-- `data/processed/`: conjuntos normalizados y curados.
-- `outputs/samples/`: muestras visuales descargadas para validación.
-- `src/collectors/`: recolectores desde APIs o fuentes oficiales.
-- `src/preprocessing/`: reglas de filtrado, normalización y curaduría.
-- `notebooks/`: cuadernos de revisión y validación.
-- `docs/`: documentación metodológica y académica.
+- `docs/`: documentacion academica y metodologica.
+- `notebooks/`: cuadernos de exploracion, revision y validacion.
+- `outputs/`: reportes, galerias y archivos derivados de revision.
+- `src/`: scripts de recoleccion, preprocesamiento y revision.
 
-## Estado del proyecto
+## Documentacion
 
-Fase actual: implementación del pipeline curado en español para The Met y validación inicial del subconjunto textil.
+| Documento | Proposito |
+|---|---|
+| `docs/corpus_met_textiles_andinos_v1_ficha_dataset.md` | Ficha academica del dataset |
+| `docs/corpus_met_textiles_andinos_v1_protocolo_curacion.md` | Criterios de inclusion, exclusion y organizacion |
+| `docs/corpus_met_textiles_andinos_v1_trazabilidad.md` | Relacion entre fuente oficial, archivos y decisiones de curacion |
+| `docs/corpus_met_textiles_andinos_v1_uso_etico.md` | Principios de uso responsable del corpus |
+
+## Uso previsto
+
+Este corpus esta destinado a investigacion academica en ciencias computacionales, especialmente en tareas de analisis multimodal, vision por computadora, recuperacion imagen-texto y organizacion computacional de patrimonio textil andino.
+
+## Uso no previsto
+
+No se recomienda usar este corpus para comercializacion directa de motivos patrimoniales, apropiacion de disenos, interpretaciones culturales concluyentes sin validacion experta ni clasificacion cultural automatica sin revision humana.
+
+## Estado del entregable
+
+La version v1.0 consolida el primer corpus institucional del proyecto, basado en registros del MET, con archivos finales, documentacion metodologica, control de duplicados y trazabilidad hacia la fuente oficial.
+
+## Contexto academico
+
+Este repositorio forma parte de una investigacion de tesis en la Maestria en Ciencias Computacionales de la Universidad Nacional de Ingenieria, orientada al estudio computacional de textiles andinos como objetos materiales, visuales, culturales y multimodales.
+
+
