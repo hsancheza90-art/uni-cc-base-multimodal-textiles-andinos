@@ -1,0 +1,6 @@
+﻿fuente,institucion,pais,tipo_acceso,notas_licencia,api_disponible,url_oficial,estado_en_corpus,notas
+met,The Metropolitan Museum of Art,USA,Open Access,Metadatos e imagenes de objetos de dominio publico disponibles bajo politica Open Access,yes,https://www.metmuseum.org/,fuente_principal_v1,Fuente oficial del Corpus MET de Textiles Andinos v1.0
+cleveland,Cleveland Museum of Art,USA,Open Access,Objetos Open Access disponibles bajo condiciones abiertas,yes,https://www.clevelandart.org/,fuente_futura,No incluida en la version v1.0
+smithsonian,Smithsonian Institution,USA,Open Access,Metadatos y recursos digitales disponibles mediante Smithsonian Open Access,yes,https://www.si.edu/openaccess,fuente_futura,No incluida en la version v1.0
+harvard,Harvard Art Museums,USA,API Access,Requiere revision especifica de API y condiciones de uso,yes,https://harvardartmuseums.org/,fuente_futura,No incluida en la version v1.0
+british_museum,British Museum,UK,Restricto o mixto,Licencias y condiciones de reutilizacion deben revisarse caso por caso,partial,https://www.britishmuseum.org/,fuente_futura,No incluida en la version v1.0

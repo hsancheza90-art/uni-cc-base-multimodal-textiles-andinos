@@ -1,6 +1,0 @@
-source,institution,country,access_type,license_notes,api_available,official_url,notes
-met,The Metropolitan Museum of Art,USA,Open Access,Public domain flag available,yes,https://www.metmuseum.org/,Initial priority source
-cleveland,Cleveland Museum of Art,USA,Open Access,CC0 for open access objects,yes,https://www.clevelandart.org/,Good metadata structure
-smithsonian,Smithsonian Institution,USA,Open Access,Open Access metadata and media,yes,https://www.si.edu/openaccess,Large collection
-harvard,Harvard Art Museums,USA,API Access,Requires API review,yes,https://harvardartmuseums.org/,Useful for structured search
-british_museum,British Museum,UK,Restricted / mixed,Review license conditions carefully,partial,https://www.britishmuseum.org/,Use carefully
