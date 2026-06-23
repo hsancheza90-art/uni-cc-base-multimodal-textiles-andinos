@@ -1,12 +1,12 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 from pathlib import Path
 
 import pandas as pd
 
 
-INPUT_CORPUS = Path("data/metadata/corpus_piloto_clean.csv")
-OUTPUT_SAMPLE = Path("data/metadata/corpus_piloto_annotation_sample.csv")
+INPUT_CORPUS = Path("data/processed/corpus_met_textiles_andinos_v1_principal.csv")
+OUTPUT_SAMPLE = Path("data/interim/met_anotacion/corpus_met_textiles_andinos_v1_muestra_anotacion.csv")
 OUTPUT_REPORT = Path("outputs/reports/annotation_sample_summary.md")
 
 
@@ -50,7 +50,7 @@ PRIORITY_COLUMNS = [
 
 def select_balanced_sample(df: pd.DataFrame) -> pd.DataFrame:
     """
-    Selecciona una muestra pequeña y relativamente diversa.
+    Selecciona una muestra pequeÃ±a y relativamente diversa.
     Primero intenta balancear por tipo_objeto.
     Si no alcanza SAMPLE_SIZE, completa con muestreo aleatorio.
     """
@@ -100,34 +100,34 @@ def write_report(sample: pd.DataFrame, original: pd.DataFrame) -> None:
 
     lines = []
 
-    lines.append("# Resumen de muestra de anotación\n")
+    lines.append("# Resumen de muestra de anotaciÃ³n\n")
     lines.append("## Archivos\n")
     lines.append(f"- Corpus base: `{INPUT_CORPUS}`")
     lines.append(f"- Muestra generada: `{OUTPUT_SAMPLE}`")
 
     lines.append("\n## Resumen general\n")
     lines.append(f"- Registros en corpus limpio: {len(original)}")
-    lines.append(f"- Registros seleccionados para anotación: {len(sample)}")
+    lines.append(f"- Registros seleccionados para anotaciÃ³n: {len(sample)}")
 
     if "tipo_objeto" in sample.columns:
-        lines.append("\n## Distribución de la muestra por tipo de objeto\n")
+        lines.append("\n## DistribuciÃ³n de la muestra por tipo de objeto\n")
         lines.append("| tipo_objeto | conteo |")
         lines.append("|---|---:|")
         for key, value in sample["tipo_objeto"].value_counts(dropna=False).items():
             lines.append(f"| {key} | {value} |")
 
     if "cultura" in sample.columns:
-        lines.append("\n## Distribución de la muestra por cultura\n")
+        lines.append("\n## DistribuciÃ³n de la muestra por cultura\n")
         lines.append("| cultura | conteo |")
         lines.append("|---|---:|")
         for key, value in sample["cultura"].value_counts(dropna=False).items():
             lines.append(f"| {key} | {value} |")
 
-    lines.append("\n## Nota metodológica\n")
+    lines.append("\n## Nota metodolÃ³gica\n")
     lines.append(
-        "La muestra de anotación se genera a partir del corpus piloto limpio. "
-        "Su objetivo es iniciar una revisión manual controlada de atributos visuales "
-        "e iconográficos, sin modificar la metadata curatorial oficial."
+        "La muestra de anotaciÃ³n se genera a partir del Corpus MET de Textiles Andinos v1.0. "
+        "Su objetivo es iniciar una revisiÃ³n manual controlada de atributos visuales "
+        "e iconogrÃ¡ficos, sin modificar la metadata curatorial oficial."
     )
 
     with open(OUTPUT_REPORT, "w", encoding="utf-8") as f:
@@ -151,7 +151,7 @@ def create_annotation_sample() -> None:
     sample = reorder_columns(sample)
     sample.to_csv(OUTPUT_SAMPLE, index=False, encoding="utf-8-sig")
 
-    print(f"Muestra de anotación generada: {OUTPUT_SAMPLE}")
+    print(f"Muestra de anotaciÃ³n generada: {OUTPUT_SAMPLE}")
     print(f"Registros seleccionados: {len(sample)}")
 
     write_report(sample, df)

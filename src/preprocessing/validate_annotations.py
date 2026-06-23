@@ -1,12 +1,12 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 from pathlib import Path
 
 import pandas as pd
 
 
-INPUT_XLSX = Path("data/metadata/corpus_piloto_annotation_sheet.xlsx")
-OUTPUT_ANNOTATED_CSV = Path("data/metadata/corpus_piloto_annotation_sample_annotated.csv")
+INPUT_XLSX = Path("data/interim/met_anotacion/corpus_met_textiles_andinos_v1_plantilla_anotacion.xlsx")
+OUTPUT_ANNOTATED_CSV = Path("data/interim/met_anotacion/corpus_met_textiles_andinos_v1_muestra_anotada.csv")
 OUTPUT_REPORT = Path("outputs/reports/annotation_validation_report.md")
 
 
@@ -119,17 +119,17 @@ def write_report(df: pd.DataFrame, errors: list[dict], field_summary: pd.DataFra
     status_counts = count_annotation_status(df)
 
     lines = []
-    lines.append("# Reporte de validación de anotaciones\n")
+    lines.append("# Reporte de validaciÃ³n de anotaciones\n")
 
     lines.append("## Archivos\n")
-    lines.append(f"- Excel leído: `{INPUT_XLSX}`")
+    lines.append(f"- Excel leÃ­do: `{INPUT_XLSX}`")
     lines.append(f"- CSV exportado: `{OUTPUT_ANNOTATED_CSV}`")
 
     lines.append("\n## Resumen general\n")
     lines.append(f"- Registros en la muestra: {len(df)}")
     lines.append(f"- Errores de vocabulario controlado: {len(errors)}")
 
-    lines.append("\n## Estado de anotación\n")
+    lines.append("\n## Estado de anotaciÃ³n\n")
     if status_counts:
         lines.append("| estado_anotacion | conteo |")
         lines.append("|---|---:|")
@@ -159,9 +159,9 @@ def write_report(df: pd.DataFrame, errors: list[dict], field_summary: pd.DataFra
     else:
         lines.append("- No se encontraron errores de vocabulario controlado.")
 
-    lines.append("\n## Conclusión\n")
+    lines.append("\n## ConclusiÃ³n\n")
     lines.append(
-        "La validación permite revisar si las anotaciones iniciales son consistentes. "
+        "La validaciÃ³n permite revisar si las anotaciones iniciales son consistentes. "
         "Si no hay errores de vocabulario y los primeros registros anotados son claros, "
         "se puede continuar con el resto de la muestra."
     )
@@ -190,7 +190,7 @@ def validate_annotations() -> None:
     field_summary = count_completed_fields(df)
 
     print(f"CSV anotado exportado: {OUTPUT_ANNOTATED_CSV}")
-    print(f"Registros leídos: {len(df)}")
+    print(f"Registros leÃ­dos: {len(df)}")
     print(f"Errores de vocabulario: {len(errors)}")
 
     write_report(df, errors, field_summary)

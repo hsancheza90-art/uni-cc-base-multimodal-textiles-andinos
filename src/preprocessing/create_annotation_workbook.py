@@ -1,4 +1,4 @@
-from __future__ import annotations
+﻿from __future__ import annotations
 
 from pathlib import Path
 
@@ -8,8 +8,8 @@ from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
 from openpyxl.worksheet.datavalidation import DataValidation
 
 
-INPUT_SAMPLE = Path("data/metadata/corpus_piloto_annotation_sample.csv")
-OUTPUT_XLSX = Path("data/metadata/corpus_piloto_annotation_sheet.xlsx")
+INPUT_SAMPLE = Path("data/interim/met_anotacion/corpus_met_textiles_andinos_v1_muestra_anotacion.csv")
+OUTPUT_XLSX = Path("data/interim/met_anotacion/corpus_met_textiles_andinos_v1_plantilla_anotacion.xlsx")
 
 
 ANNOTATION_COLUMNS = [
@@ -128,7 +128,7 @@ def build_annotation_workbook() -> None:
 
     format_workbook()
 
-    print(f"Archivo Excel de anotación generado: {OUTPUT_XLSX}")
+    print(f"Archivo Excel de anotaciÃ³n generado: {OUTPUT_XLSX}")
 
 
 def format_workbook() -> None:
@@ -189,7 +189,7 @@ def format_workbook() -> None:
     for row in range(2, ws.max_row + 1):
         ws.row_dimensions[row].height = 48
 
-    # Convertir URLs en hyperlinks más fáciles de abrir
+    # Convertir URLs en hyperlinks mÃ¡s fÃ¡ciles de abrir
     headers = {cell.value: cell.column for cell in ws[1]}
 
     for col_name in ["imagen_url", "url"]:
