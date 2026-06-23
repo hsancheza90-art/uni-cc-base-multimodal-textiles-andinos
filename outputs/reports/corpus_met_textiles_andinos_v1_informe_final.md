@@ -1,63 +1,30 @@
-# Resumen del corpus piloto The Met
+﻿# Informe final del Corpus MET de Textiles Andinos v1.0
 
-## Estado general
+## Resumen
 
-- Total de registros evaluados: 295
-- Registros aceptados: 211
-- Registros rechazados: 84
-- Tasa de aceptación: 71.53%
+Este informe resume la consolidacion del Corpus MET de Textiles Andinos v1.0, construido a partir de registros oficiales de The Metropolitan Museum of Art.
 
-## Archivos producidos
+## Archivos consolidados
 
-- `data/processed/met_textiles_pilot_clean.csv`
-- `data/processed/met_textiles_rejected.csv`
-- `data/metadata/corpus_piloto.csv`
-- `docs/taxonomia_atributos.md`
+| Archivo | Registros | Funcion |
+|---|---:|---|
+| `data/processed/corpus_met_textiles_andinos_v1_inventario_base.csv` | 295 | Inventario base normalizado |
+| `data/processed/corpus_met_textiles_andinos_v1_principal.csv` | 132 | Corpus principal para analisis multimodal |
+| `data/processed/corpus_met_textiles_andinos_v1_complementario.csv` | 50 | Corpus complementario para contraste o ampliacion |
+| `data/processed/corpus_met_textiles_andinos_v1_exclusiones_curatoriales.csv` | 29 | Registros excluidos con motivo documentado |
+| `data/processed/corpus_met_textiles_andinos_v1_duplicados.csv` | 0 | Control de duplicados |
 
-## Clasificaciones más frecuentes en aceptados
+## Validaciones principales
 
-| clasificacion_original | conteo |
-|---|---:|
-| Textiles-Woven | 142 |
-| Textiles-Costumes | 32 |
-| Textiles-Featherwork | 16 |
-| Textiles | 11 |
-| Textiles-Non-Woven | 5 |
-| Feathers-Costumes | 2 |
-| Textiles-Implements | 1 |
-| Feathers-Containers | 1 |
-| Textiles-Velvets | 1 |
+- No se identificaron duplicados por `id_objeto` en el inventario base, corpus principal ni corpus complementario.
+- El corpus principal conserva enlaces oficiales de objeto e imagen.
+- La version v1.0 separa inventario base, corpus principal, corpus complementario y exclusiones curatoriales.
+- Los archivos intermedios se conservaron en `data/interim/` y `outputs/archive/` para auditoria interna.
 
-## Culturas más frecuentes en aceptados
+## Alcance
 
-| cultura | conteo |
-|---|---:|
-| Nasca | 43 |
-| Paracas | 39 |
-| Wari | 37 |
-| Peruvian | 29 |
-| Inca | 24 |
-| Chancay | 14 |
-| Chimú | 6 |
-| Nasca (?) | 5 |
-| Tiwanaku | 2 |
-| Moche | 2 |
+La version v1.0 considera exclusivamente registros de The Metropolitan Museum of Art. Otras fuentes museograficas quedan documentadas como fuentes futuras.
 
-## Ejemplos de motivos de rechazo
+## Nota metodologica
 
-| motivo_filtrado | conteo |
-|---|---:|
-| título contiene términos textiles: ['textile'] / evidencia cultural/geográfica andina: ['peru', 'nasca'] / clasificación sugiere objeto no textil: ['metal', 'ornaments'] / material sugiere objeto no textil: ['gold'] / título sugiere objeto no textil: ['ornament'] / nombre de objeto sugiere objeto no textil: ['ornament'] | 9 |
-| clasificación contiene evidencia textil: ['textile', 'textiles'] / evidencia cultural/geográfica andina: ['peru', 'peruvian'] / material sugiere objeto no textil: ['wood'] / título sugiere objeto no textil: ['pin'] / nombre de objeto sugiere objeto no textil: ['pin'] | 7 |
-| clasificación contiene evidencia textil: ['textile', 'textiles'] / evidencia cultural/geográfica andina: ['peru', 'peruvian'] / material sugiere objeto no textil: ['wood'] | 6 |
-| clasificación contiene evidencia textil: ['textile', 'textiles'] / evidencia cultural/geográfica andina: ['peru', 'nasca'] / material sugiere objeto no textil: ['ceramic'] / título sugiere objeto no textil: ['pin'] / nombre de objeto sugiere objeto no textil: ['pin'] | 6 |
-| clasificación contiene evidencia textil: ['textile', 'textiles'] / material contiene fibras o soporte textil: ['camelid'] / título contiene términos débiles asociados a fragmentos o paneles: ['fragment', 'border'] / evidencia cultural/geográfica andina: ['peru', 'nasca'] / clasificación sugiere objeto no textil: ['sculpture'] / título sugiere objeto no textil: ['figure'] / nombre de objeto sugiere objeto no textil: ['figure'] | 6 |
-| evidencia cultural/geográfica andina: ['peru', 'wari'] / clasificación sugiere objeto no textil: ['ceramics', 'ceramic'] / material sugiere objeto no textil: ['ceramic'] / título sugiere objeto no textil: ['bottle'] / nombre de objeto sugiere objeto no textil: ['bottle'] | 3 |
-| evidencia cultural/geográfica andina: ['peru', 'inca'] / material sugiere objeto no textil: ['wood'] / título sugiere objeto no textil: ['beaker', 'kero'] / nombre de objeto sugiere objeto no textil: ['kero'] | 2 |
-| clasificación contiene evidencia textil: ['textile', 'textiles'] / material sugiere objeto no textil: ['silver'] | 2 |
-| evidencia cultural/geográfica andina: ['peru', 'inca'] / clasificación sugiere objeto no textil: ['sculpture'] / material sugiere objeto no textil: ['wood'] | 2 |
-| evidencia cultural/geográfica andina: ['peru', 'inca'] / clasificación sugiere objeto no textil: ['metal', 'sculpture'] / material sugiere objeto no textil: ['gold', 'silver', 'alloy'] / nombre de objeto sugiere objeto no textil: ['figure'] | 2 |
-
-## Nota metodológica
-
-Este reporte resume la fase de estandarización del corpus piloto The Met. Los archivos previos `met_candidatos_normalizados.csv` y `met_textiles_curado.csv` se conservan como insumos, mientras que los archivos `met_textiles_pilot_clean.csv` y `met_textiles_rejected.csv` se utilizan como salidas formales para la fase de filtrado.
+El corpus fue organizado para investigacion en ciencias computacionales. Las decisiones de curacion deben entenderse como criterios academicos de seleccion y trazabilidad, no como clasificaciones culturales definitivas.
