@@ -67,7 +67,7 @@ Los archivos finales del entregable usan el prefijo:
 
 `corpus_met_textiles_andinos_v1`
 
-Esta convencion evita nombres preliminares como `pilot`, `clean`, `review` o `final_final`, y permite identificar con claridad la version academica del corpus.
+Esta convencion usa una denominacion academica estable y permite identificar con claridad la version consolidada del corpus.
 
 ## Archivos resultantes
 
@@ -84,6 +84,8 @@ Esta convencion evita nombres preliminares como `pilot`, `clean`, `review` o `fi
 La curacion no debe interpretarse como una clasificacion cultural definitiva. Es una organizacion tecnica y academica basada en metadatos institucionales, revision visual y criterios de pertinencia para investigacion computacional.
 
 Las decisiones de inclusion o exclusion pueden revisarse en versiones posteriores del corpus, especialmente con apoyo de especialistas en textiles andinos, historia del arte, arqueologia o comunidades portadoras de conocimiento textil.
+
+
 
 
 
