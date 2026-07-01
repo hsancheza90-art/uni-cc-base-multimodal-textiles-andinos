@@ -1,0 +1,11 @@
+strategy,records,unique_ids,new_ids_vs_previous,params
+q_andes_textile,31,31,31,"{'q': 'Andes textile', 'has_image': 1, 'limit': 1000}"
+q_peru_textile,123,123,105,"{'q': 'Peru textile', 'has_image': 1, 'limit': 1000}"
+q_andean_weaving,7,7,0,"{'q': 'Andean weaving', 'has_image': 1, 'limit': 1000}"
+type_textile,1000,1000,917,"{'type': 'Textile', 'has_image': 1, 'limit': 1000}"
+type_textile_culture_peru,98,98,0,"{'type': 'Textile', 'culture': 'Peru', 'has_image': 1, 'limit': 1000}"
+type_textile_culture_andes,23,23,0,"{'type': 'Textile', 'culture': 'Andes', 'has_image': 1, 'limit': 1000}"
+type_textile_medium_cotton,391,391,130,"{'type': 'Textile', 'medium': 'cotton', 'has_image': 1, 'limit': 1000}"
+type_textile_medium_camelid,36,36,1,"{'type': 'Textile', 'medium': 'camelid', 'has_image': 1, 'limit': 1000}"
+technique_woven_peru,50,50,0,"{'technique': 'woven', 'culture': 'Peru', 'has_image': 1, 'limit': 1000}"
+medium_camelid_peru,33,33,0,"{'medium': 'camelid', 'culture': 'Peru', 'has_image': 1, 'limit': 1000}"
