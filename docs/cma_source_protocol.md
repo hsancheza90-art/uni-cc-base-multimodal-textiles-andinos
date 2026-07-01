@@ -65,6 +65,15 @@ Antes de fusionar esta fuente con el corpus principal:
 4. Separar piezas dudosas, fragmentos no informativos o piezas que no aporten al objetivo visual del corpus.
 5. Mantener `source`, `source_id`, `url`, `image_url` y `share_license_status` para trazabilidad.
 
+## Exploracion expandida descartada
+
+Se ejecuto una prueba expandida usando estrategias amplias como `type=Textile`.
+La prueba recupero 2045 registros brutos, pero casi todos correspondian a textiles no andinos.
+Los dos candidatos nuevos frente a la version conservadora fueron revisados manualmente y correspondian a textiles no andinos, por ejemplo de Indonesia e Italia.
+
+Por tanto, la version expandida no se incorpora al corpus final. Se conserva solo como evidencia metodologica de cobertura y descarte. La version de curacion CMA se basa en la busqueda conservadora, con 146 registros normalizados y 141 candidatos iniciales antes de revision manual.
+
+
 ## Comandos de ejecucion
 
 Prueba controlada:

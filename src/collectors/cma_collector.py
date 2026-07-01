@@ -4,6 +4,8 @@ import argparse
 import csv
 import json
 import time
+import re
+
 from collections import defaultdict
 from pathlib import Path
 
@@ -109,8 +111,14 @@ def searchable_text(record: dict) -> str:
 
 
 def find_terms(text: str, terms: list[str]) -> str:
-    hits = sorted(term for term in terms if term in text)
-    return "; ".join(hits)
+    hits = []
+
+    for term in terms:
+        pattern = r"\b" + re.escape(term) + r"\b"
+        if re.search(pattern, text, flags=re.IGNORECASE):
+            hits.append(term)
+
+    return "; ".join(sorted(set(hits)))
 
 
 def normalize_record(record: dict, queries: list[str]) -> dict:
