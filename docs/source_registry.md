@@ -1,8 +1,8 @@
 # Registro de fuentes del corpus
 
-Este documento registra las fuentes institucionales usadas para la primera entrega del corpus multimodal de textiles andinos. El objetivo es mantener trazabilidad, claridad metodologica y separacion entre fuentes efectivamente incorporadas y fuentes exploratorias.
+Este documento registra las fuentes institucionales usadas para el corpus multimodal de textiles andinos. El objetivo es mantener trazabilidad, claridad metodologica y separacion entre fuentes efectivamente incorporadas y fuentes exploratorias.
 
-## Fuentes incluidas en la primera entrega
+## Fuentes incluidas en el Corpus
 
 | Fuente | Institucion | Estado | Uso en el corpus | Salida principal |
 |---|---|---|---|---|
@@ -11,7 +11,7 @@ Este documento registra las fuentes institucionales usadas para la primera entre
 
 ## Criterio de seleccion de fuentes
 
-Para esta primera entrega se priorizan MET y CMA por cuatro razones:
+Para la versión consolidada del corpus se priorizan MET y CMA por cuatro razones:
 
 1. Son instituciones museograficas con colecciones publicas y documentadas.
 2. Ofrecen metadatos curatoriales que permiten trazabilidad por objeto.
@@ -51,7 +51,7 @@ Conteos auditados:
 
 ## Estado de CMA
 
-CMA se mantiene como segunda fuente de la primera entrega. Su flujo es mas limpio desde el inicio porque fue planteado mediante scripts y revision manual, sin depender de notebooks exploratorios.
+CMA se mantiene como segunda fuente del corpus. Su flujo es mas limpio desde el inicio porque fue planteado mediante scripts y revision manual, sin depender de notebooks exploratorios.
 
 Salidas asociadas:
 
@@ -60,6 +60,6 @@ Salidas asociadas:
 - `docs/cma_source_protocol.md`
 - `outputs/reports/cma_collection_summary.md`
 
-## Fuentes exploratorias fuera de la primera entrega
+## Fuentes exploratorias fuera del Corpus
 
-Otras fuentes pueden conservarse como trabajo exploratorio, pero no forman parte del cierre de esta primera entrega mientras no pasen por el mismo nivel de documentacion, curacion y auditoria aplicado a MET y CMA.
+Otras fuentes pueden conservarse como trabajo exploratorio, pero no forman parte del corpus mientras no pasen por el mismo nivel de documentacion, curacion y auditoria aplicado a MET y CMA.

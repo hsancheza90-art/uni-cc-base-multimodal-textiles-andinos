@@ -8,14 +8,14 @@ Este proyecto organiza, cura y documenta registros textiles andinos procedentes 
 
 El corpus integra metadatos curatoriales, enlaces oficiales, enlaces a imágenes institucionales, decisiones de curación, criterios de inclusión y exclusión, y reportes de auditoría técnica.
 
-## Entrega de Corpus
+## Alcance del Corpus
 
-Para esta entrega, el corpus se concentra en dos fuentes institucionales:
+La versión consolidada del corpus se concentra en dos fuentes institucionales:
 
 1. The Metropolitan Museum of Art (MET)
 2. Cleveland Museum of Art (CMA)
 
-La decisión metodológica fue priorizar fuentes museográficas con trazabilidad institucional, metadatos curatoriales y disponibilidad de imágenes asociadas. Otras fuentes exploratorias se conservan fuera del cierre de esta entrega hasta pasar por el mismo nivel de curación, documentación y auditoría.
+La decisión metodológica fue priorizar fuentes museográficas con trazabilidad institucional, metadatos curatoriales y disponibilidad de imágenes asociadas. Otras fuentes exploratorias se conservan fuera del corpus consolidado hasta pasar por el mismo nivel de curación, documentación y auditoría.
 
 ## Estado de MET
 
