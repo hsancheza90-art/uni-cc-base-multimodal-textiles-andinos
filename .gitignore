@@ -29,3 +29,6 @@ notebooks/prueba.ipynb
 
 # Archivos historicos de auditoria local
 outputs/archive/
+
+# Archivos derivados pesados / muestras locales
+outputs/samples/
