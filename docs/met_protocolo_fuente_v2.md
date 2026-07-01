@@ -143,17 +143,23 @@ La version v2 no debe sobrescribir los archivos historicos. Las nuevas salidas s
 - `data/metadata/met_descartados_v2.csv`
 - `outputs/reports/met_resumen_curacion_v2.md`
 
-## Control contra la corrida previa
 
-La nueva version debe reproducir o explicar los resultados obtenidos en la corrida inicial. Los conteos de referencia son:
+## Control contra la curacion previa
+
+La version MET v2 se construye a partir de los archivos curatoriales ya versionados de MET v1. Por ello, el objetivo no es volver a inferir el corpus desde cero, sino reorganizar la curacion previa en salidas mas claras, auditables y consistentes con el protocolo metodologico.
+
+Los conteos consolidados de referencia son:
 
 | Conjunto | Conteo esperado |
 |---|---:|
-| corpus principal v2 | 97 |
-| corpus secundario v2 | 35 |
+| corpus principal v2 | 132 |
+| corpus secundario v2 | 50 |
 | descartados | 29 |
 
-Si algun conteo cambia, la diferencia debe quedar documentada en el reporte de curacion.
+Estos conteos fueron validados comparando los identificadores institucionales de los archivos fuente v1 contra las nuevas salidas MET v2. La auditoria tecnica no detecto perdida de identificadores ni duplicados en el corpus principal.
+
+Si en una etapa posterior se requiere una submuestra para entrega, presentacion o anotacion manual, esta debera registrarse como seleccion derivada del corpus curado, no como reemplazo del corpus MET v2.
+
 
 ## Principio de trazabilidad
 
@@ -169,3 +175,10 @@ Ningun registro debe incorporarse sin conservar:
 ## Limitaciones
 
 El uso de colecciones museograficas implica posibles sesgos de catalogacion, disponibilidad desigual de imagenes, variacion terminologica entre registros y diferencias en el nivel de descripcion curatorial. Por ello, los resultados deben interpretarse como un corpus curado para investigacion computacional, no como una representacion exhaustiva de la produccion textil andina.
+
+## Comandos reproducibles
+
+Construccion de las salidas curatoriales:
+
+```bash
+python src/metadata/build_met_corpus_v2.py --root .
