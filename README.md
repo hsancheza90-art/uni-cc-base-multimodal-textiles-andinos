@@ -1,62 +1,146 @@
-﻿# Corpus MET de Textiles Andinos v1.0
+﻿# UNI-CC Base Multimodal de Textiles Andinos
 
-Base multimodal trazable de textiles andinos construida a partir de registros oficiales de The Metropolitan Museum of Art para investigacion en ciencias computacionales.
+Repositorio para construir, curar y documentar una base multimodal de textiles andinos a partir de fuentes museales abiertas.
 
-## Descripcion
+## Estado actual
 
-Este repositorio contiene el Corpus MET de Textiles Andinos v1.0, un entregable academico orientado a la organizacion, curacion y documentacion de registros textiles andinos procedentes de la coleccion digital de The Metropolitan Museum of Art.
+El repositorio incluye flujos reproducibles para curación de registros textiles andinos desde fuentes abiertas.
 
-El corpus integra metadatos curatoriales, enlaces oficiales, enlaces a imagenes institucionales, decisiones de curacion y documentacion metodologica. Su finalidad es servir como base para tareas de vision por computadora, aprendizaje multimodal, recuperacion imagen-texto y analisis computacional de patrimonio textil andino.
+### Cleveland Museum of Art (CMA)
 
-## Alcance de la version v1.0
+La fuente CMA cuenta con un flujo reproducible de curación y revisión manual.
 
-La version v1.0 considera exclusivamente registros procedentes de The Metropolitan Museum of Art. Otras fuentes museograficas quedan documentadas como fuentes futuras, pero no forman parte del corpus consolidado en esta version.
+**Resultados actuales CMA:**
 
-## Archivos principales
+| Conjunto | Registros |
+|---|---:|
+| Candidatos normalizados | 146 |
+| Corpus principal revisado | 88 |
+| Corpus secundario revisado | 19 |
+| Descartados revisados | 39 |
+| Pendientes de revisión | 0 |
 
-| Archivo | Descripcion | Filas |
-|---|---:|---:|
-| `data/processed/corpus_met_textiles_andinos_v1_inventario_base.csv` | Inventario base normalizado desde la fuente oficial | 295 |
-| `data/processed/corpus_met_textiles_andinos_v1_principal.csv` | Corpus principal para analisis multimodal | 132 |
-| `data/processed/corpus_met_textiles_andinos_v1_complementario.csv` | Corpus complementario para contraste o ampliacion | 50 |
-| `data/processed/corpus_met_textiles_andinos_v1_exclusiones_curatoriales.csv` | Registros excluidos con motivo documentado | 29 |
-| `data/processed/corpus_met_textiles_andinos_v1_duplicados.csv` | Control de duplicados | 0 |
-| `data/metadata/corpus_met_textiles_andinos_v1_fuentes_licencias.csv` | Fuentes, licencias y estado de inclusion | 5 |
+El flujo conserva trazabilidad completa:
+
+- 138 registros revisados manualmente.
+- 8 descartes automáticos documentados por estar fuera del alcance andino o corresponder a herramientas textiles.
+- Auditoría ejecutada sin hallazgos críticos.
+
+## Archivos principales CMA
+
+### Datos
+
+| Archivo | Descripción |
+|---|---|
+| `data/metadata/cma_andes_textiles_candidates.csv` | Candidatos CMA normalizados. |
+| `data/metadata/cma_revision_manual_v2.xlsx` | Workbook maestro para revisión manual y movimiento entre subconjuntos. |
+| `data/metadata/cma_corpus_principal_revisado.csv` | Corpus principal CMA revisado. |
+| `data/metadata/cma_corpus_secundario_revisado.csv` | Corpus secundario CMA revisado. |
+| `data/metadata/cma_descartados_revisado.csv` | Registros descartados CMA revisados. |
+| `data/metadata/cma_pendientes_revision_v2.csv` | Registros pendientes de revisión. Actualmente vacío. |
+
+### Scripts
+
+| Script | Uso |
+|---|---|
+| `src/collectors/cma_collector.py` | Recolección de candidatos desde CMA. |
+| `src/preprocessing/create_cma_review_workbook_v2.py` | Genera el workbook maestro de revisión CMA v2. |
+| `src/metadata/apply_cma_review_v2.py` | Aplica cambios del workbook y regenera los CSV revisados. |
+| `src/metadata/audit_cma_outputs.py` | Audita salidas normalizadas CMA. |
+| `src/review/build_cma_review_gallery.py` | Genera galerías HTML de revisión visual. |
+
+### Reportes y galerías
+
+| Archivo | Descripción |
+|---|---|
+| `outputs/reports/cma_resumen_revision_manual_v2.md` | Resumen de revisión manual CMA v2. |
+| `outputs/reports/cma_curacion_manual_summary.md` | Resumen de curación manual y descartes automáticos. |
+| `outputs/review/cma_corpus_principal_revisado_galeria.html` | Galería del corpus principal revisado. |
+| `outputs/review/cma_corpus_secundario_revisado_galeria.html` | Galería del corpus secundario revisado. |
+| `outputs/review/cma_descartados_revisado_galeria.html` | Galería de descartados revisados. |
+
+
+## Flujo reproducible CMA
+
+### 1. Crear o actualizar workbook maestro
+
+```bash
+python src/preprocessing/create_cma_review_workbook_v2.py --root .
+```
+
+Este comando genera:
+
+```text
+data/metadata/cma_revision_manual_v2.xlsx
+```
+
+En este Excel se puede modificar la columna `corpus_final` para mover registros entre:
+
+```text
+principal
+secundario
+descartados
+revisar
+```
+
+### 2. Aplicar revisión manual
+
+```bash
+python src/metadata/apply_cma_review_v2.py --root .
+```
+
+Este comando regenera:
+
+```text
+data/metadata/cma_corpus_principal_revisado.csv
+data/metadata/cma_corpus_secundario_revisado.csv
+data/metadata/cma_descartados_revisado.csv
+data/metadata/cma_pendientes_revision_v2.csv
+outputs/reports/cma_resumen_revision_manual_v2.md
+```
+
+### 3. Auditar salidas CMA
+
+```bash
+python src/metadata/audit_cma_outputs.py --root .
+```
+
+Resultado esperado actual:
+
+```text
+Registros auditados: 146
+Sin hallazgos criticos.
+```
+
+## Criterios de curación
+
+Los registros se separan en:
+
+- **Principal:** piezas textiles andinas con utilidad visual clara para el corpus.
+- **Secundario:** piezas útiles, pero con menor prioridad visual, composicional o metodológica.
+- **Descartados:** piezas fuera del alcance, no andinas, no textiles, duplicadas, de baja calidad visual o herramientas textiles.
+- **Revisar:** casos pendientes de decisión.
 
 ## Estructura del repositorio
 
-- `data/processed/`: archivos finales del Corpus MET de Textiles Andinos v1.0.
-- `data/metadata/`: fuentes, licencias y metadatos de trazabilidad.
-- `data/interim/`: archivos intermedios conservados para auditoria interna.
-- `data/raw/`: datos crudos descargados desde fuentes oficiales.
-- `docs/`: documentacion academica y metodologica.
-- `notebooks/`: cuadernos de exploracion, revision y validacion.
-- `outputs/`: reportes, galerias y archivos derivados de revision.
-- `src/`: scripts de recoleccion, preprocesamiento y revision.
+```text
+data/
+  metadata/        Metadatos normalizados, workbook y corpus curado.
+  raw/             Datos crudos por fuente.
 
-## Documentacion
+docs/              Protocolos y documentación metodológica.
 
-| Documento | Proposito |
-|---|---|
-| `docs/corpus_met_textiles_andinos_v1_ficha_dataset.md` | Ficha academica del dataset |
-| `docs/corpus_met_textiles_andinos_v1_protocolo_curacion.md` | Criterios de inclusion, exclusion y organizacion |
-| `docs/corpus_met_textiles_andinos_v1_trazabilidad.md` | Relacion entre fuente oficial, archivos y decisiones de curacion |
-| `docs/corpus_met_textiles_andinos_v1_uso_etico.md` | Principios de uso responsable del corpus |
+outputs/
+  reports/         Reportes de curación y auditoría.
+  review/          Galerías HTML para revisión visual.
 
-## Uso previsto
+src/
+  collectors/      Recolección de datos por fuente.
+  metadata/        Auditoría, comparación y aplicación de revisiones.
+  preprocessing/   Construcción de workbooks y preparación de datos.
+  review/          Generación de galerías visuales.
+```
 
-Este corpus esta destinado a investigacion academica en ciencias computacionales, especialmente en tareas de analisis multimodal, vision por computadora, recuperacion imagen-texto y organizacion computacional de patrimonio textil andino.
+## Nota metodológica
 
-## Uso no previsto
-
-No se recomienda usar este corpus para comercializacion directa de motivos patrimoniales, apropiacion de disenos, interpretaciones culturales concluyentes sin validacion experta ni clasificacion cultural automatica sin revision humana.
-
-## Estado del entregable
-
-La version v1.0 consolida el primer corpus institucional del proyecto, basado en registros del MET, con archivos finales, documentacion metodologica, control de duplicados y trazabilidad hacia la fuente oficial.
-
-## Contexto academico
-
-Este repositorio forma parte de una investigacion de tesis en la Maestria en Ciencias Computacionales de la Universidad Nacional de Ingenieria, orientada al estudio computacional de textiles andinos como objetos materiales, visuales, culturales y multimodales.
-
-
+El objetivo del repositorio es mantener un flujo trazable y reproducible: cada decisión de curación debe poder rastrearse desde los candidatos normalizados hasta los subconjuntos finales revisados.
