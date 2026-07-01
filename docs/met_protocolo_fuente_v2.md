@@ -2,30 +2,32 @@
 
 ## Objetivo
 
-Este documento define el procedimiento de recoleccion, normalizacion y curacion de registros textiles andinos procedentes de The Metropolitan Museum of Art. La finalidad no es realizar una descarga masiva de objetos, sino construir una base curada, trazable y metodologicamente defendible para el corpus multimodal de textiles andinos.
+Este documento define el procedimiento de consolidación, normalización, curación y revisión manual de registros textiles andinos procedentes de The Metropolitan Museum of Art (MET).
 
-La version v2 busca ordenar el flujo previo de trabajo, preservar los resultados ya obtenidos y expresar de manera explicita los criterios curatoriales usados para distinguir entre corpus principal, corpus secundario y registros descartados.
+La finalidad no es realizar una descarga masiva de objetos, sino construir una base curada, trazable y metodológicamente defendible para el corpus multimodal de textiles andinos.
 
-## Fuente institucional
+La versión MET v2 reorganiza el trabajo curatorial previo, preserva los resultados ya obtenidos y explicita los criterios usados para distinguir entre corpus principal, corpus secundario y registros descartados.
 
-- Institucion: The Metropolitan Museum of Art.
-- Acceso: API publica del MET.
-- Tipo de fuente: coleccion museografica con metadatos curatoriales, imagenes asociadas y enlaces institucionales.
-- Uso dentro del proyecto: fuente principal para la primera entrega del corpus junto con Cleveland Museum of Art.
+## Fuente Institucional
 
-## Enfoque metodologico
+- Institución: The Metropolitan Museum of Art.
+- Acceso: API pública del MET y fichas institucionales de colección.
+- Tipo de fuente: colección museográfica con metadatosatos curatoriales, imágenes asociadas y enlaces institucionales.
+- Uso dentro del proyecto: fuente principal del corpus, junto con Cleveland Museum of Art (CMA).
 
-El trabajo con MET se entiende como una curacion documental y visual. Cada registro debe ser evaluado considerando tres niveles:
+## Enfoque Metodológico
 
-1. Evidencia documental: titulo, cultura, clasificacion, materiales, tecnica, departamento y descripcion.
-2. Evidencia visual: correspondencia entre la imagen y un objeto textil analizable.
-3. Pertinencia para el corpus: utilidad del objeto para tareas futuras de clasificacion, recuperacion multimodal o descripcion visual.
+El trabajo con MET se entiende como una curación documental y visual. Cada registro se evalúa considerando tres niveles:
 
-Por esta razon, la fuente no se trata como una tabla neutral de datos, sino como un conjunto museografico que requiere interpretacion, control de ruido y criterios consistentes.
+1. Evidencia documental: título, cultura, clasificación, materiales, técnica, procedencia, periodo y descripción.
+2. Evidencia visual: correspondencia entre la imagen disponible y un objeto textil analizable.
+3. Pertinencia computacional: utilidad del objeto para tareas futuras de clasificación, recuperación multimodal, descripción visual o análisis de patrones.
 
-## Estrategia de busqueda
+Por esta razón, la fuente no se trata como una tabla neutral de datos, sino como un conjunto museográfico que requiere interpretación, control de ruido, revisión visual y criterios consistentes.
 
-Las consultas deben combinar terminos culturales, geograficos y textiles. Entre los terminos considerados se incluyen:
+## Estrategia De Búsqueda Y Consolidación
+
+Las consultas exploratorias combinan términos culturales, geográficos y textiles. Entre los términos considerados se incluyen:
 
 - Andes
 - Andean
@@ -50,135 +52,193 @@ Las consultas deben combinar terminos culturales, geograficos y textiles. Entre 
 - mantle
 - bag
 
-Los resultados se deduplican por identificador institucional del MET.
+Los resultados se deduplican por identificador institucional del MET. En MET v2, la base final no se reconstruye desde cero a partir de la API, sino que se consolida a partir de los archivos curatoriales MET v1 ya versionados y revisados.
 
-## Criterios de inclusion
+## Criterios De Inclusión
 
 Un registro puede ingresar como candidato si cumple las siguientes condiciones:
 
 1. Tiene identificador institucional trazable.
 2. Tiene enlace a la ficha del objeto en el MET.
 3. Tiene imagen disponible o una URL de imagen asociada.
-4. Presenta evidencia textil en clasificacion, tecnica, material, titulo o descripcion.
-5. Presenta evidencia andina, prehispanica o sudamericana pertinente en cultura, procedencia, titulo o descripcion.
+4. Presenta evidencia textil en clasificación, técnica, material, título o descripción.
+5. Presenta evidencia andina, prehispánica o sudamericana pertinente en cultura, procedencia, título o descripción.
 
-## Criterios para el corpus principal
+## Criterios Para El Corpus Principal
 
 Un registro se considera parte del corpus principal cuando:
 
 1. El objeto es claramente textil.
-2. La imagen permite inspeccion visual suficiente.
-3. La pieza es pertinente para analisis de patrones, composicion, materialidad o iconografia.
-4. La informacion curatorial respalda una adscripcion andina o prehispanica relacionada.
-5. No corresponde principalmente a ceramica, metal, madera, piedra u otro soporte no textil.
+2. La imagen permite inspección visual suficiente.
+3. La pieza es pertinente para análisis de patrones, composición, materialidad o iconografía.
+4. La información curatorial respalda una adscripción andina o prehispánica relacionada.
+5. No corresponde principalmente a cerámica, metal, madera, piedra u otro soporte no textil.
 
-## Criterios para el corpus secundario
+## Criterios Para El Corpus Secundario
 
 Un registro puede mantenerse como corpus secundario cuando tiene valor documental, pero no cumple plenamente el criterio del corpus principal. Por ejemplo:
 
 1. Piezas con plumas o materialidad mixta.
 2. Fragmentos textiles con valor de referencia, pero menor utilidad visual.
 3. Objetos relacionados con indumentaria o materialidad textil, aunque no sean ideales para el primer corpus principal.
-4. Casos que requieren revision posterior por ambiguedad curatorial o visual.
+4. Casos que requieren revisión posterior por ambigüedad curatorial o visual.
 
-## Criterios de descarte
+## Criterios De Descarte
 
 Un registro se descarta cuando:
 
-1. No tiene imagen util.
+1. No tiene imagen útil.
 2. No presenta evidencia textil suficiente.
 3. No presenta evidencia andina suficiente.
-4. Corresponde a ceramica, metal, piedra, madera u otro objeto no textil.
-5. La imagen o los metadatos no permiten sostener su inclusion de manera defendible.
+4. Corresponde a cerámica, metal, piedra, madera u otro objeto no textil.
+5. La imagen o los metadatos no permiten sostener su inclusión de manera defendible.
 6. Es un duplicado de otro registro ya incorporado.
 
-## Estados de curacion
+## Estados De Curación
 
-La version v2 usara estados en espanol para facilitar lectura y revision:
+La versión MET v2 usa estados en español para facilitar lectura y revisión:
 
-- candidato
-- corpus_principal
-- corpus_secundario
-- descartado_sin_imagen
-- descartado_no_textil
-- descartado_no_andino
-- descartado_objeto_no_pertinente
-- duplicado
-- pendiente_revision_visual
+- `corpus_principal`
+- `corpus_secundario`
+- `descartado`
+- `revisar`
 
-## Columnas normalizadas
+Durante etapas exploratorias también pueden aparecer estados auxiliares:
 
-Las salidas normalizadas de MET v2 deben usar nombres en espanol:
+- `candidato`
+- `descartado_sin_imagen`
+- `descartado_no_textil`
+- `descartado_no_andino`
+- `descartado_objeto_no_pertinente`
+- `duplicado`
+- `pendiente_revision_visual`
 
-- fuente
-- id_fuente
-- numero_inventario
-- titulo
-- cultura
-- fecha_creacion
-- clasificacion
-- tecnica
-- material
-- dimensiones
-- departamento
-- descripcion
-- url_objeto
-- url_imagen
-- ruta_imagen_local
-- licencia
-- tiene_imagen
-- terminos_andinos
-- terminos_textiles
-- estado_curacion
-- notas_curacion
-- consultas_origen
+## Salidas Base MET v2
 
-## Salidas esperadas
+La versión v2 no sobrescribe los archivos históricos. Las salidas base se guardan con nombres versionados:
 
-La version v2 no debe sobrescribir los archivos historicos. Las nuevas salidas se guardaran con nombres versionados:
-
-- `data/metadata/met_candidatos_v2.csv`
 - `data/metadata/met_corpus_principal_v2.csv`
 - `data/metadata/met_corpus_secundario_v2.csv`
 - `data/metadata/met_descartados_v2.csv`
 - `outputs/reports/met_resumen_curacion_v2.md`
+- `outputs/reports/met_auditoria_tecnica_v2.md`
 
+## Control Contra La Curación Previa
 
-## Control contra la curacion previa
+La versión MET v2 se construye a partir de los archivos curatoriales ya versionados de MET v1. Por ello, el objetivo no es volver a inferir el corpus desde cero, sino reorganizar la curación previa en salidas más claras, auditables y consistentes con el protocolo metodológico.
 
-La version MET v2 se construye a partir de los archivos curatoriales ya versionados de MET v1. Por ello, el objetivo no es volver a inferir el corpus desde cero, sino reorganizar la curacion previa en salidas mas claras, auditables y consistentes con el protocolo metodologico.
+Los conteos consolidados de la base auditada son:
 
-Los conteos consolidados de referencia son:
-
-| Conjunto | Conteo esperado |
+| Conjunto base MET v2 | Registros |
 |---|---:|
-| corpus principal v2 | 132 |
-| corpus secundario v2 | 50 |
-| descartados | 29 |
+| Corpus principal | 132 |
+| Corpus secundario | 50 |
+| Descartados | 29 |
 
-Estos conteos fueron validados comparando los identificadores institucionales de los archivos fuente v1 contra las nuevas salidas MET v2. La auditoria tecnica no detecto perdida de identificadores ni duplicados en el corpus principal.
+Estos conteos fueron validados comparando los identificadores institucionales de los archivos fuente v1 contra las nuevas salidas MET v2. La auditoría técnica no detectó pérdida de identificadores ni duplicados en el corpus principal.
 
-Si en una etapa posterior se requiere una submuestra para entrega, presentacion o anotacion manual, esta debera registrarse como seleccion derivada del corpus curado, no como reemplazo del corpus MET v2.
+## Revisión Manual Final
 
+Luego de construir la base auditada MET v2, se incorpora una capa de revisión manual mediante el archivo:
 
-## Principio de trazabilidad
+- `data/metadata/met_revision_manual_v2.xlsx`
 
-Ningun registro debe incorporarse sin conservar:
+Este workbook concentra todos los registros en una sola hoja y conserva dos campos clave:
+
+- `corpus_actual`: clasificación de partida derivada de la base auditada.
+- `corpus_final`: clasificación final luego de la revisión humana.
+
+La modificación de `corpus_final` permite mover registros entre corpus principal, corpus secundario y descartados sin alterar los archivos base. Las decisiones se aplican con:
+
+```bash
+python src/metadata/apply_met_review_v2.py --root .
+```
+
+Esta capa conserva trazabilidad entre la clasificación original y la decisión final, permitiendo documentar ajustes curatoriales como duplicados visuales, imágenes caídas, piezas ambiguas o registros mejor ubicados en corpus secundario.
+
+## Comparación Entre Base Auditada Y Revisión Manual
+
+La revisión manual no reemplaza la base auditada. Introduce una capa curatorial final que permite corregir duplicados visuales, imágenes caídas, registros ambiguos o piezas mejor ubicadas en otro subconjunto.
+
+| Etapa MET v2 | Corpus principal | Corpus secundario | Descartados | Pendientes |
+|---|---:|---:|---:|---:|
+| Base auditada | 132 | 50 | 29 | 0 |
+| Revisión manual | 127 | 54 | 30 | 0 |
+
+Los movimientos aplicados redujeron el corpus principal en 5 registros. Cuatro registros fueron reubicados en el corpus secundario y un registro fue enviado a descartados por tratarse de una imagen repetida o no adecuada para el corpus principal final.
+
+Esta comparación permite conservar la trazabilidad entre el corpus base y el corpus revisado, evitando que la curación manual borre la historia de decisiones del proceso.
+
+## Salidas Revisadas MET v2
+
+La revisión manual genera los siguientes archivos:
+
+- `data/metadata/met_revision_manual_v2.xlsx`
+- `data/metadata/met_corpus_principal_v2_revisado.csv`
+- `data/metadata/met_corpus_secundario_v2_revisado.csv`
+- `data/metadata/met_descartados_v2_revisado.csv`
+- `data/metadata/met_pendientes_revision_v2.csv`
+- `outputs/reports/met_resumen_revision_manual_v2.md`
+- `outputs/review/met_corpus_principal_v2_revisado_galeria.html`
+- `outputs/review/met_corpus_secundario_v2_revisado_galeria.html`
+- `outputs/review/met_descartados_v2_revisado_galeria.html`
+
+## Salida Recomendada
+
+Para efectos de la investigación, se recomienda usar las salidas revisadas:
+
+- `data/metadata/met_corpus_principal_v2_revisado.csv`
+- `data/metadata/met_corpus_secundario_v2_revisado.csv`
+- `data/metadata/met_descartados_v2_revisado.csv`
+
+Las salidas base se conservan como respaldo auditado y punto de comparación.
+
+## Principio De Trazabilidad
+
+Ningún registro debe incorporarse sin conservar:
 
 1. Fuente institucional.
 2. Identificador de fuente.
 3. URL del objeto.
 4. URL de imagen o ruta local.
-5. Estado de curacion.
-6. Nota breve que justifique inclusion, separacion secundaria o descarte.
+5. Estado de curación.
+6. Clasificación base y clasificación final.
+7. Nota breve que justifique inclusión, separación secundaria, descarte o movimiento manual.
 
-## Limitaciones
+## Comandos Reproducibles
 
-El uso de colecciones museograficas implica posibles sesgos de catalogacion, disponibilidad desigual de imagenes, variacion terminologica entre registros y diferencias en el nivel de descripcion curatorial. Por ello, los resultados deben interpretarse como un corpus curado para investigacion computacional, no como una representacion exhaustiva de la produccion textil andina.
-
-## Comandos reproducibles
-
-Construccion de las salidas curatoriales:
+Construcción de las salidas curatoriales base:
 
 ```bash
 python src/metadata/build_met_corpus_v2.py --root .
+```
+
+Auditoría técnica de la base:
+
+```bash
+python src/metadata/audit_met_outputs_v2.py --root .
+```
+
+Creación del workbook de revisión manual:
+
+```bash
+python src/preprocessing/create_met_review_workbook_v2.py --root .
+```
+
+Aplicación de decisiones manuales:
+
+```bash
+python src/metadata/apply_met_review_v2.py --root .
+```
+
+Generación de galerías HTML revisadas:
+
+```bash
+python src/review/build_met_gallery_v2.py --root . --revisado
+```
+
+## Limitaciones
+
+El uso de colecciones museográficas implica posibles sesgos de catalogación, disponibilidad desigual de imágenes, variación terminológica entre registros y diferencias en el nivel de descripción curatorial.
+
+Por ello, los resultados deben interpretarse como un corpus curado para investigación computacional, no como una representación exhaustiva de la producción textil andina ni como una clasificación cultural concluyente sin revisión especializada.
