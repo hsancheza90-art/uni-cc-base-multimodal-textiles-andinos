@@ -3,22 +3,42 @@ from __future__ import annotations
 import argparse
 import csv
 from collections import Counter
+from dataclasses import dataclass
 from pathlib import Path
 
 from openpyxl import load_workbook
 
 
-WORKBOOK = "data/metadata/met_revision_manual_v2.xlsx"
-HOJA_REVISION = "revision_met_v2"
+@dataclass(frozen=True)
+class FuenteRevision:
+    """Archivos de la revision manual de una fuente que usa el workbook con columnas MET v2."""
 
-SALIDAS = {
-    "principal": "data/metadata/met_corpus_principal_v2_revisado.csv",
-    "secundario": "data/metadata/met_corpus_secundario_v2_revisado.csv",
-    "descartados": "data/metadata/met_descartados_v2_revisado.csv",
-}
+    nombre: str
+    workbook: str
+    hoja: str
+    salidas: dict[str, str]
+    pendientes: str
+    reporte: str
 
-SALIDA_PENDIENTES = "data/metadata/met_pendientes_revision_v2.csv"
-REPORTE = "outputs/reports/met_resumen_revision_manual_v2.md"
+
+MET = FuenteRevision(
+    nombre="MET v2",
+    workbook="data/metadata/met_revision_manual_v2.xlsx",
+    hoja="revision_met_v2",
+    salidas={
+        "principal": "data/metadata/met_corpus_principal_v2_revisado.csv",
+        "secundario": "data/metadata/met_corpus_secundario_v2_revisado.csv",
+        "descartados": "data/metadata/met_descartados_v2_revisado.csv",
+    },
+    pendientes="data/metadata/met_pendientes_revision_v2.csv",
+    reporte="outputs/reports/met_resumen_revision_manual_v2.md",
+)
+
+WORKBOOK = MET.workbook
+HOJA_REVISION = MET.hoja
+SALIDAS = MET.salidas
+SALIDA_PENDIENTES = MET.pendientes
+REPORTE = MET.reporte
 
 CORPUS_VALIDOS = {"principal", "secundario", "descartados", "revisar"}
 
@@ -58,13 +78,13 @@ def texto(valor: object) -> str:
     return str(valor).strip()
 
 
-def leer_revision(path: Path) -> list[dict[str, str]]:
+def leer_revision(path: Path, hoja: str = HOJA_REVISION) -> list[dict[str, str]]:
     wb = load_workbook(path, data_only=True)
 
-    if HOJA_REVISION not in wb.sheetnames:
-        raise ValueError(f"No existe la hoja requerida: {HOJA_REVISION}")
+    if hoja not in wb.sheetnames:
+        raise ValueError(f"No existe la hoja requerida: {hoja}")
 
-    ws = wb[HOJA_REVISION]
+    ws = wb[hoja]
     encabezados = [texto(cell.value) for cell in ws[1]]
 
     filas: list[dict[str, str]] = []
@@ -127,6 +147,7 @@ def escribir_reporte(
     salidas: dict[str, list[dict[str, str]]],
     pendientes: list[dict[str, str]],
     problemas: list[str],
+    fuente: FuenteRevision = MET,
 ) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
 
@@ -141,9 +162,9 @@ def escribir_reporte(
     conteo_movimientos = Counter(movimientos)
 
     lineas = [
-        "# Resumen de revision manual MET v2",
+        f"# Resumen de revision manual {fuente.nombre}",
         "",
-        "Este reporte resume la aplicacion de decisiones manuales registradas en `data/metadata/met_revision_manual_v2.xlsx`.",
+        f"Este reporte resume la aplicacion de decisiones manuales registradas en `{fuente.workbook}`.",
         "",
         "## Conteos finales",
         "",
@@ -177,9 +198,9 @@ def escribir_reporte(
     path.write_bytes(("\n".join(lineas) + "\n").encode("utf-8"))
 
 
-def aplicar_revision(root: Path) -> int:
-    workbook_path = root / WORKBOOK
-    filas_revision = leer_revision(workbook_path)
+def aplicar_revision(root: Path, fuente: FuenteRevision = MET) -> int:
+    workbook_path = root / fuente.workbook
+    filas_revision = leer_revision(workbook_path, fuente.hoja)
 
     salidas = {
         "principal": [],
@@ -214,17 +235,17 @@ def aplicar_revision(root: Path) -> int:
         muestra = ", ".join(sorted(ids_duplicados)[:20])
         problemas.append(f"IDs duplicados en workbook: {muestra}")
 
-    for corpus, ruta_relativa in SALIDAS.items():
+    for corpus, ruta_relativa in fuente.salidas.items():
         escribir_csv(root / ruta_relativa, salidas[corpus])
 
-    escribir_csv(root / SALIDA_PENDIENTES, pendientes)
-    escribir_reporte(root / REPORTE, filas_revision, salidas, pendientes, problemas)
+    escribir_csv(root / fuente.pendientes, pendientes)
+    escribir_reporte(root / fuente.reporte, filas_revision, salidas, pendientes, problemas, fuente)
 
     print(f"Principal revisado: {len(salidas['principal'])}")
     print(f"Secundario revisado: {len(salidas['secundario'])}")
     print(f"Descartados revisados: {len(salidas['descartados'])}")
     print(f"Pendientes por revisar: {len(pendientes)}")
-    print(f"Reporte: {root / REPORTE}")
+    print(f"Reporte: {root / fuente.reporte}")
 
     return 1 if problemas else 0
 

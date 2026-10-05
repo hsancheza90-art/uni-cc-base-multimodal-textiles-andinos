@@ -9,7 +9,11 @@ from pathlib import Path
 import pytest
 
 from src import flujo
-from src.preprocessing import create_cma_review_workbook_v2, create_met_review_workbook_v2
+from src.preprocessing import (
+    create_aic_review_workbook_v2,
+    create_cma_review_workbook_v2,
+    create_met_review_workbook_v2,
+)
 from src.utils.config import RAIZ_REPO, conjuntos_esperados, contar_filas_csv, leer_config
 
 # Insumos versionados de los que parte el flujo; todo lo demas se regenera.
@@ -24,6 +28,8 @@ INSUMOS = [
     "data/metadata/cma_andes_textiles_candidates.csv",
     "data/metadata/imagenes_manifiesto_met_cma_v1.csv",
     "data/metadata/anotacion_met_cma_v1.xlsx",
+    "data/metadata/aic_andes_textiles_candidates.csv",
+    "data/metadata/aic_revision_manual_v2.xlsx",
     "config/vocabulario.toml",
 ]
 
@@ -32,6 +38,7 @@ REPORTES = [
     "outputs/reports/met_auditoria_tecnica_v2.md",
     "outputs/reports/met_resumen_revision_manual_v2.md",
     "outputs/reports/cma_resumen_revision_manual_v2.md",
+    "outputs/reports/aic_resumen_revision_manual_v2.md",
     "outputs/reports/corpus_textiles_andinos_met_cma_v1_resumen.md",
     "outputs/reports/filtros_comparacion_met_inventario.md",
     "outputs/reports/anotacion_met_cma_v1_validacion.md",
@@ -120,8 +127,9 @@ def test_subconjuntos_revisados_no_comparten_ids(archivos: list[str], columna: s
     [
         (create_met_review_workbook_v2, "data/metadata/met_revision_manual_v2.xlsx"),
         (create_cma_review_workbook_v2, "data/metadata/cma_revision_manual_v2.xlsx"),
+        (create_aic_review_workbook_v2, "data/metadata/aic_revision_manual_v2.xlsx"),
     ],
-    ids=["met", "cma"],
+    ids=["met", "cma", "aic"],
 )
 def test_generador_no_sobrescribe_workbook_con_decisiones(tmp_path: Path, modulo, workbook: str) -> None:
     destino = tmp_path / workbook

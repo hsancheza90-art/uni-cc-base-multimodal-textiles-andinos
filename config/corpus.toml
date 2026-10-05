@@ -26,6 +26,18 @@ secundario = { ruta = "data/metadata/cma_corpus_secundario_revisado.csv", filas 
 descartados = { ruta = "data/metadata/cma_descartados_revisado.csv", filas = 39 }
 pendientes = { ruta = "data/metadata/cma_pendientes_revision_v2.csv", filas = 0 }
 
+[aic.candidatos]
+descripcion = "Candidatos AIC normalizados (src/collectors/aic_collector.py, 2026-10-05)"
+candidatos = { ruta = "data/metadata/aic_andes_textiles_candidates.csv", filas = 508 }
+
+[aic.revisado]
+descripcion = "Salidas AIC v2 tras aplicar data/metadata/aic_revision_manual_v2.xlsx"
+principal = { ruta = "data/metadata/aic_corpus_principal_v2_revisado.csv", filas = 0 }
+secundario = { ruta = "data/metadata/aic_corpus_secundario_v2_revisado.csv", filas = 0 }
+# 61 herramientas textiles descartadas automaticamente; el resto espera revision manual.
+descartados = { ruta = "data/metadata/aic_descartados_v2_revisado.csv", filas = 61 }
+pendientes = { ruta = "data/metadata/aic_pendientes_revision_v2.csv", filas = 447 }
+
 [consolidado.conteos]
 # Principal y complementario de MET v2 revisado y CMA v2 revisado.
 # MET:312615 paso de principal a complementario (imagen no disponible en el museo, 2026-10-05).
