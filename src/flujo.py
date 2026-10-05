@@ -21,6 +21,7 @@ import sys
 from collections.abc import Callable
 from pathlib import Path
 
+from src.anotacion import aplicar_anotaciones
 from src.consolidado import construir_consolidado
 from src.metadata import (
     apply_cma_review_v2,
@@ -38,6 +39,7 @@ PASOS: list[tuple[str, Callable[[list[str]], int]]] = [
     ("MET v2: aplicar revision manual", apply_met_review_v2.main),
     ("CMA v2: aplicar revision manual", apply_cma_review_v2.main),
     ("CMA v2: auditar candidatos", audit_cma_outputs.main),
+    ("Anotacion: validar workbook y exportar anotaciones", aplicar_anotaciones.main),
     ("Consolidado MET+CMA v1.0: construir y validar", construir_consolidado.main),
     ("MET: comparar filtro textil vigente con el inventario", auditar_filtros.main),
 ]
