@@ -31,6 +31,7 @@ REPORTES = [
     "outputs/reports/met_resumen_revision_manual_v2.md",
     "outputs/reports/cma_resumen_revision_manual_v2.md",
     "outputs/reports/corpus_textiles_andinos_met_cma_v1_resumen.md",
+    "outputs/reports/filtros_comparacion_met_inventario.md",
     "docs/esquema_consolidado_met_cma_v1.md",
     "data/processed/corpus_textiles_andinos_met_cma_v1_sha256.txt",
 ]

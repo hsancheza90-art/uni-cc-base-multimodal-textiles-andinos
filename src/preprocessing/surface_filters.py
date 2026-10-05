@@ -1,14 +1,15 @@
 from __future__ import annotations
 
 import re
-import unicodedata
 from typing import Any, Dict, List
 
+from src.utils.texto import buscar_terminos, normalizar_texto, unir_textos
 
 SURFACE_OBJECT_TERMS = [
     "mantle",
     "tunic",
     "shirt",
+    "tabard",
     "dress",
     "miniature dress",
     "garment",
@@ -25,6 +26,7 @@ SURFACE_OBJECT_TERMS = [
 FRAGMENT_TERMS = [
     "textile fragment",
     "fragment",
+    "fragments",
 ]
 
 NARROW_OBJECT_TERMS = [
@@ -36,8 +38,10 @@ NARROW_OBJECT_TERMS = [
     "cord",
     "ribbon",
     "strip",
+    "strips",
     "sling",
     "sling shot",
+    "tassel",
     "tassels",
     "ornamental tassels",
 ]
@@ -59,52 +63,72 @@ WARI_TERMS = [
     "huari",
 ]
 
+# Tipo de objeto normalizado: (codigo, terminos). El orden es la prioridad y
+# reproduce la de la curacion MET v2 (familia del objeto antes que "fragmento").
+# "tapestry" va despues de bordes y bandas porque suele ser adjetivo de tecnica
+# ("Tapestry Border Fragment").
+TIPOS_OBJETO: list[tuple[str, list[str]]] = [
+    ("borla_textil", ["tassel", "tassels"]),
+    ("manto", ["mantle", "mantles", "manto"]),
+    ("tunica", ["tunic", "tunics", "shirt", "tabard", "tunica"]),
+    ("vestimenta_textil", ["dress", "garment"]),
+    ("bolso_textil", ["bag", "bags", "pouch", "bolso", "bolsa"]),
+    ("panel_textil", ["panel", "panels"]),
+    ("tocado", ["headdress"]),
+    ("mascara_textil", ["mask", "false face"]),
+    ("borde_textil", ["border", "borders"]),
+    ("honda_textil", ["sling", "sling shot"]),
+    ("vincha_textil", ["headband", "vincha"]),
+    ("faja", ["sash", "belt", "faja"]),
+    ("banda", ["band", "bands", "strip", "strips", "banda"]),
+    ("tapiz_textil", ["tapestry", "hanging", "tapiz"]),
+    ("tela",["cloth", "fabric", "fabrics"]),
+    ("fragmento_textil", ["fragment", "fragments", "fragmento"]),
+    ("objeto_textil", ["textile", "textiles", "textil"]),
+]
+
 
 def normalize_text(value: Any) -> str:
-    if value is None:
-        return ""
-
-    text = str(value).lower().strip()
-    text = unicodedata.normalize("NFD", text)
-    text = "".join(ch for ch in text if unicodedata.category(ch) != "Mn")
-    text = re.sub(r"\s+", " ", text)
-
-    return text
+    """Compatibilidad: ver src.utils.texto.normalizar_texto."""
+    return normalizar_texto(value)
 
 
 def contains_any(value: Any, terms: List[str]) -> List[str]:
-    text = normalize_text(value)
-    hits = []
+    return buscar_terminos(value, terms)
 
-    for term in terms:
-        term_norm = normalize_text(term)
-        if term_norm in text:
-            hits.append(term)
 
-    return hits
+def nucleo_titulo(titulo: Any) -> str:
+    """Parte del titulo que nombra al objeto: "Tunic with Diamond Band" -> "tunic"."""
+    return re.split(r"\b(?:with|depicting|showing)\b", normalizar_texto(titulo), maxsplit=1)[0]
 
 
 def build_combined_text(row: Dict[str, Any]) -> str:
-    fields = [
-        row.get("titulo_original", ""),
-        row.get("titulo_es_sugerido", ""),
-        row.get("nombre_objeto_original", ""),
-        row.get("material_original", ""),
-        row.get("clasificacion_original", ""),
-        row.get("cultura", ""),
-        row.get("periodo", ""),
-        row.get("pais", ""),
-        row.get("region", ""),
-        row.get("subregion", ""),
-        row.get("etiquetas_originales", ""),
-    ]
+    return unir_textos(
+        row.get("titulo_original"),
+        row.get("titulo_es_sugerido"),
+        row.get("nombre_objeto_original"),
+        row.get("material_original"),
+        row.get("clasificacion_original"),
+        row.get("cultura"),
+        row.get("periodo"),
+        row.get("pais"),
+        row.get("region"),
+        row.get("subregion"),
+        row.get("etiquetas_originales"),
+    )
 
-    return " ".join(str(field) for field in fields if field)
+
+def build_object_text(row: Dict[str, Any]) -> str:
+    """Texto que nombra al objeto, sin material ni contexto cultural."""
+    return unir_textos(
+        nucleo_titulo(row.get("titulo_original")),
+        row.get("titulo_es_sugerido"),
+        row.get("nombre_objeto_original"),
+    )
 
 
 def is_wari_related(row: Dict[str, Any]) -> bool:
-    combined = build_combined_text(row)
-    return bool(contains_any(combined, WARI_TERMS))
+    return bool(contains_any(build_combined_text(row), WARI_TERMS))
 
 
 def classify_surface_type(row: Dict[str, Any]) -> Dict[str, Any]:
@@ -115,14 +139,16 @@ def classify_surface_type(row: Dict[str, Any]) -> Dict[str, Any]:
     - Se priorizan objetos con superficie amplia o composición visible.
     - Se excluyen formatos estrechos o longitudinales.
     - Se conserva como excepción el sombrero Wari/Huari cuando muestra potencial iconográfico.
-    """
-    combined = build_combined_text(row)
 
-    narrow_hits = contains_any(combined, NARROW_OBJECT_TERMS)
-    border_hits = contains_any(combined, BORDER_TERMS)
-    surface_hits = contains_any(combined, SURFACE_OBJECT_TERMS)
-    fragment_hits = contains_any(combined, FRAGMENT_TERMS)
-    hat_hits = contains_any(combined, HAT_TERMS)
+    Los formatos estrechos, bordes y sombreros se buscan solo en el texto que
+    nombra al objeto, para que "Tunic with Diamond Band" no se tome por una banda.
+    """
+    objeto = build_object_text(row)
+    narrow_hits = contains_any(objeto, NARROW_OBJECT_TERMS)
+    border_hits = contains_any(objeto, BORDER_TERMS)
+    hat_hits = contains_any(objeto, HAT_TERMS)
+    surface_hits = contains_any(build_combined_text(row), SURFACE_OBJECT_TERMS)
+    fragment_hits = contains_any(objeto, FRAGMENT_TERMS)
     wari_related = is_wari_related(row)
 
     # 1. Excepción: sombreros Wari/Huari con potencial iconográfico.
@@ -181,37 +207,13 @@ def classify_surface_type(row: Dict[str, Any]) -> Dict[str, Any]:
 
 
 def normalize_object_type(row: Dict[str, Any]) -> str:
-    text = normalize_text(build_combined_text(row))
+    objeto = build_object_text(row)
 
-    if ("hat" in text or "cap" in text) and ("wari" in text or "huari" in text):
-        return "sombrero_wari_iconografico"
-    if "hat" in text or "cap" in text:
-        return "sombrero_o_gorro"
-    if "mantle" in text or "manto" in text:
-        return "manto"
-    if "tunic" in text or "shirt" in text or "tunica" in text or "túnica" in text:
-        return "tunica"
-    if "dress" in text:
-        return "vestimenta_textil"
-    if "bag" in text or "pouch" in text or "bolso" in text:
-        return "bolso_textil"
-    if "panel" in text:
-        return "panel_textil"
-    if "tapestry" in text or "tapiz" in text:
-        return "tapiz_textil"
-    if "border" in text:
-        return "borde_textil"
-    if "sling" in text:
-        return "honda_textil"
-    if "headband" in text:
-        return "vincha_textil"
-    if "sash" in text or "belt" in text:
-        return "faja"
-    if "band" in text:
-        return "banda"
-    if "fragment" in text or "fragmento" in text:
-        return "fragmento_textil"
-    if "textile" in text or "textil" in text:
-        return "objeto_textil"
+    if contains_any(objeto, HAT_TERMS):
+        return "sombrero_wari_iconografico" if is_wari_related(row) else "sombrero_o_gorro"
+
+    for codigo, terminos in TIPOS_OBJETO:
+        if contains_any(objeto, terminos):
+            return codigo
 
     return "tipo_no_determinado"
