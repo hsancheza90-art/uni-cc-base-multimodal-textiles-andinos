@@ -26,8 +26,6 @@ from pathlib import Path
 
 import requests
 from PIL import Image
-from requests.adapters import HTTPAdapter
-from urllib3.util.retry import Retry
 
 from src.consolidado.construir_consolidado import (
     COLUMNAS_MANIFIESTO,
@@ -37,28 +35,11 @@ from src.consolidado.construir_consolidado import (
     indexar,
     leer_csv,
 )
+from src.utils.http import crear_sesion
 
-USER_AGENT = (
-    "uni-cc-base-multimodal-textiles-andinos/2.0 "
-    "(investigacion academica; https://github.com/hsancheza90-art/uni-cc-base-multimodal-textiles-andinos)"
-)
 EXTENSIONES = {"JPEG": "jpg", "PNG": "png", "GIF": "gif", "WEBP": "webp", "TIFF": "tif"}
 TAMANO_MAXIMO = 50 * 1024 * 1024
 CAMPOS_DESCRIPTIVOS = ("formato", "imagen_ancho", "imagen_alto", "imagen_dhash", "imagen_sha256_pixeles")
-
-
-def crear_sesion() -> requests.Session:
-    reintentos = Retry(
-        total=5,
-        backoff_factor=1.0,
-        status_forcelist=(408, 429, 500, 502, 503, 504),
-        allowed_methods=("GET",),
-        respect_retry_after_header=True,
-    )
-    sesion = requests.Session()
-    sesion.headers["User-Agent"] = USER_AGENT
-    sesion.mount("https://", HTTPAdapter(max_retries=reintentos))
-    return sesion
 
 
 def dhash(imagen: Image.Image) -> str:

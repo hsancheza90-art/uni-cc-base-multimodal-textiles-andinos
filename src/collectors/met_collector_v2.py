@@ -1,15 +1,23 @@
+"""Recolecta candidatos textiles andinos desde la API publica del MET.
+
+Cada objeto descargado se guarda en data/raw/met/objetos/<id>.json (fuera de git);
+una corrida interrumpida se reanuda sin volver a pedir los objetos ya guardados.
+"""
+
 from __future__ import annotations
 
 import argparse
 import csv
 import json
+import os
 import time
 from pathlib import Path
 from typing import Any
-from urllib.error import HTTPError, URLError
-from urllib.parse import urlencode
-from urllib.request import Request, urlopen
 
+import requests
+
+from src.utils.http import crear_sesion
+from src.utils.texto import buscar_terminos
 
 API_BUSQUEDA = "https://collectionapi.metmuseum.org/public/collection/v1/search"
 API_OBJETO = "https://collectionapi.metmuseum.org/public/collection/v1/objects/{object_id}"
@@ -75,14 +83,18 @@ COLUMNAS = [
 ]
 
 
-def pedir_json(url: str, timeout: int = 30) -> dict[str, Any]:
-    solicitud = Request(url, headers={"User-Agent": "uni-cc-textiles-andinos/0.2"})
-    with urlopen(solicitud, timeout=timeout) as respuesta:
-        return json.loads(respuesta.read().decode("utf-8"))
+ERRORES_RED = (requests.RequestException, json.JSONDecodeError, ValueError)
 
 
-def construir_url(base: str, parametros: dict[str, Any]) -> str:
-    return f"{base}?{urlencode(parametros)}"
+def pedir_json(
+    sesion: requests.Session,
+    url: str,
+    parametros: dict[str, Any] | None = None,
+    timeout: int = 30,
+) -> dict[str, Any]:
+    respuesta = sesion.get(url, params=parametros, timeout=timeout)
+    respuesta.raise_for_status()
+    return respuesta.json()
 
 
 def texto(valor: Any) -> str:
@@ -122,7 +134,7 @@ def texto_busqueda(registro: dict[str, Any]) -> str:
 
 
 def detectar_terminos(texto_total: str, terminos: set[str]) -> list[str]:
-    return sorted(termino for termino in terminos if termino in texto_total)
+    return sorted(set(buscar_terminos(texto_total, sorted(terminos))))
 
 
 def normalizar_registro(
@@ -176,16 +188,20 @@ def normalizar_registro(
     }
 
 
-def buscar_ids(consultas: list[str], pausa: float, timeout: int) -> tuple[dict[int, list[str]], list[str]]:
+def buscar_ids(
+    sesion: requests.Session,
+    consultas: list[str],
+    pausa: float,
+    timeout: int,
+) -> tuple[dict[int, list[str]], list[str]]:
     mapa: dict[int, list[str]] = {}
     errores: list[str] = []
 
     for consulta in consultas:
-        url = construir_url(API_BUSQUEDA, {"q": consulta, "hasImages": "true"})
         try:
-            datos = pedir_json(url, timeout=timeout)
+            datos = pedir_json(sesion, API_BUSQUEDA, {"q": consulta, "hasImages": "true"}, timeout=timeout)
             ids = datos.get("objectIDs") or []
-        except (HTTPError, URLError, TimeoutError, json.JSONDecodeError) as exc:
+        except ERRORES_RED as exc:
             errores.append(f"{consulta}: {exc}")
             continue
 
@@ -198,19 +214,31 @@ def buscar_ids(consultas: list[str], pausa: float, timeout: int) -> tuple[dict[i
 
 
 def descargar_objetos(
+    sesion: requests.Session,
     ids_por_consulta: dict[int, list[str]],
     pausa: float,
     timeout: int,
+    cache: Path | None = None,
 ) -> tuple[dict[int, dict[str, Any]], list[str]]:
+    """Descarga cada objeto; si existe en la cache, lo lee del disco sin pedirlo a la API."""
     registros: dict[int, dict[str, Any]] = {}
     errores: list[str] = []
 
     for object_id in sorted(ids_por_consulta):
-        url = API_OBJETO.format(object_id=object_id)
+        ruta_cache = cache / f"{object_id}.json" if cache else None
+        if ruta_cache and ruta_cache.exists():
+            registros[object_id] = json.loads(ruta_cache.read_text(encoding="utf-8"))
+            continue
         try:
-            registros[object_id] = pedir_json(url, timeout=timeout)
-        except (HTTPError, URLError, TimeoutError, json.JSONDecodeError) as exc:
+            registros[object_id] = pedir_json(sesion, API_OBJETO.format(object_id=object_id), timeout=timeout)
+        except ERRORES_RED as exc:
             errores.append(f"{object_id}: {exc}")
+        else:
+            if ruta_cache:
+                ruta_cache.parent.mkdir(parents=True, exist_ok=True)
+                temporal = ruta_cache.with_suffix(".part")
+                temporal.write_text(json.dumps(registros[object_id], ensure_ascii=False, sort_keys=True), encoding="utf-8")
+                os.replace(temporal, ruta_cache)
         time.sleep(pausa)
 
     return registros, errores
@@ -226,7 +254,7 @@ def escribir_jsonl(ruta: Path, registros: dict[int, dict[str, Any]]) -> None:
 def escribir_csv(ruta: Path, filas: list[dict[str, str]]) -> None:
     ruta.parent.mkdir(parents=True, exist_ok=True)
     with ruta.open("w", newline="", encoding="utf-8") as archivo:
-        escritor = csv.DictWriter(archivo, fieldnames=COLUMNAS)
+        escritor = csv.DictWriter(archivo, fieldnames=COLUMNAS, lineterminator="\n")
         escritor.writeheader()
         escritor.writerows(filas)
 
@@ -267,10 +295,10 @@ def escribir_reporte(ruta: Path, filas: list[dict[str, str]], errores: list[str]
         lineas.extend(["", "## Errores registrados", ""])
         lineas.extend(f"- {error}" for error in errores[:100])
 
-    ruta.write_text("\n".join(lineas) + "\n", encoding="utf-8")
+    ruta.write_bytes(("\n".join(lineas) + "\n").encode("utf-8"))
 
 
-def parse_args() -> argparse.Namespace:
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Recolecta y normaliza candidatos textiles andinos desde la API publica del MET."
     )
@@ -278,24 +306,28 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--query", action="append", dest="consultas", help="Consulta adicional o alternativa.")
     parser.add_argument("--sleep", type=float, default=0.15, help="Pausa entre solicitudes.")
     parser.add_argument("--timeout", type=int, default=30, help="Timeout HTTP en segundos.")
-    return parser.parse_args()
+    return parser.parse_args(argv)
 
 
-def main() -> int:
-    args = parse_args()
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
     raiz = Path(args.root).resolve()
     consultas = args.consultas or CONSULTAS_DEFAULT
+    sesion = crear_sesion()
 
     ids_por_consulta, errores_busqueda = buscar_ids(
+        sesion,
         consultas=consultas,
         pausa=args.sleep,
         timeout=args.timeout,
     )
 
     registros, errores_objetos = descargar_objetos(
+        sesion,
         ids_por_consulta=ids_por_consulta,
         pausa=args.sleep,
         timeout=args.timeout,
+        cache=raiz / "data/raw/met/objetos",
     )
 
     filas = [
@@ -317,7 +349,10 @@ def main() -> int:
     print(f"JSONL crudo: {ruta_jsonl}")
     print(f"Reporte: {ruta_reporte}")
 
-    return 0
+    errores = errores_busqueda + errores_objetos
+    if errores:
+        print(f"Errores registrados: {len(errores)} (ver reporte)")
+    return 1 if errores else 0
 
 
 if __name__ == "__main__":

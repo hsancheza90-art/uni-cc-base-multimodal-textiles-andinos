@@ -1,18 +1,28 @@
+"""Recolecta candidatos textiles andinos desde la API Open Access del Cleveland Museum of Art.
+
+Por defecto escribe en data/raw/cma/ (fuera de git). La lista curada
+data/metadata/cma_andes_textiles_candidates.csv es insumo del corpus y solo se
+reemplaza con --salida apuntando a ella y --forzar.
+"""
+
 from __future__ import annotations
 
 import argparse
 import csv
 import json
 import time
-import re
-
 from collections import defaultdict
 from pathlib import Path
 
 import requests
 
+from src.utils.http import crear_sesion
+from src.utils.texto import buscar_terminos
 
 API_URL = "https://openaccess-api.clevelandart.org/api/artworks/"
+INSUMO_CURADO = Path("data/metadata/cma_andes_textiles_candidates.csv")
+REPORTE_INSUMO = Path("outputs/reports/cma_collection_summary.md")
+SALIDA_DEFECTO = Path("data/raw/cma/cma_andes_textiles_candidates.csv")
 
 DEFAULT_QUERIES = [
     "Andes textile",
@@ -111,14 +121,7 @@ def searchable_text(record: dict) -> str:
 
 
 def find_terms(text: str, terms: list[str]) -> str:
-    hits = []
-
-    for term in terms:
-        pattern = r"\b" + re.escape(term) + r"\b"
-        if re.search(pattern, text, flags=re.IGNORECASE):
-            hits.append(term)
-
-    return "; ".join(sorted(set(hits)))
+    return "; ".join(sorted(set(buscar_terminos(text, terms))))
 
 
 def normalize_record(record: dict, queries: list[str]) -> dict:
@@ -165,38 +168,49 @@ def normalize_record(record: dict, queries: list[str]) -> dict:
     }
 
 
-def fetch_cma_records(queries: list[str], limit_per_query: int, sleep_seconds: float) -> tuple[dict, dict]:
+def fetch_cma_records(
+    queries: list[str],
+    limit_per_query: int,
+    sleep_seconds: float,
+    session: requests.Session | None = None,
+    max_per_query: int = 1000,
+) -> tuple[dict, dict, list[str]]:
+    """Pagina cada consulta hasta agotar `info.total` (o `max_per_query`) y avisa si queda truncada."""
+    session = session or crear_sesion()
     records = {}
     query_map = defaultdict(list)
-
-    headers = {
-        "Accept": "application/json",
-        "User-Agent": "uni-cc-textiles-andinos-corpus/0.1",
-    }
+    warnings: list[str] = []
 
     for query in queries:
-        params = {
-            "q": query,
-            "has_image": 1,
-            "limit": limit_per_query,
-            "skip": 0,
-        }
+        skip = 0
+        total = None
+        while True:
+            params = {"q": query, "has_image": 1, "limit": limit_per_query, "skip": skip}
+            response = session.get(API_URL, params=params, timeout=30)
+            response.raise_for_status()
+            payload = response.json()
 
-        response = requests.get(API_URL, params=params, headers=headers, timeout=30)
-        response.raise_for_status()
+            page = payload.get("data", [])
+            total = (payload.get("info") or {}).get("total", total)
+            for record in page:
+                source_id = clean_text(record.get("id"))
+                if not source_id:
+                    continue
+                records[source_id] = record
+                query_map[source_id].append(query)
 
-        payload = response.json()
-        for record in payload.get("data", []):
-            source_id = clean_text(record.get("id"))
-            if not source_id:
-                continue
+            skip += len(page)
+            time.sleep(sleep_seconds)
+            if not page or len(page) < limit_per_query or (total is not None and skip >= total):
+                break
+            if skip >= max_per_query:
+                warnings.append(f"{query}: truncada en {skip} de {total} resultados (max_per_query={max_per_query})")
+                break
 
-            records[source_id] = record
-            query_map[source_id].append(query)
+        if total is not None and skip < total and not any(w.startswith(f"{query}:") for w in warnings):
+            warnings.append(f"{query}: la API anuncio {total} resultados y entrego {skip}")
 
-        time.sleep(sleep_seconds)
-
-    return records, query_map
+    return records, query_map, warnings
 
 
 def write_jsonl(path: Path, records: dict) -> None:
@@ -209,12 +223,12 @@ def write_jsonl(path: Path, records: dict) -> None:
 def write_csv(path: Path, rows: list[dict]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as file:
-        writer = csv.DictWriter(file, fieldnames=OUTPUT_COLUMNS)
+        writer = csv.DictWriter(file, fieldnames=OUTPUT_COLUMNS, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
 
 
-def write_report(path: Path, rows: list[dict]) -> None:
+def write_report(path: Path, rows: list[dict], warnings: list[str] | None = None) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
 
     total = len(rows)
@@ -237,27 +251,46 @@ def write_report(path: Path, rows: list[dict]) -> None:
     for status, count in sorted(statuses.items()):
         lines.append(f"- {status}: {count}")
 
-    path.write_text("\n".join(lines) + "\n", encoding="utf-8")
+    if warnings:
+        lines.extend(["", "## Avisos de paginacion", ""])
+        lines.extend(f"- {warning}" for warning in warnings)
+
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_bytes(("\n".join(lines) + "\n").encode("utf-8"))
 
 
-def parse_args():
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Recolecta candidatos textiles andinos desde CMA.")
     parser.add_argument("--root", default=".", help="Raiz del repositorio.")
     parser.add_argument("--query", action="append", dest="queries", help="Consulta especifica.")
-    parser.add_argument("--limit-per-query", type=int, default=100)
+    parser.add_argument("--limit-per-query", type=int, default=100, help="Resultados por pagina.")
+    parser.add_argument("--max-per-query", type=int, default=1000, help="Tope de resultados por consulta.")
     parser.add_argument("--sleep", type=float, default=0.25)
-    return parser.parse_args()
+    parser.add_argument("--salida", default=str(SALIDA_DEFECTO), help="CSV de salida, relativo a la raiz.")
+    parser.add_argument(
+        "--forzar",
+        action="store_true",
+        help=f"Permite reemplazar el insumo curado {INSUMO_CURADO.as_posix()}.",
+    )
+    return parser.parse_args(argv)
 
 
-def main() -> int:
-    args = parse_args()
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
     root = Path(args.root).resolve()
     queries = args.queries or DEFAULT_QUERIES
 
-    records, query_map = fetch_cma_records(
+    salida = Path(args.salida)
+    es_insumo = salida.as_posix() == INSUMO_CURADO.as_posix()
+    if es_insumo and (root / salida).exists() and not args.forzar:
+        print(f"{salida.as_posix()} es insumo curado del corpus y no se sobrescribio. Use --forzar si es intencional.")
+        return 1
+
+    records, query_map, warnings = fetch_cma_records(
         queries=queries,
         limit_per_query=args.limit_per_query,
         sleep_seconds=args.sleep,
+        max_per_query=args.max_per_query,
     )
 
     rows = [
@@ -266,14 +299,16 @@ def main() -> int:
     ]
 
     raw_path = root / "data/raw/cma/cma_andes_textiles_raw.jsonl"
-    csv_path = root / "data/metadata/cma_andes_textiles_candidates.csv"
-    report_path = root / "outputs/reports/cma_collection_summary.md"
+    csv_path = root / salida
+    report_path = root / (REPORTE_INSUMO if es_insumo else salida.with_name(salida.stem + "_resumen.md"))
 
     write_jsonl(raw_path, records)
     write_csv(csv_path, rows)
-    write_report(report_path, rows)
+    write_report(report_path, rows, warnings)
 
     print(f"Registros unicos CMA: {len(records)}")
+    for warning in warnings:
+        print(f"Aviso: {warning}")
     print(f"CSV normalizado: {csv_path}")
     print(f"JSONL crudo: {raw_path}")
     print(f"Reporte: {report_path}")
