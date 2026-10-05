@@ -116,7 +116,7 @@ def escribir_csv(path: Path, filas: list[dict[str, str]]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
 
     with path.open("w", newline="", encoding="utf-8") as archivo:
-        writer = csv.DictWriter(archivo, fieldnames=COLUMNAS_SALIDA)
+        writer = csv.DictWriter(archivo, fieldnames=COLUMNAS_SALIDA, lineterminator="\n")
         writer.writeheader()
         writer.writerows(filas)
 
@@ -229,14 +229,14 @@ def aplicar_revision(root: Path) -> int:
     return 1 if problemas else 0
 
 
-def parse_args() -> argparse.Namespace:
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Aplica la revision manual MET v2 desde Excel.")
     parser.add_argument("--root", default=".", help="Raiz del repositorio.")
-    return parser.parse_args()
+    return parser.parse_args(argv)
 
 
-def main() -> int:
-    args = parse_args()
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
     return aplicar_revision(Path(args.root).resolve())
 
 

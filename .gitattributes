@@ -1,0 +1,9 @@
+# Finales de linea LF en todos los archivos de texto, en cualquier sistema operativo.
+# Asi los CSV generados por el flujo son identicos byte a byte en Windows y Linux.
+* text=auto eol=lf
+
+*.xlsx binary
+*.pdf binary
+*.jpg binary
+*.jpeg binary
+*.png binary

@@ -1,0 +1,21 @@
+[project]
+name = "uni-cc-base-multimodal-textiles-andinos"
+version = "2.0.0"
+description = "Corpus multimodal curado de textiles andinos (The Met + Cleveland Museum of Art)."
+readme = "README.md"
+requires-python = ">=3.11"
+authors = [{ name = "Henry Sánchez", email = "hsancheza90@gmail.com" }]
+dependencies = [
+    "pandas>=2.2",
+    "openpyxl>=3.1",
+    "requests>=2.31",
+    "tqdm>=4.66",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+addopts = "-q"

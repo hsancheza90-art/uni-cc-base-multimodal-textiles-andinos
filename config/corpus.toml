@@ -1,0 +1,26 @@
+# Conteos esperados del corpus por fuente y etapa.
+# El flujo (python -m src.flujo) falla si alguna salida no coincide.
+
+[met.base]
+descripcion = "Salidas MET v2 construidas desde el corpus MET v1"
+principal = { ruta = "data/metadata/met_corpus_principal_v2.csv", filas = 132 }
+secundario = { ruta = "data/metadata/met_corpus_secundario_v2.csv", filas = 50 }
+descartados = { ruta = "data/metadata/met_descartados_v2.csv", filas = 29 }
+
+[met.revisado]
+descripcion = "Salidas MET v2 tras aplicar data/metadata/met_revision_manual_v2.xlsx"
+principal = { ruta = "data/metadata/met_corpus_principal_v2_revisado.csv", filas = 127 }
+secundario = { ruta = "data/metadata/met_corpus_secundario_v2_revisado.csv", filas = 54 }
+descartados = { ruta = "data/metadata/met_descartados_v2_revisado.csv", filas = 30 }
+pendientes = { ruta = "data/metadata/met_pendientes_revision_v2.csv", filas = 0 }
+
+[cma.candidatos]
+descripcion = "Candidatos CMA normalizados"
+candidatos = { ruta = "data/metadata/cma_andes_textiles_candidates.csv", filas = 146 }
+
+[cma.revisado]
+descripcion = "Salidas CMA v2 tras aplicar data/metadata/cma_revision_manual_v2.xlsx"
+principal = { ruta = "data/metadata/cma_corpus_principal_revisado.csv", filas = 88 }
+secundario = { ruta = "data/metadata/cma_corpus_secundario_revisado.csv", filas = 19 }
+descartados = { ruta = "data/metadata/cma_descartados_revisado.csv", filas = 39 }
+pendientes = { ruta = "data/metadata/cma_pendientes_revision_v2.csv", filas = 0 }

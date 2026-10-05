@@ -1,10 +1,7 @@
-requests
-pandas
-numpy
-matplotlib
-Pillow
-tqdm
-jupyter
-ipykernel
-python-dotenv
-openpyxl
+# Versiones exactas con las que se verifico el flujo (Python 3.14).
+# Los rangos minimos compatibles estan en pyproject.toml.
+pandas==3.0.6
+numpy==2.5.3
+openpyxl==3.1.5
+requests==2.34.2
+tqdm==4.70.1

@@ -133,7 +133,7 @@ def summarize_csv(path: Path) -> list[str]:
     return lines
 
 
-def parse_args() -> argparse.Namespace:
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Audita el CSV normalizado de Cleveland Museum of Art."
     )
@@ -143,11 +143,11 @@ def parse_args() -> argparse.Namespace:
         default="data/metadata/cma_andes_textiles_candidates.csv",
         help="Ruta relativa del CSV CMA normalizado.",
     )
-    return parser.parse_args()
+    return parser.parse_args(argv)
 
 
-def main() -> int:
-    args = parse_args()
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
     root = Path(args.root).resolve()
     csv_path = root / args.csv
 

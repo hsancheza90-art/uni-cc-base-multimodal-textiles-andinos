@@ -134,14 +134,14 @@ def escribir_reporte(ruta: Path, problemas: list[str]) -> None:
     ruta.write_text("\n".join(lineas) + "\n", encoding="utf-8")
 
 
-def parse_args() -> argparse.Namespace:
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Audita las salidas curatoriales MET v2.")
     parser.add_argument("--root", default=".", help="Raiz del repositorio.")
-    return parser.parse_args()
+    return parser.parse_args(argv)
 
 
-def main() -> int:
-    args = parse_args()
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
     raiz = Path(args.root).resolve()
 
     problemas: list[str] = []

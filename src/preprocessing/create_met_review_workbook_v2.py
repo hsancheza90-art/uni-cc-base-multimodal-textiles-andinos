@@ -257,15 +257,26 @@ def crear_hoja_resumen(wb: Workbook, filas: list[dict[str, str]]) -> None:
     ws.column_dimensions["B"].width = 18
 
 
-def parse_args() -> argparse.Namespace:
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Crea el workbook maestro de revision manual MET v2.")
     parser.add_argument("--root", default=".", help="Raiz del repositorio.")
-    return parser.parse_args()
+    parser.add_argument(
+        "--forzar",
+        action="store_true",
+        help="Sobrescribe el workbook existente y pierde las decisiones manuales registradas.",
+    )
+    return parser.parse_args(argv)
 
 
-def main() -> int:
-    args = parse_args()
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
     raiz = Path(args.root).resolve()
+
+    salida = raiz / "data/metadata/met_revision_manual_v2.xlsx"
+    if salida.exists() and not args.forzar:
+        print(f"El workbook ya existe y contiene decisiones manuales: {salida}")
+        print("No se sobrescribio. Use --forzar solo si quiere regenerarlo desde cero.")
+        return 1
 
     filas = construir_filas(raiz)
 
@@ -276,7 +287,6 @@ def main() -> int:
     crear_hoja_revision(wb, filas)
     crear_hoja_listas(wb)
 
-    salida = raiz / "data/metadata/met_revision_manual_v2.xlsx"
     salida.parent.mkdir(parents=True, exist_ok=True)
     wb.save(salida)
 

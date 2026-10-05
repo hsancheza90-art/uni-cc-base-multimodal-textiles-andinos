@@ -42,7 +42,37 @@ En CMA, 138 registros se revisaron manualmente y 8 se descartaron automáticamen
 
 Las salidas base se conservan como respaldo auditado y como punto de comparación frente a la revisión manual.
 
-## Flujo reproducible MET v2
+## Instalación
+
+```bash
+python -m venv .venv
+.venv\Scripts\activate        # Windows (en Linux/macOS: source .venv/bin/activate)
+pip install -r requirements-dev.txt
+```
+
+`requirements.txt` fija las versiones exactas con las que se verificó el flujo; `pyproject.toml` declara los rangos compatibles (Python 3.11 o superior).
+
+## Regenerar y verificar el corpus
+
+Desde la raíz del repositorio:
+
+```bash
+python -m src.flujo
+```
+
+El comando ejecuta sin acceso a red los pasos de MET v2 y CMA v2 (construcción, revisión manual y auditoría) a partir de los insumos versionados, y comprueba los conteos esperados de `config/corpus.toml`. Termina con código distinto de cero si algún paso o conteo falla.
+
+Para verificar que el flujo reproduce exactamente los archivos versionados:
+
+```bash
+pytest
+```
+
+Las pruebas regeneran el corpus en una carpeta temporal que solo contiene los insumos y comparan cada salida con la versión del repositorio.
+
+Los workbooks de revisión manual (`data/metadata/*_revision_manual_v2.xlsx`) son insumos: contienen decisiones humanas. Sus generadores no los sobrescriben salvo con `--forzar`.
+
+## Flujo reproducible MET v2 (pasos individuales)
 
 ```bash
 # 1. Construir salidas curatoriales base desde el corpus MET v1
@@ -61,7 +91,7 @@ python src/metadata/apply_met_review_v2.py --root .
 python src/review/build_met_gallery_v2.py --root . --revisado
 ```
 
-## Flujo reproducible CMA v2
+## Flujo reproducible CMA v2 (pasos individuales)
 
 ```bash
 # 1. Crear o actualizar el workbook maestro (data/metadata/cma_revision_manual_v2.xlsx)
@@ -96,9 +126,11 @@ Cada registro debe conservar:
 
 | Carpeta | Uso |
 |---|---|
+| `config/corpus.toml` | Conteos esperados por fuente y etapa |
 | `data/raw/` | Respuestas originales de las fuentes; la generan los colectores y no se versiona |
 | `data/processed/` | Corpus MET v1 (entrada del flujo MET v2) |
 | `data/metadata/` | Salidas normalizadas, workbooks de revisión y corpus curado MET v2 y CMA v2 |
+| `data/historico/met_v1/` | Decisiones de la auditoría manual que formaron el corpus MET v1 (97 + 35 + 29) |
 | `docs/` | Documentación académica, metodológica y ética |
 | `outputs/reports/` | Reportes de curación, auditoría y validación |
 | `outputs/review/` | Galerías HTML de revisión visual |
@@ -106,7 +138,9 @@ Cada registro debe conservar:
 | `src/metadata/` | Construcción, auditoría y aplicación de revisiones |
 | `src/preprocessing/` | Workbooks de revisión, filtros y preparación de datos |
 | `src/review/` | Generación de galerías visuales |
-| `src/archive/` | Scripts preliminares de MET v1, conservados por trazabilidad |
+| `src/flujo.py` | Punto de entrada único del flujo reproducible |
+| `src/archive/` | Scripts preliminares y de anotación de MET v1, conservados por trazabilidad |
+| `tests/` | Pruebas de reproducibilidad |
 
 ## Documentación principal
 
@@ -118,14 +152,6 @@ Cada registro debe conservar:
 | `docs/data_sources.md` | Registro general de fuentes consideradas |
 | `docs/met_v1/` | Documentación histórica del corpus MET v1 (ficha, protocolo, trazabilidad, uso ético, taxonomía y guía de anotación) |
 | `docs/MCC701_05-07-2026.pdf` | Primer avance de tesis |
-
-## Instalación
-
-```bash
-python -m venv .venv
-.venv\Scripts\activate        # Windows
-pip install -r requirements.txt
-```
 
 ## Uso previsto
 

@@ -123,10 +123,11 @@ def exportar(df: pd.DataFrame, root: Path) -> None:
     descartados = rows[rows["subconjunto_corpus"] == "descartados"]
     pendientes = rows[~rows["subconjunto_corpus"].isin(["principal", "secundario", "descartados"])]
 
-    principal.to_csv(output_dir / "cma_corpus_principal_revisado.csv", index=False, encoding="utf-8-sig")
-    secundario.to_csv(output_dir / "cma_corpus_secundario_revisado.csv", index=False, encoding="utf-8-sig")
-    descartados.to_csv(output_dir / "cma_descartados_revisado.csv", index=False, encoding="utf-8-sig")
-    pendientes.to_csv(output_dir / "cma_pendientes_revision_v2.csv", index=False, encoding="utf-8-sig")
+    opciones_csv = {"index": False, "encoding": "utf-8-sig", "lineterminator": "\n"}
+    principal.to_csv(output_dir / "cma_corpus_principal_revisado.csv", **opciones_csv)
+    secundario.to_csv(output_dir / "cma_corpus_secundario_revisado.csv", **opciones_csv)
+    descartados.to_csv(output_dir / "cma_descartados_revisado.csv", **opciones_csv)
+    pendientes.to_csv(output_dir / "cma_pendientes_revision_v2.csv", **opciones_csv)
 
     movimientos = df[df["corpus_actual"] != df["corpus_final"]]
 
@@ -161,7 +162,7 @@ def exportar(df: pd.DataFrame, root: Path) -> None:
     )
 
 
-def parse_args() -> argparse.Namespace:
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Aplica workbook maestro de revision manual CMA v2.")
     parser.add_argument("--root", default=".", help="Raiz del repositorio.")
     parser.add_argument(
@@ -169,11 +170,11 @@ def parse_args() -> argparse.Namespace:
         default="data/metadata/cma_revision_manual_v2.xlsx",
         help="Workbook CMA v2.",
     )
-    return parser.parse_args()
+    return parser.parse_args(argv)
 
 
-def main() -> int:
-    args = parse_args()
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
     root = Path(args.root).resolve()
     xlsx_path = root / args.xlsx
 
