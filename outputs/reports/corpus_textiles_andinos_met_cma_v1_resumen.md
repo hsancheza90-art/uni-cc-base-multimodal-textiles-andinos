@@ -33,11 +33,15 @@ Resumen generado por `python -m src.flujo` (`src/consolidado/construir_consolida
 | `departamento` | 181/181 | 107/107 |
 | `clasificacion_original` | 181/181 | 107/107 |
 | `nombre_objeto_original` | 181/181 | 107/107 |
-| `tipo_objeto` | 49/181 | 0/107 |
+| `tipo_objeto` | 181/181 | 105/107 |
+| `origen_tipo_objeto` | 181/181 | 105/107 |
 | `tipo_superficie` | 49/181 | 0/107 |
 | `material` | 181/181 | 0/107 |
-| `material_normalizado` | 49/181 | 0/107 |
-| `tecnica` | 45/181 | 107/107 |
+| `material_normalizado` | 181/181 | 106/107 |
+| `origen_material_normalizado` | 181/181 | 106/107 |
+| `tecnica` | 0/181 | 107/107 |
+| `tecnica_normalizada` | 149/181 | 90/107 |
+| `origen_tecnica_normalizada` | 149/181 | 90/107 |
 | `dimensiones` | 181/181 | 0/107 |
 | `motivos` | 0/181 | 0/107 |
 | `familia_iconografica` | 0/181 | 0/107 |
@@ -71,8 +75,8 @@ Resumen generado por `python -m src.flujo` (`src/consolidado/construir_consolida
 
 | Valor | MET | CMA |
 |---|---:|---:|
-| completo | 45 | 0 |
-| parcial | 136 | 107 |
+| completo | 149 | 85 |
+| parcial | 32 | 22 |
 
 ## estado_imagen
 
@@ -90,7 +94,8 @@ Resumen generado por `python -m src.flujo` (`src/consolidado/construir_consolida
 
 Criterios:
 
-- `estado_metadatos`: `insuficiente` si falta titulo, url_objeto, url_imagen, cultura, fecha_objeto o (material o tecnica); `completo` si ademas tiene material, tecnica y tipo_objeto normalizado; `parcial` en otro caso.
+- `estado_metadatos`: `insuficiente` si falta titulo, url_objeto, url_imagen, cultura o fecha_objeto, o si no hay ningun dato de material o tecnica; `completo` si tiene material_normalizado, tecnica_normalizada y un tipo_objeto concreto (distinto de `objeto_textil`); `parcial` en otro caso.
+- Los campos `origen_*` indican si el valor normalizado viene de la curacion o de una regla automatica (`src/preprocessing/normalizacion.py`, `src/preprocessing/surface_filters.py`). Los valores por regla deben validarse en la anotacion manual.
 - Imagen compartida: registros con la misma `url_imagen`, el mismo archivo (SHA-256) o los mismos pixeles decodificados (`imagen_sha256_pixeles` del manifiesto).
 - `estado_imagen`: `no_disponible` si la descarga fallo; `baja_resolucion` si el lado mayor mide menos de 500 px; `util` en otro caso.
 

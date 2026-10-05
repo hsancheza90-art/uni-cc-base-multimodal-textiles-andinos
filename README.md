@@ -43,7 +43,9 @@ El consolidado usa MET v2 revisado. El avance de tesis reporta 289 porque sumaba
 
 - 287 imágenes descargadas y verificadas. MET:312615 no tiene imagen disponible en el museo (404) y pasó de principal a complementario (criterio 6.3.2), registrado en `data/metadata/met_revision_manual_v2.xlsx`.
 - 4 grupos de registros que comparten la misma fotografía (`grupo_imagen_duplicada`); se conservan y deben tratarse como un solo ítem en evaluaciones imagen-imagen.
+- `tipo_objeto`, `material_normalizado` y `tecnica_normalizada` usan el vocabulario del Cuadro 6.5. Cuando la curación no los definió, se completan con reglas (`src/preprocessing/normalizacion.py` y `surface_filters.py`) y la columna `origen_*` indica `curacion` o `regla`; los valores por regla deben validarse en la anotación manual.
 - Detalle de cobertura, estados y posibles duplicados visuales: `outputs/reports/corpus_textiles_andinos_met_cma_v1_resumen.md`.
+- Registros MET que el filtro textil actual decidiría distinto que el registrado: `outputs/reports/filtros_comparacion_met_inventario.md` (insumo para revisión curatorial; no modifica el corpus).
 - Esquema campo por campo: `docs/esquema_consolidado_met_cma_v1.md`.
 
 ## Salidas recomendadas para el corpus
@@ -102,6 +104,17 @@ pytest
 Las pruebas regeneran el corpus en una carpeta temporal que solo contiene los insumos y comparan cada salida con la versión del repositorio.
 
 Los workbooks de revisión manual (`data/metadata/*_revision_manual_v2.xlsx`) son insumos: contienen decisiones humanas. Sus generadores no los sobrescriben salvo con `--forzar`.
+
+### Recolección desde las APIs
+
+Los colectores usan una sesión HTTP común con reintentos y espera progresiva (`src/utils/http.py`) y coincidencia de términos por palabra completa (`src/utils/texto.py`):
+
+```bash
+python -m src.collectors.met_collector_v2   # caché por objeto en data/raw/met/objetos/, reanudable
+python -m src.collectors.cma_collector      # pagina cada consulta y avisa si queda truncada
+```
+
+El colector CMA escribe por defecto en `data/raw/cma/`. La lista curada `data/metadata/cma_andes_textiles_candidates.csv` es insumo del corpus y solo se reemplaza con `--salida data/metadata/cma_andes_textiles_candidates.csv --forzar`.
 
 ## Flujo reproducible MET v2 (pasos individuales)
 

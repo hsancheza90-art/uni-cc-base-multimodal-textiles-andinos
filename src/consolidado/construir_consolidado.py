@@ -30,7 +30,12 @@ from src.consolidado.esquema import (
     ESTADOS_METADATOS_VALIDOS,
     OBLIGATORIOS,
 )
+from src.preprocessing.normalizacion import normalizar_material, normalizar_tecnica
+from src.preprocessing.surface_filters import normalize_object_type, nucleo_titulo
 from src.utils.config import leer_config
+
+# Valores de reglas que no aportan un tipo de objeto concreto.
+TIPOS_SIN_DETERMINAR = {"tipo_no_determinado"}
 
 MET_REVISADOS = {
     "principal": "data/metadata/met_corpus_principal_v2_revisado.csv",
@@ -184,7 +189,9 @@ def registros_met(raiz: Path) -> list[dict[str, str]]:
                 "tipo_superficie": rev["tipo_superficie"],
                 "material": primero(rev["material"], inv["material_original"]),
                 "material_normalizado": rev["material_normalizado"],
-                "tecnica": primero(rev["tecnica"], previo.get("tecnica", "")),
+                # La API del MET no entrega tecnica; la de la curacion ya esta normalizada.
+                "tecnica": "",
+                "tecnica_normalizada": primero(rev["tecnica"], previo.get("tecnica", "")),
                 "dimensiones": inv["dimensiones"],
                 "decision_curacion_final": decision,
                 "motivo_curacion_final": rev["motivo_curacion"],
@@ -239,6 +246,7 @@ def registros_cma(raiz: Path) -> list[dict[str, str]]:
                 "material": cand["medium"],
                 "material_normalizado": "",
                 "tecnica": primero(rev["tecnica_original"], cand["technique"]),
+                "tecnica_normalizada": "",
                 "dimensiones": "",
                 "decision_curacion_final": decision,
                 "motivo_curacion_final": rev["motivo_auditoria"],
@@ -259,9 +267,39 @@ def registros_cma(raiz: Path) -> list[dict[str, str]]:
     return registros
 
 
+def normalizar_campos(fila: dict[str, str]) -> None:
+    """Completa por reglas los campos normalizados que la curacion dejo vacios y registra su origen."""
+    contexto = {
+        "titulo_original": fila["titulo_original"],
+        "titulo_es_sugerido": fila["titulo_es_sugerido"],
+        "nombre_objeto_original": fila["nombre_objeto_original"],
+        "clasificacion_original": fila["clasificacion_original"],
+        "material_original": fila["material"],
+        "cultura": fila["cultura"],
+    }
+    reglas = {
+        "tipo_objeto": lambda: normalize_object_type(contexto),
+        "material_normalizado": lambda: normalizar_material(fila["material"], fila["tecnica"]),
+        "tecnica_normalizada": lambda: normalizar_tecnica(
+            fila["tecnica"], fila["material"], fila["clasificacion_original"], nucleo_titulo(fila["titulo_original"])
+        ),
+    }
+    for campo, regla in reglas.items():
+        if fila[campo]:
+            fila[f"origen_{campo}"] = "curacion"
+            continue
+        valor = regla()
+        if valor in TIPOS_SIN_DETERMINAR:
+            valor = ""
+        fila[campo] = valor
+        fila[f"origen_{campo}"] = "regla" if valor else ""
+
+
 def construir_registros_base(raiz: Path) -> list[dict[str, str]]:
     """Registros armonizados sin informacion de imagen, ordenados por fuente e id."""
     registros = registros_met(raiz) + registros_cma(raiz)
+    for fila in registros:
+        normalizar_campos(fila)
     return sorted(registros, key=clave_orden)
 
 
@@ -269,14 +307,17 @@ def construir_registros_base(raiz: Path) -> list[dict[str, str]]:
 
 
 def estado_metadatos(fila: dict[str, str]) -> str:
-    """completo: contexto, materialidad y tipo normalizado; parcial: contexto y material o tecnica."""
+    """completo: contexto y material, tecnica y tipo normalizados; parcial: contexto y algun dato material."""
     if not (fila["titulo_original"] and fila["url_objeto"] and fila["url_imagen"]):
         return "insuficiente"
-    if not (fila["cultura"] and fila["fecha_objeto"] and primero(fila["material"], fila["tecnica"])):
+    if not (fila["cultura"] and fila["fecha_objeto"]):
         return "insuficiente"
-    if fila["material"] and fila["tecnica"] and fila["tipo_objeto"]:
+    tipo_concreto = fila["tipo_objeto"] not in {"", "objeto_textil"}
+    if fila["material_normalizado"] and fila["tecnica_normalizada"] and tipo_concreto:
         return "completo"
-    return "parcial"
+    if primero(fila["material"], fila["tecnica"], fila["material_normalizado"], fila["tecnica_normalizada"]):
+        return "parcial"
+    return "insuficiente"
 
 
 def estado_imagen(imagen: dict[str, str] | None, lado_minimo: int) -> str:
@@ -454,8 +495,12 @@ def lineas_reporte(
         "",
         "Criterios:",
         "",
-        "- `estado_metadatos`: `insuficiente` si falta titulo, url_objeto, url_imagen, cultura, fecha_objeto o "
-        "(material o tecnica); `completo` si ademas tiene material, tecnica y tipo_objeto normalizado; `parcial` en otro caso.",
+        "- `estado_metadatos`: `insuficiente` si falta titulo, url_objeto, url_imagen, cultura o fecha_objeto, o si no "
+        "hay ningun dato de material o tecnica; `completo` si tiene material_normalizado, tecnica_normalizada y un "
+        "tipo_objeto concreto (distinto de `objeto_textil`); `parcial` en otro caso.",
+        "- Los campos `origen_*` indican si el valor normalizado viene de la curacion o de una regla automatica "
+        "(`src/preprocessing/normalizacion.py`, `src/preprocessing/surface_filters.py`). Los valores por regla "
+        "deben validarse en la anotacion manual.",
         "- Imagen compartida: registros con la misma `url_imagen`, el mismo archivo (SHA-256) o los mismos pixeles "
         "decodificados (`imagen_sha256_pixeles` del manifiesto).",
         f"- `estado_imagen`: `no_disponible` si la descarga fallo; `baja_resolucion` si el lado mayor mide menos de "

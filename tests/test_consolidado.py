@@ -67,6 +67,26 @@ def test_no_se_pierden_registros_ni_titulos(consolidado, revisados, clave, fuent
             assert registro["titulo_original"] == fila["titulo_original"]
 
 
+@pytest.mark.parametrize("campo", ["tipo_objeto", "material_normalizado", "tecnica_normalizada"])
+def test_origen_de_campos_normalizados(consolidado: list[dict[str, str]], campo: str) -> None:
+    for fila in consolidado:
+        origen = fila[f"origen_{campo}"]
+        assert origen == ("" if not fila[campo] else origen)
+        assert origen in ({"curacion", "regla"} if fila[campo] else {""}), (fila["id_global"], campo)
+
+
+def test_valores_curados_se_conservan(consolidado: list[dict[str, str]]) -> None:
+    por_id = {f["id_global"]: f for f in consolidado}
+    pares = [("tipo_objeto", "tipo_objeto"), ("material_normalizado", "material_normalizado"), ("tecnica", "tecnica_normalizada")]
+    for ruta in cc.MET_REVISADOS.values():
+        for fila in leer(ruta):
+            registro = por_id[f"MET:{fila['id_fuente']}"]
+            for campo_rev, campo_cons in pares:
+                if fila[campo_rev]:
+                    assert registro[campo_cons] == fila[campo_rev]
+                    assert registro[f"origen_{campo_cons}"] == "curacion"
+
+
 def test_titulo_sugerido_se_conserva(consolidado: list[dict[str, str]]) -> None:
     por_id = {f["id_global"]: f for f in consolidado}
     for ruta in cc.MET_REVISADOS.values():
