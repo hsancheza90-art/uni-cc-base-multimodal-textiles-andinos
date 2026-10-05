@@ -156,9 +156,8 @@ def exportar(df: pd.DataFrame, root: Path) -> None:
                 f"{normalizar_texto(row.get('corpus_actual'))} -> {normalizar_texto(row.get('corpus_final'))}"
             )
 
-    (report_dir / "cma_resumen_revision_manual_v2.md").write_text(
-        "\n".join(reporte) + "\n",
-        encoding="utf-8",
+    (report_dir / "cma_resumen_revision_manual_v2.md").write_bytes(
+        ("\n".join(reporte) + "\n").encode("utf-8")
     )
 
 

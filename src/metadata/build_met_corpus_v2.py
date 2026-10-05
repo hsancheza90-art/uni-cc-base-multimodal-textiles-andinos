@@ -148,7 +148,7 @@ def escribir_reporte(
         "- `data/metadata/met_descartados_v2.csv`",
     ]
 
-    ruta.write_text("\n".join(lineas) + "\n", encoding="utf-8")
+    ruta.write_bytes(("\n".join(lineas) + "\n").encode("utf-8"))
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:

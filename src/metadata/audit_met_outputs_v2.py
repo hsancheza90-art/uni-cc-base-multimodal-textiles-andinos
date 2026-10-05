@@ -131,7 +131,7 @@ def escribir_reporte(ruta: Path, problemas: list[str]) -> None:
             "Sin hallazgos criticos. Las salidas MET v2 cumplen los controles definidos.",
         ])
 
-    ruta.write_text("\n".join(lineas) + "\n", encoding="utf-8")
+    ruta.write_bytes(("\n".join(lineas) + "\n").encode("utf-8"))
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:

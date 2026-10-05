@@ -174,7 +174,7 @@ def escribir_reporte(
         for problema in problemas:
             lineas.append(f"- {problema}")
 
-    path.write_text("\n".join(lineas) + "\n", encoding="utf-8")
+    path.write_bytes(("\n".join(lineas) + "\n").encode("utf-8"))
 
 
 def aplicar_revision(root: Path) -> int:

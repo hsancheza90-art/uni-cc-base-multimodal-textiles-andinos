@@ -62,6 +62,7 @@ def salidas_regeneradas() -> list[str]:
 def test_flujo_regenera_salidas_versionadas(copia_regenerada: Path, relativa: str) -> None:
     generado = copia_regenerada / relativa
     assert generado.exists(), f"El flujo no genero {relativa}"
+    assert b"\r\n" not in generado.read_bytes(), f"{relativa} no usa finales de linea LF"
     assert texto_normalizado(generado) == texto_normalizado(RAIZ_REPO / relativa)
 
 
