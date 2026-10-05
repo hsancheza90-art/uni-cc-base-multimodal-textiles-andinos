@@ -12,7 +12,8 @@ descripcion = "Salidas MET v2 tras aplicar data/metadata/met_revision_manual_v2.
 principal = { ruta = "data/metadata/met_corpus_principal_v2_revisado.csv", filas = 126 }
 secundario = { ruta = "data/metadata/met_corpus_secundario_v2_revisado.csv", filas = 55 }
 descartados = { ruta = "data/metadata/met_descartados_v2_revisado.csv", filas = 30 }
-pendientes = { ruta = "data/metadata/met_pendientes_revision_v2.csv", filas = 0 }
+# 9 registros excluidos por el filtro v1 y recuperados por el filtro corregido (2026-10-05), pendientes de revision visual.
+pendientes = { ruta = "data/metadata/met_pendientes_revision_v2.csv", filas = 9 }
 
 [cma.candidatos]
 descripcion = "Candidatos CMA normalizados"

@@ -17,6 +17,7 @@ ENTRADAS_REVISADAS = [
     ("principal", "data/metadata/met_corpus_principal_v2_revisado.csv", "outputs/review/met_corpus_principal_v2_revisado_galeria.html"),
     ("secundario", "data/metadata/met_corpus_secundario_v2_revisado.csv", "outputs/review/met_corpus_secundario_v2_revisado_galeria.html"),
     ("descartados", "data/metadata/met_descartados_v2_revisado.csv", "outputs/review/met_descartados_v2_revisado_galeria.html"),
+    ("pendientes", "data/metadata/met_pendientes_revision_v2.csv", "outputs/review/met_pendientes_revision_v2_galeria.html"),
 ]
 
 

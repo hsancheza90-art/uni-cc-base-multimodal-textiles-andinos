@@ -74,7 +74,7 @@ TIPOS_OBJETO: list[tuple[str, list[str]]] = [
     ("vestimenta_textil", ["dress", "garment"]),
     ("bolso_textil", ["bag", "bags", "pouch", "bolso", "bolsa"]),
     ("panel_textil", ["panel", "panels"]),
-    ("tocado", ["headdress"]),
+    ("tocado", ["headdress", "crown"]),
     ("mascara_textil", ["mask", "false face"]),
     ("borde_textil", ["border", "borders"]),
     ("honda_textil", ["sling", "sling shot"]),
