@@ -1,4 +1,4 @@
-# Corpus consolidado MET+CMA v1.0
+# Corpus consolidado MET+CMA v1
 
 Resumen generado por `python -m src.flujo` (`src/consolidado/construir_consolidado.py`).
 

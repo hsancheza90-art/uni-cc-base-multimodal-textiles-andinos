@@ -1,4 +1,4 @@
-"""Esquema armonizado del corpus consolidado MET+CMA v1.0.
+"""Esquema armonizado del corpus consolidado MET+CMA v1.
 
 Sigue los Cuadros 6.1 (campos principales) y 6.8 (estados de control) del
 avance de tesis, y agrega campos auxiliares de fuente, imagen y trazabilidad.

@@ -7,7 +7,7 @@ Uso desde la raiz del repositorio:
 
 Ejecuta, sin acceso a red, los pasos que regeneran los CSV curados a partir de
 los insumos versionados (corpus MET v1, workbooks de revision manual y
-manifiesto de imagenes), construye el consolidado MET+CMA v1.0 y verifica los
+manifiesto de imagenes), construye el consolidado MET+CMA v1 y verifica los
 conteos esperados de config/corpus.toml.
 
 La descarga de imagenes (python -m src.imagenes.descargar_imagenes) requiere
@@ -21,7 +21,7 @@ import sys
 from collections.abc import Callable
 from pathlib import Path
 
-from src.anotacion import aplicar_anotaciones
+from src.anotacion import aplicar_anotaciones, documentar_vocabulario
 from src.consolidado import construir_consolidado
 from src.metadata import (
     apply_cma_review_v2,
@@ -39,8 +39,9 @@ PASOS: list[tuple[str, Callable[[list[str]], int]]] = [
     ("MET v2: aplicar revision manual", apply_met_review_v2.main),
     ("CMA v2: aplicar revision manual", apply_cma_review_v2.main),
     ("CMA v2: auditar candidatos", audit_cma_outputs.main),
+    ("Vocabulario: generar taxonomia de atributos", documentar_vocabulario.main),
     ("Anotacion: validar workbook y exportar anotaciones", aplicar_anotaciones.main),
-    ("Consolidado MET+CMA v1.0: construir y validar", construir_consolidado.main),
+    ("Consolidado MET+CMA v1: construir y validar", construir_consolidado.main),
     ("MET: comparar filtro textil vigente con el inventario", auditar_filtros.main),
 ]
 

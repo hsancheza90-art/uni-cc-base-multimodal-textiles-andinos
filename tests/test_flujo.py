@@ -35,6 +35,7 @@ REPORTES = [
     "outputs/reports/corpus_textiles_andinos_met_cma_v1_resumen.md",
     "outputs/reports/filtros_comparacion_met_inventario.md",
     "outputs/reports/anotacion_met_cma_v1_validacion.md",
+    "docs/corpus/taxonomia_atributos_met_cma_v1.md",
     "data/metadata/anotaciones_met_cma_v1.csv",
     "docs/esquema_consolidado_met_cma_v1.md",
     "data/processed/corpus_textiles_andinos_met_cma_v1_sha256.txt",

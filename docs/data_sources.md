@@ -1,48 +1,36 @@
-# Data Sources
+# Fuentes de datos consideradas
 
-Este documento registra las fuentes oficiales consideradas para la construcción del dataset.
+Registro general de las fuentes museográficas evaluadas para el corpus. Las fuentes incluidas, con su estado y conteos, están en `docs/source_registry.md` y en `data/processed/corpus_textiles_andinos_met_cma_v1_fuentes_licencias.csv`.
 
-## The Metropolitan Museum of Art
+## Fuentes incluidas
 
-Fuente inicial prioritaria por contar con API pública, metadatos estructurados e imágenes de objetos en dominio público.
+### The Metropolitan Museum of Art (MET)
 
-Campos esperados:
+Primera fuente del corpus: API pública, metadatos estructurados e imágenes de objetos en dominio público (política Open Access).
 
-- Object ID
-- Title
-- Culture
-- Period
-- Date
-- Medium
-- Dimensions
-- Classification
-- Department
-- Object URL
-- Primary Image
-- Public Domain flag
+Campos que se recuperan de la API: identificador (`objectID`), título, cultura, periodo, fecha, material (`medium`), dimensiones, clasificación, departamento, URL del objeto, imagen principal y miniatura, indicador de dominio público y etiquetas.
 
-## Cleveland Museum of Art
+### Cleveland Museum of Art (CMA)
 
-Fuente con API abierta y metadatos estructurados. Se evaluará especialmente por piezas con licencia abierta.
+Segunda fuente del corpus: API Open Access con metadatos estructurados e imágenes con licencia CC0.
 
-## Smithsonian Open Access
+Campos que se recuperan: identificador, número de acceso, título, cultura, fecha de creación, tipo, técnica, material, departamento, descripción, URL, imagen y estado de licencia.
 
-Fuente relevante por volumen de colecciones y enfoque de acceso abierto.
+## Fuentes evaluadas, no incluidas
 
-## Harvard Art Museums
+| Fuente | Observación |
+|---|---|
+| Smithsonian Open Access | Relevante por volumen y acceso abierto; pendiente de evaluación. |
+| Harvard Art Museums | API con posibles imágenes IIIF; requiere revisar condiciones de uso. |
+| British Museum | Alto valor académico; licencias y reutilización deben revisarse caso por caso. |
+| Art Institute of Chicago (AIC) | Se exploró en otra máquina; ese trabajo no se conserva en el repositorio. |
 
-Fuente relevante para consulta mediante API y posible disponibilidad de imágenes IIIF.
+## Criterios de candidatura
 
-## British Museum
+Un registro recuperado pasa a ser **candidato** para la revisión cuando tiene imagen oficial y metadatos mínimos de trazabilidad, y además presenta al menos una de estas evidencias:
 
-Fuente de alto valor académico, pero requiere revisión cuidadosa de licencias y condiciones de reutilización.
+- Está clasificado como textil o su material es una fibra textil.
+- Contiene términos textiles como *textile*, *woven*, *tunic*, *mantle*, *fragment*, *cloth*, *tapestry* o *embroidery*.
+- Está asociado a los Andes o a culturas andinas (Perú, Inca, Paracas, Nasca, Wari, Chancay, Moche, Tiwanaku u otras).
 
-## Criterios de inclusión
-
-Un registro será considerado candidato si cumple al menos una de estas condiciones:
-
-- Está clasificado como textil.
-- Contiene términos como textile, weaving, woven, tunic, mantle, fragment, cloth, tapestry o embroidery.
-- Está asociado a Andes, Peru, Inca, Paracas, Nasca, Wari, Chancay, Moche, Tiwanaku u otras culturas andinas.
-- Tiene imagen oficial disponible.
-- Tiene metadatos mínimos suficientes para trazabilidad.
+Ser candidato no implica entrar al corpus: la inclusión exige cumplir la mayoría de los criterios del protocolo (`docs/corpus/protocolo_curacion_met_cma_v1.md`).

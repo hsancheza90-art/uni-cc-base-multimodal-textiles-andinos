@@ -1,82 +1,84 @@
-﻿# TaxonomÃ­a de atributos para el Corpus MET de Textiles Andinos v1.0
+# Taxonomía de atributos para el Corpus MET de Textiles Andinos v1.0
 
-## PropÃ³sito
+> Documento histórico del corpus MET v1. La taxonomía vigente se genera desde `config/vocabulario.toml`: ver `docs/corpus/taxonomia_atributos_met_cma_v1.md`.
 
-Este documento define una taxonomÃ­a inicial de atributos para describir textiles andinos dentro de la base multimodal del proyecto. La taxonomÃ­a separa atributos visuales, composicionales, tÃ©cnicos, iconogrÃ¡ficos y contextuales.
+## Propósito
 
-La informaciÃ³n oficial del museo se conserva como metadata curatorial. Los atributos visuales e iconogrÃ¡ficos pueden completarse mediante anotaciÃ³n manual controlada en una muestra de anotacion.
+Este documento define una taxonomía inicial de atributos para describir textiles andinos dentro de la base multimodal del proyecto. La taxonomía separa atributos visuales, composicionales, técnicos, iconográficos y contextuales.
+
+La información oficial del museo se conserva como metadata curatorial. Los atributos visuales e iconográficos pueden completarse mediante anotación manual controlada en una muestra de anotacion.
 
 ---
 
 ## 1. Familia visual
 
-| Atributo | DescripciÃ³n | Valores sugeridos |
+| Atributo | Descripción | Valores sugeridos |
 |---|---|---|
-| `color_dominante` | Color visualmente predominante | rojo, marrÃ³n, crema, negro, azul, amarillo, verde, multicolor |
-| `colores` | Lista breve de colores visibles | rojo; crema; marrÃ³n |
+| `color_dominante` | Color visualmente predominante | rojo, marrón, crema, negro, azul, amarillo, verde, multicolor |
+| `colores` | Lista breve de colores visibles | rojo; crema; marrón |
 | `contraste` | Diferencia visual entre colores o zonas | bajo, medio, alto |
-| `densidad_visual` | Nivel de saturaciÃ³n de elementos visuales | baja, media, alta |
+| `densidad_visual` | Nivel de saturación de elementos visuales | baja, media, alta |
 
 ---
 
 ## 2. Familia composicional
 
-| Atributo | DescripciÃ³n | Valores sugeridos |
+| Atributo | Descripción | Valores sugeridos |
 |---|---|---|
-| `composicion` | OrganizaciÃ³n general del diseÃ±o | bandas, campo central, borde, paneles, retÃ­cula, composiciÃ³n libre |
-| `simetria` | OrganizaciÃ³n simÃ©trica o repetitiva | bilateral, radial, repeticiÃ³n modular, traslacional, no evidente |
-| `repeticion` | Presencia de patrones repetidos | sÃ­, no, parcial |
-| `borde` | Presencia de borde decorado | sÃ­, no, no visible |
-| `centro` | Presencia de campo central diferenciado | sÃ­, no, no visible |
+| `composicion` | Organización general del diseño | bandas, campo central, borde, paneles, retícula, composición libre |
+| `simetria` | Organización simétrica o repetitiva | bilateral, radial, repetición modular, traslacional, no evidente |
+| `repeticion` | Presencia de patrones repetidos | sí, no, parcial |
+| `borde` | Presencia de borde decorado | sí, no, no visible |
+| `centro` | Presencia de campo central diferenciado | sí, no, no visible |
 
 ---
 
-## 3. Familia tÃ©cnica
+## 3. Familia técnica
 
-| Atributo | DescripciÃ³n | Valores sugeridos |
+| Atributo | Descripción | Valores sugeridos |
 |---|---|---|
-| `material_normalizado` | Material normalizado desde metadata oficial | algodÃ³n, fibra de camÃ©lido, lana, plumas |
-| `tecnica` | TÃ©cnica identificada desde metadata oficial | tejido, tapiz, bordado, trabajo con plumas |
-| `tipo_objeto` | Tipo de textil | manto, tÃºnica, bolso textil, panel textil, fragmento textil, tapiz textil |
-| `tipo_superficie` | Utilidad morfolÃ³gica para anÃ¡lisis visual | superficie_amplia, objeto_tridimensional_iconografico, formato_estrecho, borde_o_fragmento_lineal, objeto_tridimensional_no_prioritario, revision_morfologica |
+| `material_normalizado` | Material normalizado desde metadata oficial | algodón, fibra de camélido, lana, plumas |
+| `tecnica` | Técnica identificada desde metadata oficial | tejido, tapiz, bordado, trabajo con plumas |
+| `tipo_objeto` | Tipo de textil | manto, túnica, bolso textil, panel textil, fragmento textil, tapiz textil |
+| `tipo_superficie` | Utilidad morfológica para análisis visual | superficie_amplia, objeto_tridimensional_iconografico, formato_estrecho, borde_o_fragmento_lineal, objeto_tridimensional_no_prioritario, revision_morfologica |
 
 ---
 
-## 4. Familia iconogrÃ¡fica
+## 4. Familia iconográfica
 
-| Atributo | DescripciÃ³n | Valores sugeridos |
+| Atributo | Descripción | Valores sugeridos |
 |---|---|---|
-| `motivos` | Motivos observables | geomÃ©trico, antropomorfo, zoomorfo, fitomorfo, abstracto |
-| `familia_iconografica` | Familia dominante de representaciÃ³n | geomÃ©trica, figurativa, mixta, abstracta, no determinada |
-| `motivo_principal` | Motivo mÃ¡s visible | rombos, aves, felinos, figuras humanas, serpientes, escalonados, no determinado |
+| `motivos` | Motivos observables | geométrico, antropomorfo, zoomorfo, fitomorfo, abstracto |
+| `familia_iconografica` | Familia dominante de representación | geométrica, figurativa, mixta, abstracta, no determinada |
+| `motivo_principal` | Motivo más visible | rombos, aves, felinos, figuras humanas, serpientes, escalonados, no determinado |
 
 ---
 
 ## 5. Familia contextual
 
-| Atributo | DescripciÃ³n | Origen |
+| Atributo | Descripción | Origen |
 |---|---|---|
-| `cultura` | Cultura o atribuciÃ³n cultural | fuente oficial |
-| `periodo` | Periodo histÃ³rico o arqueolÃ³gico | fuente oficial |
+| `cultura` | Cultura o atribución cultural | fuente oficial |
+| `periodo` | Periodo histórico o arqueológico | fuente oficial |
 | `fecha_objeto` | Fecha estimada del objeto | fuente oficial |
-| `procedencia` | PaÃ­s, regiÃ³n o localidad | fuente oficial normalizada |
-| `fuente` | Fuente de extracciÃ³n | flujo de trabajo del proyecto |
-| `institucion` | InstituciÃ³n museogrÃ¡fica | fuente oficial |
+| `procedencia` | País, región o localidad | fuente oficial normalizada |
+| `fuente` | Fuente de extracción | flujo de trabajo del proyecto |
+| `institucion` | Institución museográfica | fuente oficial |
 | `url` | URL oficial del objeto | fuente oficial |
-| `licencia` | CondiciÃ³n de uso o dominio pÃºblico | fuente oficial |
+| `licencia` | Condición de uso o dominio público | fuente oficial |
 
 ---
 
 ## 6. Estados de control
 
-| Campo | DescripciÃ³n | Valores sugeridos |
+| Campo | Descripción | Valores sugeridos |
 |---|---|---|
 | `estado_metadata` | Nivel de suficiencia de metadata | completo, parcial, insuficiente |
-| `estado_anotacion` | Estado de revisiÃ³n manual | sin_anotar, anotado_manual, revisar |
-| `observaciones` | Comentarios metodolÃ³gicos | texto libre breve |
+| `estado_anotacion` | Estado de revisión manual | sin_anotar, anotado_manual, revisar |
+| `observaciones` | Comentarios metodológicos | texto libre breve |
 
 ---
 
-## Nota metodolÃ³gica
+## Nota metodológica
 
-La taxonomÃ­a no pretende descifrar el significado cultural profundo de los textiles. Su finalidad es construir atributos computables y trazables para experimentos de aprendizaje multimodal, recuperaciÃ³n imagen-texto y anÃ¡lisis comparativo de patrones.
+La taxonomía no pretende descifrar el significado cultural profundo de los textiles. Su finalidad es construir atributos computables y trazables para experimentos de aprendizaje multimodal, recuperación imagen-texto y análisis comparativo de patrones.

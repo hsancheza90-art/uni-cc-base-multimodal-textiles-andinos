@@ -1,4 +1,4 @@
-# Esquema del corpus consolidado MET+CMA v1.0
+# Esquema del corpus consolidado MET+CMA v1
 
 Archivo: `data/processed/corpus_textiles_andinos_met_cma_v1_consolidado.csv` (UTF-8 sin BOM, separador coma, fin de linea LF).
 

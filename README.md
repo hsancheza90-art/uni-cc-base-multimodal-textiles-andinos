@@ -24,12 +24,12 @@ Ambas fuentes cuentan con un flujo reproducible de curación, revisión manual m
 | Fuente | Nivel | Principal | Secundario | Descartados | Pendientes |
 |---|---|---:|---:|---:|---:|
 | MET v2 | Base auditada | 132 | 50 | 29 | 0 |
-| MET v2 | Revisión manual | 126 | 55 | 30 | 0 |
+| MET v2 | Revisión manual | 126 | 55 | 30 | 9 |
 | CMA v2 | Revisión manual (146 candidatos) | 88 | 19 | 39 | 0 |
 
-En CMA, 138 registros se revisaron manualmente y 8 se descartaron automáticamente por estar fuera del alcance andino o corresponder a herramientas textiles.
+En CMA, 138 registros se revisaron manualmente y 8 se descartaron automáticamente por estar fuera del alcance andino o corresponder a herramientas textiles. Los 9 pendientes MET son registros que el filtro de la versión 1 excluyó por error; esperan revisión visual en `outputs/review/met_pendientes_revision_v2_galeria.html`.
 
-### Corpus consolidado MET+CMA v1.0
+### Corpus consolidado MET+CMA v1
 
 Une los subconjuntos principal y complementario revisados de ambas fuentes con el esquema armonizado del capítulo 6 de la tesis (Cuadros 6.1 y 6.8): identificador global `FUENTE:id_fuente`, cabeceras comunes en español, estado de licencia por objeto, estados de control e información de imagen.
 
@@ -43,7 +43,8 @@ El consolidado usa MET v2 revisado. El avance de tesis reporta 289 porque sumaba
 
 - 287 imágenes descargadas y verificadas. MET:312615 no tiene imagen disponible en el museo (404) y pasó de principal a complementario (criterio 6.3.2), registrado en `data/metadata/met_revision_manual_v2.xlsx`.
 - 4 grupos de registros que comparten la misma fotografía (`grupo_imagen_duplicada`); se conservan y deben tratarse como un solo ítem en evaluaciones imagen-imagen.
-- `tipo_objeto`, `material_normalizado` y `tecnica_normalizada` usan el vocabulario del Cuadro 6.5. Cuando la curación no los definió, se completan con reglas (`src/preprocessing/normalizacion.py` y `surface_filters.py`) y la columna `origen_*` indica `curacion` o `regla`; los valores por regla deben validarse en la anotación manual.
+- Los campos categóricos usan los códigos del vocabulario controlado `config/vocabulario.toml` (Cuadros 6.3 a 6.8 de la tesis); las etiquetas están en `docs/corpus/taxonomia_atributos_met_cma_v1.md`.
+- `tipo_objeto`, `material_normalizado` y `tecnica_normalizada`: cuando la curación no los definió, se completan con reglas (`src/preprocessing/normalizacion.py` y `surface_filters.py`); la columna `origen_*` indica `curacion`, `regla` o `anotacion`. Los valores por regla deben validarse en la anotación manual.
 - Detalle de cobertura, estados y posibles duplicados visuales: `outputs/reports/corpus_textiles_andinos_met_cma_v1_resumen.md`.
 - Registros MET que el filtro textil actual decidiría distinto que el registrado: `outputs/reports/filtros_comparacion_met_inventario.md` (insumo para revisión curatorial; no modifica el corpus).
 - Esquema campo por campo: `docs/esquema_consolidado_met_cma_v1.md`.
@@ -52,7 +53,7 @@ El consolidado usa MET v2 revisado. El avance de tesis reporta 289 porque sumaba
 
 | Conjunto | Archivo |
 |---|---|
-| **Consolidado MET+CMA v1.0** | `data/processed/corpus_textiles_andinos_met_cma_v1_consolidado.csv` |
+| **Consolidado MET+CMA v1** | `data/processed/corpus_textiles_andinos_met_cma_v1_consolidado.csv` |
 | Fuentes y licencias | `data/processed/corpus_textiles_andinos_met_cma_v1_fuentes_licencias.csv` |
 | Sumas SHA-256 | `data/processed/corpus_textiles_andinos_met_cma_v1_sha256.txt` |
 | Manifiesto de imágenes | `data/metadata/imagenes_manifiesto_met_cma_v1.csv` |
@@ -83,7 +84,17 @@ Desde la raíz del repositorio:
 python -m src.flujo
 ```
 
-El comando ejecuta sin acceso a red los pasos de MET v2 y CMA v2 (construcción, revisión manual y auditoría), construye y valida el consolidado MET+CMA v1.0, y comprueba los conteos esperados de `config/corpus.toml`. Termina con código distinto de cero si algún paso o conteo falla.
+El comando ejecuta sin acceso a red los pasos de MET v2 y CMA v2 (construcción, revisión manual y auditoría), valida la anotación manual, construye y valida el consolidado MET+CMA v1, y comprueba los conteos esperados de `config/corpus.toml`. Termina con código distinto de cero si algún paso o conteo falla.
+
+### Anotación manual
+
+```bash
+python -m src.anotacion.workbook   # crea o actualiza data/metadata/anotacion_met_cma_v1.xlsx
+# anotar en Excel con los códigos de la hoja 'vocabulario'
+python -m src.flujo                # valida e incorpora las anotaciones al consolidado
+```
+
+El workbook conserva lo anotado cada vez que se regenera. Criterios y flujo completo: `docs/corpus/guia_anotacion_met_cma_v1.md`.
 
 ### Imágenes
 
@@ -171,8 +182,9 @@ Cada registro debe conservar:
 | Carpeta | Uso |
 |---|---|
 | `config/corpus.toml` | Conteos esperados por fuente y etapa |
+| `config/vocabulario.toml` | Vocabulario controlado (Cuadros 6.3 a 6.8 de la tesis) |
 | `data/raw/` | Respuestas originales de las fuentes; la generan los colectores y no se versiona |
-| `data/processed/` | Corpus MET v1 (entrada del flujo MET v2) y corpus consolidado MET+CMA v1.0 |
+| `data/processed/` | Corpus MET v1 (entrada del flujo MET v2) y corpus consolidado MET+CMA v1 |
 | `data/images/` | Copias locales de las imágenes; las genera el descargador y no se versionan |
 | `data/metadata/` | Salidas normalizadas, workbooks de revisión y corpus curado MET v2 y CMA v2 |
 | `data/historico/met_v1/` | Decisiones de la auditoría manual que formaron el corpus MET v1 (97 + 35 + 29) |
@@ -185,6 +197,7 @@ Cada registro debe conservar:
 | `src/review/` | Generación de galerías visuales |
 | `src/consolidado/` | Esquema armonizado y constructor del consolidado MET+CMA |
 | `src/imagenes/` | Descarga y verificación de imágenes |
+| `src/anotacion/` | Workbook de anotación, validación y taxonomía generada |
 | `src/flujo.py` | Punto de entrada único del flujo reproducible |
 | `src/archive/` | Scripts preliminares y de anotación de MET v1, conservados por trazabilidad |
 | `tests/` | Pruebas de reproducibilidad |
@@ -193,12 +206,19 @@ Cada registro debe conservar:
 
 | Documento | Propósito |
 |---|---|
+| `docs/corpus/ficha_dataset_met_cma_v1.md` | Ficha del dataset: contenido, archivos, licencias y limitaciones |
+| `docs/corpus/protocolo_curacion_met_cma_v1.md` | Criterios y etapas de curación |
+| `docs/corpus/taxonomia_atributos_met_cma_v1.md` | Vocabulario controlado (generado desde `config/vocabulario.toml`) |
+| `docs/corpus/guia_anotacion_met_cma_v1.md` | Flujo y criterios de la anotación manual |
+| `docs/corpus/trazabilidad_met_cma_v1.md` | Cadena de cada registro, versiones y sumas de verificación |
+| `docs/corpus/uso_etico_met_cma_v1.md` | Principios de uso responsable |
 | `docs/esquema_consolidado_met_cma_v1.md` | Esquema del corpus consolidado (generado desde el código) |
 | `docs/source_registry.md` | Registro de fuentes incluidas y exploratorias |
 | `docs/met_protocolo_fuente_v2.md` | Protocolo metodológico de la fuente MET v2 |
 | `docs/cma/cma_source_protocol.md` | Protocolo metodológico de la fuente CMA |
-| `docs/data_sources.md` | Registro general de fuentes consideradas |
-| `docs/met_v1/` | Documentación histórica del corpus MET v1 (ficha, protocolo, trazabilidad, uso ético, taxonomía y guía de anotación) |
+| `docs/data_sources.md` | Fuentes consideradas y criterios de candidatura |
+| `docs/met_v1/` | Documentación histórica del corpus MET v1 |
+| `docs/notas_para_tesis.md` | Correcciones pendientes del capítulo 6 de la tesis |
 | `docs/MCC701_05-07-2026.pdf` | Primer avance de tesis |
 
 ## Uso previsto
@@ -221,7 +241,15 @@ No se recomienda usar este corpus para:
 - Interpretaciones históricas o rituales concluyentes sin validación experta.
 - Sustitución de investigación etnográfica, arqueológica o curatorial especializada.
 
-## Versiones anteriores
+## Versiones
+
+Cada entrega del consolidado se congela con una etiqueta `corpus-met-cma-v1.N`:
+
+- `corpus-met-cma-v1.0`: primer consolidado MET+CMA (288 registros).
+- `corpus-met-cma-v1.1`: MET:312615 a complementario; tipo de objeto, material y técnica normalizados con origen.
+- `corpus-met-cma-v1.2`: vocabulario controlado, códigos, flujo de anotación, documentación del corpus y 9 registros MET pendientes de revisión.
+
+Versiones anteriores:
 
 - `v1.0-corpus-met-textiles-andinos`: corpus MET v1 con notebooks, archivos intermedios de anotación y muestras de imágenes.
 - `archivo/cma-v1`: primera curación CMA, reemplazada por el flujo reproducible CMA v2.

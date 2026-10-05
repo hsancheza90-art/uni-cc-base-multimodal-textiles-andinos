@@ -1,4 +1,4 @@
-"""Construye el corpus consolidado MET+CMA v1.0 con el esquema armonizado.
+"""Construye el corpus consolidado MET+CMA v1 con el esquema armonizado.
 
 Entradas (todas versionadas):
 - MET v2 revisado (principal y secundario) + inventario base MET + corpus MET v1.
@@ -487,7 +487,7 @@ def lineas_reporte(
 ) -> list[str]:
     fuentes = list(ORDEN_FUENTES)
     lineas = [
-        "# Corpus consolidado MET+CMA v1.0",
+        "# Corpus consolidado MET+CMA v1",
         "",
         "Resumen generado por `python -m src.flujo` (`src/consolidado/construir_consolidado.py`).",
         "",
@@ -569,7 +569,7 @@ def lineas_reporte(
 
 def lineas_esquema(vocabulario: dict[str, Campo]) -> list[str]:
     lineas = [
-        "# Esquema del corpus consolidado MET+CMA v1.0",
+        "# Esquema del corpus consolidado MET+CMA v1",
         "",
         "Archivo: `data/processed/corpus_textiles_andinos_met_cma_v1_consolidado.csv` "
         "(UTF-8 sin BOM, separador coma, fin de linea LF).",
@@ -633,14 +633,14 @@ def construir(raiz: Path) -> int:
     )
 
     grupos = {fila["grupo_imagen_duplicada"] for fila in registros if fila["grupo_imagen_duplicada"]}
-    print(f"Consolidado MET+CMA v1.0: {len(registros)} registros")
+    print(f"Consolidado MET+CMA v1: {len(registros)} registros")
     print(f"Grupos de imagen compartida: {len(grupos)}; posibles duplicados visuales: {len(pares_visuales)}")
     print(f"Salida: {raiz / SALIDA_CONSOLIDADO}")
     return 0
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Construye el corpus consolidado MET+CMA v1.0.")
+    parser = argparse.ArgumentParser(description="Construye el corpus consolidado MET+CMA v1.")
     parser.add_argument("--root", default=".", help="Raiz del repositorio.")
     return parser.parse_args(argv)
 

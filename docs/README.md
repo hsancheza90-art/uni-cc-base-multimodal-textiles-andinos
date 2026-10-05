@@ -1,21 +1,32 @@
-﻿# Documentación del proyecto
+# Documentación del proyecto
 
-Esta carpeta organiza la documentación metodológica del corpus multimodal de textiles andinos.
+Documentación metodológica del corpus multimodal de textiles andinos. Según la §6.6.5 de la tesis, forma parte del corpus: define sus condiciones de uso, interpretación, revisión y reproducibilidad.
 
-## Estructura
+## Corpus consolidado MET+CMA v1 (`corpus/`)
 
-| Carpeta / archivo | Contenido |
+| Documento | Contenido |
 |---|---|
-| `cma/` | Protocolo de fuente y curación para Cleveland Museum of Art. |
-| `met_v1/` | Documentación histórica del Corpus MET de Textiles Andinos v1. |
-| `esquema_consolidado_met_cma_v1.md` | Esquema campo por campo del corpus consolidado MET+CMA v1.0 (generado por el flujo). |
+| `corpus/ficha_dataset_met_cma_v1.md` | Ficha del dataset: contenido, conteos, archivos, licencias y limitaciones. |
+| `corpus/protocolo_curacion_met_cma_v1.md` | Criterios de inclusión, complementario y exclusión; filtro, revisión manual, duplicados y normalización. |
+| `corpus/taxonomia_atributos_met_cma_v1.md` | Vocabulario controlado (códigos y etiquetas), generado desde `config/vocabulario.toml`. |
+| `corpus/guia_anotacion_met_cma_v1.md` | Flujo y criterios de la anotación manual. |
+| `corpus/trazabilidad_met_cma_v1.md` | Cadena de cada registro, versiones, sumas de verificación y cambios curatoriales. |
+| `corpus/uso_etico_met_cma_v1.md` | Principios de uso responsable. |
+| `esquema_consolidado_met_cma_v1.md` | Esquema campo por campo (generado por el flujo). |
+
+Fuentes y licencias: `source_registry.md`, `data_sources.md` y `data/processed/corpus_textiles_andinos_met_cma_v1_fuentes_licencias.csv`.
+
+## Por fuente
+
+| Carpeta o archivo | Contenido |
+|---|---|
 | `met_protocolo_fuente_v2.md` | Protocolo de fuente y curación MET v2. |
-| `source_registry.md` | Registro de fuentes incluidas y exploratorias del corpus. |
-| `data_sources.md` | Registro general de fuentes consideradas para el corpus. |
+| `cma/` | Protocolo de fuente y curación del Cleveland Museum of Art. |
+| `met_v1/` | Documentación histórica del corpus MET v1. |
+
+## Tesis
+
+| Documento | Contenido |
+|---|---|
 | `MCC701_05-07-2026.pdf` | Primer avance de tesis. |
-
-## Estado actual
-
-Los flujos MET v2 y CMA v2 cuentan con candidatos normalizados, workbook maestro de revisión, subconjuntos revisados, reportes y galerías HTML.
-
-La documentación MET v1 se conserva como antecedente metodológico y trazabilidad del trabajo previo.
+| `notas_para_tesis.md` | Correcciones pendientes del capítulo 6 para que coincida con el corpus actual. |
