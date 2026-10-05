@@ -4,9 +4,7 @@ numpy
 matplotlib
 Pillow
 tqdm
-beautifulsoup4
-lxml
 jupyter
 ipykernel
-python-dotenvopenpyxl
+python-dotenv
 openpyxl

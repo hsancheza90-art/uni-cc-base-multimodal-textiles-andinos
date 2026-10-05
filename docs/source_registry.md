@@ -7,7 +7,7 @@ Este documento registra las fuentes institucionales usadas para el corpus multim
 | Fuente | Institucion | Estado | Uso en el corpus | Salida principal |
 |---|---|---|---|---|
 | MET | The Metropolitan Museum of Art | Curacion MET v2 construida y auditada | Fuente principal del corpus curado de textiles andinos | `data/metadata/met_corpus_principal_v2.csv` |
-| CMA | Cleveland Museum of Art | Recoleccion y revision manual en curso | Segunda fuente institucional para ampliar el corpus con registros abiertos y trazables | `data/metadata/cma_andes_textiles_candidates.csv` |
+| CMA | Cleveland Museum of Art | Curacion CMA v2 con revision manual y auditoria | Segunda fuente institucional para ampliar el corpus con registros abiertos y trazables | `data/metadata/cma_corpus_principal_revisado.csv` |
 
 ## Criterio de seleccion de fuentes
 
@@ -56,9 +56,22 @@ CMA se mantiene como segunda fuente del corpus. Su flujo es mas limpio desde el 
 Salidas asociadas:
 
 - `src/collectors/cma_collector.py`
+- `src/metadata/apply_cma_review_v2.py`
 - `src/metadata/audit_cma_outputs.py`
-- `docs/cma_source_protocol.md`
-- `outputs/reports/cma_collection_summary.md`
+- `docs/cma/cma_source_protocol.md`
+- `data/metadata/cma_corpus_principal_revisado.csv`
+- `data/metadata/cma_corpus_secundario_revisado.csv`
+- `data/metadata/cma_descartados_revisado.csv`
+- `outputs/reports/cma_resumen_revision_manual_v2.md`
+
+Conteos tras la revision manual:
+
+| Conjunto CMA v2 | Registros |
+|---|---:|
+| Candidatos normalizados | 146 |
+| Corpus principal | 88 |
+| Corpus secundario | 19 |
+| Descartados | 39 |
 
 ## Fuentes exploratorias fuera del Corpus
 
