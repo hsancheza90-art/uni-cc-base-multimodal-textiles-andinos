@@ -29,10 +29,31 @@ Ambas fuentes cuentan con un flujo reproducible de curación, revisión manual m
 
 En CMA, 138 registros se revisaron manualmente y 8 se descartaron automáticamente por estar fuera del alcance andino o corresponder a herramientas textiles.
 
+### Corpus consolidado MET+CMA v1.0
+
+Une los subconjuntos principal y complementario revisados de ambas fuentes con el esquema armonizado del capítulo 6 de la tesis (Cuadros 6.1 y 6.8): identificador global `FUENTE:id_fuente`, cabeceras comunes en español, estado de licencia por objeto, estados de control e información de imagen.
+
+| Fuente | Principal | Complementario | Total |
+|---|---:|---:|---:|
+| MET | 127 | 54 | 181 |
+| CMA | 88 | 19 | 107 |
+| **Total** | **215** | **73** | **288** |
+
+El consolidado usa MET v2 revisado. El avance de tesis reporta 289 porque sumaba MET base (132 + 50); con la revisión manual MET el total es 288.
+
+- 287 imágenes descargadas y verificadas; MET:312615 no tiene imagen disponible en el museo (404).
+- 4 grupos de registros que comparten la misma fotografía (`grupo_imagen_duplicada`); se conservan y deben tratarse como un solo ítem en evaluaciones imagen-imagen.
+- Detalle de cobertura, estados y posibles duplicados visuales: `outputs/reports/corpus_textiles_andinos_met_cma_v1_resumen.md`.
+- Esquema campo por campo: `docs/esquema_consolidado_met_cma_v1.md`.
+
 ## Salidas recomendadas para el corpus
 
 | Conjunto | Archivo |
 |---|---|
+| **Consolidado MET+CMA v1.0** | `data/processed/corpus_textiles_andinos_met_cma_v1_consolidado.csv` |
+| Fuentes y licencias | `data/processed/corpus_textiles_andinos_met_cma_v1_fuentes_licencias.csv` |
+| Sumas SHA-256 | `data/processed/corpus_textiles_andinos_met_cma_v1_sha256.txt` |
+| Manifiesto de imágenes | `data/metadata/imagenes_manifiesto_met_cma_v1.csv` |
 | MET principal revisado | `data/metadata/met_corpus_principal_v2_revisado.csv` |
 | MET secundario revisado | `data/metadata/met_corpus_secundario_v2_revisado.csv` |
 | MET descartados revisados | `data/metadata/met_descartados_v2_revisado.csv` |
@@ -60,7 +81,17 @@ Desde la raíz del repositorio:
 python -m src.flujo
 ```
 
-El comando ejecuta sin acceso a red los pasos de MET v2 y CMA v2 (construcción, revisión manual y auditoría) a partir de los insumos versionados, y comprueba los conteos esperados de `config/corpus.toml`. Termina con código distinto de cero si algún paso o conteo falla.
+El comando ejecuta sin acceso a red los pasos de MET v2 y CMA v2 (construcción, revisión manual y auditoría), construye y valida el consolidado MET+CMA v1.0, y comprueba los conteos esperados de `config/corpus.toml`. Termina con código distinto de cero si algún paso o conteo falla.
+
+### Imágenes
+
+Las imágenes no se versionan. Para descargarlas a `data/images/<fuente>/` (requiere internet, unos 64 MB):
+
+```bash
+python -m src.imagenes.descargar_imagenes
+```
+
+Para MET se descarga la versión web-large del museo (lado mayor de unos 600 px) y, si no existe, la original; para CMA, la versión web. Las imágenes ya descargadas y verificadas no se vuelven a pedir. El script actualiza `data/metadata/imagenes_manifiesto_met_cma_v1.csv` (URL, SHA-256, dimensiones, dHash y hash de píxeles), que sí se versiona y es insumo del consolidado.
 
 Para verificar que el flujo reproduce exactamente los archivos versionados:
 
@@ -128,7 +159,8 @@ Cada registro debe conservar:
 |---|---|
 | `config/corpus.toml` | Conteos esperados por fuente y etapa |
 | `data/raw/` | Respuestas originales de las fuentes; la generan los colectores y no se versiona |
-| `data/processed/` | Corpus MET v1 (entrada del flujo MET v2) |
+| `data/processed/` | Corpus MET v1 (entrada del flujo MET v2) y corpus consolidado MET+CMA v1.0 |
+| `data/images/` | Copias locales de las imágenes; las genera el descargador y no se versionan |
 | `data/metadata/` | Salidas normalizadas, workbooks de revisión y corpus curado MET v2 y CMA v2 |
 | `data/historico/met_v1/` | Decisiones de la auditoría manual que formaron el corpus MET v1 (97 + 35 + 29) |
 | `docs/` | Documentación académica, metodológica y ética |
@@ -138,6 +170,8 @@ Cada registro debe conservar:
 | `src/metadata/` | Construcción, auditoría y aplicación de revisiones |
 | `src/preprocessing/` | Workbooks de revisión, filtros y preparación de datos |
 | `src/review/` | Generación de galerías visuales |
+| `src/consolidado/` | Esquema armonizado y constructor del consolidado MET+CMA |
+| `src/imagenes/` | Descarga y verificación de imágenes |
 | `src/flujo.py` | Punto de entrada único del flujo reproducible |
 | `src/archive/` | Scripts preliminares y de anotación de MET v1, conservados por trazabilidad |
 | `tests/` | Pruebas de reproducibilidad |
@@ -146,6 +180,7 @@ Cada registro debe conservar:
 
 | Documento | Propósito |
 |---|---|
+| `docs/esquema_consolidado_met_cma_v1.md` | Esquema del corpus consolidado (generado desde el código) |
 | `docs/source_registry.md` | Registro de fuentes incluidas y exploratorias |
 | `docs/met_protocolo_fuente_v2.md` | Protocolo metodológico de la fuente MET v2 |
 | `docs/cma/cma_source_protocol.md` | Protocolo metodológico de la fuente CMA |

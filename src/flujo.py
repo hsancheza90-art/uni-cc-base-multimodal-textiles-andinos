@@ -6,8 +6,12 @@ Uso desde la raiz del repositorio:
     python -m src.flujo --root ruta/a/una/copia
 
 Ejecuta, sin acceso a red, los pasos que regeneran los CSV curados a partir de
-los insumos versionados (corpus MET v1 y workbooks de revision manual) y
-verifica los conteos esperados de config/corpus.toml.
+los insumos versionados (corpus MET v1, workbooks de revision manual y
+manifiesto de imagenes), construye el consolidado MET+CMA v1.0 y verifica los
+conteos esperados de config/corpus.toml.
+
+La descarga de imagenes (python -m src.imagenes.descargar_imagenes) requiere
+red y se ejecuta aparte; su manifiesto versionado es insumo de este flujo.
 """
 
 from __future__ import annotations
@@ -17,6 +21,7 @@ import sys
 from collections.abc import Callable
 from pathlib import Path
 
+from src.consolidado import construir_consolidado
 from src.metadata import (
     apply_cma_review_v2,
     apply_met_review_v2,
@@ -32,6 +37,7 @@ PASOS: list[tuple[str, Callable[[list[str]], int]]] = [
     ("MET v2: aplicar revision manual", apply_met_review_v2.main),
     ("CMA v2: aplicar revision manual", apply_cma_review_v2.main),
     ("CMA v2: auditar candidatos", audit_cma_outputs.main),
+    ("Consolidado MET+CMA v1.0: construir y validar", construir_consolidado.main),
 ]
 
 
@@ -44,7 +50,7 @@ def verificar_conteos(raiz: Path) -> list[str]:
             continue
         observado = contar_filas_csv(ruta_absoluta)
         estado = "ok" if observado == esperado else "DIFERENTE"
-        print(f"  {etapa:<16} {conjunto:<12} {observado:>4} (esperado {esperado:>4})  {estado}")
+        print(f"  {etapa:<20} {conjunto:<20} {observado:>4} (esperado {esperado:>4})  {estado}")
         if observado != esperado:
             problemas.append(f"{etapa}.{conjunto}: {observado} filas, se esperaban {esperado}")
     return problemas

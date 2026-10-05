@@ -24,3 +24,23 @@ principal = { ruta = "data/metadata/cma_corpus_principal_revisado.csv", filas = 
 secundario = { ruta = "data/metadata/cma_corpus_secundario_revisado.csv", filas = 19 }
 descartados = { ruta = "data/metadata/cma_descartados_revisado.csv", filas = 39 }
 pendientes = { ruta = "data/metadata/cma_pendientes_revision_v2.csv", filas = 0 }
+
+[consolidado.conteos]
+# Principal y complementario de MET v2 revisado y CMA v2 revisado.
+MET_principal = 127
+MET_complementario = 54
+CMA_principal = 88
+CMA_complementario = 19
+total = 288
+
+[consolidado.parametros]
+# Lado mayor minimo (px) para considerar una imagen util en lugar de baja_resolucion.
+# La copia local de MET es la version web-large del museo (lado mayor 595-625 px).
+lado_minimo_imagen = 500
+# Distancia de Hamming maxima entre dHash para listar un par como posible duplicado visual.
+umbral_dhash = 4
+
+[consolidado.salidas]
+consolidado = { ruta = "data/processed/corpus_textiles_andinos_met_cma_v1_consolidado.csv", filas = 288 }
+fuentes_licencias = { ruta = "data/processed/corpus_textiles_andinos_met_cma_v1_fuentes_licencias.csv", filas = 2 }
+manifiesto_imagenes = { ruta = "data/metadata/imagenes_manifiesto_met_cma_v1.csv", filas = 288 }

@@ -18,9 +18,11 @@ INSUMOS = [
     "data/processed/corpus_met_textiles_andinos_v1_principal.csv",
     "data/processed/corpus_met_textiles_andinos_v1_complementario.csv",
     "data/processed/corpus_met_textiles_andinos_v1_exclusiones_curatoriales.csv",
+    "data/processed/corpus_met_textiles_andinos_v1_inventario_base.csv",
     "data/metadata/met_revision_manual_v2.xlsx",
     "data/metadata/cma_revision_manual_v2.xlsx",
     "data/metadata/cma_andes_textiles_candidates.csv",
+    "data/metadata/imagenes_manifiesto_met_cma_v1.csv",
 ]
 
 REPORTES = [
@@ -28,6 +30,9 @@ REPORTES = [
     "outputs/reports/met_auditoria_tecnica_v2.md",
     "outputs/reports/met_resumen_revision_manual_v2.md",
     "outputs/reports/cma_resumen_revision_manual_v2.md",
+    "outputs/reports/corpus_textiles_andinos_met_cma_v1_resumen.md",
+    "docs/esquema_consolidado_met_cma_v1.md",
+    "data/processed/corpus_textiles_andinos_met_cma_v1_sha256.txt",
 ]
 
 
