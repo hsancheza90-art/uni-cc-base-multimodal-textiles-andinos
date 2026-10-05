@@ -6,9 +6,9 @@ Resumen generado por `python -m src.flujo` (`src/consolidado/construir_consolida
 
 | Fuente | Principal | Complementario | Total |
 |---|---:|---:|---:|
-| MET | 127 | 54 | 181 |
+| MET | 126 | 55 | 181 |
 | CMA | 88 | 19 | 107 |
-| Total | 215 | 73 | 288 |
+| Total | 214 | 74 | 288 |
 
 ## Cobertura de campos (registros con valor)
 
@@ -45,8 +45,8 @@ Resumen generado por `python -m src.flujo` (`src/consolidado/construir_consolida
 | `decision_curacion_final` | 181/181 | 107/107 |
 | `motivo_curacion_final` | 181/181 | 107/107 |
 | `decision_auditoria` | 181/181 | 107/107 |
-| `motivo_auditoria` | 0/181 | 107/107 |
-| `observacion_auditoria` | 0/181 | 0/107 |
+| `motivo_auditoria` | 1/181 | 107/107 |
+| `observacion_auditoria` | 1/181 | 0/107 |
 | `categoria_revision` | 132/181 | 107/107 |
 | `origen_curacion` | 181/181 | 107/107 |
 | `estado_licencia` | 181/181 | 107/107 |

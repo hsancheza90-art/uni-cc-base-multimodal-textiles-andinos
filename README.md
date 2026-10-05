@@ -24,7 +24,7 @@ Ambas fuentes cuentan con un flujo reproducible de curación, revisión manual m
 | Fuente | Nivel | Principal | Secundario | Descartados | Pendientes |
 |---|---|---:|---:|---:|---:|
 | MET v2 | Base auditada | 132 | 50 | 29 | 0 |
-| MET v2 | Revisión manual | 127 | 54 | 30 | 0 |
+| MET v2 | Revisión manual | 126 | 55 | 30 | 0 |
 | CMA v2 | Revisión manual (146 candidatos) | 88 | 19 | 39 | 0 |
 
 En CMA, 138 registros se revisaron manualmente y 8 se descartaron automáticamente por estar fuera del alcance andino o corresponder a herramientas textiles.
@@ -35,13 +35,13 @@ Une los subconjuntos principal y complementario revisados de ambas fuentes con e
 
 | Fuente | Principal | Complementario | Total |
 |---|---:|---:|---:|
-| MET | 127 | 54 | 181 |
+| MET | 126 | 55 | 181 |
 | CMA | 88 | 19 | 107 |
-| **Total** | **215** | **73** | **288** |
+| **Total** | **214** | **74** | **288** |
 
 El consolidado usa MET v2 revisado. El avance de tesis reporta 289 porque sumaba MET base (132 + 50); con la revisión manual MET el total es 288.
 
-- 287 imágenes descargadas y verificadas; MET:312615 no tiene imagen disponible en el museo (404).
+- 287 imágenes descargadas y verificadas. MET:312615 no tiene imagen disponible en el museo (404) y pasó de principal a complementario (criterio 6.3.2), registrado en `data/metadata/met_revision_manual_v2.xlsx`.
 - 4 grupos de registros que comparten la misma fotografía (`grupo_imagen_duplicada`); se conservan y deben tratarse como un solo ítem en evaluaciones imagen-imagen.
 - Detalle de cobertura, estados y posibles duplicados visuales: `outputs/reports/corpus_textiles_andinos_met_cma_v1_resumen.md`.
 - Esquema campo por campo: `docs/esquema_consolidado_met_cma_v1.md`.

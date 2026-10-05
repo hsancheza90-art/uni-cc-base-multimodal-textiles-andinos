@@ -1,3 +1,3 @@
 fuente,institucion,pais,tipo_acceso,estado_licencia,campo_licencia_fuente,url_politica,api,registros_principal,registros_complementario,registros_total
-MET,The Metropolitan Museum of Art,USA,Open Access,dominio_publico,isPublicDomain,https://www.metmuseum.org/hubs/open-access,https://collectionapi.metmuseum.org/public/collection/v1/,127,54,181
+MET,The Metropolitan Museum of Art,USA,Open Access,dominio_publico,isPublicDomain,https://www.metmuseum.org/hubs/open-access,https://collectionapi.metmuseum.org/public/collection/v1/,126,55,181
 CMA,Cleveland Museum of Art,USA,Open Access,cc0,share_license_status,https://www.clevelandart.org/open-access,https://openaccess-api.clevelandart.org/api/artworks/,88,19,107

@@ -4,12 +4,12 @@ Este reporte resume la aplicacion de decisiones manuales registradas en `data/me
 
 ## Conteos finales
 
-- Corpus principal revisado: 127
-- Corpus secundario revisado: 54
+- Corpus principal revisado: 126
+- Corpus secundario revisado: 55
 - Descartados revisados: 30
 - Pendientes por revisar: 0
 
 ## Movimientos registrados
 
 - principal -> descartados: 1
-- principal -> secundario: 4
+- principal -> secundario: 5

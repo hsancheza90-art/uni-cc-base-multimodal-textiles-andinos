@@ -9,8 +9,8 @@ descartados = { ruta = "data/metadata/met_descartados_v2.csv", filas = 29 }
 
 [met.revisado]
 descripcion = "Salidas MET v2 tras aplicar data/metadata/met_revision_manual_v2.xlsx"
-principal = { ruta = "data/metadata/met_corpus_principal_v2_revisado.csv", filas = 127 }
-secundario = { ruta = "data/metadata/met_corpus_secundario_v2_revisado.csv", filas = 54 }
+principal = { ruta = "data/metadata/met_corpus_principal_v2_revisado.csv", filas = 126 }
+secundario = { ruta = "data/metadata/met_corpus_secundario_v2_revisado.csv", filas = 55 }
 descartados = { ruta = "data/metadata/met_descartados_v2_revisado.csv", filas = 30 }
 pendientes = { ruta = "data/metadata/met_pendientes_revision_v2.csv", filas = 0 }
 
@@ -27,8 +27,9 @@ pendientes = { ruta = "data/metadata/cma_pendientes_revision_v2.csv", filas = 0 
 
 [consolidado.conteos]
 # Principal y complementario de MET v2 revisado y CMA v2 revisado.
-MET_principal = 127
-MET_complementario = 54
+# MET:312615 paso de principal a complementario (imagen no disponible en el museo, 2026-10-05).
+MET_principal = 126
+MET_complementario = 55
 CMA_principal = 88
 CMA_complementario = 19
 total = 288
