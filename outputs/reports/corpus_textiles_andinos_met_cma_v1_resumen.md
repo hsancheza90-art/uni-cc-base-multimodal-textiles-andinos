@@ -43,6 +43,15 @@ Resumen generado por `python -m src.flujo` (`src/consolidado/construir_consolida
 | `tecnica_normalizada` | 149/181 | 90/107 |
 | `origen_tecnica_normalizada` | 149/181 | 90/107 |
 | `dimensiones` | 181/181 | 0/107 |
+| `color_dominante` | 0/181 | 0/107 |
+| `colores` | 0/181 | 0/107 |
+| `contraste` | 0/181 | 0/107 |
+| `densidad_visual` | 0/181 | 0/107 |
+| `composicion` | 0/181 | 0/107 |
+| `simetria` | 0/181 | 0/107 |
+| `repeticion` | 0/181 | 0/107 |
+| `borde` | 0/181 | 0/107 |
+| `centro` | 0/181 | 0/107 |
 | `motivos` | 0/181 | 0/107 |
 | `familia_iconografica` | 0/181 | 0/107 |
 | `motivo_principal` | 0/181 | 0/107 |
@@ -60,6 +69,9 @@ Resumen generado por `python -m src.flujo` (`src/consolidado/construir_consolida
 | `estado_anotacion` | 181/181 | 107/107 |
 | `estado_imagen` | 181/181 | 107/107 |
 | `observaciones` | 6/181 | 2/107 |
+| `anotador` | 0/181 | 0/107 |
+| `fecha_anotacion` | 0/181 | 0/107 |
+| `observaciones_anotacion` | 0/181 | 0/107 |
 | `grupo_imagen_duplicada` | 6/181 | 2/107 |
 | `imagen_sha256` | 180/181 | 107/107 |
 | `imagen_dhash` | 180/181 | 107/107 |

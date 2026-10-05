@@ -1,0 +1,249 @@
+# Vocabulario controlado del corpus MET+CMA (fuente de verdad única).
+#
+# Basado en los Cuadros 6.3 a 6.8 del avance de tesis. En los datos se guarda
+# el código (minúsculas, sin tildes ni espacios); la etiqueta es la forma de la
+# tesis para documentos, figuras y el workbook de anotación.
+#
+# Cada campo:
+#   familia     visual | composicional | tecnica | iconografica | control | curatorial
+#   cuadro      cuadro de la tesis que lo define
+#   multiple    true si admite varios valores separados por "; "
+#   anotable    true si se registra en el workbook de anotación manual
+#   valores     [codigo, etiqueta] o [codigo, etiqueta, "extension"] cuando el valor
+#               no figura en la tesis y lo agregó la curación del corpus.
+
+# --------------------------------------------------------------- familia visual (6.3)
+
+[campos.color_dominante]
+familia = "visual"
+cuadro = "6.3"
+descripcion = "Color visualmente predominante."
+multiple = false
+anotable = true
+valores = [
+    ["rojo", "rojo"], ["marron", "marrón"], ["crema", "crema"], ["negro", "negro"],
+    ["azul", "azul"], ["amarillo", "amarillo"], ["verde", "verde"], ["multicolor", "multicolor"],
+]
+
+[campos.colores]
+familia = "visual"
+cuadro = "6.3"
+descripcion = "Lista breve de colores visibles."
+multiple = true
+anotable = true
+valores = [
+    ["rojo", "rojo"], ["marron", "marrón"], ["crema", "crema"], ["negro", "negro"],
+    ["azul", "azul"], ["amarillo", "amarillo"], ["verde", "verde"],
+    ["blanco", "blanco", "extension"], ["naranja", "naranja", "extension"], ["rosado", "rosado", "extension"],
+    ["morado", "morado", "extension"], ["gris", "gris", "extension"],
+]
+
+[campos.contraste]
+familia = "visual"
+cuadro = "6.3"
+descripcion = "Diferencia visual entre zonas cromáticas."
+multiple = false
+anotable = true
+valores = [["bajo", "bajo"], ["medio", "medio"], ["alto", "alto"]]
+
+[campos.densidad_visual]
+familia = "visual"
+cuadro = "6.3"
+descripcion = "Saturación de elementos visuales en la superficie."
+multiple = false
+anotable = true
+valores = [["baja", "baja"], ["media", "media"], ["alta", "alta"]]
+
+# --------------------------------------------------------------- familia composicional (6.4)
+
+[campos.composicion]
+familia = "composicional"
+cuadro = "6.4"
+descripcion = "Organización general del diseño."
+multiple = false
+anotable = true
+valores = [
+    ["bandas", "bandas"], ["campo_central", "campo central"], ["borde", "borde"],
+    ["paneles", "paneles"], ["reticula", "retícula"], ["composicion_libre", "composición libre"],
+]
+
+[campos.simetria]
+familia = "composicional"
+cuadro = "6.4"
+descripcion = "Organización simétrica o repetitiva."
+multiple = false
+anotable = true
+valores = [
+    ["bilateral", "bilateral"], ["radial", "radial"], ["repeticion_modular", "repetición modular"],
+    ["traslacional", "traslacional"], ["no_evidente", "no evidente"],
+]
+
+[campos.repeticion]
+familia = "composicional"
+cuadro = "6.4"
+descripcion = "Presencia de patrones repetidos."
+multiple = false
+anotable = true
+valores = [["si", "sí"], ["no", "no"], ["parcial", "parcial"]]
+
+[campos.borde]
+familia = "composicional"
+cuadro = "6.4"
+descripcion = "Presencia de borde decorado."
+multiple = false
+anotable = true
+valores = [["si", "sí"], ["no", "no"], ["no_visible", "no visible"]]
+
+[campos.centro]
+familia = "composicional"
+cuadro = "6.4"
+descripcion = "Presencia de campo central diferenciado."
+multiple = false
+anotable = true
+valores = [["si", "sí"], ["no", "no"], ["no_visible", "no visible"]]
+
+# --------------------------------------------------------------- familia técnica (6.5)
+
+[campos.material_normalizado]
+familia = "tecnica"
+cuadro = "6.5"
+descripcion = "Material normalizado desde los metadatos oficiales."
+multiple = true
+anotable = true
+valores = [
+    ["algodon", "algodón"], ["fibra_de_camelido", "fibra de camélido"], ["lana", "lana"], ["plumas", "plumas"],
+    ["seda", "seda", "extension"], ["metal", "metal", "extension"], ["pelo_humano", "pelo humano", "extension"],
+    ["fibra_vegetal", "fibra vegetal", "extension"], ["pigmento", "pigmento", "extension"],
+    ["fibra_textil", "fibra textil", "extension"],
+]
+
+[campos.tecnica_normalizada]
+familia = "tecnica"
+cuadro = "6.5"
+descripcion = "Técnica identificada desde los metadatos oficiales."
+multiple = true
+anotable = true
+valores = [
+    ["tejido", "tejido"], ["tapiz", "tapiz"], ["bordado", "bordado"], ["trabajo_con_plumas", "trabajo con plumas"],
+    ["brocado", "brocado", "extension"], ["tela_doble", "tela doble", "extension"], ["pintado", "pintado", "extension"],
+]
+
+[campos.tipo_objeto]
+familia = "tecnica"
+cuadro = "6.5"
+descripcion = "Tipo de textil u objeto textil."
+multiple = false
+anotable = true
+valores = [
+    ["manto", "manto"], ["tunica", "túnica"], ["bolso_textil", "bolso textil"], ["panel_textil", "panel"],
+    ["fragmento_textil", "fragmento"], ["tapiz_textil", "tapiz"],
+    ["banda", "banda", "extension"], ["borde_textil", "borde", "extension"], ["borla_textil", "borla", "extension"],
+    ["faja", "faja", "extension"], ["honda_textil", "honda", "extension"], ["mascara_textil", "máscara textil", "extension"],
+    ["objeto_textil", "objeto textil", "extension"], ["sombrero_o_gorro", "sombrero o gorro", "extension"],
+    ["sombrero_wari_iconografico", "sombrero wari iconográfico", "extension"], ["tela", "tela", "extension"],
+    ["tocado", "tocado", "extension"], ["vestimenta_textil", "vestimenta", "extension"],
+    ["vincha_textil", "vincha", "extension"],
+]
+
+[campos.tipo_superficie]
+familia = "tecnica"
+cuadro = "6.5"
+descripcion = "Utilidad morfológica para análisis visual."
+multiple = false
+anotable = true
+valores = [
+    ["superficie_amplia", "superficie amplia"], ["objeto_tridimensional", "objeto tridimensional"],
+    ["formato_estrecho", "formato estrecho"], ["borde_o_fragmento_lineal", "borde o fragmento lineal"],
+    ["revision_morfologica", "revisión morfológica"],
+    ["objeto_tridimensional_iconografico", "objeto tridimensional iconográfico", "extension"],
+    ["objeto_tridimensional_no_prioritario", "objeto tridimensional no prioritario", "extension"],
+    ["materialidad_plumas", "materialidad de plumas", "extension"],
+    ["fragmento_para_revision", "fragmento para revisión", "extension"],
+]
+
+# --------------------------------------------------------------- familia iconográfica (6.6)
+
+[campos.motivos]
+familia = "iconografica"
+cuadro = "6.6"
+descripcion = "Motivos observables."
+multiple = true
+anotable = true
+valores = [
+    ["geometrico", "geométrico"], ["antropomorfo", "antropomorfo"], ["zoomorfo", "zoomorfo"],
+    ["fitomorfo", "fitomorfo"], ["abstracto", "abstracto"],
+]
+
+[campos.familia_iconografica]
+familia = "iconografica"
+cuadro = "6.6"
+descripcion = "Familia dominante de representación."
+multiple = false
+anotable = true
+valores = [
+    ["geometrica", "geométrica"], ["figurativa", "figurativa"], ["mixta", "mixta"],
+    ["abstracta", "abstracta"], ["no_determinada", "no determinada"],
+]
+
+[campos.motivo_principal]
+familia = "iconografica"
+cuadro = "6.6"
+descripcion = "Motivo más visible o relevante."
+multiple = false
+anotable = true
+valores = [
+    ["rombos", "rombos"], ["aves", "aves"], ["felinos", "felinos"], ["figuras_humanas", "figuras humanas"],
+    ["serpientes", "serpientes"], ["escalonados", "escalonados"], ["no_determinado", "no determinado"],
+    ["peces", "peces", "extension"], ["camelidos", "camélidos", "extension"],
+    ["cruces", "cruces", "extension"], ["volutas", "volutas", "extension"],
+]
+
+# --------------------------------------------------------------- estados de control (6.8)
+
+[campos.estado_metadatos]
+familia = "control"
+cuadro = "6.8"
+descripcion = "Nivel de suficiencia de metadatos."
+multiple = false
+anotable = false
+valores = [["completo", "completo"], ["parcial", "parcial"], ["insuficiente", "insuficiente"]]
+
+[campos.estado_anotacion]
+familia = "control"
+cuadro = "6.8"
+descripcion = "Estado de revisión manual."
+multiple = false
+anotable = true
+valores = [
+    ["sin_anotar", "sin anotar"], ["anotado_manual", "anotado manual"], ["revisar", "revisar"],
+    ["corregido", "corregido"], ["descartado", "descartado"],
+]
+
+[campos.estado_imagen]
+familia = "control"
+cuadro = "6.8"
+descripcion = "Estado de disponibilidad y utilidad visual."
+multiple = false
+anotable = true
+valores = [
+    ["util", "útil"], ["baja_resolucion", "baja resolución"], ["no_disponible", "no disponible"],
+    ["requiere_revision", "requiere revisión"],
+]
+
+# --------------------------------------------------------------- curatoriales y de licencia
+
+[campos.decision_curacion_final]
+familia = "curatorial"
+cuadro = "6.1"
+descripcion = "Decisión final de curación."
+multiple = false
+anotable = false
+valores = [["principal", "principal"], ["complementario", "complementario"]]
+
+[campos.estado_licencia]
+familia = "curatorial"
+cuadro = "6.7"
+descripcion = "Condición de uso, dominio público o licencia abierta."
+multiple = false
+anotable = false
+valores = [["dominio_publico", "dominio público"], ["cc0", "CC0"]]

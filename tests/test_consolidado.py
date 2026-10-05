@@ -15,6 +15,7 @@ from src.consolidado import construir_consolidado as cc
 from src.consolidado.esquema import COLUMNAS, OBLIGATORIOS
 from src.imagenes import descargar_imagenes as di
 from src.utils.config import RAIZ_REPO, leer_config
+from src.utils.vocabulario import leer_vocabulario
 
 
 def leer(relativa: str) -> list[dict[str, str]]:
@@ -75,7 +76,8 @@ def test_origen_de_campos_normalizados(consolidado: list[dict[str, str]], campo:
         assert origen in ({"curacion", "regla"} if fila[campo] else {""}), (fila["id_global"], campo)
 
 
-def test_valores_curados_se_conservan(consolidado: list[dict[str, str]]) -> None:
+def test_valores_curados_se_conservan_recodificados(consolidado: list[dict[str, str]]) -> None:
+    vocabulario = leer_vocabulario()
     por_id = {f["id_global"]: f for f in consolidado}
     pares = [("tipo_objeto", "tipo_objeto"), ("material_normalizado", "material_normalizado"), ("tecnica", "tecnica_normalizada")]
     for ruta in cc.MET_REVISADOS.values():
@@ -83,8 +85,16 @@ def test_valores_curados_se_conservan(consolidado: list[dict[str, str]]) -> None
             registro = por_id[f"MET:{fila['id_fuente']}"]
             for campo_rev, campo_cons in pares:
                 if fila[campo_rev]:
-                    assert registro[campo_cons] == fila[campo_rev]
+                    assert registro[campo_cons] == vocabulario[campo_cons].recodificar(fila[campo_rev])
                     assert registro[f"origen_{campo_cons}"] == "curacion"
+
+
+def test_campos_controlados_usan_el_vocabulario(consolidado: list[dict[str, str]]) -> None:
+    vocabulario = leer_vocabulario()
+    for fila in consolidado:
+        for campo in vocabulario.values():
+            if campo.nombre in fila:
+                assert not campo.invalidos(fila[campo.nombre]), (fila["id_global"], campo.nombre)
 
 
 def test_titulo_sugerido_se_conserva(consolidado: list[dict[str, str]]) -> None:

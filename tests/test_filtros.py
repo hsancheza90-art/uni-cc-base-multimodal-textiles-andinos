@@ -118,12 +118,12 @@ def test_tipo_objeto(fila, tipo) -> None:
 @pytest.mark.parametrize(
     ("textos", "esperado"),
     [
-        (("Camelid hair, cotton",), "algodón; fibra de camélido"),
-        (("alpaca wool",), "fibra de camélido"),
-        (("cotton and wool, tapestry weave",), "algodón; lana"),
-        (("Cotton, camelid hair, silk, metal",), "algodón; fibra de camélido; metal; seda"),
-        (("Feathers on cotton, camelid hair",), "algodón; fibra de camélido; plumas"),
-        (("Cotton, paint",), "algodón; pigmento"),
+        (("Camelid hair, cotton",), "algodon; fibra_de_camelido"),
+        (("alpaca wool",), "fibra_de_camelido"),
+        (("cotton and wool, tapestry weave",), "algodon; lana"),
+        (("Cotton, camelid hair, silk, metal",), "algodon; fibra_de_camelido; seda; metal"),
+        (("Feathers on cotton, camelid hair",), "algodon; fibra_de_camelido; plumas"),
+        (("Cotton, paint",), "algodon; pigmento"),
         (("",), ""),
     ],
 )
@@ -136,11 +136,11 @@ def test_normalizar_material(textos, esperado) -> None:
     [
         (("Textiles-Non-Woven",), ""),
         (("Textiles-Woven",), "tejido"),
-        (("single-interlocked tapestry; cotton warp",), "tapiz; tejido"),
-        (("camelid fiber; double-cloth with structural embroidery",), "bordado; tejido; tela doble"),
-        (("tabby, brocaded; cotton and wool",), "brocado; tejido"),
-        (("Textiles-Featherwork", "feathered panel"), "trabajo con plumas"),
-        (("plain warp-faced cloth, painted: cotton",), "pintado; tejido"),
+        (("single-interlocked tapestry; cotton warp",), "tejido; tapiz"),
+        (("camelid fiber; double-cloth with structural embroidery",), "tejido; bordado; tela_doble"),
+        (("tabby, brocaded; cotton and wool",), "tejido; brocado"),
+        (("Textiles-Featherwork", "feathered panel"), "trabajo_con_plumas"),
+        (("plain warp-faced cloth, painted: cotton",), "tejido; pintado"),
     ],
 )
 def test_normalizar_tecnica(textos, esperado) -> None:

@@ -27,19 +27,28 @@ ESQUEMA: list[tuple[str, str, str]] = [
     ("departamento", "contextual", "Departamento del museo que custodia el objeto."),
     ("clasificacion_original", "estructural", "Clasificacion curatorial original de la fuente."),
     ("nombre_objeto_original", "estructural", "Nombre o tipo de objeto tal como lo registra la fuente."),
-    ("tipo_objeto", "estructural", "Tipo de pieza normalizado (manto, tunica, bolso_textil, panel_textil, fragmento_textil...)."),
-    ("origen_tipo_objeto", "estructural", "Origen de tipo_objeto: curacion (revision MET v2 o CMA) o regla (src/preprocessing)."),
-    ("tipo_superficie", "estructural", "Utilidad morfologica para analisis visual, cuando se evaluo."),
+    ("tipo_objeto", "estructural", "Tipo de pieza normalizado (codigo del vocabulario)."),
+    ("origen_tipo_objeto", "estructural", "Origen de tipo_objeto: curacion, regla o anotacion."),
+    ("tipo_superficie", "estructural", "Utilidad morfologica para analisis visual (codigo del vocabulario)."),
     ("material", "estructural", "Material tal como lo registra la fuente."),
-    ("material_normalizado", "estructural", "Materiales normalizados en espanol, separados por '; '."),
-    ("origen_material_normalizado", "estructural", "Origen de material_normalizado: curacion o regla."),
+    ("material_normalizado", "estructural", "Codigos de material separados por '; '."),
+    ("origen_material_normalizado", "estructural", "Origen de material_normalizado: curacion, regla o anotacion."),
     ("tecnica", "estructural", "Tecnica tal como la describe la fuente (MET no la entrega como campo)."),
-    ("tecnica_normalizada", "estructural", "Tecnicas normalizadas en espanol (tejido, tapiz, bordado...), separadas por '; '."),
-    ("origen_tecnica_normalizada", "estructural", "Origen de tecnica_normalizada: curacion o regla."),
+    ("tecnica_normalizada", "estructural", "Codigos de tecnica separados por '; '."),
+    ("origen_tecnica_normalizada", "estructural", "Origen de tecnica_normalizada: curacion, regla o anotacion."),
     ("dimensiones", "estructural", "Dimensiones registradas por la fuente."),
-    ("motivos", "iconografico", "Motivos observables (pendiente de anotacion)."),
-    ("familia_iconografica", "iconografico", "Familia iconografica dominante (pendiente de anotacion)."),
-    ("motivo_principal", "iconografico", "Motivo mas visible o relevante (pendiente de anotacion)."),
+    ("color_dominante", "visual", "Color visualmente predominante (anotacion, Cuadro 6.3)."),
+    ("colores", "visual", "Colores visibles separados por '; ' (anotacion, Cuadro 6.3)."),
+    ("contraste", "visual", "Diferencia visual entre zonas cromaticas (anotacion, Cuadro 6.3)."),
+    ("densidad_visual", "visual", "Saturacion de elementos visuales (anotacion, Cuadro 6.3)."),
+    ("composicion", "composicional", "Organizacion general del diseno (anotacion, Cuadro 6.4)."),
+    ("simetria", "composicional", "Organizacion simetrica o repetitiva (anotacion, Cuadro 6.4)."),
+    ("repeticion", "composicional", "Presencia de patrones repetidos (anotacion, Cuadro 6.4)."),
+    ("borde", "composicional", "Presencia de borde decorado (anotacion, Cuadro 6.4)."),
+    ("centro", "composicional", "Presencia de campo central diferenciado (anotacion, Cuadro 6.4)."),
+    ("motivos", "iconografico", "Motivos observables separados por '; ' (anotacion, Cuadro 6.6)."),
+    ("familia_iconografica", "iconografico", "Familia iconografica dominante (anotacion, Cuadro 6.6)."),
+    ("motivo_principal", "iconografico", "Motivo mas visible o relevante (anotacion, Cuadro 6.6)."),
     ("decision_curacion_final", "curatorial", "Subconjunto final: principal o complementario."),
     ("motivo_curacion_final", "curatorial", "Justificacion breve de la decision de curacion."),
     ("decision_auditoria", "curatorial", "Decision registrada en la revision manual."),
@@ -54,6 +63,9 @@ ESQUEMA: list[tuple[str, str, str]] = [
     ("estado_anotacion", "control", "Estado de anotacion manual: sin_anotar, anotado_manual, revisar, corregido o descartado."),
     ("estado_imagen", "control", "Estado de la imagen: util, baja_resolucion, no_disponible o requiere_revision."),
     ("observaciones", "control", "Comentarios metodologicos generados por el flujo (por ejemplo, imagen compartida)."),
+    ("anotador", "control", "Persona que registro la anotacion manual."),
+    ("fecha_anotacion", "control", "Fecha de la anotacion manual (AAAA-MM-DD)."),
+    ("observaciones_anotacion", "control", "Comentarios del anotador: dudas, ambiguedades o criterios aplicados."),
     ("grupo_imagen_duplicada", "imagen", "Grupo de registros que comparten la misma imagen; vacio si es unica."),
     ("imagen_sha256", "imagen", "SHA-256 del archivo de imagen descargado."),
     ("imagen_dhash", "imagen", "Hash perceptual (dHash de 64 bits) de la imagen descargada."),
@@ -68,10 +80,39 @@ ESQUEMA: list[tuple[str, str, str]] = [
 
 COLUMNAS: list[str] = [campo for campo, _, _ in ESQUEMA]
 
-DECISIONES_VALIDAS = {"principal", "complementario"}
-ESTADOS_LICENCIA_VALIDOS = {"dominio_publico", "cc0"}
-ESTADOS_METADATOS_VALIDOS = {"completo", "parcial", "insuficiente"}
-ESTADOS_IMAGEN_VALIDOS = {"util", "baja_resolucion", "no_disponible", "requiere_revision"}
+# Los valores permitidos de los campos categoricos estan en config/vocabulario.toml.
+
+# Atributos que se registran en la anotacion manual (Cuadros 6.3, 6.4 y 6.6).
+ATRIBUTOS_ANOTACION: list[str] = [
+    "color_dominante",
+    "colores",
+    "contraste",
+    "densidad_visual",
+    "composicion",
+    "simetria",
+    "repeticion",
+    "borde",
+    "centro",
+    "motivos",
+    "familia_iconografica",
+    "motivo_principal",
+]
+
+# Correcciones manuales de campos ya normalizados: columna de anotacion -> campo del corpus.
+CORRECCIONES: dict[str, str] = {
+    "tipo_objeto_corregido": "tipo_objeto",
+    "tipo_superficie_corregido": "tipo_superficie",
+    "material_corregido": "material_normalizado",
+    "tecnica_corregida": "tecnica_normalizada",
+    "estado_imagen_corregido": "estado_imagen",
+}
+
+COLUMNAS_ANOTACIONES: list[str] = (
+    ["id_global"]
+    + ATRIBUTOS_ANOTACION
+    + list(CORRECCIONES)
+    + ["estado_anotacion", "anotador", "fecha_anotacion", "observaciones_anotacion"]
+)
 
 # Campos que no pueden quedar vacios en ningun registro.
 OBLIGATORIOS = [

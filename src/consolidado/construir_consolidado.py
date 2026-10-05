@@ -22,17 +22,16 @@ from collections import Counter, defaultdict
 from pathlib import Path
 
 from src.consolidado.esquema import (
+    ATRIBUTOS_ANOTACION,
     COLUMNAS,
-    DECISIONES_VALIDAS,
+    CORRECCIONES,
     ESQUEMA,
-    ESTADOS_IMAGEN_VALIDOS,
-    ESTADOS_LICENCIA_VALIDOS,
-    ESTADOS_METADATOS_VALIDOS,
     OBLIGATORIOS,
 )
 from src.preprocessing.normalizacion import normalizar_material, normalizar_tecnica
 from src.preprocessing.surface_filters import normalize_object_type, nucleo_titulo
 from src.utils.config import leer_config
+from src.utils.vocabulario import Campo, leer_vocabulario
 
 # Valores de reglas que no aportan un tipo de objeto concreto.
 TIPOS_SIN_DETERMINAR = {"tipo_no_determinado"}
@@ -53,6 +52,7 @@ CMA_REVISADOS = {
 CMA_CANDIDATOS = "data/metadata/cma_andes_textiles_candidates.csv"
 
 MANIFIESTO_IMAGENES = "data/metadata/imagenes_manifiesto_met_cma_v1.csv"
+ANOTACIONES = "data/metadata/anotaciones_met_cma_v1.csv"
 SALIDA_CONSOLIDADO = "data/processed/corpus_textiles_andinos_met_cma_v1_consolidado.csv"
 SALIDA_FUENTES = "data/processed/corpus_textiles_andinos_met_cma_v1_fuentes_licencias.csv"
 SALIDA_SHA256 = "data/processed/corpus_textiles_andinos_met_cma_v1_sha256.txt"
@@ -267,8 +267,12 @@ def registros_cma(raiz: Path) -> list[dict[str, str]]:
     return registros
 
 
-def normalizar_campos(fila: dict[str, str]) -> None:
-    """Completa por reglas los campos normalizados que la curacion dejo vacios y registra su origen."""
+def normalizar_campos(fila: dict[str, str], vocabulario: dict[str, Campo]) -> None:
+    """Completa por reglas los campos normalizados que la curacion dejo vacios y registra su origen.
+
+    Los valores curados escritos como etiqueta ("algodón; fibra de camélido") se recodifican
+    a codigos del vocabulario ("algodon; fibra_de_camelido").
+    """
     contexto = {
         "titulo_original": fila["titulo_original"],
         "titulo_es_sugerido": fila["titulo_es_sugerido"],
@@ -286,6 +290,7 @@ def normalizar_campos(fila: dict[str, str]) -> None:
     }
     for campo, regla in reglas.items():
         if fila[campo]:
+            fila[campo] = vocabulario[campo].recodificar(fila[campo])
             fila[f"origen_{campo}"] = "curacion"
             continue
         valor = regla()
@@ -297,9 +302,10 @@ def normalizar_campos(fila: dict[str, str]) -> None:
 
 def construir_registros_base(raiz: Path) -> list[dict[str, str]]:
     """Registros armonizados sin informacion de imagen, ordenados por fuente e id."""
+    vocabulario = leer_vocabulario(raiz)
     registros = registros_met(raiz) + registros_cma(raiz)
     for fila in registros:
-        normalizar_campos(fila)
+        normalizar_campos(fila, vocabulario)
     return sorted(registros, key=clave_orden)
 
 
@@ -370,20 +376,39 @@ def posibles_duplicados_visuales(registros: list[dict[str, str]], umbral: int) -
     return pares
 
 
-def completar(registros: list[dict[str, str]], manifiesto: dict[str, dict[str, str]], lado_minimo: int) -> None:
+def aplicar_anotacion(fila: dict[str, str], anotacion: dict[str, str] | None) -> None:
+    """Copia los atributos anotados y aplica las correcciones manuales sobre los campos normalizados."""
+    fila["estado_anotacion"] = "sin_anotar"
+    if not anotacion:
+        return
+    for campo in ATRIBUTOS_ANOTACION + ["anotador", "fecha_anotacion", "observaciones_anotacion"]:
+        fila[campo] = anotacion.get(campo, "")
+    for columna, campo in CORRECCIONES.items():
+        if anotacion.get(columna):
+            fila[campo] = anotacion[columna]
+            if f"origen_{campo}" in COLUMNAS:
+                fila[f"origen_{campo}"] = "anotacion"
+    fila["estado_anotacion"] = anotacion.get("estado_anotacion") or "sin_anotar"
+
+
+def completar(
+    registros: list[dict[str, str]],
+    manifiesto: dict[str, dict[str, str]],
+    lado_minimo: int,
+    anotaciones: dict[str, dict[str, str]] | None = None,
+) -> None:
+    anotaciones = anotaciones or {}
     for fila in registros:
+        for campo in COLUMNAS:
+            fila.setdefault(campo, "")
         imagen = manifiesto.get(fila["id_global"])
         ok = bool(imagen and imagen["estado_descarga"] == "ok")
         fila["ruta_imagen_local"] = imagen["ruta_imagen_local"] if ok else ""
         for campo in ("imagen_sha256", "imagen_dhash", "imagen_ancho", "imagen_alto", "imagen_sha256_pixeles"):
             fila[campo] = imagen.get(campo, "") if ok else ""
-        fila["estado_metadatos"] = estado_metadatos(fila)
-        fila["estado_anotacion"] = "sin_anotar"
         fila["estado_imagen"] = estado_imagen(imagen, lado_minimo)
-        for campo in ("motivos", "familia_iconografica", "motivo_principal", "observaciones", "grupo_imagen_duplicada"):
-            fila.setdefault(campo, "")
-        for campo in COLUMNAS:
-            fila.setdefault(campo, "")
+        aplicar_anotacion(fila, anotaciones.get(fila["id_global"]))
+        fila["estado_metadatos"] = estado_metadatos(fila)
 
     por_id = {fila["id_global"]: fila for fila in registros}
     grupos = sorted(agrupar_duplicados(registros).values(), key=lambda ids: clave_orden(por_id[ids[0]]))
@@ -398,8 +423,13 @@ def completar(registros: list[dict[str, str]], manifiesto: dict[str, dict[str, s
 # --------------------------------------------------------------------------- validacion
 
 
-def validar(registros: list[dict[str, str]], esperados: dict[str, int]) -> list[str]:
+def validar(
+    registros: list[dict[str, str]],
+    esperados: dict[str, int],
+    vocabulario: dict[str, Campo],
+) -> list[str]:
     problemas: list[str] = []
+    controlados = [campo for campo in vocabulario.values() if campo.nombre in COLUMNAS]
 
     ids = Counter(fila["id_global"] for fila in registros)
     repetidos = sorted(id_ for id_, n in ids.items() if n > 1)
@@ -416,15 +446,10 @@ def validar(registros: list[dict[str, str]], esperados: dict[str, int]) -> list[
             problemas.append(f"{fila['id_global']}: campos obligatorios vacios: {', '.join(vacios)}")
         if fila["id_global"] != f"{fila['fuente']}:{fila['id_fuente']}":
             problemas.append(f"{fila['id_global']}: id_global no coincide con fuente:id_fuente")
-        controles = [
-            ("decision_curacion_final", DECISIONES_VALIDAS),
-            ("estado_licencia", ESTADOS_LICENCIA_VALIDOS),
-            ("estado_metadatos", ESTADOS_METADATOS_VALIDOS),
-            ("estado_imagen", ESTADOS_IMAGEN_VALIDOS),
-        ]
-        for campo, validos in controles:
-            if fila[campo] and fila[campo] not in validos:
-                problemas.append(f"{fila['id_global']}: {campo}={fila[campo]} no permitido")
+        for campo in controlados:
+            invalidos = campo.invalidos(fila[campo.nombre])
+            if invalidos:
+                problemas.append(f"{fila['id_global']}: {campo.nombre} fuera del vocabulario: {invalidos}")
 
     conteos = Counter(f"{fila['fuente']}_{fila['decision_curacion_final']}" for fila in registros)
     for clave, esperado in esperados.items():
@@ -542,21 +567,26 @@ def lineas_reporte(
     return lineas
 
 
-def lineas_esquema() -> list[str]:
+def lineas_esquema(vocabulario: dict[str, Campo]) -> list[str]:
     lineas = [
         "# Esquema del corpus consolidado MET+CMA v1.0",
         "",
         "Archivo: `data/processed/corpus_textiles_andinos_met_cma_v1_consolidado.csv` "
         "(UTF-8 sin BOM, separador coma, fin de linea LF).",
         "",
-        "Documento generado desde `src/consolidado/esquema.py`; no editar a mano.",
+        "Documento generado desde `src/consolidado/esquema.py`; no editar a mano. Los campos con vocabulario "
+        "controlado guardan codigos de `config/vocabulario.toml`; sus etiquetas estan en "
+        "`docs/corpus/taxonomia_atributos_met_cma_v1.md`.",
         "",
-        "| # | Campo | Grupo | Descripcion |",
-        "|---:|---|---|---|",
+        "| # | Campo | Grupo | Descripcion | Vocabulario |",
+        "|---:|---|---|---|---|",
     ]
     for numero, (campo, grupo, descripcion) in enumerate(ESQUEMA, start=1):
         obligatorio = " **(obligatorio)**" if campo in OBLIGATORIOS else ""
-        lineas.append(f"| {numero} | `{campo}` | {grupo} | {descripcion}{obligatorio} |")
+        control = ""
+        if campo in vocabulario:
+            control = f"Cuadro {vocabulario[campo].cuadro}" + (", multiple" if vocabulario[campo].multiple else "")
+        lineas.append(f"| {numero} | `{campo}` | {grupo} | {descripcion}{obligatorio} | {control} |")
     return lineas
 
 
@@ -568,14 +598,20 @@ def construir(raiz: Path) -> int:
     lado_minimo = int(config["parametros"]["lado_minimo_imagen"])
     umbral = int(config["parametros"]["umbral_dhash"])
 
+    vocabulario = leer_vocabulario(raiz)
     registros = construir_registros_base(raiz)
     ruta_manifiesto = raiz / MANIFIESTO_IMAGENES
     manifiesto = indexar(leer_csv(ruta_manifiesto), "id_global") if ruta_manifiesto.exists() else {}
     if not manifiesto:
         print(f"Advertencia: no existe {MANIFIESTO_IMAGENES}; las imagenes quedan como no_disponible.")
-    completar(registros, manifiesto, lado_minimo)
+    ruta_anotaciones = raiz / ANOTACIONES
+    anotaciones = indexar(leer_csv(ruta_anotaciones), "id_global") if ruta_anotaciones.exists() else {}
+    huerfanas = sorted(set(anotaciones) - {fila["id_global"] for fila in registros})
+    if huerfanas:
+        print(f"Advertencia: anotaciones de registros que no estan en el consolidado: {huerfanas[:10]}")
+    completar(registros, manifiesto, lado_minimo, anotaciones)
 
-    problemas = validar(registros, {clave: int(valor) for clave, valor in config["conteos"].items()})
+    problemas = validar(registros, {clave: int(valor) for clave, valor in config["conteos"].items()}, vocabulario)
     if problemas:
         print("Problemas en el consolidado:")
         for problema in problemas:
@@ -588,7 +624,7 @@ def construir(raiz: Path) -> int:
 
     pares_visuales = posibles_duplicados_visuales(registros, umbral)
     escribir_texto(raiz / SALIDA_REPORTE, lineas_reporte(registros, pares_visuales, umbral, lado_minimo))
-    escribir_texto(raiz / SALIDA_ESQUEMA, lineas_esquema())
+    escribir_texto(raiz / SALIDA_ESQUEMA, lineas_esquema(vocabulario))
 
     verificados = [SALIDA_CONSOLIDADO, SALIDA_FUENTES, MANIFIESTO_IMAGENES]
     escribir_texto(
