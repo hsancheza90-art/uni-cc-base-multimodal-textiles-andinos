@@ -69,6 +69,15 @@ def test_hilo_metalico_no_penaliza_un_textil() -> None:
     [
         ({"title": "Stirrup Spout Bottle", "classification": "Ceramics", "medium": "Ceramic"}, "excluido_no_textil"),
         ({"title": "Spindle", "classification": "Textiles-Implements", "medium": "Wood"}, "excluido_no_textil"),
+        (
+            {
+                "title": "Wooden Spindle with Needlework Decoration",
+                "classification": "spindles (textile working equipment); textile",
+                "medium": "Wood and cotton",
+            },
+            "excluido_no_textil",
+        ),
+        ({"title": "Weaving Comb", "classification": "textile", "medium": "Wood"}, "excluido_no_textil"),
         ({"title": "Tunic", "classification": "Textiles-Woven", "medium": "Camelid hair", "objectName": "Tunic"}, "aceptado_textil"),
     ],
 )

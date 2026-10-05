@@ -119,6 +119,27 @@ NON_TEXTILE_MEDIUM_TERMS = [
     "gourd",
 ]
 
+# Herramientas de hilado y tejido: se catalogan como "textile working equipment",
+# pero no son superficies textiles y se excluyen siempre (como en la curacion CMA).
+TEXTILE_TOOL_TERMS = [
+    "spindle",
+    "spindles",
+    "whorl",
+    "whorls",
+    "textile working equipment",
+    "weaving comb",
+    "weaving combs",
+    "weaving sword",
+    "loom",
+    "shed stick",
+    "shed sticks",
+    "bone pick",
+    "bobbin",
+    "work basket",
+    "workbasket",
+    "textiles-implements",
+]
+
 NON_TEXTILE_TITLE_TERMS = [
     "vessel",
     "bottle",
@@ -277,9 +298,17 @@ def evaluate_met_record(record: Dict[str, Any]) -> Dict[str, Any]:
         exclusion_evidence_count += 1
         reasons.append(f"nombre de objeto sugiere objeto no textil: {non_textile_object_hits}")
 
+    tool_hits = contains_any(" ".join([title, object_name, classification]), TEXTILE_TOOL_TERMS)
+    if tool_hits:
+        score -= 5
+        exclusion_evidence_count += 1
+        reasons.append(f"herramienta textil, no superficie textil: {tool_hits}")
+
     # Curation status
     if not primary_image:
         estado = "excluido_sin_imagen"
+    elif tool_hits:
+        estado = "excluido_no_textil"
     elif exclusion_evidence_count >= 1 and textile_evidence_count == 0:
         estado = "excluido_no_textil"
     elif score >= 6 and textile_evidence_count >= 2:
