@@ -13,7 +13,8 @@ API del museo
                                                     CMA: data/metadata/cma_andes_textiles_candidates.csv
   -> filtro automático y revisión manual            MET v1: data/historico/met_v1/ (auditoría de 161 registros)
                                                     v2: data/metadata/*_revision_manual_v2.xlsx
-  -> subconjuntos revisados                         data/metadata/*_revisado.csv
+  -> subconjuntos revisados                         data/metadata/*_revisado.csv (vigentes, siguen la v2)
+  -> copia congelada de la v1                       data/metadata/v1_congelado/*_revisado.csv (idéntica a corpus-met-cma-v1.2)
   -> consolidado armonizado                         data/processed/corpus_textiles_andinos_met_cma_v1_consolidado.csv
   -> anotación manual                               data/metadata/anotacion_met_cma_v1.xlsx -> anotaciones_met_cma_v1.csv
 ```
@@ -24,7 +25,7 @@ API del museo
 |---|---|
 | `id_global`, `fuente`, `id_fuente` | Identidad del objeto en el corpus y en el museo |
 | `url_objeto`, `url_imagen` | Registro e imagen oficiales |
-| `archivo_origen` | CSV revisado del que proviene el registro |
+| `archivo_origen` | CSV revisado del que proviene el registro (ruta registrada en la v1.2; el flujo lo lee hoy de la copia congelada) |
 | `origen_curacion` | Etapa en la que el registro entró al corpus |
 | `decision_auditoria`, `motivo_curacion_final` | Decisión humana y su justificación |
 | `origen_tipo_objeto`, `origen_material_normalizado`, `origen_tecnica_normalizada` | Si el valor normalizado viene de la curación, de una regla o de la anotación |
@@ -47,6 +48,7 @@ API del museo
 | 2026-07 | Revisión manual MET v2 y CMA v2 | `data/metadata/*_revision_manual_v2.xlsx` |
 | 2026-10-05 | MET:312615 pasa a complementario: imagen no disponible en el museo | `met_revision_manual_v2.xlsx`, fila del registro |
 | 2026-10-05 | 9 registros MET recuperados por el filtro corregido, pendientes de revisión | `met_revision_manual_v2.xlsx`, `met_pendientes_revision_v2.csv` |
+| 2026-10-19 | Las entradas del consolidado v1 se congelan en `data/metadata/v1_congelado/`; los cambios posteriores de los workbooks MET y CMA (criterio de aptitud, reglas y validación ciega) pertenecen a la v2 y no alteran este consolidado | `config/corpus.toml`, `docs/protocolo_aptitud_v2.md` |
 
 ## Lo que no se versiona
 

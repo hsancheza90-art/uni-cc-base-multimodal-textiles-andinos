@@ -16,7 +16,6 @@ Salidas:
 from __future__ import annotations
 
 import argparse
-import csv
 import hashlib
 from collections import Counter, defaultdict
 from pathlib import Path
@@ -30,15 +29,19 @@ from src.consolidado.esquema import (
 )
 from src.preprocessing.normalizacion import normalizar_material, normalizar_tecnica
 from src.preprocessing.surface_filters import normalize_object_type, nucleo_titulo
+from src.utils.archivos import escribir_csv, escribir_texto, indexar, leer_csv
 from src.utils.config import leer_config
 from src.utils.vocabulario import Campo, leer_vocabulario
 
 # Valores de reglas que no aportan un tipo de objeto concreto.
 TIPOS_SIN_DETERMINAR = {"tipo_no_determinado"}
 
+# El consolidado v1 lee copias congeladas de las salidas revisadas en la etiqueta
+# corpus-met-cma-v1.2: desde la v2 los workbooks MET y CMA siguen cambiando (criterio de
+# aptitud, reglas de pertinencia) y esos cambios no deben alterar los archivos _v1_.
 MET_REVISADOS = {
-    "principal": "data/metadata/met_corpus_principal_v2_revisado.csv",
-    "complementario": "data/metadata/met_corpus_secundario_v2_revisado.csv",
+    "principal": "data/metadata/v1_congelado/met_corpus_principal_v2_revisado.csv",
+    "complementario": "data/metadata/v1_congelado/met_corpus_secundario_v2_revisado.csv",
 }
 MET_INVENTARIO = "data/processed/corpus_met_textiles_andinos_v1_inventario_base.csv"
 MET_V1 = [
@@ -46,10 +49,15 @@ MET_V1 = [
     "data/processed/corpus_met_textiles_andinos_v1_complementario.csv",
 ]
 CMA_REVISADOS = {
-    "principal": "data/metadata/cma_corpus_principal_revisado.csv",
-    "complementario": "data/metadata/cma_corpus_secundario_revisado.csv",
+    "principal": "data/metadata/v1_congelado/cma_corpus_principal_revisado.csv",
+    "complementario": "data/metadata/v1_congelado/cma_corpus_secundario_revisado.csv",
 }
 CMA_CANDIDATOS = "data/metadata/cma_andes_textiles_candidates.csv"
+
+
+def ruta_original(ruta: str) -> str:
+    """Ruta con la que la v1.2 registro el archivo de origen (sin la carpeta de la copia congelada)."""
+    return ruta.replace("data/metadata/v1_congelado/", "data/metadata/")
 
 MANIFIESTO_IMAGENES = "data/metadata/imagenes_manifiesto_met_cma_v1.csv"
 ANOTACIONES = "data/metadata/anotaciones_met_cma_v1.csv"
@@ -110,38 +118,8 @@ COLUMNAS_MANIFIESTO = [
 # --------------------------------------------------------------------------- utilidades
 
 
-def leer_csv(ruta: Path) -> list[dict[str, str]]:
-    with ruta.open(newline="", encoding="utf-8-sig") as archivo:
-        return [
-            {clave: (valor or "").strip() for clave, valor in fila.items()}
-            for fila in csv.DictReader(archivo)
-        ]
-
-
-def indexar(filas: list[dict[str, str]], clave: str) -> dict[str, dict[str, str]]:
-    indice: dict[str, dict[str, str]] = {}
-    for fila in filas:
-        if fila[clave] in indice:
-            raise ValueError(f"Identificador repetido en insumo: {clave}={fila[clave]}")
-        indice[fila[clave]] = fila
-    return indice
-
-
 def primero(*valores: str) -> str:
     return next((valor for valor in valores if valor), "")
-
-
-def escribir_csv(ruta: Path, columnas: list[str], filas: list[dict[str, str]]) -> None:
-    ruta.parent.mkdir(parents=True, exist_ok=True)
-    with ruta.open("w", newline="", encoding="utf-8") as archivo:
-        escritor = csv.DictWriter(archivo, fieldnames=columnas, lineterminator="\n")
-        escritor.writeheader()
-        escritor.writerows(filas)
-
-
-def escribir_texto(ruta: Path, lineas: list[str]) -> None:
-    ruta.parent.mkdir(parents=True, exist_ok=True)
-    ruta.write_bytes(("\n".join(lineas) + "\n").encode("utf-8"))
 
 
 def sha256_archivo(ruta: Path) -> str:
@@ -204,7 +182,7 @@ def registros_met(raiz: Path) -> list[dict[str, str]]:
                 "licencia_fuente": f"isPublicDomain={inv['es_dominio_publico']}",
                 "derechos_reproduccion": inv["derechos_reproduccion"],
                 "consulta_origen": inv["termino_busqueda"],
-                "archivo_origen": ruta,
+                "archivo_origen": ruta_original(ruta),
                 "fecha_descarga_metadatos": inv["fecha_descarga"],
             })
     return registros
@@ -261,7 +239,7 @@ def registros_cma(raiz: Path) -> list[dict[str, str]]:
                 "terminos_andinos": cand["andean_terms"],
                 "terminos_textiles": cand["textile_terms"],
                 "consulta_origen": cand["raw_queries"],
-                "archivo_origen": ruta,
+                "archivo_origen": ruta_original(ruta),
                 "fecha_descarga_metadatos": "",
             })
     return registros
