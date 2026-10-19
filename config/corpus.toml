@@ -17,13 +17,13 @@ descripcion = "Salidas MET v2 tras aplicar data/metadata/met_revision_manual_v2.
 # copias congeladas de data/metadata/v1_congelado/ y no cambia.
 # 2026-10-19: decisiones de la validacion ciega trasladadas (src/imagenes/validacion.py --trasladar):
 # MET:316978 a principal, MET:307970 a secundario, MET:310698 a descartados y MET:307683 a revisar
-# (la anotacion contradice su propio motivo).
-principal = { ruta = "data/metadata/met_corpus_principal_v2_revisado.csv", filas = 102 }
+# (la anotacion contradice su propio motivo). El revisor resolvio MET:307683 a principal (2026-10-19).
+principal = { ruta = "data/metadata/met_corpus_principal_v2_revisado.csv", filas = 103 }
 secundario = { ruta = "data/metadata/met_corpus_secundario_v2_revisado.csv", filas = 49 }
 # 2026-10-14: 2 de los 9 recuperados descartados automaticamente por plumaria (regla de pertinencia del puntaje de aptitud).
 descartados = { ruta = "data/metadata/met_descartados_v2_revisado.csv", filas = 61 }
 # 9 registros excluidos por el filtro v1 y recuperados por el filtro corregido (2026-10-05), pendientes de revision visual.
-pendientes = { ruta = "data/metadata/met_pendientes_revision_v2.csv", filas = 8 }
+pendientes = { ruta = "data/metadata/met_pendientes_revision_v2.csv", filas = 7 }
 
 [cma.candidatos]
 descripcion = "Candidatos CMA normalizados"

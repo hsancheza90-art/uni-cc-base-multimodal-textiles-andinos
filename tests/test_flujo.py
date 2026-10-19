@@ -11,7 +11,6 @@ import pytest
 from src import flujo
 from src.preprocessing import (
     create_aic_review_workbook_v2,
-    create_cma_review_workbook,
     create_cma_review_workbook_v2,
     create_met_review_workbook_v2,
 )
@@ -139,9 +138,8 @@ def test_subconjuntos_revisados_no_comparten_ids(archivos: list[str], columna: s
         (create_met_review_workbook_v2, "data/metadata/met_revision_manual_v2.xlsx"),
         (create_cma_review_workbook_v2, "data/metadata/cma_revision_manual_v2.xlsx"),
         (create_aic_review_workbook_v2, "data/metadata/aic_revision_manual_v2.xlsx"),
-        (create_cma_review_workbook, "data/metadata/cma_revision_manual_textiles_andinos.xlsx"),
     ],
-    ids=["met", "cma", "aic", "cma_v1"],
+    ids=["met", "cma", "aic"],
 )
 def test_generador_no_sobrescribe_workbook_con_decisiones(tmp_path: Path, modulo, workbook: str) -> None:
     destino = tmp_path / workbook

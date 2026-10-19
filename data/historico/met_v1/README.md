@@ -5,7 +5,6 @@ Decisiones humanas que explican cómo el corpus MET v1 pasó de 35 a 132 registr
 | Archivo | Contenido |
 |---|---|
 | `auditoria_aceptados_no_piloto_validada.csv` | 161 registros aceptados por el filtro que no estaban en el corpus piloto, con la decisión de auditoría manual |
-| `auditoria_aceptados_no_piloto_validada.xlsx` | Workbook original en el que se registraron esas decisiones |
 
 ## Decisiones
 

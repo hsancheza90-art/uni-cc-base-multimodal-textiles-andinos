@@ -26,17 +26,15 @@ Un registro queda como `candidate` si tiene URL de imagen y evidencia andina y t
 ```text
 cma_collector.py
   -> data/metadata/cma_andes_textiles_candidates.csv               146 registros normalizados
-  -> create_cma_review_workbook.py (v1) + revisión manual
-  -> data/metadata/cma_revision_manual_textiles_andinos.xlsx        decisiones v1 (histórico)
-  -> export_cma_curated_splits.py
-  -> data/metadata/cma_corpus_{principal,secundario}.csv, cma_descartados.csv   88 / 19 / 39
+  -> curación manual v1 (workbook y scripts en la etiqueta corpus-met-cma-v1.2)
+  -> data/metadata/cma_corpus_{principal,secundario}.csv, cma_descartados.csv   88 / 19 / 39, con las decisiones v1
   -> create_cma_review_workbook_v2.py + revisión manual
   -> data/metadata/cma_revision_manual_v2.xlsx                      insumo vigente
   -> apply_cma_review_v2.py (en el flujo)
   -> data/metadata/cma_*_revisado.csv
 ```
 
-Los dos primeros eslabones son históricos: no se reejecutan, pero explican de dónde salen las decisiones que sembraron el workbook vigente. Los generadores de workbooks no sobrescriben un workbook existente sin `--forzar`.
+La curación v1 es histórica: sus decisiones (decisión, motivo, observación, calidad visual y notas) quedaron en los tres CSV que sembraron el workbook vigente, por lo que el workbook v1 y sus dos scripts se retiraron (`docs/historico.md`). Los generadores de workbooks no sobrescriben un workbook existente sin `--forzar`.
 
 Desde octubre de 2026, el workbook vigente también recibe las decisiones de las reglas de aptitud (plumaria, periodo, fotografía monocroma) y de la validación ciega, con el criterio de `docs/protocolo_aptitud_v2.md`. Los conteos vigentes y el motivo de cada cambio están en `config/corpus.toml`.
 
