@@ -4,25 +4,18 @@ Este reporte resume la aplicacion de decisiones manuales registradas en `data/me
 
 ## Conteos finales
 
-- Corpus principal revisado: 103
-- Corpus secundario revisado: 49
-- Descartados revisados: 61
-- Pendientes por revisar: 7
+- Corpus principal revisado: 130
+- Corpus secundario revisado: 25
+- Descartados revisados: 65
+- Pendientes por revisar: 0
 
 ## Movimientos registrados
 
+- descartados -> principal: 1
 - descartados -> secundario: 1
-- principal -> descartados: 11
-- principal -> secundario: 18
-- revisar -> descartados: 2
+- principal -> descartados: 10
+- principal -> secundario: 15
+- revisar -> descartados: 8
+- revisar -> secundario: 1
 - secundario -> descartados: 20
-
-## Pendientes
-
-- 315691: Border Fragment, Figure
-- 315692: Border Fragment, Figure
-- 315693: Border Fragment, Figure
-- 315694: Border Fragment, Figure
-- 315695: Border Fragment, Figure
-- 315696: Border Fragment, Figure
-- 316938: Serpent ornament
+- secundario -> principal: 22

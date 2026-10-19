@@ -12,11 +12,11 @@ Tres museos con imágenes en dominio público o CC0 y API pública (detalle y fu
 
 | Fuente | Principal | Secundario | Descartados | Pendientes |
 |---|---:|---:|---:|---:|
-| The Metropolitan Museum of Art (MET) | 103 | 49 | 61 | 7 |
-| Cleveland Museum of Art (CMA) | 91 | 15 | 40 | 0 |
+| The Metropolitan Museum of Art (MET) | 130 | 25 | 65 | 0 |
+| Cleveland Museum of Art (CMA) | 104 | 4 | 38 | 0 |
 | Art Institute of Chicago (AIC) | 228 | 124 | 156 | 0 |
 
-Conteos del corpus v2 en curso al 2026-10-19. La fuente de verdad es `config/corpus.toml`: el flujo falla si un archivo no coincide, y cada cambio curatorial queda comentado allí con su fecha y motivo.
+Conteos del corpus v2 en curso al 2026-10-20. La fuente de verdad es `config/corpus.toml`: el flujo falla si un archivo no coincide, y cada cambio curatorial queda comentado allí con su fecha y motivo.
 
 ### Criterio de selección (v2)
 

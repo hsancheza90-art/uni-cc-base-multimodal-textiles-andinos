@@ -9,6 +9,9 @@ descartados = { ruta = "data/metadata/met_descartados_v2.csv", filas = 29 }
 
 [met.revisado]
 descripcion = "Salidas MET v2 tras aplicar data/metadata/met_revision_manual_v2.xlsx"
+# 2026-10-20: revision con el criterio v2 (data/metadata/revision_criterio_v2_met_cma.xlsx, trasladada con
+# src/imagenes/revision_v2.py): 25 de secundario y 2 de descartados suben a principal; los 7 pendientes se
+# resuelven (6 descartados, 1 secundario); el resto se confirma con motivo nuevo.
 # 2026-10-19: reglas del criterio AIC aplicadas a MET (src/imagenes/aptitud_workbooks.py --solo-reglas):
 # 15 fotografias en blanco y negro de principal a secundario; a descartados, 20 piezas con plumaria
 # (secundario), 4 posteriores a 1532 y 4 con resolucion insuficiente (principal) y MET:312615, sin
@@ -18,12 +21,12 @@ descripcion = "Salidas MET v2 tras aplicar data/metadata/met_revision_manual_v2.
 # 2026-10-19: decisiones de la validacion ciega trasladadas (src/imagenes/validacion.py --trasladar):
 # MET:316978 a principal, MET:307970 a secundario, MET:310698 a descartados y MET:307683 a revisar
 # (la anotacion contradice su propio motivo). El revisor resolvio MET:307683 a principal (2026-10-19).
-principal = { ruta = "data/metadata/met_corpus_principal_v2_revisado.csv", filas = 103 }
-secundario = { ruta = "data/metadata/met_corpus_secundario_v2_revisado.csv", filas = 49 }
+principal = { ruta = "data/metadata/met_corpus_principal_v2_revisado.csv", filas = 130 }
+secundario = { ruta = "data/metadata/met_corpus_secundario_v2_revisado.csv", filas = 25 }
 # 2026-10-14: 2 de los 9 recuperados descartados automaticamente por plumaria (regla de pertinencia del puntaje de aptitud).
-descartados = { ruta = "data/metadata/met_descartados_v2_revisado.csv", filas = 61 }
+descartados = { ruta = "data/metadata/met_descartados_v2_revisado.csv", filas = 65 }
 # 9 registros excluidos por el filtro v1 y recuperados por el filtro corregido (2026-10-05), pendientes de revision visual.
-pendientes = { ruta = "data/metadata/met_pendientes_revision_v2.csv", filas = 7 }
+pendientes = { ruta = "data/metadata/met_pendientes_revision_v2.csv", filas = 0 }
 
 [cma.candidatos]
 descripcion = "Candidatos CMA normalizados"
@@ -31,12 +34,14 @@ candidatos = { ruta = "data/metadata/cma_andes_textiles_candidates.csv", filas =
 
 [cma.revisado]
 descripcion = "Salidas CMA v2 tras aplicar data/metadata/cma_revision_manual_v2.xlsx"
+# 2026-10-20: revision con el criterio v2: 8 de secundario y 5 de descartados suben a principal, 5 de
+# secundario pasan a descartados y 2 descartados a secundario; el resto se confirma con motivo nuevo.
 # 2026-10-19: 5 piezas con plumaria de secundario a descartados (reglas del criterio AIC).
 # 2026-10-19: validacion ciega trasladada: CMA:124412, CMA:294034 y CMA:294068 a principal;
 # CMA:126269 y CMA:165270 de descartados a secundario.
-principal = { ruta = "data/metadata/cma_corpus_principal_revisado.csv", filas = 91 }
-secundario = { ruta = "data/metadata/cma_corpus_secundario_revisado.csv", filas = 15 }
-descartados = { ruta = "data/metadata/cma_descartados_revisado.csv", filas = 40 }
+principal = { ruta = "data/metadata/cma_corpus_principal_revisado.csv", filas = 104 }
+secundario = { ruta = "data/metadata/cma_corpus_secundario_revisado.csv", filas = 4 }
+descartados = { ruta = "data/metadata/cma_descartados_revisado.csv", filas = 38 }
 pendientes = { ruta = "data/metadata/cma_pendientes_revision_v2.csv", filas = 0 }
 
 [aic.candidatos]
