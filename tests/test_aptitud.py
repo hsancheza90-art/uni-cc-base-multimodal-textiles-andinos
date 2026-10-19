@@ -360,6 +360,45 @@ def test_referencia_por_completitud() -> None:
     ],
 )
 def test_contradice_motivo(decision: str, motivo: str, contradice: bool) -> None:
-    from src.imagenes.validacion import contradice_motivo
+    from src.imagenes.traslado import contradice_motivo
 
     assert contradice_motivo(decision, motivo) == contradice
+
+
+def test_traslado_de_la_revision_v2(tmp_path: Path) -> None:
+    """Cambio, confirmacion con motivo nuevo y contradiccion; volver a trasladar no cambia nada."""
+    from openpyxl import Workbook, load_workbook
+
+    from src.imagenes.aptitud_workbooks import WORKBOOKS
+    from src.imagenes.traslado import trasladar_anotaciones
+
+    copiar_insumos(tmp_path, (WORKBOOKS["MET"][0], WORKBOOKS["CMA"][0]))
+    ruta, hoja = WORKBOOKS["MET"]
+    filas = list(load_workbook(tmp_path / ruta, read_only=True)[hoja].iter_rows(values_only=True))
+    indice = {n: i for i, n in enumerate(filas[0])}
+    vigentes = {f"MET:{f[indice['id_fuente']]}": f[indice["corpus_final"]] for f in filas[1:]}
+    secundario = next(i for i, d in vigentes.items() if d == "secundario")
+    principal = next(i for i, d in vigentes.items() if d == "principal")
+    otro = next(i for i, d in vigentes.items() if d == "secundario" and i != secundario)
+
+    libro = Workbook()
+    libro.active.title = "revision"
+    libro.active.append(["orden", "id_global", "corpus_final", "motivo_revision"])
+    libro.active.append(["1", secundario, "principal", "Textil incompleto con colores y formas visibles"])
+    libro.active.append(["2", principal, "principal", "Textil completo con colores y formas visibles"])
+    libro.active.append(["3", otro, "descartados", "Textil con colores y formas visibles"])  # contradice su motivo
+    libro.save(tmp_path / "revision.xlsx")
+
+    conteo = trasladar_anotaciones(tmp_path, "revision.xlsx", "revision", "2026-10-20", "revision_criterio_v2",
+                                   "Revisión con el criterio v2", registrar_confirmaciones=True)
+    assert (conteo["cambiadas"], conteo["confirmadas"], conteo["revisar"]) == (1, 1, 1)
+    filas = list(load_workbook(tmp_path / ruta, read_only=True)[hoja].iter_rows(values_only=True))
+    nuevas = {f"MET:{f[indice['id_fuente']]}": f for f in filas[1:]}
+    assert nuevas[secundario][indice["corpus_final"]] == "principal"
+    assert "Decisión anterior: secundario" in nuevas[secundario][indice["observaciones_revision"]]
+    assert nuevas[principal][indice["motivo_revision"]] == "Textil completo con colores y formas visibles"
+    assert nuevas[otro][indice["corpus_final"]] == "revisar"
+
+    repetido = trasladar_anotaciones(tmp_path, "revision.xlsx", "revision", "2026-10-20", "revision_criterio_v2",
+                                     "Revisión con el criterio v2", registrar_confirmaciones=True)
+    assert sum(repetido.values()) == 0

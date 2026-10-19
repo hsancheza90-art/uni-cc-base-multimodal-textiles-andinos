@@ -35,6 +35,7 @@ from src.imagenes.aptitud import SALIDA_APTITUD
 from src.imagenes.aptitud_workbooks import DESCARTES_PERTINENCIA_V1, WORKBOOKS
 from src.imagenes.descargar_evaluacion import MANIFIESTO_EVALUACION
 from src.imagenes.motivos import analizar_motivo
+from src.imagenes.traslado import trasladar_anotaciones
 from src.utils.archivos import indexar, leer_csv
 from src.utils.metricas import kappa, tabla
 
@@ -263,74 +264,13 @@ def evaluar(raiz: Path) -> int:
 # ------------------------------------------------------------------ traslado a los workbooks
 
 ORIGEN_VALIDACION = "validacion_ciega_v2"
-REVISOR = "Henry Sánchez"
-
-
-def contradice_motivo(decision: str, motivo: str) -> bool:
-    """La decision contradice el criterio del 2026-10-19 segun el propio motivo del revisor.
-
-    Principal = colores y formas identificables (completo o incompleto). Un descarte o un
-    secundario cuyo motivo dice «con colores y formas visibles», o un principal cuyo motivo
-    dice que no se ven, se deja en revisar para que el revisor lo resuelva.
-    """
-    a = analizar_motivo(motivo)
-    legible = a["colores"] == "si" and a["formas"] == "si"
-    ilegible = a["colores"] == "no" or a["formas"] == "no"
-    return (decision != "principal" and legible and not a["pertinencia"]) or (decision == "principal" and ilegible)
 
 
 def trasladar(raiz: Path, fecha: str) -> int:
     """Lleva las anotaciones de la validacion a los workbooks MET y CMA como decisiones del revisor."""
-    from src.imagenes.aptitud_workbooks import decision_para
-
-    libro_v = load_workbook(raiz / WORKBOOK_VALIDACION, read_only=True, data_only=True)
-    filas = list(libro_v[HOJA].iter_rows(values_only=True))
-    libro_v.close()
-    indice_v = {nombre: i for i, nombre in enumerate(filas[0])}
-    anotaciones = {str(f[indice_v["id_global"]]): {c: str(f[indice_v[c]] or "").strip() for c in COLUMNAS} for f in filas[1:]}
-    conteo = Counter()
-    for fuente in TAMANO_POR_FUENTE:
-        ruta, nombre_hoja = WORKBOOKS[fuente]
-        libro = load_workbook(raiz / ruta)
-        hoja = libro[nombre_hoja]
-        indice = {celda.value: celda.column for celda in hoja[1]}
-        for fila in range(2, hoja.max_row + 1):
-            id_global = f"{fuente}:{str(hoja.cell(row=fila, column=indice['id_fuente']).value or '').strip()}"
-            anotacion = anotaciones.get(id_global)
-            if not anotacion or anotacion["corpus_final"] not in ("principal", "secundario", "descartados"):
-                continue
-
-            def leer(columna: str) -> str:
-                return str(hoja.cell(row=fila, column=indice[columna]).value or "").strip()
-
-            if leer("origen_curacion") == ORIGEN_VALIDACION:
-                continue  # ya trasladada
-            decision, motivo = anotacion["corpus_final"], anotacion["motivo_revision"]
-            conflicto = contradice_motivo(decision, motivo)
-            destino = "revisar" if conflicto else decision
-            if destino == leer("corpus_final"):
-                conteo["coinciden"] += 1
-                continue
-            anterior = "; ".join(m for m in (leer("estado_curacion"), leer("motivo_curacion"), leer("motivo_revision")) if m) or "sin motivo"
-            nota = (f"Anotación de la validación ciega del {fecha} ({WORKBOOK_VALIDACION}, orden {anotacion['orden']}): "
-                    f"{decision}. Decisión anterior: {leer('corpus_final')} ({anterior}).")
-            if conflicto:
-                nota += " Queda en revisar: la anotación contradice su propio motivo según el criterio del 2026-10-19."
-            valores = {
-                "corpus_final": destino,
-                "decision_revision": "revisar" if conflicto else decision_para(leer("corpus_actual"), destino),
-                "motivo_revision": motivo,
-                "observaciones_revision": nota,
-                "revisor": REVISOR,
-                "fecha_revision": fecha,
-                "origen_curacion": ORIGEN_VALIDACION,
-            }
-            for columna, valor in valores.items():
-                hoja.cell(row=fila, column=indice[columna], value=valor)
-            conteo["revisar" if conflicto else "trasladadas"] += 1
-            print(f"  {id_global}: {valores['corpus_final']} ({'conflicto con el motivo' if conflicto else 'anotación'})")
-        libro.save(raiz / ruta)
-    print(f"Trasladadas {conteo['trasladadas']} | en revisar por contradicción {conteo['revisar']} | ya coincidían {conteo['coinciden']}")
+    conteo = trasladar_anotaciones(raiz, WORKBOOK_VALIDACION, HOJA, fecha, ORIGEN_VALIDACION,
+                                   "Anotación de la validación ciega", registrar_confirmaciones=False)
+    print(f"Cambiadas {conteo['cambiadas']} | en revisar por contradicción {conteo['revisar']} | ya coincidían {conteo['coinciden']}")
     return 0
 
 

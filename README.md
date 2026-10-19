@@ -12,7 +12,7 @@ Tres museos con imágenes en dominio público o CC0 y API pública (detalle y fu
 
 | Fuente | Principal | Secundario | Descartados | Pendientes |
 |---|---:|---:|---:|---:|
-| The Metropolitan Museum of Art (MET) | 102 | 49 | 61 | 8 |
+| The Metropolitan Museum of Art (MET) | 103 | 49 | 61 | 7 |
 | Cleveland Museum of Art (CMA) | 91 | 15 | 40 | 0 |
 | Art Institute of Chicago (AIC) | 228 | 124 | 156 | 0 |
 
@@ -74,6 +74,7 @@ python -m src.imagenes.medidas
 python -m src.imagenes.aptitud_workbooks --fuente aic          # ficha en el workbook AIC
 python -m src.imagenes.aptitud_workbooks --fuente met --fuente cma --solo-reglas
 python -m src.imagenes.validacion --crear | (sin opciones: evaluar) | --trasladar
+python -m src.imagenes.revision_v2 --crear | --trasladar     # revisión de MET y CMA con el criterio v2
 
 # Anotación manual
 python -m src.anotacion.workbook        # crea o actualiza data/metadata/anotacion_met_cma_v1.xlsx
