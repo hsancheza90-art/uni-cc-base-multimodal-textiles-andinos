@@ -1,5 +1,7 @@
 # Protocolo de curación del corpus MET+CMA v1
 
+> Protocolo de la v1 (etiqueta `corpus-met-cma-v1.2`). La v2 decide con el criterio de aptitud analítica de `docs/protocolo_aptitud_v2.md`.
+
 ## Objetivo
 
 Definir cómo se seleccionan, separan, normalizan y documentan los registros del corpus, de modo que cada decisión pueda rastrearse desde la fuente oficial hasta el archivo consolidado.

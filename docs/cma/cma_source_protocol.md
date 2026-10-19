@@ -1,83 +1,63 @@
-# Protocolo de fuente: Cleveland Museum of Art
+# Protocolo de fuente: Cleveland Museum of Art (CMA)
 
 ## Objetivo
 
-Incorporar una segunda fuente abierta para ampliar el corpus multimodal de textiles andinos con imagenes y metadatos curatoriales trazables.
+Incorporar una segunda fuente abierta para ampliar el corpus multimodal de textiles andinos con imágenes y metadatos curatoriales trazables.
 
 ## Fuente
 
-- Institucion: Cleveland Museum of Art.
-- Acceso: Open Access API.
-- Endpoint principal: `https://openaccess-api.clevelandart.org/api/artworks/`.
-- Tipo de salida: metadatos curatoriales e imagenes cuando estan disponibles.
-- Uso en el corpus: generacion de candidatos para revision visual y curacion manual.
+- Institución: Cleveland Museum of Art.
+- Acceso: Open Access API, `https://openaccess-api.clevelandart.org/api/artworks/`.
+- Licencia de imagen: CC0 (campo `share_license_status`).
+- Imagen: el colector registra la versión web; para medir la aptitud se usa la versión de impresión (`_print.jpg`, unos 3400 px).
 
 ## Estrategia de consulta
 
-El colector ejecuta consultas textuales que combinan area cultural andina y materialidad textil:
+El colector (`src/collectors/cma_collector.py`) combina área cultural andina y materialidad textil: `Andes textile`, `Andean textile`, `Peru textile`, `Peruvian textile`, `Inca textile`, `Wari textile`, `Huari textile`, `Chancay textile`, `Nazca textile`, `Nasca textile`, `Paracas textile`, `Moche textile`, `Chimu textile`, `Tiwanaku textile`, `South Coast textile` y `North Coast textile`. Cada consulta se pagina por completo y el colector avisa si una queda truncada. Los resultados se deduplican por `source_id`.
 
-- `Andes textile`
-- `Andean textile`
-- `Peru textile`
-- `Peruvian textile`
-- `Inca textile`
-- `Wari textile`
-- `Huari textile`
-- `Chancay textile`
-- `Nazca textile`
-- `Nasca textile`
-- `Paracas textile`
-- `Moche textile`
-- `Chimu textile`
-- `Tiwanaku textile`
-- `South Coast textile`
-- `North Coast textile`
+Se probó una estrategia amplia (`type=Textile`): recuperó 2045 registros, casi todos no andinos, y los dos candidatos nuevos que aportaba eran textiles de Indonesia e Italia. Por eso el corpus usa la búsqueda conservadora.
 
-Los resultados se deduplican por `source_id`, correspondiente al identificador del registro en la API.
+## Criterio automático inicial
 
-## Criterio automatico inicial
+Un registro queda como `candidate` si tiene URL de imagen y evidencia andina y textil en sus campos curatoriales. Los demás quedan marcados con su razón (`excluded_no_image`, `excluded_no_andean_evidence`, `excluded_no_textile_evidence`). De los 146 registros normalizados, 138 llegaron a la revisión manual; los 8 restantes se descartaron automáticamente por estar fuera del ámbito andino o ser herramientas textiles.
 
-Un registro queda como `candidate` si cumple las tres condiciones:
+## Cadena de curación
 
-1. Tiene URL de imagen.
-2. Presenta evidencia andina en campos curatoriales.
-3. Presenta evidencia textil en campos curatoriales.
+```text
+cma_collector.py
+  -> data/metadata/cma_andes_textiles_candidates.csv               146 registros normalizados
+  -> create_cma_review_workbook.py (v1) + revisión manual
+  -> data/metadata/cma_revision_manual_textiles_andinos.xlsx        decisiones v1 (histórico)
+  -> export_cma_curated_splits.py
+  -> data/metadata/cma_corpus_{principal,secundario}.csv, cma_descartados.csv   88 / 19 / 39
+  -> create_cma_review_workbook_v2.py + revisión manual
+  -> data/metadata/cma_revision_manual_v2.xlsx                      insumo vigente
+  -> apply_cma_review_v2.py (en el flujo)
+  -> data/metadata/cma_*_revisado.csv
+```
 
-Los registros que no cumplen quedan marcados con una razon explicita:
+Los dos primeros eslabones son históricos: no se reejecutan, pero explican de dónde salen las decisiones que sembraron el workbook vigente. Los generadores de workbooks no sobrescriben un workbook existente sin `--forzar`.
 
-- `excluded_no_image`
-- `excluded_no_andean_evidence`
-- `excluded_no_textile_evidence`
-
-## Salidas generadas
-
-- `data/raw/cma/cma_andes_textiles_raw.jsonl`: registros crudos deduplicados.
-- `data/metadata/cma_andes_textiles_candidates.csv`: tabla normalizada para revision.
-- `outputs/reports/cma_collection_summary.md`: conteos de recoleccion y estados de curacion.
+Desde octubre de 2026, el workbook vigente también recibe las decisiones de las reglas de aptitud (plumaria, periodo, fotografía monocroma) y de la validación ciega, con el criterio de `docs/protocolo_aptitud_v2.md`. Los conteos vigentes y el motivo de cada cambio están en `config/corpus.toml`.
 
 ## Control de calidad
 
-Antes de fusionar esta fuente con el corpus principal:
+1. Confirmar que la pieza sea textil y no una representación de un textil.
+2. Confirmar evidencia andina o precolombina andina en los metadatos.
+3. Aplicar el criterio de aptitud: colores y figuras identificables a primera vista.
+4. Mantener `source`, `source_id`, `url`, `image_url` y `share_license_status` para la trazabilidad.
 
-1. Revisar visualmente cada registro con `curation_status = candidate`.
-2. Confirmar que la pieza sea textil y no solo una representacion de textil.
-3. Confirmar evidencia andina o precolombina andina en los metadatos.
-4. Separar piezas dudosas, fragmentos no informativos o piezas que no aporten al objetivo visual del corpus.
-5. Mantener `source`, `source_id`, `url`, `image_url` y `share_license_status` para trazabilidad.
-
-## Exploracion expandida descartada
-
-Se ejecuto una prueba expandida usando estrategias amplias como `type=Textile`.
-La prueba recupero 2045 registros brutos, pero casi todos correspondian a textiles no andinos.
-Los dos candidatos nuevos frente a la version conservadora fueron revisados manualmente y correspondian a textiles no andinos, por ejemplo de Indonesia e Italia.
-
-Por tanto, la version expandida no se incorpora al corpus final. Se conserva solo como evidencia metodologica de cobertura y descarte. La version de curacion CMA se basa en la busqueda conservadora, con 146 registros normalizados y 141 candidatos iniciales antes de revision manual.
-
-
-## Comandos de ejecucion
-
-Prueba controlada:
+## Comandos
 
 ```bash
-python src/collectors/cma_collector.py --root . --query "Andes textile" --limit-per-query 5
-python src/metadata/audit_cma_outputs.py --root .
+# Recolección (requiere red). Escribe en data/raw/cma/; la lista versionada solo se reemplaza a propósito:
+python -m src.collectors.cma_collector
+python -m src.collectors.cma_collector --salida data/metadata/cma_andes_textiles_candidates.csv --forzar
+
+# Prueba controlada
+python -m src.collectors.cma_collector --query "Andes textile" --limit-per-query 5
+
+# Aplicación de la revisión y auditoría (las ejecuta también python -m src.flujo)
+python -m src.metadata.apply_cma_review_v2
+python -m src.metadata.audit_cma_outputs
+```

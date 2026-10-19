@@ -12,8 +12,8 @@ La versión MET v2 reorganiza el trabajo curatorial previo, preserva los resulta
 
 - Institución: The Metropolitan Museum of Art.
 - Acceso: API pública del MET y fichas institucionales de colección.
-- Tipo de fuente: colección museográfica con metadatosatos curatoriales, imágenes asociadas y enlaces institucionales.
-- Uso dentro del proyecto: fuente principal del corpus, junto con Cleveland Museum of Art (CMA).
+- Tipo de fuente: colección museográfica con metadatos curatoriales, imágenes asociadas y enlaces institucionales.
+- Uso dentro del proyecto: fuente del corpus, junto con Cleveland Museum of Art (CMA) y Art Institute of Chicago (AIC).
 
 ## Enfoque Metodológico
 
@@ -63,6 +63,10 @@ Un registro puede ingresar como candidato si cumple las siguientes condiciones:
 3. Tiene imagen disponible o una URL de imagen asociada.
 4. Presenta evidencia textil en clasificación, técnica, material, título o descripción.
 5. Presenta evidencia andina, prehispánica o sudamericana pertinente en cultura, procedencia, título o descripción.
+
+## Criterio Vigente En La v2
+
+Desde el 2026-10-19 la decisión entre principal, secundario y descarte sigue el criterio de aptitud analítica de `docs/protocolo_aptitud_v2.md`: principal si los colores y las figuras se identifican a primera vista, aunque la pieza esté incompleta. Ese criterio reemplaza a los de las secciones siguientes, que se conservan porque explican las decisiones de la v1 y de la revisión de julio de 2026. En particular, la plumaria ya no va al secundario: se descarta.
 
 ## Criterios Para El Corpus Principal
 
@@ -151,7 +155,7 @@ Este workbook concentra todos los registros en una sola hoja y conserva dos camp
 La modificación de `corpus_final` permite mover registros entre corpus principal, corpus secundario y descartados sin alterar los archivos base. Las decisiones se aplican con:
 
 ```bash
-python src/metadata/apply_met_review_v2.py --root .
+python -m src.metadata.apply_met_review_v2
 ```
 
 Esta capa conserva trazabilidad entre la clasificación original y la decisión final, permitiendo documentar ajustes curatoriales como duplicados visuales, imágenes caídas, piezas ambiguas o registros mejor ubicados en corpus secundario.
@@ -163,9 +167,9 @@ La revisión manual no reemplaza la base auditada. Introduce una capa curatorial
 | Etapa MET v2 | Corpus principal | Corpus secundario | Descartados | Pendientes |
 |---|---:|---:|---:|---:|
 | Base auditada | 132 | 50 | 29 | 0 |
-| Revisión manual | 127 | 54 | 30 | 0 |
+| Revisión manual de julio de 2026 | 127 | 54 | 30 | 0 |
 
-Los movimientos aplicados redujeron el corpus principal en 5 registros. Cuatro registros fueron reubicados en el corpus secundario y un registro fue enviado a descartados por tratarse de una imagen repetida o no adecuada para el corpus principal final.
+En julio, los movimientos redujeron el corpus principal en 5 registros: cuatro pasaron al secundario y uno a descartados por ser una imagen repetida o no adecuada. Los cambios posteriores (imagen inexistente, registros recuperados por el filtro corregido, reglas del criterio de aptitud y validación ciega) están comentados, con su fecha y motivo, en `config/corpus.toml`, que guarda los conteos vigentes.
 
 Esta comparación permite conservar la trazabilidad entre el corpus base y el corpus revisado, evitando que la curación manual borre la historia de decisiones del proceso.
 
@@ -179,9 +183,8 @@ La revisión manual genera los siguientes archivos:
 - `data/metadata/met_descartados_v2_revisado.csv`
 - `data/metadata/met_pendientes_revision_v2.csv`
 - `outputs/reports/met_resumen_revision_manual_v2.md`
-- `outputs/review/met_corpus_principal_v2_revisado_galeria.html`
-- `outputs/review/met_corpus_secundario_v2_revisado_galeria.html`
-- `outputs/review/met_descartados_v2_revisado_galeria.html`
+
+Las galerías HTML de revisión (`outputs/review/met_*_v2_revisado_galeria.html`) se regeneran localmente y no se versionan.
 
 ## Salida Recomendada
 
@@ -207,34 +210,36 @@ Ningún registro debe incorporarse sin conservar:
 
 ## Comandos Reproducibles
 
+Todos los pasos sin red los ejecuta, en orden, `python -m src.flujo`. Individualmente:
+
 Construcción de las salidas curatoriales base:
 
 ```bash
-python src/metadata/build_met_corpus_v2.py --root .
+python -m src.metadata.build_met_corpus_v2
 ```
 
 Auditoría técnica de la base:
 
 ```bash
-python src/metadata/audit_met_outputs_v2.py --root .
+python -m src.metadata.audit_met_outputs_v2
 ```
 
 Creación del workbook de revisión manual:
 
 ```bash
-python src/preprocessing/create_met_review_workbook_v2.py --root .
+python -m src.preprocessing.create_met_review_workbook_v2   # solo si no existe; no sobrescribe sin --forzar
 ```
 
 Aplicación de decisiones manuales:
 
 ```bash
-python src/metadata/apply_met_review_v2.py --root .
+python -m src.metadata.apply_met_review_v2
 ```
 
 Generación de galerías HTML revisadas:
 
 ```bash
-python src/review/build_met_gallery_v2.py --root . --revisado
+python -m src.review.build_met_gallery_v2 --root . --revisado
 ```
 
 ## Limitaciones
