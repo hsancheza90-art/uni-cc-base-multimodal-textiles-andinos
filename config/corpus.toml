@@ -9,11 +9,21 @@ descartados = { ruta = "data/metadata/met_descartados_v2.csv", filas = 29 }
 
 [met.revisado]
 descripcion = "Salidas MET v2 tras aplicar data/metadata/met_revision_manual_v2.xlsx"
-principal = { ruta = "data/metadata/met_corpus_principal_v2_revisado.csv", filas = 126 }
-secundario = { ruta = "data/metadata/met_corpus_secundario_v2_revisado.csv", filas = 55 }
-descartados = { ruta = "data/metadata/met_descartados_v2_revisado.csv", filas = 30 }
+# 2026-10-19: reglas del criterio AIC aplicadas a MET (src/imagenes/aptitud_workbooks.py --solo-reglas):
+# 15 fotografias en blanco y negro de principal a secundario; a descartados, 20 piezas con plumaria
+# (secundario), 4 posteriores a 1532 y 4 con resolucion insuficiente (principal) y MET:312615, sin
+# imagen en el museo (secundario). Las sugerencias del modelo de imagen no se aplicaron: la validacion
+# ciega dio kappa 0,56 (< 0,6; outputs/reports/validacion_met_cma_v2.md). El consolidado v1 lee las
+# copias congeladas de data/metadata/v1_congelado/ y no cambia.
+# 2026-10-19: decisiones de la validacion ciega trasladadas (src/imagenes/validacion.py --trasladar):
+# MET:316978 a principal, MET:307970 a secundario, MET:310698 a descartados y MET:307683 a revisar
+# (la anotacion contradice su propio motivo).
+principal = { ruta = "data/metadata/met_corpus_principal_v2_revisado.csv", filas = 102 }
+secundario = { ruta = "data/metadata/met_corpus_secundario_v2_revisado.csv", filas = 49 }
+# 2026-10-14: 2 de los 9 recuperados descartados automaticamente por plumaria (regla de pertinencia del puntaje de aptitud).
+descartados = { ruta = "data/metadata/met_descartados_v2_revisado.csv", filas = 61 }
 # 9 registros excluidos por el filtro v1 y recuperados por el filtro corregido (2026-10-05), pendientes de revision visual.
-pendientes = { ruta = "data/metadata/met_pendientes_revision_v2.csv", filas = 9 }
+pendientes = { ruta = "data/metadata/met_pendientes_revision_v2.csv", filas = 8 }
 
 [cma.candidatos]
 descripcion = "Candidatos CMA normalizados"
@@ -21,9 +31,12 @@ candidatos = { ruta = "data/metadata/cma_andes_textiles_candidates.csv", filas =
 
 [cma.revisado]
 descripcion = "Salidas CMA v2 tras aplicar data/metadata/cma_revision_manual_v2.xlsx"
-principal = { ruta = "data/metadata/cma_corpus_principal_revisado.csv", filas = 88 }
-secundario = { ruta = "data/metadata/cma_corpus_secundario_revisado.csv", filas = 19 }
-descartados = { ruta = "data/metadata/cma_descartados_revisado.csv", filas = 39 }
+# 2026-10-19: 5 piezas con plumaria de secundario a descartados (reglas del criterio AIC).
+# 2026-10-19: validacion ciega trasladada: CMA:124412, CMA:294034 y CMA:294068 a principal;
+# CMA:126269 y CMA:165270 de descartados a secundario.
+principal = { ruta = "data/metadata/cma_corpus_principal_revisado.csv", filas = 91 }
+secundario = { ruta = "data/metadata/cma_corpus_secundario_revisado.csv", filas = 15 }
+descartados = { ruta = "data/metadata/cma_descartados_revisado.csv", filas = 40 }
 pendientes = { ruta = "data/metadata/cma_pendientes_revision_v2.csv", filas = 0 }
 
 [aic.candidatos]
@@ -32,11 +45,19 @@ candidatos = { ruta = "data/metadata/aic_andes_textiles_candidates.csv", filas =
 
 [aic.revisado]
 descripcion = "Salidas AIC v2 tras aplicar data/metadata/aic_revision_manual_v2.xlsx"
-principal = { ruta = "data/metadata/aic_corpus_principal_v2_revisado.csv", filas = 0 }
-secundario = { ruta = "data/metadata/aic_corpus_secundario_v2_revisado.csv", filas = 0 }
-# 61 herramientas textiles descartadas automaticamente; el resto espera revision manual.
-descartados = { ruta = "data/metadata/aic_descartados_v2_revisado.csv", filas = 61 }
-pendientes = { ruta = "data/metadata/aic_pendientes_revision_v2.csv", filas = 447 }
+# Revision en curso (2026-10-14), manual y automatica (src/imagenes/aptitud_workbooks.py):
+# - 2026-10-13: 73 decisiones manuales; 96 fotografias en blanco y negro al secundario y
+#   2 por resolucion insuficiente a descartados (automaticas).
+# - 2026-10-14: nuevas decisiones manuales (incluidas 10 correcciones de filas automaticas)
+#   y 9 descartes automaticos por pertinencia (7 posteriores a 1532 y 2 con plumaria); una
+#   fotografia monocroma posterior a 1532 paso de secundario a descartados.
+# - 61 herramientas textiles descartadas automaticamente por el filtro (2026-10-05).
+# - 2026-10-15: revision manual completa (corpus_final, decision y motivo en todos los registros).
+# - 2026-10-19: AIC:85497 pasa de revisar a principal (su motivo la marcaba como la mejor imagen).
+principal = { ruta = "data/metadata/aic_corpus_principal_v2_revisado.csv", filas = 228 }
+secundario = { ruta = "data/metadata/aic_corpus_secundario_v2_revisado.csv", filas = 124 }
+descartados = { ruta = "data/metadata/aic_descartados_v2_revisado.csv", filas = 156 }
+pendientes = { ruta = "data/metadata/aic_pendientes_revision_v2.csv", filas = 0 }
 
 [consolidado.conteos]
 # Principal y complementario de MET v2 revisado y CMA v2 revisado.

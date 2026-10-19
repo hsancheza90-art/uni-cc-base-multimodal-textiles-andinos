@@ -11,6 +11,7 @@ import pytest
 from src import flujo
 from src.preprocessing import (
     create_aic_review_workbook_v2,
+    create_cma_review_workbook,
     create_cma_review_workbook_v2,
     create_met_review_workbook_v2,
 )
@@ -31,6 +32,12 @@ INSUMOS = [
     "data/metadata/aic_andes_textiles_candidates.csv",
     "data/metadata/aic_revision_manual_v2.xlsx",
     "config/vocabulario.toml",
+    "config/aptitud.toml",
+    "data/metadata/aptitud_medidas_v2.csv",
+    "data/metadata/v1_congelado/met_corpus_principal_v2_revisado.csv",
+    "data/metadata/v1_congelado/met_corpus_secundario_v2_revisado.csv",
+    "data/metadata/v1_congelado/cma_corpus_principal_revisado.csv",
+    "data/metadata/v1_congelado/cma_corpus_secundario_revisado.csv",
 ]
 
 REPORTES = [
@@ -46,6 +53,10 @@ REPORTES = [
     "data/metadata/anotaciones_met_cma_v1.csv",
     "docs/esquema_consolidado_met_cma_v1.md",
     "data/processed/corpus_textiles_andinos_met_cma_v1_sha256.txt",
+    "config/aptitud_modelo.json",
+    "data/metadata/aptitud_imagenes_v2.csv",
+    "outputs/reports/aptitud_calibracion_aic_v2.md",
+    "outputs/reports/aptitud_imagenes_v2_resumen.md",
 ]
 
 
@@ -128,8 +139,9 @@ def test_subconjuntos_revisados_no_comparten_ids(archivos: list[str], columna: s
         (create_met_review_workbook_v2, "data/metadata/met_revision_manual_v2.xlsx"),
         (create_cma_review_workbook_v2, "data/metadata/cma_revision_manual_v2.xlsx"),
         (create_aic_review_workbook_v2, "data/metadata/aic_revision_manual_v2.xlsx"),
+        (create_cma_review_workbook, "data/metadata/cma_revision_manual_textiles_andinos.xlsx"),
     ],
-    ids=["met", "cma", "aic"],
+    ids=["met", "cma", "aic", "cma_v1"],
 )
 def test_generador_no_sobrescribe_workbook_con_decisiones(tmp_path: Path, modulo, workbook: str) -> None:
     destino = tmp_path / workbook

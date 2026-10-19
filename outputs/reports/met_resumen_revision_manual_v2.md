@@ -4,24 +4,27 @@ Este reporte resume la aplicacion de decisiones manuales registradas en `data/me
 
 ## Conteos finales
 
-- Corpus principal revisado: 126
-- Corpus secundario revisado: 55
-- Descartados revisados: 30
-- Pendientes por revisar: 9
+- Corpus principal revisado: 102
+- Corpus secundario revisado: 49
+- Descartados revisados: 61
+- Pendientes por revisar: 8
 
 ## Movimientos registrados
 
-- principal -> descartados: 1
-- principal -> secundario: 5
+- descartados -> secundario: 1
+- principal -> descartados: 11
+- principal -> revisar: 1
+- principal -> secundario: 18
+- revisar -> descartados: 2
+- secundario -> descartados: 20
 
 ## Pendientes
 
+- 307683: Embroidered Mantle Fragment
 - 315691: Border Fragment, Figure
 - 315692: Border Fragment, Figure
 - 315693: Border Fragment, Figure
 - 315694: Border Fragment, Figure
 - 315695: Border Fragment, Figure
 - 315696: Border Fragment, Figure
-- 315703: Feathered Crown
-- 316914: Feathered Ornament
 - 316938: Serpent ornament
