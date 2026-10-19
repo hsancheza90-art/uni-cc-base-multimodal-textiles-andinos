@@ -1,0 +1,319 @@
+{
+  "fuente_calibracion": "AIC",
+  "registros": 316,
+  "clases": {
+    "referencia": 156,
+    "descarte_imagen": 58,
+    "principal": 69,
+    "secundario": 33
+  },
+  "estandarizacion": {
+    "bordes_cromaticos": [
+      0.337353,
+      0.172335
+    ],
+    "colores_distintos": [
+      2.391732,
+      0.929657
+    ],
+    "colorido": [
+      2.901829,
+      1.491264
+    ],
+    "compacidad": [
+      0.740292,
+      0.223496
+    ],
+    "contraste_cromatico": [
+      3.357041,
+      0.296595
+    ],
+    "croma_p90": [
+      27.55909,
+      17.184885
+    ],
+    "densidad_diseno": [
+      0.397229,
+      0.171942
+    ],
+    "elongacion": [
+      1.239045,
+      0.578009
+    ],
+    "fraccion_lagunas": [
+      0.017033,
+      0.05165
+    ],
+    "fraccion_mayor": [
+      0.964239,
+      0.129336
+    ],
+    "fraccion_recortada": [
+      0.010976,
+      0.02579
+    ],
+    "fraccion_textil": [
+      0.56329,
+      0.264286
+    ],
+    "lado_textil_px": [
+      6.744567,
+      0.524677
+    ],
+    "n_tonos": [
+      1.73622,
+      1.172733
+    ],
+    "nitidez_comun": [
+      0.80487,
+      0.251482
+    ],
+    "regularidad": [
+      0.266335,
+      0.186823
+    ],
+    "separabilidad_cromatica": [
+      0.680606,
+      0.11132
+    ],
+    "simetria_horizontal": [
+      0.105421,
+      0.130195
+    ],
+    "simetria_vertical": [
+      0.083963,
+      0.10294
+    ],
+    "titulo_fragmento": [
+      0.570866,
+      0.494953
+    ],
+    "toca_encuadre": [
+      0.138658,
+      0.273258
+    ]
+  },
+  "atributos": {
+    "colores": {
+      "medidas": [
+        "nitidez_comun",
+        "lado_textil_px",
+        "fraccion_recortada",
+        "croma_p90",
+        "colorido",
+        "n_tonos",
+        "colores_distintos",
+        "separabilidad_cromatica",
+        "contraste_cromatico",
+        "bordes_cromaticos",
+        "densidad_diseno",
+        "compacidad",
+        "fraccion_lagunas",
+        "fraccion_mayor",
+        "toca_encuadre",
+        "elongacion",
+        "fraccion_textil",
+        "titulo_fragmento",
+        "simetria_horizontal",
+        "simetria_vertical",
+        "regularidad"
+      ],
+      "pesos": [
+        1.742725,
+        0.696257,
+        -0.254267,
+        -0.130618,
+        0.046044,
+        0.15198,
+        0.433556,
+        0.200986,
+        0.098968,
+        -0.147543,
+        0.563504,
+        -0.208248,
+        0.833564,
+        -0.316638,
+        -0.250745,
+        -0.315584,
+        0.039264,
+        0.119383,
+        -0.412332,
+        0.357136,
+        0.46583,
+        0.055609
+      ],
+      "n": 298
+    },
+    "formas": {
+      "medidas": [
+        "nitidez_comun",
+        "lado_textil_px",
+        "fraccion_recortada",
+        "croma_p90",
+        "colorido",
+        "n_tonos",
+        "colores_distintos",
+        "separabilidad_cromatica",
+        "contraste_cromatico",
+        "bordes_cromaticos",
+        "densidad_diseno",
+        "compacidad",
+        "fraccion_lagunas",
+        "fraccion_mayor",
+        "toca_encuadre",
+        "elongacion",
+        "fraccion_textil",
+        "titulo_fragmento",
+        "simetria_horizontal",
+        "simetria_vertical",
+        "regularidad"
+      ],
+      "pesos": [
+        1.435449,
+        0.640581,
+        -0.130631,
+        -0.139864,
+        -0.077108,
+        0.022475,
+        0.481958,
+        0.02782,
+        0.123818,
+        -0.145726,
+        0.47791,
+        -0.151282,
+        0.970703,
+        -0.120144,
+        -0.277264,
+        -0.402313,
+        -0.087839,
+        0.169286,
+        -0.27413,
+        0.313498,
+        0.292876,
+        0.082058
+      ],
+      "n": 294
+    },
+    "completitud": {
+      "medidas": [
+        "nitidez_comun",
+        "lado_textil_px",
+        "fraccion_recortada",
+        "croma_p90",
+        "colorido",
+        "n_tonos",
+        "colores_distintos",
+        "separabilidad_cromatica",
+        "contraste_cromatico",
+        "bordes_cromaticos",
+        "densidad_diseno",
+        "compacidad",
+        "fraccion_lagunas",
+        "fraccion_mayor",
+        "toca_encuadre",
+        "elongacion",
+        "fraccion_textil",
+        "titulo_fragmento",
+        "simetria_horizontal",
+        "simetria_vertical",
+        "regularidad"
+      ],
+      "pesos": [
+        -0.57671,
+        0.705872,
+        0.141678,
+        -0.468128,
+        0.356832,
+        0.144168,
+        0.011375,
+        -0.086247,
+        0.30982,
+        -0.315334,
+        0.367528,
+        -0.098573,
+        0.600768,
+        -0.330642,
+        0.013926,
+        -0.520252,
+        0.378767,
+        0.164981,
+        -0.676043,
+        0.383933,
+        0.214297,
+        -0.015267
+      ],
+      "n": 267
+    },
+    "referencia": {
+      "medidas": [
+        "nitidez_comun",
+        "lado_textil_px",
+        "fraccion_recortada",
+        "croma_p90",
+        "colorido",
+        "n_tonos",
+        "colores_distintos",
+        "separabilidad_cromatica",
+        "contraste_cromatico",
+        "bordes_cromaticos",
+        "densidad_diseno",
+        "compacidad",
+        "fraccion_lagunas",
+        "fraccion_mayor",
+        "toca_encuadre",
+        "elongacion",
+        "fraccion_textil",
+        "titulo_fragmento",
+        "simetria_horizontal",
+        "simetria_vertical",
+        "regularidad"
+      ],
+      "pesos": [
+        0.144119,
+        0.669576,
+        0.118744,
+        -0.412314,
+        0.365099,
+        0.098197,
+        -0.149893,
+        -0.161695,
+        0.141022,
+        -0.359807,
+        0.16977,
+        0.09487,
+        0.263902,
+        -0.26425,
+        0.210382,
+        -0.353701,
+        0.276323,
+        0.127513,
+        -0.390997,
+        0.19208,
+        0.18502,
+        -0.002713
+      ],
+      "n": 225
+    }
+  },
+  "puntaje": {
+    "componentes": [
+      "fotografia",
+      "colores",
+      "formas",
+      "completitud",
+      "referencia"
+    ],
+    "pesos": [
+      0.0,
+      1.05884,
+      2.299253,
+      2.759928,
+      2.622009
+    ]
+  },
+  "umbrales": {
+    "referencia": 84.3,
+    "principal": 54.5,
+    "descartar": 37.5
+  }
+}

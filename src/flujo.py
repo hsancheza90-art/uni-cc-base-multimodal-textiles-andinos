@@ -12,6 +12,10 @@ conteos esperados de config/corpus.toml.
 
 La descarga de imagenes (python -m src.imagenes.descargar_imagenes) requiere
 red y se ejecuta aparte; su manifiesto versionado es insumo de este flujo.
+Lo mismo vale para el puntaje de aptitud: las medidas
+(python -m src.imagenes.medidas) necesitan las copias de evaluacion
+locales; el flujo calibra el modelo con las decisiones del workbook AIC y puntua
+desde data/metadata/aptitud_medidas_v2.csv.
 """
 
 from __future__ import annotations
@@ -23,13 +27,14 @@ from pathlib import Path
 
 from src.anotacion import aplicar_anotaciones, documentar_vocabulario
 from src.consolidado import construir_consolidado
+from src.imagenes import aptitud, calibrar_aptitud, informe_aptitud
 from src.metadata import (
     apply_aic_review_v2,
     apply_cma_review_v2,
     apply_met_review_v2,
     audit_cma_outputs,
-    auditar_filtros,
     audit_met_outputs_v2,
+    auditar_filtros,
     build_met_corpus_v2,
 )
 from src.utils.config import RAIZ_REPO, conjuntos_esperados, contar_filas_csv, leer_config
@@ -41,6 +46,9 @@ PASOS: list[tuple[str, Callable[[list[str]], int]]] = [
     ("CMA v2: aplicar revision manual", apply_cma_review_v2.main),
     ("CMA v2: auditar candidatos", audit_cma_outputs.main),
     ("AIC v2: aplicar revision manual", apply_aic_review_v2.main),
+    ("Aptitud: calibrar la ficha por atributos con las decisiones AIC", lambda argv: calibrar_aptitud.main([*argv, "--fuente", "aic"])),
+    ("Aptitud: puntuar imagenes desde las medidas versionadas", aptitud.main),
+    ("Aptitud: informe de calibracion", lambda argv: informe_aptitud.main([*argv, "--sin-galerias"])),
     ("Vocabulario: generar taxonomia de atributos", documentar_vocabulario.main),
     ("Anotacion: validar workbook y exportar anotaciones", aplicar_anotaciones.main),
     ("Consolidado MET+CMA v1: construir y validar", construir_consolidado.main),

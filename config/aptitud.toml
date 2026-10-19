@@ -1,0 +1,159 @@
+# Parametros del puntaje de aptitud analitica (procedimiento completo: docs/protocolo_aptitud_v2.md).
+#
+# Pregunta que responde: ¿permite la imagen identificar los atributos del textil
+# (colores, formas, estructura) que el modelo combinatorio cuenta despues?
+# Criterio del revisor (2026-10-19): principal si colores y figuras se identifican a primera
+# vista, este o no completo el textil; imagen de referencia si ademas esta completo.
+#
+# Lo usan las tres etapas: medidas.py ([segmentacion]), calibrar_aptitud.py ([modelo],
+# [atributos.*], [puntaje]) y aptitud.py (puertas, niveles, estructura).
+#
+# Cada imagen recibe:
+# - una calidad fotografica (0-1), por reglas: [pesos.calidad] y [anclas];
+# - la probabilidad de que sus colores sean identificables, sus formas visibles, el
+#   textil este completo y sea una imagen de referencia, estimadas con modelos
+#   ([atributos.*]) que se calibran con los motivos del revisor;
+# - un nivel legible por atributo ([niveles]) y una descripcion de su estructura
+#   ([estructura], informativa);
+# - un puntaje ordinal 0-100 y una banda sugerida, con umbrales calibrados.
+# Antes del puntaje se aplican las puertas: pertinencia por metadatos, resolucion y
+# fotografia monocroma.
+#
+# Calibracion: python -m src.imagenes.calibrar_aptitud --fuente aic escribe los
+# coeficientes, los pesos del puntaje y los umbrales en config/aptitud_modelo.json, y
+# el informe en outputs/reports/aptitud_calibracion_aic_v2.md. La calibracion usa solo las
+# decisiones AIC. En MET y CMA la validacion ciega (kappa 0,56 < 0,6) no autorizo aplicar
+# las sugerencias del modelo: alli solo rigen las puertas (outputs/reports/validacion_met_cma_v2.md).
+
+# ------------------------------------------------------------------ calidad fotografica
+# Media ponderada de medidas normalizadas entre un ancla baja (0) y una alta (1); ancla
+# baja > alta indica que un valor menor es mejor. Anclas: percentiles 10 y 90 de las 873
+# imagenes. Pesos de la calibracion de 2026-10-14 (la nitidez es la medida que mas separa).
+
+[pesos.calidad]
+lado_textil_px = 10        # resolucion del textil en la imagen institucional
+# Nitidez del textil llevado a un tamaño comun (nitidez_comun), comparable entre fuentes; la
+# nitidez de la copia de 1600 px dependia de cuanto se habia reducido el original (2026-10-19).
+nitidez_comun = 50
+rango_dinamico = 0
+fraccion_recortada = 5     # pixeles quemados o empastados
+
+[anclas]
+lado_textil_px = { bajo = 445, alto = 2600, escala = "log" }
+nitidez_comun = { bajo = 0.65, alto = 2.15 }  # percentiles 10 y 90 de las 873 imagenes (2026-10-19)
+rango_dinamico = { bajo = 37, alto = 79 }
+fraccion_recortada = { bajo = 0.03, alto = 0.0 }
+
+# ------------------------------------------------------------------ atributos
+# Regresion logistica con L2 sobre las medidas de [modelo] (transformadas y estandarizadas),
+# ajustada con las etiquetas que el revisor escribe en su motivo (src/imagenes/motivos.py).
+# Cada atributo usa todas las medidas: las etiquetas del revisor dependen de la legibilidad
+# general de la imagen, y restringirlas a las medidas «propias» del atributo empeoraba la
+# prediccion (colores 0,85 -> 0,94; formas 0,83 -> 0,91 de AUC fuera de pliegue).
+
+[modelo]
+# titulo_fragmento es una señal de metadatos: el titulo o la tecnica dicen «fragment(s)».
+medidas = [
+    "nitidez_comun", "lado_textil_px", "fraccion_recortada", "croma_p90", "colorido", "n_tonos",
+    "colores_distintos", "separabilidad_cromatica", "contraste_cromatico", "bordes_cromaticos",
+    "densidad_diseno", "compacidad", "fraccion_lagunas", "fraccion_mayor", "toca_encuadre",
+    "elongacion", "fraccion_textil", "titulo_fragmento", "simetria_horizontal", "simetria_vertical",
+    "regularidad",
+]
+
+[atributos.colores]
+etiqueta = "colores"
+positivo = ["si"]
+negativo = ["no"]
+l2 = 10.0
+
+[atributos.formas]
+etiqueta = "formas"
+positivo = ["si"]
+negativo = ["no"]
+l2 = 10.0
+
+[atributos.completitud]
+etiqueta = "completitud"
+positivo = ["completo"]
+negativo = ["incompleto"]
+l2 = 10.0
+
+[atributos.referencia]
+# Imagen de referencia frente al resto del principal. Criterio del 2026-10-19: un textil completo,
+# verificable en la fotografia, con colores y formas visibles es la mejor imagen para el estudio
+# (tambien cuenta la marca explicita «la mejor imagen»). Con esta definicion la referencia pasa de
+# 71 a 156 imagenes AIC y su AUC fuera de pliegue de 0,72 a 0,82.
+etiqueta = "clase"
+positivo = ["referencia"]
+negativo = ["principal"]
+l2 = 10.0
+
+[niveles]
+# [umbral alto, umbral medio] sobre la calidad (fotografia) o la probabilidad (resto).
+fotografia = [0.6, 0.35]
+colores = [0.7, 0.4]
+formas = [0.7, 0.4]
+completitud = [0.7, 0.4]
+
+[estructura]
+# Descripcion informativa para el modelo combinatorio (no se calibra ni filtra).
+regularidad_minima = 0.3      # pico de autocorrelacion del modulo
+repeticiones_minimas = 3      # repeticiones del modulo visibles
+simetria_minima = 0.3         # correlacion con la imagen reflejada
+
+[puntaje]
+# Componentes del puntaje ordinal: la calidad fotografica y la probabilidad de cada atributo.
+# La calibracion ajusta sus pesos (odds proporcionales, no negativos) para ordenar
+# referencia > principal > secundario > descarte por imagen.
+componentes = ["fotografia", "colores", "formas", "completitud", "referencia"]
+# Peso minimo (fraccion) de la probabilidad de referencia: las imagenes «perfectas» deben quedar
+# arriba. Con 0,3, referencia frente a principal sube de 0,65 a 0,71 de AUC y principal frente
+# a descarte baja de 0,95 a 0,92 (fuera de pliegue, 2026-10-15).
+peso_minimo_referencia = 0.3
+# Criterios para elegir los umbrales con los puntajes fuera de pliegue:
+cobertura_referencia = 0.5        # el umbral de referencia recoge este % de las imagenes de referencia del revisor
+precision_principal = 0.90        # al menos este % de lo que supera el umbral es principal o referencia
+# (fuera de pliegue el acierto se estabiliza en 0,90-0,94: con 0,95 casi todo quedaba en revisar)
+principales_bajo_descarte = 0.03  # como maximo este % de principal y referencia cae bajo el umbral de descarte
+
+[revision]
+# Probabilidad a partir de la cual la imagen contradice con fuerza la anotacion del revisor
+# (columna revisar_anotacion del workbook): p >= umbral o p <= 1 - umbral.
+umbral_discrepancia = 0.85
+
+# ------------------------------------------------------------------ puertas
+[pertinencia]
+# Reglas tomadas de los motivos de la revision manual AIC (2026-10-14) y extendidas a MET y CMA
+# (decision del 2026-10-19). Llevan la banda descartar. Se buscan en el titulo y el material de la
+# fuente, nunca en la descripcion: esta describe la iconografia («three-feathered wing», «feather
+# motifs»), no el soporte.
+plumaria_material = ["feather", "feathers", "feathered", "featherwork", "plumage"]  # «Textil con plumas no es valido»
+plumaria_titulo = ["feathered", "featherwork"]
+muneco_titulo = ["doll", "dolls"]                                                     # «Son muñecos»
+# «Centrar el estudio en textiles andinos desde la cultura Inca a los anteriores»: año de inicio
+# posterior a 1532. AIC lo registra como numero; MET (inventario v1) y CMA, como texto
+# interpretado por src/utils/fechas.py.
+fecha_inicio_maxima = 1532
+
+[puertas]
+# Por debajo de este lado efectivo del textil (px en la imagen institucional) no hay imagen util.
+lado_textil_minimo = 300
+# Croma (percentil 90) por debajo del cual la fotografia se considera en blanco y negro:
+# el color no es identificable; va al secundario con motivo documentado (decision del 2026-10-13).
+croma_monocromo = 5
+
+# ------------------------------------------------------------------ medicion
+[segmentacion]
+# Mediana de la distancia (Delta E) del borde a su color tipico; por encima, el textil llena el encuadre.
+dispersion_fondo_maxima = 12
+delta_e_fondo = 15
+textura_minima = 6
+k_inicial = 10
+# Dos colores a menos de esta distancia (Delta E) se consideran el mismo.
+delta_e_colores = 12
+# Distancia (Delta E) a partir de la cual dos colores son claramente distintos a la vista.
+delta_e_distintos = 25
+cobertura_minima_color = 0.015
+# Lado mayor (px) al que se lleva el textil para medir nitidez_comun, comparable entre fuentes.
+nitidez_lado_textil = 600

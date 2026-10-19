@@ -9,6 +9,7 @@ from typing import Any
 
 RAIZ_REPO = Path(__file__).resolve().parents[2]
 RUTA_CONFIG = Path("config/corpus.toml")
+CONFIG_APTITUD = Path("config/aptitud.toml")
 
 
 def leer_config(raiz: Path = RAIZ_REPO) -> dict[str, Any]:
@@ -30,3 +31,9 @@ def conjuntos_esperados(config: dict[str, Any]) -> list[tuple[str, str, Path, in
 def contar_filas_csv(ruta: Path) -> int:
     with ruta.open(newline="", encoding="utf-8-sig") as archivo:
         return sum(1 for _ in csv.DictReader(archivo))
+
+
+def leer_config_aptitud(raiz: Path = RAIZ_REPO) -> dict[str, Any]:
+    """Parametros del puntaje de aptitud: medicion, atributos, puertas y criterios de calibracion."""
+    with (raiz / CONFIG_APTITUD).open("rb") as archivo:
+        return tomllib.load(archivo)
