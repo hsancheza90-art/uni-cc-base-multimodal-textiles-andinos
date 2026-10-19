@@ -1,0 +1,22 @@
+# Archivos retirados del repositorio
+
+En la limpieza de octubre de 2026 se retiraron de la rama principal los archivos que ya no participan en la cadena de datos: código preliminar reemplazado, exploraciones sin consumidor, documentación duplicada y galerías HTML. **No se perdió nada**: todos siguen en el historial de git y se recuperan con
+
+```bash
+git show corpus-met-cma-v1.2:<ruta>          # ver un archivo
+git checkout corpus-met-cma-v1.2 -- <ruta>   # restaurarlo en el árbol de trabajo
+```
+
+Se conservaron, aunque no los ejecute el flujo, todos los eslabones que producen o explican un insumo: los colectores, los generadores de workbooks, la curación CMA v1 (`create_cma_review_workbook.py`, `export_cma_curated_splits.py`, `cma_revision_manual_textiles_andinos.xlsx` y los `cma_corpus_*.csv` que sembraron el workbook v2), el corpus MET v1 congelado (`data/processed/corpus_met_textiles_andinos_v1_*`), su auditoría (`data/historico/met_v1/`) y sus informes (`outputs/reports/corpus_met_textiles_andinos_v1_*`).
+
+| Retirado | Motivo | Dónde sigue |
+|---|---|---|
+| `src/archive/` (8 scripts) | Cadena preliminar de MET v1 y primera anotación; sus insumos ya no existen y la reemplazan `src/metadata/build_met_corpus_v2.py` y `src/anotacion/`. | Etiqueta `corpus-met-cma-v1.2`; el corpus MET v1 que produjeron está en `data/processed/`. La cadena original con notebooks, en `v1.0-corpus-met-textiles-andinos`. |
+| `src/collectors/met_collector.py`, `src/preprocessing/spanish_schema.py` | Colector MET v1, reemplazado por `met_collector_v2.py`. | `corpus-met-cma-v1.2` |
+| `src/collectors/cma_discovery_probe.py`, `outputs/reports/cma_discovery_probe.csv`, `outputs/reports/cma_strategy_summary_v2.csv` | Exploración de estrategias de consulta CMA. La decisión que produjo (búsqueda conservadora) está en `docs/fuentes.md` y en `cma_collector.py`. | `corpus-met-cma-v1.2` |
+| `src/metadata/compare_cma_versions.py` | Comparaba con una consulta CMA expandida que se descartó; su entrada ya no existe. | `corpus-met-cma-v1.2` |
+| `src/review/build_cma_review_gallery.py` | Galería de candidatos CMA anterior al workbook v2. | `corpus-met-cma-v1.2` |
+| `data/metadata/corpus_met_textiles_andinos_v1_fuentes_licencias.csv` | Registro de fuentes de MET v1, reemplazado por `data/processed/corpus_textiles_andinos_met_cma_v1_fuentes_licencias.csv`. | `corpus-met-cma-v1.2` |
+| `docs/met_v1/` (6 documentos) | Documentación de MET v1, reemplazada por `docs/corpus/*_met_cma_v1.md`. | `corpus-met-cma-v1.2` |
+| `docs/data_sources.md`, `docs/source_registry.md` | Fusionados en `docs/fuentes.md`; repetían conteos que quedaban desactualizados. | `corpus-met-cma-v1.2` |
+| `outputs/review/*.html` (galerías) | Ayudas visuales que se regeneran desde los CSV y apuntan a imágenes locales; las decisiones viven en los workbooks. Ya no se versionan (`.gitignore`). | `corpus-met-cma-v1.2`; las de AIC, en el commit `b370aa4`. Se regeneran con `python -m src.review.build_met_gallery_v2 --root . --revisado` (MET), `--fuente aic` (AIC) y `python -m src.imagenes.informe_aptitud` (por banda de aptitud). |

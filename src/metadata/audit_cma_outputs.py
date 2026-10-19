@@ -5,7 +5,6 @@ import csv
 import sys
 from pathlib import Path
 
-
 FORBIDDEN_MARKER = "Forbidden. Calls to this URL via the terminal are not allowed."
 
 REQUIRED_COLUMNS = [

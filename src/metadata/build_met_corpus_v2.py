@@ -4,6 +4,7 @@ import argparse
 import csv
 from pathlib import Path
 
+from src.utils.archivos import leer_csv
 
 COLUMNAS_V2 = [
     "fuente",
@@ -41,11 +42,6 @@ COLUMNAS_V2 = [
     "estado_metadata",
     "estado_anotacion",
 ]
-
-
-def leer_csv(ruta: Path) -> list[dict[str, str]]:
-    with ruta.open(newline="", encoding="utf-8-sig") as archivo:
-        return list(csv.DictReader(archivo))
 
 
 def escribir_csv(ruta: Path, filas: list[dict[str, str]]) -> None:
@@ -167,9 +163,9 @@ def main(argv: list[str] | None = None) -> int:
     ruta_secundario = raiz / "data/processed/corpus_met_textiles_andinos_v1_complementario.csv"
     ruta_descartados = raiz / "data/processed/corpus_met_textiles_andinos_v1_exclusiones_curatoriales.csv"
 
-    principal_base = leer_csv(ruta_principal)
-    secundario_base = leer_csv(ruta_secundario)
-    descartados_base = leer_csv(ruta_descartados)
+    principal_base = leer_csv(ruta_principal, recortar=False)
+    secundario_base = leer_csv(ruta_secundario, recortar=False)
+    descartados_base = leer_csv(ruta_descartados, recortar=False)
 
     principal = [
         normalizar_fila(fila, "corpus_principal", "principal")

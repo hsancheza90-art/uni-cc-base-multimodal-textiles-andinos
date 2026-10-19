@@ -34,11 +34,5 @@ def buscar_terminos(texto: Any, terminos: Iterable[str]) -> list[str]:
     return [termino for termino in terminos if _patron(termino).search(normalizado)]
 
 
-def posicion_termino(texto: Any, termino: str) -> int:
-    """Posicion de la primera aparicion del termino como palabra completa, o -1."""
-    coincidencia = _patron(termino).search(normalizar_texto(texto))
-    return coincidencia.start() if coincidencia else -1
-
-
 def unir_textos(*valores: Any) -> str:
     return " ".join(normalizar_texto(valor) for valor in valores if normalizar_texto(valor))

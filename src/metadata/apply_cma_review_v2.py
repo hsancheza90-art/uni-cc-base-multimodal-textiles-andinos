@@ -5,7 +5,6 @@ from pathlib import Path
 
 import pandas as pd
 
-
 COLUMNAS_SALIDA = [
     "fuente",
     "id_objeto",

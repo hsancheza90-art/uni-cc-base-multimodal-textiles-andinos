@@ -12,7 +12,6 @@ registra en corpus_final, decision_revision, motivo_revision, revisor y fecha.
 from __future__ import annotations
 
 import argparse
-import csv
 from collections import Counter
 from pathlib import Path
 
@@ -26,15 +25,11 @@ from src.preprocessing.create_cma_review_workbook_v2 import (
     aplicar_estilo_revision,
     crear_hoja_listas,
 )
+from src.utils.archivos import leer_csv
 
 CANDIDATOS = "data/metadata/aic_andes_textiles_candidates.csv"
 WORKBOOK = "data/metadata/aic_revision_manual_v2.xlsx"
 HOJA_REVISION = "revision_aic_v2"
-
-
-def leer_csv(ruta: Path) -> list[dict[str, str]]:
-    with ruta.open(newline="", encoding="utf-8-sig") as archivo:
-        return list(csv.DictReader(archivo))
 
 
 def es_herramienta(candidato: dict[str, str]) -> bool:
@@ -43,7 +38,7 @@ def es_herramienta(candidato: dict[str, str]) -> bool:
 
 def construir_filas(raiz: Path) -> list[dict[str, str]]:
     filas = []
-    for c in leer_csv(raiz / CANDIDATOS):
+    for c in leer_csv(raiz / CANDIDATOS, recortar=False):
         automatico = es_herramienta(c)
         filas.append({
             "id_fuente": c["id_fuente"],

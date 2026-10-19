@@ -9,20 +9,15 @@ Salida: outputs/reports/filtros_comparacion_met_inventario.md
 from __future__ import annotations
 
 import argparse
-import csv
 from collections import Counter
 from pathlib import Path
 
 from src.preprocessing.textile_filters import evaluate_met_record
+from src.utils.archivos import leer_csv
 
 INVENTARIO = "data/processed/corpus_met_textiles_andinos_v1_inventario_base.csv"
 CONSOLIDADO = "data/processed/corpus_textiles_andinos_met_cma_v1_consolidado.csv"
 REPORTE = "outputs/reports/filtros_comparacion_met_inventario.md"
-
-
-def leer_csv(ruta: Path) -> list[dict[str, str]]:
-    with ruta.open(newline="", encoding="utf-8-sig") as archivo:
-        return list(csv.DictReader(archivo))
 
 
 def como_registro_api(fila: dict[str, str]) -> dict[str, object]:
@@ -43,10 +38,10 @@ def como_registro_api(fila: dict[str, str]) -> dict[str, object]:
 
 
 def auditar(raiz: Path) -> list[str]:
-    inventario = leer_csv(raiz / INVENTARIO)
+    inventario = leer_csv(raiz / INVENTARIO, recortar=False)
     en_corpus = {}
     if (raiz / CONSOLIDADO).exists():
-        en_corpus = {f["id_fuente"]: f["decision_curacion_final"] for f in leer_csv(raiz / CONSOLIDADO) if f["fuente"] == "MET"}
+        en_corpus = {f["id_fuente"]: f["decision_curacion_final"] for f in leer_csv(raiz / CONSOLIDADO, recortar=False) if f["fuente"] == "MET"}
 
     cambios = []
     transiciones: Counter[tuple[str, str]] = Counter()

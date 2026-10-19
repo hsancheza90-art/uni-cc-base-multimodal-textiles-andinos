@@ -5,7 +5,6 @@ import csv
 import sys
 from pathlib import Path
 
-
 ARCHIVOS_ESPERADOS = {
     "principal": {
         "ruta": "data/metadata/met_corpus_principal_v2.csv",

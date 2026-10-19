@@ -1,11 +1,11 @@
 from __future__ import annotations
 
 import argparse
-import csv
 import html
 import os
 from pathlib import Path
 
+from src.utils.archivos import leer_csv
 
 ENTRADAS_BASE = [
     ("principal", "data/metadata/met_corpus_principal_v2.csv", "outputs/review/met_corpus_principal_v2_galeria.html"),
@@ -28,11 +28,6 @@ ENTRADAS_AIC = [
 ]
 
 ORDEN_SUGERENCIA = {"principal": 0, "secundario": 1, "descartados": 2}
-
-
-def leer_csv(ruta: Path) -> list[dict[str, str]]:
-    with ruta.open(newline="", encoding="utf-8-sig") as archivo:
-        return list(csv.DictReader(archivo))
 
 
 def esc(valor: object) -> str:
@@ -235,7 +230,7 @@ def generar_galerias(raiz: Path, revisado: bool, fuente: str = "met") -> None:
         if not ruta_entrada.exists():
             raise FileNotFoundError(f"No existe el CSV requerido: {ruta_entrada}")
 
-        filas = leer_csv(ruta_entrada)
+        filas = leer_csv(ruta_entrada, recortar=False)
         if nombre == "pendientes":
             # Agrupa los pendientes por sugerencia automatica para revisarlos por bloques.
             filas.sort(key=lambda f: ORDEN_SUGERENCIA.get(f.get("corpus_actual", ""), 9))

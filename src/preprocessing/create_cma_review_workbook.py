@@ -1,3 +1,15 @@
+"""Eslabon historico de CMA v1: workbook de la primera curacion manual de candidatos CMA.
+
+Uso (solo para reconstruir la cadena desde cero; el workbook versionado guarda decisiones):
+
+    python -m src.preprocessing.create_cma_review_workbook --forzar
+
+Cadena CMA: cma_collector -> cma_andes_textiles_candidates.csv -> ESTE SCRIPT ->
+cma_revision_manual_textiles_andinos.xlsx (decisiones v1 del revisor) ->
+export_cma_curated_splits.py -> cma_corpus_{principal,secundario}.csv, cma_descartados.csv ->
+create_cma_review_workbook_v2.py -> cma_revision_manual_v2.xlsx (insumo vigente).
+"""
+
 from __future__ import annotations
 
 import argparse
@@ -11,7 +23,6 @@ from openpyxl.formatting.rule import FormulaRule
 from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
 from openpyxl.worksheet.datavalidation import DataValidation
 from openpyxl.worksheet.table import Table, TableStyleInfo
-
 
 COLUMNAS_REVISION = [
     "nro_revision",
@@ -482,7 +493,7 @@ Las columnas manuales principales son:
     ruta.write_text(texto, encoding="utf-8")
 
 
-def parse_args() -> argparse.Namespace:
+def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Crea workbook Excel en espanol para curacion manual de candidatos CMA."
     )
@@ -502,17 +513,27 @@ def parse_args() -> argparse.Namespace:
         action="store_true",
         help="Incluye tambien registros no candidatos.",
     )
-    return parser.parse_args()
+    parser.add_argument(
+        "--forzar",
+        action="store_true",
+        help="Sobrescribe el workbook existente y pierde las decisiones manuales v1 registradas.",
+    )
+    return parser.parse_args(argv)
 
 
-def main() -> int:
-    args = parse_args()
+def main(argv: list[str] | None = None) -> int:
+    args = parse_args(argv)
     root = Path(args.root).resolve()
 
     csv_entrada = root / args.csv
     xlsx_salida = root / args.output
     reporte_salida = root / "outputs/reports/cma_revision_manual_summary.md"
 
+    if xlsx_salida.exists() and not args.forzar:
+        # Mismo resguardo que los generadores v2: el workbook es un insumo con decisiones humanas.
+        print(f"El workbook ya existe y contiene decisiones manuales: {xlsx_salida}")
+        print("No se sobrescribio. Use --forzar solo si quiere regenerarlo desde cero.")
+        return 1
     if not csv_entrada.exists():
         raise FileNotFoundError(f"No existe el CSV de entrada: {csv_entrada}")
 

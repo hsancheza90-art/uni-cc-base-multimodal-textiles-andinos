@@ -32,3 +32,7 @@ outputs/archive/
 
 # Archivos derivados pesados / muestras locales
 outputs/samples/
+
+# Galerias HTML de revision: ayudas visuales que se regeneran desde los CSV y apuntan a
+# imagenes locales (data/images, fuera de git). Las decisiones viven en los workbooks.
+outputs/review/*.html

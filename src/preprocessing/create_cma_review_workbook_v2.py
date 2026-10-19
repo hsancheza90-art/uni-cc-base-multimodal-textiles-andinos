@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 import argparse
-import csv
 from pathlib import Path
 
 from openpyxl import Workbook
 from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.worksheet.datavalidation import DataValidation
 
+from src.utils.archivos import leer_csv
 
 ENTRADAS = [
     ("principal", "data/metadata/cma_corpus_principal.csv"),
@@ -60,11 +60,6 @@ OPCIONES_DECISION = [
 ]
 
 
-def leer_csv(ruta: Path) -> list[dict[str, str]]:
-    with ruta.open(newline="", encoding="utf-8-sig") as archivo:
-        return list(csv.DictReader(archivo))
-
-
 def valor(fila: dict[str, str], campo: str) -> str:
     return (fila.get(campo) or "").strip()
 
@@ -73,7 +68,7 @@ def construir_filas(raiz: Path) -> list[dict[str, str]]:
     filas_revision: list[dict[str, str]] = []
 
     for corpus_actual, ruta_relativa in ENTRADAS:
-        filas = leer_csv(raiz / ruta_relativa)
+        filas = leer_csv(raiz / ruta_relativa, recortar=False)
 
         for fila in filas:
             salida = {

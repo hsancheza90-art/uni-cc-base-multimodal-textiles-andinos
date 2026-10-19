@@ -1,10 +1,18 @@
+"""Eslabon historico de CMA v1: separa la primera curacion manual en principal, secundario y descartados.
+
+Lee las decisiones de data/metadata/cma_revision_manual_textiles_andinos.xlsx (workbook v1),
+agrega los descartes automaticos del colector y escribe data/metadata/cma_corpus_principal.csv,
+cma_corpus_secundario.csv y cma_descartados.csv (88/19/39). Esos CSV sembraron el workbook
+vigente cma_revision_manual_v2.xlsx (create_cma_review_workbook_v2.py); no se reejecuta en el
+flujo y solo hace falta para reconstruir la cadena desde cero.
+"""
+
 from __future__ import annotations
 
 import argparse
 from pathlib import Path
 
 import pandas as pd
-
 
 ACEPTAR_PRINCIPAL = {"aceptar_principal"}
 ACEPTAR_SECUNDARIO = {"aceptar_secundario"}
