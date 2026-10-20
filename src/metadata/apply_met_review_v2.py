@@ -1,4 +1,4 @@
-"""Aplica la revisión manual de MET (y de AIC, con el mismo esquema): del workbook a los CSV.
+"""Aplica la revisión manual de una fuente (MET, CMA o AIC): del workbook a los CSV revisados.
 
 Uso desde la raíz del repositorio (lo ejecuta también python -m src.flujo):
 

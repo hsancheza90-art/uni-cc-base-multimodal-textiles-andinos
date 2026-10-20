@@ -14,6 +14,7 @@ from src.preprocessing import (
     create_met_review_workbook_v2,
 )
 from src.utils.config import RAIZ_REPO, conjuntos_esperados, contar_filas_csv, leer_config
+from src.utils.fuentes import FUENTES
 from tests.insumos import copiar_insumos
 
 # Insumos versionados de los que parte el flujo; todo lo demas se regenera.
@@ -102,24 +103,9 @@ def test_conteos_versionados_coinciden_con_config(etapa: str, conjunto: str, rut
 @pytest.mark.parametrize(
     ("archivos", "columna"),
     [
-        (
-            [
-                "data/metadata/met_corpus_principal_v2_revisado.csv",
-                "data/metadata/met_corpus_secundario_v2_revisado.csv",
-                "data/metadata/met_descartados_v2_revisado.csv",
-            ],
-            "id_fuente",
-        ),
-        (
-            [
-                "data/metadata/cma_corpus_principal_revisado.csv",
-                "data/metadata/cma_corpus_secundario_revisado.csv",
-                "data/metadata/cma_descartados_revisado.csv",
-            ],
-            "id_objeto",
-        ),
+        (list(FUENTES[codigo].salidas.values()), "id_fuente") for codigo in FUENTES
     ],
-    ids=["met_revisado", "cma_revisado"],
+    ids=[f"{codigo.lower()}_revisado" for codigo in FUENTES],
 )
 def test_subconjuntos_revisados_no_comparten_ids(archivos: list[str], columna: str) -> None:
     ids = [id_ for archivo in archivos for id_ in leer_ids(RAIZ_REPO / archivo, columna)]

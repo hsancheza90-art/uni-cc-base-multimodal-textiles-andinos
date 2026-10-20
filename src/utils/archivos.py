@@ -46,10 +46,10 @@ def indexar(filas: list[dict[str, str]], clave: str) -> dict[str, dict[str, str]
     return indice
 
 
-def escribir_csv(ruta: Path, columnas: list[str], filas: list[dict[str, str]], codificacion: str = "utf-8") -> None:
-    """CSV con LF. codificacion="utf-8-sig" (con BOM) solo para los CSV heredados de CMA v1."""
+def escribir_csv(ruta: Path, columnas: list[str], filas: list[dict[str, str]]) -> None:
+    """CSV en UTF-8 sin BOM y con LF."""
     ruta.parent.mkdir(parents=True, exist_ok=True)
-    with ruta.open("w", newline="", encoding=codificacion) as archivo:
+    with ruta.open("w", newline="", encoding="utf-8") as archivo:
         escritor = csv.DictWriter(archivo, fieldnames=columnas, lineterminator="\n")
         escritor.writeheader()
         escritor.writerows(filas)

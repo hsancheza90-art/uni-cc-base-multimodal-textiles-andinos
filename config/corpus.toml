@@ -39,9 +39,11 @@ descripcion = "Salidas CMA v2 tras aplicar data/metadata/cma_revision_manual_v2.
 # 2026-10-19: 5 piezas con plumaria de secundario a descartados (reglas del criterio AIC).
 # 2026-10-19: validacion ciega trasladada: CMA:124412, CMA:294034 y CMA:294068 a principal;
 # CMA:126269 y CMA:165270 de descartados a secundario.
-principal = { ruta = "data/metadata/cma_corpus_principal_revisado.csv", filas = 104 }
-secundario = { ruta = "data/metadata/cma_corpus_secundario_revisado.csv", filas = 4 }
-descartados = { ruta = "data/metadata/cma_descartados_revisado.csv", filas = 38 }
+# 2026-10-20: mismo esquema y patron de nombres que MET y AIC (antes cma_*_revisado.csv con el esquema
+# heredado de CMA v1 y BOM); los conteos no cambian. El consolidado v1 lee data/metadata/v1_congelado/.
+principal = { ruta = "data/metadata/cma_corpus_principal_v2_revisado.csv", filas = 104 }
+secundario = { ruta = "data/metadata/cma_corpus_secundario_v2_revisado.csv", filas = 4 }
+descartados = { ruta = "data/metadata/cma_descartados_v2_revisado.csv", filas = 38 }
 pendientes = { ruta = "data/metadata/cma_pendientes_revision_v2.csv", filas = 0 }
 
 [aic.candidatos]

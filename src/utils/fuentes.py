@@ -5,9 +5,9 @@ y los CSV que el flujo deriva de él: uno por subconjunto (principal, secundario
 descartados), los pendientes y un resumen. Los módulos que leen o escriben esos archivos
 toman las rutas de aquí, de modo que una fuente nueva se agrega en un solo lugar.
 
-Los nombres de CMA no siguen el patrón de MET y AIC (sin «_v2» en los CSV revisados)
-porque son anteriores a la revisión v2; se conservan para no romper la trazabilidad
-con la serie v1.
+Las tres fuentes siguen el mismo patrón de nombres y el mismo esquema de columnas
+(src/preprocessing/workbook_revision.py). Los CSV de CMA con el esquema heredado de la
+curación v1 siguen en data/metadata/v1_congelado/, de donde los lee el consolidado v1.
 """
 
 from __future__ import annotations
@@ -34,23 +34,24 @@ class Fuente:
         return (*self.salidas.values(), self.pendientes)
 
 
-def _fuente(codigo: str, salidas: tuple[str, str, str], pendientes: str) -> Fuente:
+# Nombre del CSV revisado de cada subconjunto, tras el prefijo de la fuente.
+NOMBRES_SALIDA = {
+    "principal": "corpus_principal_v2_revisado.csv",
+    "secundario": "corpus_secundario_v2_revisado.csv",
+    "descartados": "descartados_v2_revisado.csv",
+}
+
+
+def _fuente(codigo: str) -> Fuente:
     prefijo = codigo.lower()
     return Fuente(
         codigo=codigo,
         workbook=f"data/metadata/{prefijo}_revision_manual_v2.xlsx",
         hoja=f"revision_{prefijo}_v2",
-        salidas={s: f"data/metadata/{ruta}" for s, ruta in zip(SUBCONJUNTOS, salidas)},
-        pendientes=f"data/metadata/{pendientes}",
+        salidas={s: f"data/metadata/{prefijo}_{NOMBRES_SALIDA[s]}" for s in SUBCONJUNTOS},
+        pendientes=f"data/metadata/{prefijo}_pendientes_revision_v2.csv",
         reporte=f"outputs/reports/{prefijo}_resumen_revision_manual_v2.md",
     )
 
 
-FUENTES = {
-    "MET": _fuente("MET", ("met_corpus_principal_v2_revisado.csv", "met_corpus_secundario_v2_revisado.csv",
-                           "met_descartados_v2_revisado.csv"), "met_pendientes_revision_v2.csv"),
-    "CMA": _fuente("CMA", ("cma_corpus_principal_revisado.csv", "cma_corpus_secundario_revisado.csv",
-                           "cma_descartados_revisado.csv"), "cma_pendientes_revision_v2.csv"),
-    "AIC": _fuente("AIC", ("aic_corpus_principal_v2_revisado.csv", "aic_corpus_secundario_v2_revisado.csv",
-                           "aic_descartados_v2_revisado.csv"), "aic_pendientes_revision_v2.csv"),
-}
+FUENTES = {codigo: _fuente(codigo) for codigo in ("MET", "CMA", "AIC")}

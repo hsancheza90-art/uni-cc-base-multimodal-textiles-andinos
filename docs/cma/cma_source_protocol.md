@@ -31,7 +31,7 @@ cma_collector.py
   -> create_cma_review_workbook_v2.py + revisión manual
   -> data/metadata/cma_revision_manual_v2.xlsx                      insumo vigente
   -> apply_cma_review_v2.py (en el flujo)
-  -> data/metadata/cma_*_revisado.csv
+  -> data/metadata/cma_*_v2_revisado.csv                        mismo esquema que MET y AIC
 ```
 
 La curación v1 es histórica: sus decisiones (decisión, motivo, observación, calidad visual y notas) quedaron en los tres CSV que sembraron el workbook vigente, por lo que el workbook v1 y sus dos scripts se retiraron (`docs/historico.md`). Los generadores de workbooks no sobrescriben un workbook existente sin `--forzar`.
