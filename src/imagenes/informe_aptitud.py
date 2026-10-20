@@ -8,7 +8,7 @@ Uso desde la raiz del repositorio (sin red):
 Resume las bandas y los atributos de data/metadata/aptitud_imagenes_v2.csv por
 fuente, los compara con las decisiones manuales AIC (la fuente que calibra el
 modelo vigente) y genera una galeria por banda para la revision visual. La
-calibracion detallada esta en outputs/reports/aptitud_calibracion_aic_v2.md.
+calibracion detallada esta en outputs/reports/aptitud_calibracion_v2.md.
 """
 
 from __future__ import annotations
@@ -67,7 +67,7 @@ def construir_informe(raiz: Path) -> tuple[list[str], list[dict[str, str]]]:
         "",
         f"Generado por `python -m src.imagenes.informe_aptitud` a partir de `{SALIDA_APTITUD}`. Modelo calibrado con "
         f"{modelo['registros']} decisiones manuales {modelo['fuente_calibracion']} "
-        f"(`config/aptitud_modelo.json`; detalle en `outputs/reports/aptitud_calibracion_{modelo['fuente_calibracion'].lower()}_v2.md`).",
+        f"(`config/aptitud_modelo.json`; detalle en `outputs/reports/aptitud_calibracion_v2.md`).",
         "",
         "Cada imagen recibe un nivel por atributo (fotografía, colores, formas, completitud y estructura), un puntaje "
         "ordinal de 0 a 100 y una banda sugerida. El puntaje solo sugiere; la decisión es manual.",

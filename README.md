@@ -53,7 +53,7 @@ python -m src.flujo     # regenera todas las salidas y verifica los conteos de c
 pytest                  # comprueba que la regeneración coincide byte a byte con lo versionado
 ```
 
-El flujo aplica la revisión manual de cada fuente (workbooks `data/metadata/*_revision_manual_v2.xlsx`), calibra el puntaje de aptitud con las decisiones AIC, puntúa todas las imágenes, valida la anotación manual y construye el consolidado v1. Termina con código distinto de cero si algún paso o conteo falla; tras un cambio curatorial eso es lo esperado: se actualiza `config/corpus.toml` y se documenta el motivo.
+El flujo aplica la revisión manual de cada fuente (workbooks `data/metadata/*_revision_manual_v2.xlsx`), calibra el puntaje de aptitud con las decisiones del revisor en AIC, MET y CMA, puntúa todas las imágenes, valida la anotación manual y construye el consolidado v1. Termina con código distinto de cero si algún paso o conteo falla; tras un cambio curatorial eso es lo esperado: se actualiza `config/corpus.toml` y se documenta el motivo.
 
 ## Pasos que requieren red o trabajo manual
 

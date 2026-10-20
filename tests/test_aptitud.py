@@ -314,8 +314,9 @@ def copiar_insumos(destino: Path, relativas: tuple[str, ...]) -> None:
 
 def test_modelo_y_fichas_se_regeneran_igual(tmp_path: Path) -> None:
     copiar_insumos(tmp_path, ("config/aptitud.toml", medidas.MEDIDAS, "data/metadata/aic_revision_manual_v2.xlsx",
+                              "data/metadata/met_revision_manual_v2.xlsx", "data/metadata/cma_revision_manual_v2.xlsx",
                               aptitud.INVENTARIO_MET, *ENTRADAS_MET, ENTRADA_CMA, ENTRADA_AIC))
-    assert calibrar_aptitud.main(["--root", str(tmp_path), "--fuente", "aic"]) == 0
+    assert calibrar_aptitud.main(["--root", str(tmp_path)]) == 0
     assert aptitud.main(["--root", str(tmp_path)]) == 0
     for relativa in (calibrar_aptitud.MODELO, aptitud.SALIDA_APTITUD):
         generado = (tmp_path / relativa).read_bytes()
@@ -402,3 +403,25 @@ def test_traslado_de_la_revision_v2(tmp_path: Path) -> None:
     repetido = trasladar_anotaciones(tmp_path, "revision.xlsx", "revision", "2026-10-20", "revision_criterio_v2",
                                      "Revisión con el criterio v2", registrar_confirmaciones=True)
     assert sum(repetido.values()) == 0
+
+
+@pytest.mark.parametrize(
+    ("titulo", "marcada"),
+    [
+        ("Border Fragment, Figure", True),
+        ("Male Figure with Modern Additions", True),
+        ("Embroidered Fragment with Figure", False),   # figura representada en el textil
+        ("Panel with a Seated Figure", False),
+        ("Tunic with Frontal Figures", False),         # plural: siempre representadas
+        ("Figured Cloth", False),
+    ],
+)
+def test_posible_figurilla_es_prudente(titulo: str, marcada: bool) -> None:
+    from src.imagenes.aptitud import posible_figurilla
+
+    assert posible_figurilla(titulo, CONFIG["pertinencia"]) == marcada
+
+
+def test_figurilla_va_a_revisar_y_no_a_descartar() -> None:
+    resultado = puntuar_registro(fila_medidas(), CONFIG, modelo_sintetico(5.0), "posible_figurilla")
+    assert (resultado["banda_sugerida"], resultado["motivo_banda"]) == ("revisar", "posible_figurilla")

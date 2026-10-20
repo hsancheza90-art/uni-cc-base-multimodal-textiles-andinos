@@ -1,12 +1,12 @@
-"""Calibra la ficha de aptitud por atributos con las decisiones manuales de una fuente.
+"""Calibra la ficha de aptitud con las decisiones del revisor en AIC, MET y CMA.
 
-Uso desde la raiz del repositorio (sin red):
+Uso desde la raiz del repositorio (sin red; tambien lo ejecuta python -m src.flujo):
 
-    python -m src.imagenes.calibrar_aptitud --fuente aic
+    python -m src.imagenes.calibrar_aptitud
 
-Lee las medidas de imagen (data/metadata/aptitud_medidas_v2.csv) y las decisiones
-del workbook de revision de la fuente. Del motivo libre del revisor extrae los
-atributos (src/imagenes/motivos.py) y ajusta:
+Lee las medidas de imagen (data/metadata/aptitud_medidas_v2.csv) y las decisiones de
+los workbooks de revision. Del motivo libre del revisor extrae los atributos
+(src/imagenes/motivos.py) y ajusta:
 
 1. Un modelo por atributo (regresion logistica con L2) que estima, desde la imagen,
    si los colores son identificables, si las formas son visibles, si el textil esta
@@ -15,12 +15,18 @@ atributos (src/imagenes/motivos.py) y ajusta:
    fotografica y de las probabilidades de los atributos, ajustada para ordenar
    referencia > principal > secundario > descarte por imagen.
 
-Las etiquetas del revisor no son definitivas (hay piezas completas sin anotar como
-tales): por eso los modelos usan regularizacion y el informe lista los desacuerdos
-fuertes como candidatos a revisar la anotacion.
+Que decisiones calibran ([calibracion] de config/aptitud.toml): todas las humanas de
+AIC, y de MET y CMA solo las tomadas con el criterio v2 (validacion ciega y revision
+v2); el resto de MET y CMA se decidio con criterios anteriores. Calibrar con las tres
+fuentes es necesario porque el modelo calibrado solo con AIC no generalizaba a MET
+(separacion util/resto 0,49 frente a 0,76 con la calibracion conjunta).
 
-Escribe el modelo en config/aptitud_modelo.json (versionado; lo aplica el flujo a
-todas las fuentes) y el informe en outputs/reports/aptitud_calibracion_<fuente>_v2.md.
+Las etiquetas del revisor no son definitivas (hay piezas completas sin anotar como
+tales): por eso los modelos usan regularizacion, y la validacion cruzada se estratifica
+por fuente y clase para que cada pliegue represente a las tres colecciones.
+
+Escribe el modelo en config/aptitud_modelo.json y el informe en
+outputs/reports/aptitud_calibracion_v2.md.
 """
 
 from __future__ import annotations
@@ -35,6 +41,7 @@ import numpy as np
 from openpyxl import load_workbook
 
 from src.imagenes.aptitud import (
+    PERTINENCIA_DESCARTE,
     capa_calidad,
     metadatos_pertinencia,
     motivo_pertinencia,
@@ -57,8 +64,13 @@ SEMILLA = 0
 
 # ------------------------------------------------------------------ etiquetas
 
-def etiquetas(raiz: Path, fuente: str, medidas: dict[str, dict[str, str]], config: dict[str, Any]) -> list[dict[str, Any]]:
-    """Decision y atributos del revisor para cada registro con imagen util y sin regla de pertinencia."""
+def etiquetas(raiz: Path, fuente: str, medidas: dict[str, dict[str, str]], config: dict[str, Any],
+              origenes: set[str] | None = None) -> list[dict[str, Any]]:
+    """Decision y atributos del revisor para cada registro con imagen util y sin regla de pertinencia.
+
+    origenes: si se indica, solo cuentan las filas cuyo origen_curacion esta en el conjunto
+    (por ejemplo, las decididas con el criterio v2).
+    """
     ruta, hoja = WORKBOOKS[fuente]
     libro = load_workbook(raiz / ruta, read_only=True, data_only=True)
     filas = list(libro[hoja].iter_rows(values_only=True))
@@ -77,10 +89,12 @@ def etiquetas(raiz: Path, fuente: str, medidas: dict[str, dict[str, str]], confi
             continue
         if es_decision_automatica(leer):
             continue  # solo las decisiones humanas calibran
+        if origenes is not None and leer("origen_curacion") not in origenes:
+            continue
         atributos = analizar_motivo(motivo_del_revisor(leer))
         if atributos["pertinencia"] or atributos["monocroma"]:
             continue  # decisiones que no dependen de lo que la imagen permite ver
-        if motivo_pertinencia(metadatos.get(id_global), config["pertinencia"]):
+        if motivo_pertinencia(metadatos.get(id_global), config["pertinencia"]) in PERTINENCIA_DESCARTE:
             continue
         if float(m["croma_p90"]) < config["puertas"]["croma_monocromo"]:
             continue
@@ -88,7 +102,7 @@ def etiquetas(raiz: Path, fuente: str, medidas: dict[str, dict[str, str]], confi
         if atributos["referencia"] and decision == "principal":
             # Criterio del 2026-10-19: principal y textil completo verificable en la fotografia.
             clase = "referencia"
-        salida.append({"id_global": id_global, "clase": clase, **atributos})
+        salida.append({"id_global": id_global, "fuente": fuente, "clase": clase, **atributos})
     return salida
 
 
@@ -203,15 +217,28 @@ def estandarizacion(medidas: list[dict[str, str]], nombres: set[str]) -> dict[st
 
 # ------------------------------------------------------------------ calibracion
 
-def calibrar(raiz: Path, fuente: str) -> tuple[dict[str, Any], list[str]]:
+def registros_calibracion(raiz: Path, medidas: dict[str, dict[str, str]], config: dict[str, Any]) -> list[dict[str, Any]]:
+    """Etiquetas de las fuentes de [calibracion]: todas las humanas o solo las del criterio v2."""
+    criterio = config["calibracion"]
+    registros = []
+    for fuente in criterio["fuentes"]:
+        origenes = None if fuente in criterio["fuentes_completas"] else set(criterio["origenes_criterio_v2"])
+        registros += etiquetas(raiz, fuente, medidas, config, origenes)
+    return registros
+
+
+def calibrar(raiz: Path) -> tuple[dict[str, Any], list[str]]:
     config = leer_config_aptitud(raiz)
     medidas = indexar(leer_csv(raiz / MEDIDAS), "id_global")
-    registros = etiquetas(raiz, fuente, medidas, config)
+    registros = registros_calibracion(raiz, medidas, config)
+    fuentes = config["calibracion"]["fuentes"]
     nombres = {m for atributo in config["atributos"] for m in medidas_atributo(config, atributo)}
-    estandar = estandarizacion([m for m in medidas.values() if m["fuente"] == fuente and m["estado_imagen"] == "ok"], nombres)
+    # La estandarizacion usa las imagenes de las tres fuentes: el modelo se aplica a todas.
+    estandar = estandarizacion([m for m in medidas.values() if m["fuente"] in fuentes and m["estado_imagen"] == "ok"], nombres)
 
-    # Validacion cruzada: cada registro se puntua con modelos que no lo vieron.
-    asignacion = pliegues([r["clase"] for r in registros])
+    # Validacion cruzada estratificada por fuente y clase: cada registro se puntua con
+    # modelos que no lo vieron, y cada pliegue contiene las tres colecciones.
+    asignacion = pliegues([r["fuente"] + r["clase"] for r in registros])
     fuera = {}
     for k in range(PLIEGUES):
         entrenamiento = [r for r, p in zip(registros, asignacion) if p != k]
@@ -224,15 +251,16 @@ def calibrar(raiz: Path, fuente: str) -> tuple[dict[str, Any], list[str]]:
 
     umbrales = elegir_umbrales(registros, fuera, config)
     modelo = {
-        "fuente_calibracion": fuente,
+        "fuente_calibracion": "+".join(fuentes),
         "registros": len(registros),
+        "registros_por_fuente": {f: sum(r["fuente"] == f for r in registros) for f in fuentes},
         "clases": dict(Counter(r["clase"] for r in registros)),
         "estandarizacion": estandar,
         "atributos": final.atributos,
         "puntaje": {"componentes": config["puntaje"]["componentes"], "pesos": [round(float(w), 6) for w in final.pesos]},
         "umbrales": umbrales,
     }
-    informe = construir_informe(fuente, registros, fuera, modelo, config)
+    informe = construir_informe(registros, fuera, modelo, config)
     return modelo, informe
 
 
@@ -260,7 +288,7 @@ def elegir_umbrales(registros: list[dict], fuera: dict[str, dict], config: dict[
 
 # ------------------------------------------------------------------ informe
 
-def construir_informe(fuente: str, registros: list[dict], fuera: dict[str, dict], modelo: dict, config: dict[str, Any]) -> list[str]:
+def construir_informe(registros: list[dict], fuera: dict[str, dict], modelo: dict, config: dict[str, Any]) -> list[str]:
     clases = [r["clase"] for r in registros]
     puntaje = {r["id_global"]: fuera[r["id_global"]]["puntaje"] for r in registros}
 
@@ -268,10 +296,13 @@ def construir_informe(fuente: str, registros: list[dict], fuera: dict[str, dict]
         return [puntaje[r["id_global"]] for r in registros if r["clase"] == clase]
 
     lineas = [
-        f"# Calibración de la ficha de aptitud por atributos ({fuente})",
+        f"# Calibración de la ficha de aptitud por atributos ({modelo['fuente_calibracion']})",
         "",
-        f"Generado por `python -m src.imagenes.calibrar_aptitud --fuente {fuente.lower()}` (también lo ejecuta "
-        f"`python -m src.flujo`). Modelo: `{MODELO}`. Parámetros: `config/aptitud.toml` ([modelo], [atributos] y [puntaje]).",
+        "Generado por `python -m src.imagenes.calibrar_aptitud` (también lo ejecuta `python -m src.flujo`). "
+        f"Modelo: `{MODELO}`. Parámetros: `config/aptitud.toml` ([calibracion], [modelo], [atributos] y [puntaje]).",
+        "",
+        "Calibran todas las decisiones humanas de AIC y, de MET y CMA, solo las tomadas con el criterio v2 "
+        "(validación ciega y revisión v2); el resto de MET y CMA se decidió con criterios anteriores.",
         "",
         "Las etiquetas salen del motivo libre del revisor (`src/imagenes/motivos.py`). Se excluyen los descartes "
         "por pertinencia (herramientas, plumaria, muñecos, piezas posteriores a 1532, no andinos) y las fotografías "
@@ -281,9 +312,10 @@ def construir_informe(fuente: str, registros: list[dict], fuera: dict[str, dict]
         "",
         "## Registros de calibración",
         "",
-        "| Clase | Registros |",
-        "|---|---|",
-        *[f"| {c} | {clases.count(c)} |" for c in CLASES],
+        "| Clase | " + " | ".join(modelo["registros_por_fuente"]) + " | Total |",
+        "|---|" + "---|" * (len(modelo["registros_por_fuente"]) + 1),
+        *[f"| {c} | " + " | ".join(str(sum(r["clase"] == c and r["fuente"] == f for r in registros)) for f in modelo["registros_por_fuente"])
+          + f" | {clases.count(c)} |" for c in CLASES],
         "",
         "## Atributos estimados desde la imagen",
         "",
@@ -335,6 +367,27 @@ def construir_informe(fuente: str, registros: list[dict], fuera: dict[str, dict]
         "- Entre descartar y principal: revisar.",
         "",
     ]
+    lineas += [
+        "## Separación por fuente",
+        "",
+        "AUC fuera de pliegue en cada colección (útil = principal o referencia; resto = secundario o descarte "
+        "por imagen). Las muestras MET y CMA son pequeñas y reúnen los casos difíciles: sus cifras tienen margen amplio.",
+        "",
+        "| Fuente | Registros | Útil frente al resto | Colores | Formas | Completitud |",
+        "|---|---|---|---|---|---|",
+    ]
+    for fuente in modelo["registros_por_fuente"]:
+        propios = [r for r in registros if r["fuente"] == fuente]
+        util = [puntaje[r["id_global"]] for r in propios if r["clase"] in ("principal", "referencia")]
+        resto = [puntaje[r["id_global"]] for r in propios if r["clase"] in ("secundario", "descarte_imagen")]
+        celdas = [fuente, str(len(propios)), f"{auc(util, resto):.3f}"]
+        for nombre in ("colores", "formas", "completitud"):
+            definicion = config["atributos"][nombre]
+            pos = [fuera[r["id_global"]][nombre] for r in propios if r[definicion["etiqueta"]] in definicion["positivo"]]
+            neg = [fuera[r["id_global"]][nombre] for r in propios if r[definicion["etiqueta"]] in definicion["negativo"]]
+            celdas.append(f"{auc(pos, neg):.3f}")
+        lineas.append("| " + " | ".join(celdas) + " |")
+    lineas.append("")
     tabla_bandas = Counter()
     for r in registros:
         s = puntaje[r["id_global"]]
@@ -348,20 +401,20 @@ def construir_informe(fuente: str, registros: list[dict], fuera: dict[str, dict]
     return lineas
 
 
+INFORME = "outputs/reports/aptitud_calibracion_v2.md"
+
+
 def main(argv: list[str] | None = None) -> int:
-    parser = argparse.ArgumentParser(description="Calibra la ficha de aptitud por atributos con las decisiones de una fuente.")
+    parser = argparse.ArgumentParser(description="Calibra la ficha de aptitud con las decisiones del revisor en AIC, MET y CMA.")
     parser.add_argument("--root", default=".", help="Raiz del repositorio.")
-    parser.add_argument("--fuente", choices=["aic", "met", "cma"], default="aic", help="Fuente cuyas decisiones calibran el modelo.")
     args = parser.parse_args(argv)
     raiz = Path(args.root).resolve()
-    fuente = args.fuente.upper()
-    modelo, informe = calibrar(raiz, fuente)
+    modelo, informe = calibrar(raiz)
     (raiz / MODELO).write_bytes((json.dumps(modelo, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
-    ruta_informe = raiz / f"outputs/reports/aptitud_calibracion_{fuente.lower()}_v2.md"
-    ruta_informe.parent.mkdir(parents=True, exist_ok=True)
-    ruta_informe.write_bytes(("\n".join(informe) + "\n").encode("utf-8"))
-    print(f"Modelo: {raiz / MODELO} | informe: {ruta_informe}")
-    print(f"Umbrales: {modelo['umbrales']}")
+    (raiz / INFORME).parent.mkdir(parents=True, exist_ok=True)
+    (raiz / INFORME).write_bytes(("\n".join(informe) + "\n").encode("utf-8"))
+    print(f"Modelo: {raiz / MODELO} | informe: {raiz / INFORME}")
+    print(f"Registros por fuente: {modelo['registros_por_fuente']} | umbrales: {modelo['umbrales']}")
     return 0
 
 

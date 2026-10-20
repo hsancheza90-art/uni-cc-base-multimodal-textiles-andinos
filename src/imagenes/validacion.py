@@ -6,7 +6,7 @@ Uso desde la raiz del repositorio (sin red):
     python -m src.imagenes.validacion              # evalua las anotaciones del workbook
     python -m src.imagenes.validacion --trasladar  # lleva las anotaciones a los workbooks MET y CMA
 
-El modelo se calibro con las decisiones AIC. Antes de aplicarlo a MET y CMA se
+El modelo se calibro primero solo con las decisiones AIC. Antes de aplicarlo a MET y CMA se
 comprueba si transfiere: el revisor anota una muestra con el criterio AIC
 (principal, secundario o descartados y su motivo) sin ver el puntaje ni la
 decision v1, y se mide el acuerdo con la banda sugerida y con la decision v1.

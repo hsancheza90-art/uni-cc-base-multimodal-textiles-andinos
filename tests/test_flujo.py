@@ -54,7 +54,7 @@ REPORTES = [
     "data/processed/corpus_textiles_andinos_met_cma_v1_sha256.txt",
     "config/aptitud_modelo.json",
     "data/metadata/aptitud_imagenes_v2.csv",
-    "outputs/reports/aptitud_calibracion_aic_v2.md",
+    "outputs/reports/aptitud_calibracion_v2.md",
     "outputs/reports/aptitud_imagenes_v2_resumen.md",
 ]
 

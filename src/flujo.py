@@ -46,7 +46,7 @@ PASOS: list[tuple[str, Callable[[list[str]], int]]] = [
     ("CMA v2: aplicar revision manual", apply_cma_review_v2.main),
     ("CMA v2: auditar candidatos", audit_cma_outputs.main),
     ("AIC v2: aplicar revision manual", apply_aic_review_v2.main),
-    ("Aptitud: calibrar la ficha por atributos con las decisiones AIC", lambda argv: calibrar_aptitud.main([*argv, "--fuente", "aic"])),
+    ("Aptitud: calibrar la ficha con las decisiones del revisor (AIC, MET y CMA)", calibrar_aptitud.main),
     ("Aptitud: puntuar imagenes desde las medidas versionadas", aptitud.main),
     ("Aptitud: informe de calibracion", lambda argv: informe_aptitud.main([*argv, "--sin-galerias"])),
     ("Vocabulario: generar taxonomia de atributos", documentar_vocabulario.main),

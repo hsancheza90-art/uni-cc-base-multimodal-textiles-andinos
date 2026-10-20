@@ -24,7 +24,7 @@ El criterio no exige que la pieza esté entera: el modelo combinatorio necesita 
 | 1 | Copias de evaluación | `python -m src.imagenes.descargar_evaluacion` | Red | `data/images/evaluacion/` (fuera de git) y `data/metadata/imagenes_evaluacion_manifiesto_v2.csv` | — |
 | 2 | Medidas | `python -m src.imagenes.medidas` | Imágenes locales | `data/metadata/aptitud_medidas_v2.csv` | — |
 | 3 | Revisión manual | Workbook `data/metadata/<fuente>_revision_manual_v2.xlsx` | — | `corpus_final`, `decision_revision`, `motivo_revision` | **Sí: es la referencia de todo lo demás** |
-| 4 | Calibración | `python -m src.imagenes.calibrar_aptitud --fuente aic` (lo ejecuta el flujo) | — | `config/aptitud_modelo.json`, `outputs/reports/aptitud_calibracion_aic_v2.md` | — |
+| 4 | Calibración | `python -m src.imagenes.calibrar_aptitud` (lo ejecuta el flujo) | — | `config/aptitud_modelo.json`, `outputs/reports/aptitud_calibracion_v2.md` | — |
 | 5 | Ficha y puntaje | `python -m src.imagenes.aptitud` (lo ejecuta el flujo) | — | `data/metadata/aptitud_imagenes_v2.csv` | — |
 | 6 | Ficha en los workbooks | `python -m src.imagenes.aptitud_workbooks --fuente aic` (o `--solo-reglas` en fuentes no validadas) | Excel cerrado | Columnas informativas, motivo enriquecido y decisiones automáticas por reglas | Revisar las discrepancias (`revisar_anotacion`) |
 | 7 | Validación en una fuente nueva | `python -m src.imagenes.validacion --crear`, anotar, luego `python -m src.imagenes.validacion` | — | `data/metadata/validacion_met_cma_v2.xlsx`, `outputs/reports/validacion_met_cma_v2.md` | **Sí: anotación ciega** |
@@ -53,13 +53,14 @@ Dos decisiones de medición que hay que declarar:
 
 ## Atributos, puntaje y bandas (etapas 4 y 5)
 
-El motivo libre del revisor se traduce en atributos (`src/imagenes/motivos.py`): completitud, colores visibles, formas visibles, imagen de referencia y motivos de pertinencia. Con esos atributos como etiquetas se ajusta una regresión logística por atributo y un puntaje ordinal (referencia > principal > secundario > descarte por imagen), ambos con validación cruzada. Pesos, umbrales y parámetros quedan en `config/aptitud.toml` (comentados) y en `config/aptitud_modelo.json`.
+El motivo libre del revisor se traduce en atributos (`src/imagenes/motivos.py`): completitud, colores visibles, formas visibles, imagen de referencia y motivos de pertinencia. Con esos atributos como etiquetas se ajusta una regresión logística por atributo y un puntaje ordinal (referencia > principal > secundario > descarte por imagen), ambos con validación cruzada estratificada por fuente. Calibran todas las decisiones humanas de AIC y, de MET y CMA, solo las tomadas con el criterio v2 (`[calibracion]` en `config/aptitud.toml`). Pesos, umbrales y parámetros quedan en `config/aptitud.toml` (comentados) y en `config/aptitud_modelo.json`.
 
 Antes del puntaje se aplican las **puertas**, reglas verificables que deciden sin modelo:
 
 | Puerta | Banda | Fundamento |
 |---|---|---|
-| Plumaria (material o título «Feathered»), muñecos, fecha de inicio posterior a 1532 | descartar | Motivos del revisor; la fecha se interpreta desde el texto de cada fuente (`src/utils/fechas.py`) |
+| Plumaria (material o título «Feathered»), muñecos («Doll»), fecha de inicio posterior a 1532 | descartar | Motivos del revisor; la fecha se interpreta desde el texto de cada fuente (`src/utils/fechas.py`) |
+| Posible figurilla: «Figure» en singular sin «with», «of»… delante | revisar | Prudencia: siete figurillas se titulan «…, Figure», pero «Fragment with Figure» es un textil con una figura representada; lo decide el revisor |
 | Sin imagen o textil de menos de 300 px | descartar | No hay atributos que identificar |
 | Fotografía monocroma | secundario | El color no es identificable |
 
@@ -67,9 +68,9 @@ Después, el puntaje sugiere principal, revisar o descartar; la imagen de refere
 
 ## Resultados vigentes
 
-- Calibración AIC (fuera de pliegue): `outputs/reports/aptitud_calibracion_aic_v2.md`.
+- Calibración conjunta AIC+MET+CMA (fuera de pliegue, por fuente): `outputs/reports/aptitud_calibracion_v2.md`.
 - Resumen por fuente, atributos y cultura: `outputs/reports/aptitud_imagenes_v2_resumen.md`.
-- Validación ciega en MET y CMA: `outputs/reports/validacion_met_cma_v2.md`. El kappa (0,56) no alcanzó el criterio de 0,6, por lo que en MET y CMA solo se aplicaron las reglas y las decisiones del revisor.
+- Validación ciega en MET y CMA del modelo calibrado solo con AIC: `outputs/reports/validacion_met_cma_v2.md`. El kappa (0,56) no alcanzó el criterio de 0,6, por lo que en MET y CMA solo se aplicaron las reglas y las decisiones del revisor. El diagnóstico (el modelo de AIC no generalizaba a MET) llevó a calibrar con las tres fuentes: con las etiquetas MET y CMA del criterio v2, la separación útil/resto fuera de pliegue es 0,91 en AIC, 0,76 en MET y 0,83 en CMA. Como la muestra de validación ya forma parte del entrenamiento, afirmar la transferencia a una fuente nueva exige otra muestra ciega.
 
 ## Revisión de decisiones tomadas con criterios anteriores
 

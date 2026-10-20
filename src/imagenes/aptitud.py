@@ -103,16 +103,39 @@ def palabras(texto: str) -> set[str]:
     return set(re.findall(r"[a-z]+", texto.lower()))
 
 
+# Motivos de pertinencia que descartan; posible_figurilla solo pide revision.
+PERTINENCIA_DESCARTE = {"plumaria", "muneco", "posterior_inca"}
+
+
+def posible_figurilla(titulo: str, reglas: dict[str, Any]) -> bool:
+    """El titulo nombra el objeto como «Figure» (figurilla), no una figura representada en el textil.
+
+    «Border Fragment, Figure» o «Male Figure with Modern Additions» son figurillas;
+    «Fragment with Figure» o «Tunic with Frontal Figures» son textiles con figuras. Por
+    prudencia solo cuenta la forma singular y no si la precede «with», «of», «depicting»...
+    """
+    texto = titulo.lower()
+    figura = rf"\b{re.escape(reglas['figurilla_titulo'])}\b"
+    if not re.search(figura, texto):
+        return False
+    representada = "|".join(re.escape(p) for p in reglas["figurilla_excluir_si_precede"])
+    return not re.search(rf"\b({representada})\b[^,;]*{figura}", texto)
+
+
 def motivo_pertinencia(metadatos: dict | None, reglas: dict[str, Any]) -> str:
-    """Motivo de descarte por pertinencia segun los metadatos; vacio si no aplica ninguna regla."""
+    """Motivo de pertinencia segun los metadatos; vacio si no aplica ninguna regla."""
     if not metadatos:
         return ""
-    if palabras(metadatos["material"]) & set(reglas["plumaria_material"]) or             palabras(metadatos["titulo"]) & set(reglas["plumaria_titulo"]):
+    plumaria = (palabras(metadatos["material"]) & set(reglas["plumaria_material"])
+                or palabras(metadatos["titulo"]) & set(reglas["plumaria_titulo"]))
+    if plumaria:
         return "plumaria"
     if palabras(metadatos["titulo"]) & set(reglas["muneco_titulo"]):
         return "muneco"
     if metadatos["fecha_inicio"] is not None and metadatos["fecha_inicio"] > reglas["fecha_inicio_maxima"]:
         return "posterior_inca"
+    if posible_figurilla(metadatos["titulo"], reglas):
+        return "posible_figurilla"
     return ""
 
 
@@ -120,6 +143,7 @@ TEXTOS_PERTINENCIA = {
     "plumaria": "Los metadatos registran plumas: los textiles con plumaria quedan fuera del estudio.",
     "muneco": "Los metadatos lo describen como muñeco: no es una superficie textil del estudio.",
     "posterior_inca": "Fecha de inicio posterior a 1532: el estudio abarca textiles incas y anteriores.",
+    "posible_figurilla": "El título sugiere una figurilla («Figure»): confirmar si es un textil o un objeto tridimensional.",
 }
 
 
@@ -229,8 +253,11 @@ def puntuar_registro(medidas: dict[str, str], config: dict[str, Any], modelo: di
         niveles["colores"] = "no_identificables"  # sin color en la fotografia no hay colores que contar
 
     umbrales = modelo["umbrales"]
-    if pertinencia:
+    if pertinencia in PERTINENCIA_DESCARTE:
         banda, motivo = "descartar", pertinencia
+    elif pertinencia == "posible_figurilla":
+        # Prudencia: un textil con figuras no debe salir por una regla; lo decide el revisor.
+        banda, motivo = "revisar", pertinencia
     elif valores["lado_textil_px"] < puertas["lado_textil_minimo"]:
         banda, motivo = "descartar", "resolucion_insuficiente"
     elif monocroma:

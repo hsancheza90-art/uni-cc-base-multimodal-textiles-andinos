@@ -19,11 +19,9 @@
 # Antes del puntaje se aplican las puertas: pertinencia por metadatos, resolucion y
 # fotografia monocroma.
 #
-# Calibracion: python -m src.imagenes.calibrar_aptitud --fuente aic escribe los
-# coeficientes, los pesos del puntaje y los umbrales en config/aptitud_modelo.json, y
-# el informe en outputs/reports/aptitud_calibracion_aic_v2.md. La calibracion usa solo las
-# decisiones AIC. En MET y CMA la validacion ciega (kappa 0,56 < 0,6) no autorizo aplicar
-# las sugerencias del modelo: alli solo rigen las puertas (outputs/reports/validacion_met_cma_v2.md).
+# Calibracion: python -m src.imagenes.calibrar_aptitud escribe los coeficientes, los pesos del
+# puntaje y los umbrales en config/aptitud_modelo.json, y el informe en
+# outputs/reports/aptitud_calibracion_v2.md, con las decisiones de [calibracion].
 
 # ------------------------------------------------------------------ calidad fotografica
 # Media ponderada de medidas normalizadas entre un ancla baja (0) y una alta (1); ancla
@@ -43,6 +41,16 @@ lado_textil_px = { bajo = 445, alto = 2600, escala = "log" }
 nitidez_comun = { bajo = 0.65, alto = 2.15 }  # percentiles 10 y 90 de las 873 imagenes (2026-10-19)
 rango_dinamico = { bajo = 37, alto = 79 }
 fraccion_recortada = { bajo = 0.03, alto = 0.0 }
+
+# ------------------------------------------------------------------ calibracion
+[calibracion]
+# Decisiones que calibran el modelo (2026-10-20). AIC se reviso entero con el criterio de estructura
+# observable; de MET y CMA solo cuentan las filas decididas con el criterio v2, porque el resto se decidio
+# con criterios anteriores (tipo de objeto, legibilidad general). Calibrado solo con AIC, el modelo no
+# generalizaba a MET (util/resto 0,49); con las tres fuentes, 0,76 en MET y 0,83 en CMA sin perder AIC.
+fuentes = ["AIC", "MET", "CMA"]
+fuentes_completas = ["AIC"]
+origenes_criterio_v2 = ["validacion_ciega_v2", "revision_criterio_v2"]
 
 # ------------------------------------------------------------------ atributos
 # Regresion logistica con L2 sobre las medidas de [modelo] (transformadas y estandarizadas),
@@ -131,6 +139,11 @@ umbral_discrepancia = 0.85
 plumaria_material = ["feather", "feathers", "feathered", "featherwork", "plumage"]  # «Textil con plumas no es valido»
 plumaria_titulo = ["feathered", "featherwork"]
 muneco_titulo = ["doll", "dolls"]                                                     # «Son muñecos»
+# Figurillas (2026-10-20): siete piezas que el revisor descarto como muñecos se titulan «…, Figure».
+# Por prudencia no se descartan: «Figure» en singular, sin «with», «of»... delante, solo manda la
+# imagen a revisar, para no quitar textiles con figuras representadas («Fragment with Figure»).
+figurilla_titulo = "figure"
+figurilla_excluir_si_precede = ["with", "of", "depicting", "showing", "and"]
 # «Centrar el estudio en textiles andinos desde la cultura Inca a los anteriores»: año de inicio
 # posterior a 1532. AIC lo registra como numero; MET (inventario v1) y CMA, como texto
 # interpretado por src/utils/fechas.py.
