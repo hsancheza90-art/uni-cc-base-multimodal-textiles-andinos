@@ -74,8 +74,9 @@ def seleccionar(raiz: Path) -> list[dict[str, str]]:
             id_global = f"{fuente}:{leer('id_fuente')}"
             ficha = aptitud.get(id_global, {})
             decision = leer("corpus_final")
-            if es_decision_automatica(leer) or leer("origen_curacion") == ORIGEN_VALIDACION or es_descarte_pertinencia_v1(leer):
-                continue
+            ya_decidida_v2 = leer("origen_curacion") in (ORIGEN_VALIDACION, ORIGEN_REVISION)
+            if es_decision_automatica(leer) or ya_decidida_v2 or es_descarte_pertinencia_v1(leer):
+                continue  # ya decididas con el criterio v2, o no dependen de la imagen
             if decision == "principal" and ficha.get("banda_sugerida") != "descartar":
                 continue  # el criterio v2 es mas permisivo: un principal solo se revisa si la imagen lo pone en duda
             motivo = "; ".join(m for m in (leer("estado_curacion"), leer("motivo_curacion"), leer("motivo_revision")) if m)

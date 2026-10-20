@@ -1,10 +1,15 @@
-# Auditoría manual MET v1
+# Historia del corpus MET v1
 
-Decisiones humanas que explican cómo el corpus MET v1 pasó de 35 a 132 registros principales.
+Decisiones humanas e informes que explican cómo se formó el corpus MET v1 (de 35 a 132 registros principales), congelado en `data/processed/corpus_met_textiles_andinos_v1_*`.
 
 | Archivo | Contenido |
 |---|---|
 | `auditoria_aceptados_no_piloto_validada.csv` | 161 registros aceptados por el filtro que no estaban en el corpus piloto, con la decisión de auditoría manual |
+| `corpus_met_textiles_andinos_v1_informe_final.md` | Informe final de la v1: archivos, conteos y criterios |
+| `corpus_met_textiles_andinos_v1_reporte_auditoria.md`, `corpus_met_textiles_andinos_v1_resumen_auditoria.csv` | Auditoría de la curación v1 |
+| `corpus_met_textiles_andinos_v1_validacion_tecnica.md` | Validación técnica de los archivos v1 |
+
+Los informes se generaron con los notebooks de la v1 (etiqueta `v1.0-corpus-met-textiles-andinos`) y estaban en `outputs/reports/`; se trasladaron aquí en octubre de 2026 porque ningún script vigente los produce. Citan `corpus_met_textiles_andinos_v1_duplicados.csv`, que tenía 0 filas y se retiró (`docs/historico.md`).
 
 ## Decisiones
 

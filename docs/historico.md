@@ -7,7 +7,7 @@ git show corpus-met-cma-v1.2:<ruta>          # ver un archivo
 git checkout corpus-met-cma-v1.2 -- <ruta>   # restaurarlo en el árbol de trabajo
 ```
 
-Se conservaron, aunque no los ejecute el flujo, todos los eslabones que producen o explican un insumo: los colectores, los generadores de workbooks, los `cma_corpus_*.csv` que conservan las decisiones de la curación CMA v1 y sembraron el workbook v2, el corpus MET v1 congelado (`data/processed/corpus_met_textiles_andinos_v1_*`), su auditoría (`data/historico/met_v1/`) y sus informes (`outputs/reports/corpus_met_textiles_andinos_v1_*`).
+Se conservaron, aunque no los ejecute el flujo, todos los eslabones que producen o explican un insumo: los colectores, los generadores de workbooks, los `cma_corpus_*.csv` que conservan las decisiones de la curación CMA v1 y sembraron el workbook v2, el corpus MET v1 congelado (`data/processed/corpus_met_textiles_andinos_v1_*`), su auditoría y sus informes (`data/historico/met_v1/`; los informes se trasladaron desde `outputs/reports/`).
 
 | Retirado | Motivo | Dónde sigue |
 |---|---|---|
@@ -21,4 +21,7 @@ Se conservaron, aunque no los ejecute el flujo, todos los eslabones que producen
 | `docs/data_sources.md`, `docs/source_registry.md` | Fusionados en `docs/fuentes.md`; repetían conteos que quedaban desactualizados. | `corpus-met-cma-v1.2` |
 | `data/metadata/cma_revision_manual_textiles_andinos.xlsx`, `src/preprocessing/create_cma_review_workbook.py`, `src/preprocessing/export_cma_curated_splits.py` | Curación CMA v1. Sus decisiones quedaron completas en `data/metadata/cma_corpus_{principal,secundario}.csv` y `cma_descartados.csv`, que sembraron el workbook vigente `cma_revision_manual_v2.xlsx`. | `corpus-met-cma-v1.2` |
 | `data/historico/met_v1/auditoria_aceptados_no_piloto_validada.xlsx` | Duplicaba celda por celda el `.csv` de la misma carpeta, que se conserva. | `corpus-met-cma-v1.2` |
+| `data/processed/corpus_met_textiles_andinos_v1_duplicados.csv` | Control de duplicados de MET v1 con 0 filas; ningún paso lo usa. | `corpus-met-cma-v1.2` |
+| `outputs/reports/cma_curacion_manual_summary.md` | Salida del script de curación CMA v1 ya retirado; sus conteos (88/19/39) están en `docs/cma/cma_source_protocol.md`. | `corpus-met-cma-v1.2` |
+| `data/metadata/revision_criterio_v2_met_cma.xlsx` | Workbook auxiliar de la revisión v2 de MET y CMA (2026-10-20). Sus 94 decisiones están en los workbooks de cada fuente, con `origen_curacion = revision_criterio_v2` y una observación que cita la fila. | Commit `0d0ebea` |
 | `outputs/review/*.html` (galerías) | Ayudas visuales que se regeneran desde los CSV y apuntan a imágenes locales; las decisiones viven en los workbooks. Ya no se versionan (`.gitignore`). | `corpus-met-cma-v1.2`; las de AIC, en el commit `b370aa4`. Se regeneran con `python -m src.review.build_met_gallery_v2 --root . --revisado` (MET), `--fuente aic` (AIC) y `python -m src.imagenes.informe_aptitud` (por banda de aptitud). |

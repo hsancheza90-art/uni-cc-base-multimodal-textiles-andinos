@@ -34,6 +34,24 @@ El criterio no exige que la pieza esté entera: el modelo combinatorio necesita 
 
 Las etapas 2 a 5 están separadas a propósito: las medidas no contienen ningún juicio y se versionan; la calibración traduce los juicios del revisor en pesos; la ficha aplica esos pesos sin red ni imágenes, de modo que un clon limpio regenera todo.
 
+## Trazabilidad de cada decisión
+
+Las decisiones viven solo en los workbooks `data/metadata/<fuente>_revision_manual_v2.xlsx` (nunca se editan los CSV). Cada fila dice quién decidió y cómo en `origen_curacion`, `revisor` y `observaciones_revision`:
+
+| `origen_curacion` | Quién decidió | Criterio |
+|---|---|---|
+| `corpus_principal_preliminar`, `auditoria_aceptados_no_piloto` (MET) | Revisor, curación v1 (junio de 2026; `data/historico/met_v1/`) | v1 |
+| `revision_manual_cma` | Revisor, curación CMA v1 y revisión de julio de 2026 | v1 |
+| `revision_manual_aic` | Revisor, revisión completa de AIC (octubre de 2026) | Estructura observable (v2) |
+| `descarte_automatico_aic`, `descarte_automatico_cma` | Filtro del colector: herramientas de hilado o tejido, fuera del ámbito andino | Regla (`revisor = auto`) |
+| `aptitud_automatica` | Puertas del puntaje: plumaria, muñecos, posterior a 1532, fotografía monocroma, resolución, sin imagen | Regla (`revisor = auto`); la observación cita la puerta y la decisión anterior |
+| `validacion_ciega_v2` | Revisor, muestra ciega de 40 imágenes MET y CMA | v2 |
+| `revision_criterio_v2` | Revisor, revisión de 94 registros MET y CMA decididos con criterios anteriores | v2 |
+
+`revisor` vacío corresponde al único revisor del proyecto, Henry Sánchez: los workbooks v1 y la revisión AIC no lo registraban. Una fila automática que el revisor corrige queda como decisión suya, aunque conserve `revisor = auto` (`aptitud_workbooks.py` lo detecta por la observación).
+
+Las etiquetas que calibran el modelo salen del motivo del revisor: `src/imagenes/motivos.py` lo traduce en completitud, colores, formas, imagen de referencia y pertinencia. El texto original se conserva en `motivo_revision_original` (AIC) o en `motivo_revision` (MET y CMA). Calibran solo las decisiones humanas con criterio v2 (`[calibracion]` en `config/aptitud.toml`).
+
 ## Medidas (etapa 2)
 
 Sobre la copia de evaluación de 1600 px, el textil se separa del fondo de estudio (estimado en el borde de la fotografía) y se mide:
