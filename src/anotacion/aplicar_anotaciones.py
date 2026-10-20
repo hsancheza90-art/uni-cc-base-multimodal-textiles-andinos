@@ -18,32 +18,15 @@ import re
 from collections import Counter
 from pathlib import Path
 
-from openpyxl import load_workbook
-
-from src.anotacion.workbook import CAMPO_DE_COLUMNA, COLUMNAS_EDITABLES, HOJA_ANOTACION, WORKBOOK, texto_celda
-from src.consolidado.construir_consolidado import (
-    ANOTACIONES,
-    clave_orden,
-    construir_registros_base,
-    escribir_csv,
-    escribir_texto,
-)
+from src.anotacion.workbook import CAMPO_DE_COLUMNA, COLUMNAS_EDITABLES, HOJA_ANOTACION, WORKBOOK
+from src.consolidado.construir_consolidado import ANOTACIONES, clave_orden, construir_registros_base
 from src.consolidado.esquema import ATRIBUTOS_ANOTACION, COLUMNAS_ANOTACIONES, CORRECCIONES
+from src.utils.archivos import escribir_csv, escribir_texto
+from src.utils.libros import leer_hoja
 from src.utils.vocabulario import Campo, leer_vocabulario
 
 REPORTE = "outputs/reports/anotacion_met_cma_v1_validacion.md"
 FECHA = re.compile(r"^\d{4}-\d{2}-\d{2}$")
-
-
-def leer_workbook(ruta: Path) -> list[dict[str, str]]:
-    hoja = load_workbook(ruta, data_only=True)[HOJA_ANOTACION]
-    encabezados = [texto_celda(celda.value) for celda in hoja[1]]
-    filas = []
-    for valores in hoja.iter_rows(min_row=2, values_only=True):
-        fila = {encabezados[i]: texto_celda(v) for i, v in enumerate(valores) if i < len(encabezados)}
-        if fila.get("id_global"):
-            filas.append(fila)
-    return filas
 
 
 def normalizar_fila(fila: dict[str, str], vocabulario: dict[str, Campo]) -> tuple[dict[str, str] | None, list[str]]:
@@ -115,7 +98,7 @@ def aplicar(raiz: Path) -> int:
 
     anotaciones: list[dict[str, str]] = []
     errores: list[str] = []
-    for fila in leer_workbook(ruta):
+    for fila in leer_hoja(ruta, HOJA_ANOTACION, clave="id_global"):
         anotacion, errores_fila = normalizar_fila(fila, vocabulario)
         errores += errores_fila
         if anotacion:

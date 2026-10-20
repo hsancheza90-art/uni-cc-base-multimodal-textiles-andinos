@@ -14,11 +14,12 @@ from pathlib import Path
 
 from openpyxl import load_workbook
 
-from src.imagenes.aptitud_workbooks import WORKBOOKS, decision_para
+from src.imagenes.aptitud_workbooks import decision_para, motivo_vigente
 from src.imagenes.motivos import analizar_motivo
+from src.utils.fuentes import FUENTES, SUBCONJUNTOS
+from src.utils.libros import celda, indice_columnas, leer_hoja
 
 REVISOR = "Henry Sánchez"
-DECISIONES = ("principal", "secundario", "descartados")
 
 
 def contradice_motivo(decision: str, motivo: str) -> bool:
@@ -35,14 +36,6 @@ def contradice_motivo(decision: str, motivo: str) -> bool:
     return (decision != "principal" and legible and not a["pertinencia"]) or (decision == "principal" and ilegible)
 
 
-def leer_anotaciones(ruta: Path, hoja: str) -> dict[str, dict[str, str]]:
-    libro = load_workbook(ruta, read_only=True, data_only=True)
-    filas = list(libro[hoja].iter_rows(values_only=True))
-    libro.close()
-    indice = {nombre: i for i, nombre in enumerate(filas[0])}
-    return {str(f[indice["id_global"]]): {c: str(f[i] or "").strip() for c, i in indice.items()} for f in filas[1:]}
-
-
 def trasladar_anotaciones(raiz: Path, archivo: str, hoja_anotaciones: str, fecha: str, origen: str, descripcion: str,
                           registrar_confirmaciones: bool) -> Counter:
     """Lleva las decisiones anotadas en `archivo` a los workbooks MET y CMA.
@@ -54,22 +47,22 @@ def trasladar_anotaciones(raiz: Path, archivo: str, hoja_anotaciones: str, fecha
       ciega no lo hace: alli solo importan los cambios.
     - Es idempotente: una fila ya trasladada con la misma decision y el mismo motivo se omite.
     """
-    anotaciones = leer_anotaciones(raiz / archivo, hoja_anotaciones)
+    anotaciones = {fila["id_global"]: fila for fila in leer_hoja(raiz / archivo, hoja_anotaciones, clave="id_global")}
     conteo: Counter = Counter()
     for fuente in ("MET", "CMA"):
-        ruta, nombre_hoja = WORKBOOKS[fuente]
-        libro = load_workbook(raiz / ruta)
-        hoja = libro[nombre_hoja]
-        indice = {celda.value: celda.column for celda in hoja[1]}
+        ruta = raiz / FUENTES[fuente].workbook
+        libro = load_workbook(ruta)
+        hoja = libro[FUENTES[fuente].hoja]
+        indice = indice_columnas(hoja)
         cambios = 0
         for fila in range(2, hoja.max_row + 1):
-            id_global = f"{fuente}:{str(hoja.cell(row=fila, column=indice['id_fuente']).value or '').strip()}"
+            id_global = f"{fuente}:{celda(hoja.cell(row=fila, column=indice['id_fuente']).value)}"
             anotacion = anotaciones.get(id_global)
-            if not anotacion or anotacion.get("corpus_final") not in DECISIONES:
+            if not anotacion or anotacion.get("corpus_final") not in SUBCONJUNTOS:
                 continue
 
             def leer(columna: str) -> str:
-                return str(hoja.cell(row=fila, column=indice[columna]).value or "").strip()
+                return celda(hoja.cell(row=fila, column=indice[columna]).value)
 
             decision, motivo = anotacion["corpus_final"], anotacion.get("motivo_revision", "")
             conflicto = contradice_motivo(decision, motivo)
@@ -81,7 +74,7 @@ def trasladar_anotaciones(raiz: Path, archivo: str, hoja_anotaciones: str, fecha
             if confirma and not (registrar_confirmaciones and motivo):
                 conteo["coinciden"] += 1
                 continue
-            anterior = "; ".join(m for m in (leer("estado_curacion"), leer("motivo_curacion"), leer("motivo_revision")) if m) or "sin motivo"
+            anterior = motivo_vigente(leer) or "sin motivo"
             nota = (f"{descripcion} del {fecha} ({archivo}, orden {anotacion.get('orden', '')}): {decision}. "
                     f"Decisión anterior: {leer('corpus_final')} ({anterior}).")
             if conflicto:
@@ -102,5 +95,5 @@ def trasladar_anotaciones(raiz: Path, archivo: str, hoja_anotaciones: str, fecha
             cambios += 1
             print(f"  {id_global}: {valores['corpus_final']} ({clase})")
         if cambios:
-            libro.save(raiz / ruta)  # guardar sin cambios reescribe el xlsx y ensucia el historial de git
+            libro.save(ruta)  # guardar sin cambios reescribe el xlsx y ensucia el historial de git
     return conteo

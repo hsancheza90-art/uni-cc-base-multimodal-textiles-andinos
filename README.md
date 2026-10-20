@@ -55,6 +55,18 @@ pytest                  # comprueba que la regeneración coincide byte a byte co
 
 El flujo aplica la revisión manual de cada fuente (workbooks `data/metadata/*_revision_manual_v2.xlsx`), calibra el puntaje de aptitud con las decisiones del revisor en AIC, MET y CMA, puntúa todas las imágenes, valida la anotación manual y construye el consolidado v1. Termina con código distinto de cero si algún paso o conteo falla; tras un cambio curatorial eso es lo esperado: se actualiza `config/corpus.toml` y se documenta el motivo.
 
+## Trazabilidad del proceso
+
+Cada fuente recorre la misma cadena, y cada eslabón deja un archivo versionado:
+
+1. **Extracción.** El colector consulta la API del museo, aplica el filtro textil andino (`src/preprocessing/textile_filters.py`) y escribe la lista de candidatos con los textos originales de la fuente (`data/metadata/*_candidates.csv`; en MET, el corpus v1 congelado).
+2. **Decisión.** El workbook de revisión (`data/metadata/<fuente>_revision_manual_v2.xlsx`) es el único lugar donde se registran decisiones: `corpus_final`, `decision_revision`, `motivo_revision`, `revisor`, `fecha_revision` y `origen_curacion` (manual, regla automática documentada, validación ciega o revisión v2). Las reglas automáticas firman con `revisor = auto` y el revisor puede corregirlas; nunca se edita un CSV a mano.
+3. **Aplicación.** El flujo lee cada workbook y escribe un CSV por subconjunto y un resumen de movimientos (`outputs/reports/<fuente>_resumen_revision_manual_v2.md`).
+4. **Etiquetas de imagen.** Las medidas de imagen y la ficha de aptitud (`data/metadata/aptitud_*_v2.csv`) apoyan la decisión con una justificación legible; no deciden por sí solas, salvo las reglas verificables (fotografía monocroma, resolución, sin imagen y pertinencia por metadatos). La tabla de trazabilidad de cada decisión está en `docs/protocolo_aptitud_v2.md`.
+5. **Verificación.** `config/corpus.toml` fija los conteos y comenta cada cambio con su fecha y motivo; `pytest` comprueba que todo se regenera byte a byte.
+
+Las rutas de los archivos de cada fuente se definen una sola vez en `src/utils/fuentes.py`; los workbooks se leen siempre con `src/utils/libros.py` y los CSV e informes se escriben con `src/utils/archivos.py`.
+
 ## Pasos que requieren red o trabajo manual
 
 Fuera del flujo, porque dependen de la red, de imágenes locales o de una decisión humana. Todos escriben insumos versionados y ninguno sobrescribe decisiones manuales sin `--forzar`.
@@ -80,9 +92,8 @@ python -m src.imagenes.revision_v2 --crear | --trasladar     # revisión de MET 
 python -m src.anotacion.workbook        # crea o actualiza data/metadata/anotacion_met_cma_v1.xlsx
 
 # Galerías HTML de revisión (locales, no se versionan)
-python -m src.review.build_met_gallery_v2 --root . --revisado
-python -m src.review.build_met_gallery_v2 --root . --fuente aic
-python -m src.imagenes.informe_aptitud
+python -m src.review.galerias --fuente met     # una galería por decisión del workbook (también cma o aic)
+python -m src.imagenes.informe_aptitud         # una galería por banda de aptitud
 ```
 
 ## Estructura del repositorio
@@ -102,13 +113,13 @@ python -m src.imagenes.informe_aptitud
 | `outputs/reports/` | Informes de curación, auditoría, calibración y validación |
 | `outputs/review/` | Galerías HTML locales (no se versionan) |
 | `src/collectors/` | Recolección por fuente |
-| `src/preprocessing/` | Filtros, normalización y generadores de workbooks |
+| `src/preprocessing/` | Filtros, normalización y workbooks de revisión (estructura común y un generador por fuente) |
 | `src/metadata/` | Construcción, auditoría y aplicación de la revisión manual |
 | `src/imagenes/` | Descargas, medidas, calibración, ficha de aptitud y validación |
 | `src/consolidado/` | Esquema armonizado y constructor del consolidado |
 | `src/anotacion/` | Workbook de anotación, validación y taxonomía |
-| `src/review/` | Galerías de revisión |
-| `src/utils/` | Lectura y escritura de archivos, métricas, fechas, texto, HTTP y configuración |
+| `src/review/` | Galerías HTML de revisión |
+| `src/utils/` | Registro de fuentes, lectura de workbooks, lectura y escritura de archivos, métricas, fechas, texto, HTTP y configuración |
 | `src/flujo.py` | Punto de entrada único del flujo reproducible |
 | `tests/` | Pruebas de reproducibilidad y de cada etapa |
 

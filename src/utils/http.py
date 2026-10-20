@@ -22,7 +22,12 @@ def crear_sesion(reintentos: int = 5, espera: float = 1.0) -> requests.Session:
         respect_retry_after_header=True,
     )
     sesion = requests.Session()
-    sesion.headers.update({"User-Agent": USER_AGENT, "Accept": "application/json, image/*;q=0.9, */*;q=0.8"})
+    sesion.headers.update({
+        "User-Agent": USER_AGENT,
+        # El AIC pide identificarse con esta cabecera; su IIIF responde 403 sin ella.
+        "AIC-User-Agent": USER_AGENT,
+        "Accept": "application/json, image/*;q=0.9, */*;q=0.8",
+    })
     adaptador = HTTPAdapter(max_retries=politica)
     sesion.mount("https://", adaptador)
     sesion.mount("http://", adaptador)

@@ -8,6 +8,7 @@ from __future__ import annotations
 import argparse
 from pathlib import Path
 
+from src.utils.archivos import escribir_texto
 from src.utils.vocabulario import RUTA_VOCABULARIO, Campo, leer_vocabulario
 
 SALIDA = "docs/corpus/taxonomia_atributos_met_cma_v1.md"
@@ -75,8 +76,10 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 def main(argv: list[str] | None = None) -> int:
     raiz = Path(parse_args(argv).root).resolve()
     ruta = raiz / SALIDA
-    ruta.parent.mkdir(parents=True, exist_ok=True)
-    ruta.write_bytes(("\n".join(generar(leer_vocabulario(raiz))).rstrip() + "\n").encode("utf-8"))
+    lineas = generar(leer_vocabulario(raiz))
+    while lineas and not lineas[-1]:
+        lineas.pop()  # generar deja una linea en blanco tras cada seccion
+    escribir_texto(ruta, lineas)
     print(f"Taxonomia: {ruta}")
     return 0
 

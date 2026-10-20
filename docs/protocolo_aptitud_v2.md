@@ -96,7 +96,7 @@ En MET y CMA, parte de las decisiones son anteriores al criterio v2: el secundar
 
 ## Incorporar una fuente nueva
 
-1. Colector propio con su lista de candidatos (`docs/fuentes.md`) y workbook de revisión (`src/preprocessing/create_*_review_workbook_v2.py`).
+1. Registrar sus archivos en `src/utils/fuentes.py`. Colector propio con su lista de candidatos (`docs/fuentes.md`) y generador del workbook de revisión (`src/preprocessing/create_<fuente>_review_workbook_v2.py`, que solo traduce sus registros a las columnas comunes de `src/preprocessing/workbook_revision.py`).
 2. Agregar la fuente a `src/imagenes/descargar_evaluacion.py` y a `metadatos_pertinencia` en `src/imagenes/aptitud.py` (título, material y fecha).
 3. Descargar, medir y puntuar (etapas 1, 2 y 5); aplicar `aptitud_workbooks --solo-reglas`.
 4. Validar con una muestra ciega (etapa 7). Si kappa ≥ 0,6, llevar la ficha completa al workbook como apoyo a la revisión; si no, revisar con el criterio sin sugerencias del modelo.

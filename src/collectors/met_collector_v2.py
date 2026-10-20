@@ -1,23 +1,32 @@
 """Recolecta candidatos textiles andinos desde la API publica del MET.
 
+Uso desde la raiz del repositorio (requiere internet):
+
+    python -m src.collectors.met_collector_v2          # escribe en data/raw/met/
+
 Cada objeto descargado se guarda en data/raw/met/objetos/<id>.json (fuera de git);
 una corrida interrumpida se reanuda sin volver a pedir los objetos ya guardados.
+
+El corpus MET no se construye desde esta salida: parte del corpus MET v1 congelado
+(src/metadata/build_met_corpus_v2.py). El colector sirve para auditar la cobertura de
+la busqueda y para ampliar MET en una version futura, como en CMA y AIC.
 """
 
 from __future__ import annotations
 
 import argparse
-import csv
 import json
 import os
 import time
+from collections import Counter
 from pathlib import Path
 from typing import Any
 
 import requests
 
+from src.utils.archivos import escribir_csv, escribir_jsonl, escribir_texto
 from src.utils.http import crear_sesion
-from src.utils.texto import buscar_terminos
+from src.utils.texto import buscar_terminos, texto_plano
 
 API_BUSQUEDA = "https://collectionapi.metmuseum.org/public/collection/v1/search"
 API_OBJETO = "https://collectionapi.metmuseum.org/public/collection/v1/objects/{object_id}"
@@ -97,16 +106,6 @@ def pedir_json(
     return respuesta.json()
 
 
-def texto(valor: Any) -> str:
-    if valor is None:
-        return ""
-    if isinstance(valor, str):
-        return " ".join(valor.split())
-    if isinstance(valor, list):
-        return "; ".join(texto(x) for x in valor if texto(x))
-    return str(valor)
-
-
 def texto_busqueda(registro: dict[str, Any]) -> str:
     campos = [
         "title",
@@ -124,11 +123,11 @@ def texto_busqueda(registro: dict[str, Any]) -> str:
         "subregion",
         "locale",
     ]
-    partes = [texto(registro.get(campo)).lower() for campo in campos]
+    partes = [texto_plano(registro.get(campo)).lower() for campo in campos]
 
     tags = registro.get("tags") or []
     if isinstance(tags, list):
-        partes.extend(texto(tag.get("term", "")).lower() for tag in tags if isinstance(tag, dict))
+        partes.extend(texto_plano(tag.get("term", "")).lower() for tag in tags if isinstance(tag, dict))
 
     return " ".join(partes)
 
@@ -140,13 +139,12 @@ def detectar_terminos(texto_total: str, terminos: set[str]) -> list[str]:
 def normalizar_registro(
     registro: dict[str, Any],
     consultas_origen: list[str],
-    ruta_imagen_local: str = "",
 ) -> dict[str, str]:
     texto_total = texto_busqueda(registro)
     terminos_andinos = detectar_terminos(texto_total, TERMINOS_ANDINOS)
     terminos_textiles = detectar_terminos(texto_total, TERMINOS_TEXTILES)
 
-    url_imagen = texto(registro.get("primaryImageSmall") or registro.get("primaryImage"))
+    url_imagen = texto_plano(registro.get("primaryImageSmall") or registro.get("primaryImage"))
     tiene_imagen = bool(url_imagen)
 
     if not tiene_imagen:
@@ -164,20 +162,20 @@ def normalizar_registro(
 
     return {
         "fuente": "The Metropolitan Museum of Art",
-        "id_fuente": texto(registro.get("objectID")),
-        "numero_inventario": texto(registro.get("accessionNumber")),
-        "titulo": texto(registro.get("title")),
-        "cultura": texto(registro.get("culture")),
-        "fecha_creacion": texto(registro.get("objectDate")),
-        "clasificacion": texto(registro.get("classification")),
+        "id_fuente": texto_plano(registro.get("objectID")),
+        "numero_inventario": texto_plano(registro.get("accessionNumber")),
+        "titulo": texto_plano(registro.get("title")),
+        "cultura": texto_plano(registro.get("culture")),
+        "fecha_creacion": texto_plano(registro.get("objectDate")),
+        "clasificacion": texto_plano(registro.get("classification")),
         "tecnica": "",
-        "material": texto(registro.get("medium")),
-        "dimensiones": texto(registro.get("dimensions")),
-        "departamento": texto(registro.get("department")),
-        "descripcion": texto(registro.get("creditLine")),
-        "url_objeto": texto(registro.get("objectURL")),
+        "material": texto_plano(registro.get("medium")),
+        "dimensiones": texto_plano(registro.get("dimensions")),
+        "departamento": texto_plano(registro.get("department")),
+        "descripcion": texto_plano(registro.get("creditLine")),
+        "url_objeto": texto_plano(registro.get("objectURL")),
         "url_imagen": url_imagen,
-        "ruta_imagen_local": ruta_imagen_local,
+        "ruta_imagen_local": "",  # se completa al descargar la imagen
         "licencia": "Open Access MET, revisar condiciones institucionales",
         "tiene_imagen": str(tiene_imagen),
         "terminos_andinos": "; ".join(terminos_andinos),
@@ -244,28 +242,8 @@ def descargar_objetos(
     return registros, errores
 
 
-def escribir_jsonl(ruta: Path, registros: dict[int, dict[str, Any]]) -> None:
-    ruta.parent.mkdir(parents=True, exist_ok=True)
-    with ruta.open("w", encoding="utf-8") as archivo:
-        for registro in registros.values():
-            archivo.write(json.dumps(registro, ensure_ascii=False, sort_keys=True) + "\n")
-
-
-def escribir_csv(ruta: Path, filas: list[dict[str, str]]) -> None:
-    ruta.parent.mkdir(parents=True, exist_ok=True)
-    with ruta.open("w", newline="", encoding="utf-8") as archivo:
-        escritor = csv.DictWriter(archivo, fieldnames=COLUMNAS, lineterminator="\n")
-        escritor.writeheader()
-        escritor.writerows(filas)
-
-
 def escribir_reporte(ruta: Path, filas: list[dict[str, str]], errores: list[str]) -> None:
-    ruta.parent.mkdir(parents=True, exist_ok=True)
-
-    conteos: dict[str, int] = {}
-    for fila in filas:
-        estado = fila["estado_curacion"]
-        conteos[estado] = conteos.get(estado, 0) + 1
+    conteos = Counter(fila["estado_curacion"] for fila in filas)
 
     lineas = [
         "# Resumen de recoleccion MET v2",
@@ -295,7 +273,7 @@ def escribir_reporte(ruta: Path, filas: list[dict[str, str]], errores: list[str]
         lineas.extend(["", "## Errores registrados", ""])
         lineas.extend(f"- {error}" for error in errores[:100])
 
-    ruta.write_bytes(("\n".join(lineas) + "\n").encode("utf-8"))
+    escribir_texto(ruta, lineas)
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -306,6 +284,7 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser.add_argument("--query", action="append", dest="consultas", help="Consulta adicional o alternativa.")
     parser.add_argument("--sleep", type=float, default=0.15, help="Pausa entre solicitudes.")
     parser.add_argument("--timeout", type=int, default=30, help="Timeout HTTP en segundos.")
+    parser.add_argument("--salida", default="data/raw/met/met_candidatos_v2.csv", help="CSV de salida, relativo a la raiz.")
     return parser.parse_args(argv)
 
 
@@ -336,11 +315,11 @@ def main(argv: list[str] | None = None) -> int:
     ]
 
     ruta_jsonl = raiz / "data/raw/met/met_objetos_crudos_v2.jsonl"
-    ruta_csv = raiz / "data/metadata/met_candidatos_v2.csv"
-    ruta_reporte = raiz / "outputs/reports/met_resumen_recoleccion_v2.md"
+    ruta_csv = raiz / args.salida
+    ruta_reporte = ruta_csv.with_name(ruta_csv.stem + "_resumen.md")
 
-    escribir_jsonl(ruta_jsonl, registros)
-    escribir_csv(ruta_csv, filas)
+    escribir_jsonl(ruta_jsonl, list(registros.values()))
+    escribir_csv(ruta_csv, COLUMNAS, filas)
     escribir_reporte(ruta_reporte, filas, errores_busqueda + errores_objetos)
 
     print(f"Objetos MET encontrados: {len(ids_por_consulta)}")

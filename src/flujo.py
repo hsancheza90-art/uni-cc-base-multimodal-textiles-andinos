@@ -1,4 +1,4 @@
-"""Punto de entrada unico del flujo reproducible del corpus MET v2 + CMA v2.
+"""Punto de entrada unico del flujo reproducible del corpus (MET, CMA y AIC).
 
 Uso desde la raiz del repositorio:
 
@@ -6,16 +6,15 @@ Uso desde la raiz del repositorio:
     python -m src.flujo --root ruta/a/una/copia
 
 Ejecuta, sin acceso a red, los pasos que regeneran los CSV curados a partir de
-los insumos versionados (corpus MET v1, workbooks de revision manual y
-manifiesto de imagenes), construye el consolidado MET+CMA v1 y verifica los
+los insumos versionados (corpus MET v1, workbooks de revision manual de MET, CMA
+y AIC, medidas de imagen y manifiesto de imagenes), calibra y aplica el puntaje
+de aptitud, construye el consolidado MET+CMA v1 (congelado) y verifica los
 conteos esperados de config/corpus.toml.
 
-La descarga de imagenes (python -m src.imagenes.descargar_imagenes) requiere
-red y se ejecuta aparte; su manifiesto versionado es insumo de este flujo.
-Lo mismo vale para el puntaje de aptitud: las medidas
-(python -m src.imagenes.medidas) necesitan las copias de evaluacion
-locales; el flujo calibra el modelo con las decisiones del workbook AIC y puntua
-desde data/metadata/aptitud_medidas_v2.csv.
+Fuera del flujo quedan los pasos que necesitan red o imagenes locales: los
+colectores (src/collectors), la descarga de imagenes
+(python -m src.imagenes.descargar_imagenes y descargar_evaluacion) y las medidas
+(python -m src.imagenes.medidas). Sus salidas versionadas son insumos del flujo.
 """
 
 from __future__ import annotations
@@ -93,7 +92,7 @@ def ejecutar(raiz: Path) -> int:
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Regenera y verifica el corpus MET v2 + CMA v2.")
+    parser = argparse.ArgumentParser(description="Regenera y verifica el corpus (MET, CMA y AIC).")
     parser.add_argument("--root", default=str(RAIZ_REPO), help="Raiz del repositorio.")
     return parser.parse_args(argv)
 

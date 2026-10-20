@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-import shutil
 from pathlib import Path
 
 import numpy as np
@@ -10,7 +9,7 @@ import pytest
 from PIL import Image
 
 from src.imagenes import aptitud, calibrar_aptitud, medidas
-from src.imagenes.aptitud import motivo_pertinencia, normalizar, puntuar_registro
+from src.imagenes.aptitud import motivo_pertinencia, normalizar, predecir, puntuar_registro
 from src.imagenes.aptitud_workbooks import (
     PREFIJO_OBSERVACION,
     discrepancias,
@@ -20,13 +19,14 @@ from src.imagenes.aptitud_workbooks import (
     motivo_del_revisor,
     motivo_enriquecido,
 )
-from src.imagenes.calibrar_aptitud import logistica, predecir
+from src.imagenes.calibrar_aptitud import logistica
 from src.imagenes.descargar_evaluacion import ENTRADA_AIC, ENTRADA_CMA, ENTRADAS_MET
 from src.imagenes.medidas import COLUMNAS_MEDIDAS, etiquetar, medir_imagen
 from src.imagenes.motivos import analizar_motivo, describir_motivo
 from src.utils.config import RAIZ_REPO, leer_config_aptitud
 from src.utils.fechas import anio_inicio
 from src.utils.metricas import auc
+from tests.insumos import copiar_insumos
 
 CONFIG = leer_config_aptitud(RAIZ_REPO)
 FONDO = (128, 128, 128)
@@ -306,12 +306,6 @@ def test_discrepancias() -> None:
 
 # ------------------------------------------------------------------ regeneracion
 
-def copiar_insumos(destino: Path, relativas: tuple[str, ...]) -> None:
-    for relativa in relativas:
-        (destino / relativa).parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(RAIZ_REPO / relativa, destino / relativa)
-
-
 def test_modelo_y_fichas_se_regeneran_igual(tmp_path: Path) -> None:
     copiar_insumos(tmp_path, ("config/aptitud.toml", medidas.MEDIDAS, "data/metadata/aic_revision_manual_v2.xlsx",
                               "data/metadata/met_revision_manual_v2.xlsx", "data/metadata/cma_revision_manual_v2.xlsx",
@@ -370,11 +364,11 @@ def test_traslado_de_la_revision_v2(tmp_path: Path) -> None:
     """Cambio, confirmacion con motivo nuevo y contradiccion; volver a trasladar no cambia nada."""
     from openpyxl import Workbook, load_workbook
 
-    from src.imagenes.aptitud_workbooks import WORKBOOKS
     from src.imagenes.traslado import trasladar_anotaciones
+    from src.utils.fuentes import FUENTES
 
-    copiar_insumos(tmp_path, (WORKBOOKS["MET"][0], WORKBOOKS["CMA"][0]))
-    ruta, hoja = WORKBOOKS["MET"]
+    copiar_insumos(tmp_path, (FUENTES["MET"].workbook, FUENTES["CMA"].workbook))
+    ruta, hoja = FUENTES["MET"].workbook, FUENTES["MET"].hoja
     filas = list(load_workbook(tmp_path / ruta, read_only=True)[hoja].iter_rows(values_only=True))
     indice = {n: i for i, n in enumerate(filas[0])}
     vigentes = {f"MET:{f[indice['id_fuente']]}": f[indice["corpus_final"]] for f in filas[1:]}

@@ -1,168 +1,62 @@
+"""Aplica la revisión manual de MET (y de AIC, con el mismo esquema): del workbook a los CSV.
+
+Uso desde la raíz del repositorio (lo ejecuta también python -m src.flujo):
+
+    python -m src.metadata.apply_met_review_v2
+
+Lee las decisiones del workbook de la fuente (src/utils/fuentes.py) y escribe un CSV por
+subconjunto (principal, secundario, descartados), los pendientes (corpus_final = revisar)
+y el resumen de movimientos. Un corpus_final vacío conserva la sugerencia automática
+(corpus_actual); un valor fuera del vocabulario se envía a pendientes. Devuelve 1 si hay
+hallazgos (valores inválidos o identificadores repetidos), para que el flujo se detenga.
+"""
+
 from __future__ import annotations
 
 import argparse
-import csv
 from collections import Counter
-from dataclasses import dataclass
 from pathlib import Path
 
-from openpyxl import load_workbook
+from src.preprocessing.workbook_revision import COLUMNAS as COLUMNAS_SALIDA  # mismas columnas que el workbook
+from src.utils.archivos import escribir_csv, escribir_texto
+from src.utils.fuentes import DECISIONES, FUENTES, Fuente
+from src.utils.libros import leer_hoja
 
-
-@dataclass(frozen=True)
-class FuenteRevision:
-    """Archivos de la revision manual de una fuente que usa el workbook con columnas MET v2."""
-
-    nombre: str
-    workbook: str
-    hoja: str
-    salidas: dict[str, str]
-    pendientes: str
-    reporte: str
-
-
-MET = FuenteRevision(
-    nombre="MET v2",
-    workbook="data/metadata/met_revision_manual_v2.xlsx",
-    hoja="revision_met_v2",
-    salidas={
-        "principal": "data/metadata/met_corpus_principal_v2_revisado.csv",
-        "secundario": "data/metadata/met_corpus_secundario_v2_revisado.csv",
-        "descartados": "data/metadata/met_descartados_v2_revisado.csv",
-    },
-    pendientes="data/metadata/met_pendientes_revision_v2.csv",
-    reporte="outputs/reports/met_resumen_revision_manual_v2.md",
-)
-
-WORKBOOK = MET.workbook
-HOJA_REVISION = MET.hoja
-SALIDAS = MET.salidas
-SALIDA_PENDIENTES = MET.pendientes
-REPORTE = MET.reporte
-
-CORPUS_VALIDOS = {"principal", "secundario", "descartados", "revisar"}
-
-COLUMNAS_SALIDA = [
-    "id_fuente",
-    "corpus_actual",
-    "corpus_final",
-    "decision_revision",
-    "motivo_revision",
-    "observaciones_revision",
-    "revisor",
-    "fecha_revision",
-    "titulo_original",
-    "titulo_es_sugerido",
-    "cultura",
-    "fecha_objeto",
-    "procedencia",
-    "tipo_objeto",
-    "tipo_superficie",
-    "material",
-    "material_normalizado",
-    "tecnica",
-    "estado_curacion",
-    "destino_curacion",
-    "motivo_curacion",
-    "url_objeto",
-    "url_imagen",
-    "ruta_imagen_local",
-    "licencia",
-    "origen_curacion",
-]
-
-
-def texto(valor: object) -> str:
-    if valor is None:
-        return ""
-    return str(valor).strip()
-
-
-def leer_revision(path: Path, hoja: str = HOJA_REVISION) -> list[dict[str, str]]:
-    wb = load_workbook(path, data_only=True)
-
-    if hoja not in wb.sheetnames:
-        raise ValueError(f"No existe la hoja requerida: {hoja}")
-
-    ws = wb[hoja]
-    encabezados = [texto(cell.value) for cell in ws[1]]
-
-    filas: list[dict[str, str]] = []
-    for row in ws.iter_rows(min_row=2, values_only=True):
-        fila = {
-            encabezados[idx]: texto(value)
-            for idx, value in enumerate(row)
-            if idx < len(encabezados)
-        }
-
-        if not fila.get("id_fuente"):
-            continue
-
-        filas.append(fila)
-
-    return filas
+# Estado y destino de la curación que corresponden a cada subconjunto revisado.
+CURACION = {
+    "principal": ("corpus_principal", "principal"),
+    "secundario": ("corpus_secundario", "secundario"),
+    "descartados": ("descartado", "exclusion_curatorial"),
+}
 
 
 def normalizar_corpus_final(fila: dict[str, str]) -> str:
-    corpus_final = texto(fila.get("corpus_final")).lower()
-
+    corpus_final = fila.get("corpus_final", "").lower()
     if not corpus_final:
-        return texto(fila.get("corpus_actual")).lower()
-
-    if corpus_final not in CORPUS_VALIDOS:
-        return "revisar"
-
-    return corpus_final
+        return fila.get("corpus_actual", "").lower()
+    return corpus_final if corpus_final in DECISIONES else "revisar"
 
 
 def preparar_fila_salida(fila: dict[str, str], corpus_final: str) -> dict[str, str]:
-    salida = {columna: texto(fila.get(columna)) for columna in COLUMNAS_SALIDA}
+    salida = {columna: fila.get(columna, "") for columna in COLUMNAS_SALIDA}
     salida["corpus_final"] = corpus_final
-
-    if corpus_final == "principal":
-        salida["estado_curacion"] = "corpus_principal"
-        salida["destino_curacion"] = "principal"
-    elif corpus_final == "secundario":
-        salida["estado_curacion"] = "corpus_secundario"
-        salida["destino_curacion"] = "secundario"
-    elif corpus_final == "descartados":
-        salida["estado_curacion"] = "descartado"
-        salida["destino_curacion"] = "exclusion_curatorial"
-
+    if corpus_final in CURACION:
+        salida["estado_curacion"], salida["destino_curacion"] = CURACION[corpus_final]
     return salida
 
 
-def escribir_csv(path: Path, filas: list[dict[str, str]]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-
-    with path.open("w", newline="", encoding="utf-8") as archivo:
-        writer = csv.DictWriter(archivo, fieldnames=COLUMNAS_SALIDA, lineterminator="\n")
-        writer.writeheader()
-        writer.writerows(filas)
-
-
-def escribir_reporte(
-    path: Path,
-    filas_revision: list[dict[str, str]],
-    salidas: dict[str, list[dict[str, str]]],
-    pendientes: list[dict[str, str]],
-    problemas: list[str],
-    fuente: FuenteRevision = MET,
-) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-
-    movimientos = []
+def escribir_reporte(raiz: Path, fuente: Fuente, filas_revision: list[dict[str, str]],
+                     salidas: dict[str, list[dict[str, str]]], pendientes: list[dict[str, str]],
+                     problemas: list[str]) -> None:
+    movimientos = Counter()
     for fila in filas_revision:
-        corpus_actual = texto(fila.get("corpus_actual")).lower()
+        corpus_actual = fila.get("corpus_actual", "").lower()
         corpus_final = normalizar_corpus_final(fila)
-
         if corpus_final != corpus_actual:
-            movimientos.append((corpus_actual, corpus_final))
-
-    conteo_movimientos = Counter(movimientos)
+            movimientos[(corpus_actual, corpus_final)] += 1
 
     lineas = [
-        f"# Resumen de revision manual {fuente.nombre}",
+        f"# Resumen de revision manual {fuente.codigo} v2",
         "",
         f"Este reporte resume la aplicacion de decisiones manuales registradas en `{fuente.workbook}`.",
         "",
@@ -176,89 +70,57 @@ def escribir_reporte(
         "## Movimientos registrados",
         "",
     ]
-
-    if conteo_movimientos:
-        for (origen, destino), cantidad in sorted(conteo_movimientos.items()):
-            lineas.append(f"- {origen} -> {destino}: {cantidad}")
+    if movimientos:
+        lineas += [f"- {origen} -> {destino}: {cantidad}" for (origen, destino), cantidad in sorted(movimientos.items())]
     else:
         lineas.append("- No se registraron movimientos entre corpus.")
-
     if pendientes:
-        lineas.extend(["", "## Pendientes", ""])
-        for fila in pendientes[:30]:
-            lineas.append(
-                f"- {fila.get('id_fuente', '')}: {fila.get('titulo_original', '')}"
-            )
-
+        lineas += ["", "## Pendientes", ""]
+        lineas += [f"- {fila.get('id_fuente', '')}: {fila.get('titulo_original', '')}" for fila in pendientes[:30]]
     if problemas:
-        lineas.extend(["", "## Hallazgos", ""])
-        for problema in problemas:
-            lineas.append(f"- {problema}")
-
-    path.write_bytes(("\n".join(lineas) + "\n").encode("utf-8"))
+        lineas += ["", "## Hallazgos", ""]
+        lineas += [f"- {problema}" for problema in problemas]
+    escribir_texto(raiz / fuente.reporte, lineas)
 
 
-def aplicar_revision(root: Path, fuente: FuenteRevision = MET) -> int:
-    workbook_path = root / fuente.workbook
-    filas_revision = leer_revision(workbook_path, fuente.hoja)
-
-    salidas = {
-        "principal": [],
-        "secundario": [],
-        "descartados": [],
-    }
+def aplicar_revision(raiz: Path, fuente: Fuente) -> int:
+    filas_revision = leer_hoja(raiz / fuente.workbook, fuente.hoja, clave="id_fuente")
+    salidas: dict[str, list[dict[str, str]]] = {subconjunto: [] for subconjunto in fuente.salidas}
     pendientes: list[dict[str, str]] = []
     problemas: list[str] = []
 
-    ids_vistos: set[str] = set()
-    ids_duplicados: set[str] = set()
-
+    vistos = Counter(fila["id_fuente"] for fila in filas_revision)
     for fila in filas_revision:
-        id_fuente = texto(fila.get("id_fuente"))
-
-        if id_fuente in ids_vistos:
-            ids_duplicados.add(id_fuente)
-        ids_vistos.add(id_fuente)
-
         corpus_final = normalizar_corpus_final(fila)
         fila_salida = preparar_fila_salida(fila, corpus_final)
-
-        if corpus_final == "revisar":
-            pendientes.append(fila_salida)
-        elif corpus_final in salidas:
+        if corpus_final in salidas:
             salidas[corpus_final].append(fila_salida)
         else:
             pendientes.append(fila_salida)
-            problemas.append(f"{id_fuente}: corpus_final invalido: {corpus_final}")
+            if corpus_final != "revisar":
+                problemas.append(f"{fila['id_fuente']}: corpus_final invalido: {corpus_final}")
+    duplicados = sorted(id_fuente for id_fuente, n in vistos.items() if n > 1)
+    if duplicados:
+        problemas.append(f"IDs duplicados en workbook: {', '.join(duplicados[:20])}")
 
-    if ids_duplicados:
-        muestra = ", ".join(sorted(ids_duplicados)[:20])
-        problemas.append(f"IDs duplicados en workbook: {muestra}")
-
-    for corpus, ruta_relativa in fuente.salidas.items():
-        escribir_csv(root / ruta_relativa, salidas[corpus])
-
-    escribir_csv(root / fuente.pendientes, pendientes)
-    escribir_reporte(root / fuente.reporte, filas_revision, salidas, pendientes, problemas, fuente)
+    for subconjunto, ruta in fuente.salidas.items():
+        escribir_csv(raiz / ruta, COLUMNAS_SALIDA, salidas[subconjunto])
+    escribir_csv(raiz / fuente.pendientes, COLUMNAS_SALIDA, pendientes)
+    escribir_reporte(raiz, fuente, filas_revision, salidas, pendientes, problemas)
 
     print(f"Principal revisado: {len(salidas['principal'])}")
     print(f"Secundario revisado: {len(salidas['secundario'])}")
     print(f"Descartados revisados: {len(salidas['descartados'])}")
     print(f"Pendientes por revisar: {len(pendientes)}")
-    print(f"Reporte: {root / fuente.reporte}")
-
+    print(f"Reporte: {raiz / fuente.reporte}")
     return 1 if problemas else 0
 
 
-def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Aplica la revision manual MET v2 desde Excel.")
+def main(argv: list[str] | None = None, fuente: str = "MET") -> int:
+    parser = argparse.ArgumentParser(description=f"Aplica la revision manual {fuente} v2 desde Excel.")
     parser.add_argument("--root", default=".", help="Raiz del repositorio.")
-    return parser.parse_args(argv)
-
-
-def main(argv: list[str] | None = None) -> int:
-    args = parse_args(argv)
-    return aplicar_revision(Path(args.root).resolve())
+    args = parser.parse_args(argv)
+    return aplicar_revision(Path(args.root).resolve(), FUENTES[fuente])
 
 
 if __name__ == "__main__":

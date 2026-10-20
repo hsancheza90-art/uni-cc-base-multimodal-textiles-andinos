@@ -239,7 +239,7 @@ python -m src.metadata.apply_met_review_v2
 Generación de galerías HTML revisadas:
 
 ```bash
-python -m src.review.build_met_gallery_v2 --root . --revisado
+python -m src.review.galerias --fuente met
 ```
 
 ## Limitaciones

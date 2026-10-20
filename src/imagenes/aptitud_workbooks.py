@@ -29,7 +29,6 @@ Una fila decidida antes por este script y no corregida se vuelve a evaluar.
 from __future__ import annotations
 
 import argparse
-import tomllib
 from datetime import date
 from pathlib import Path
 
@@ -39,13 +38,9 @@ from openpyxl.styles import Alignment, Font, PatternFill
 from src.imagenes.aptitud import SALIDA_APTITUD
 from src.imagenes.motivos import analizar_motivo, describir_motivo
 from src.utils.archivos import indexar, leer_csv
-from src.utils.config import CONFIG_APTITUD
-
-WORKBOOKS = {
-    "MET": ("data/metadata/met_revision_manual_v2.xlsx", "revision_met_v2"),
-    "CMA": ("data/metadata/cma_revision_manual_v2.xlsx", "revision_cma_v2"),
-    "AIC": ("data/metadata/aic_revision_manual_v2.xlsx", "revision_aic_v2"),
-}
+from src.utils.config import leer_config_aptitud
+from src.utils.fuentes import FUENTES
+from src.utils.libros import celda
 
 # Columna del workbook -> columna de data/metadata/aptitud_imagenes_v2.csv (ancho en Excel).
 COLUMNAS_APTITUD = {
@@ -120,6 +115,11 @@ def es_decision_automatica(leer) -> bool:
 def es_descarte_pertinencia_v1(leer) -> bool:
     motivos = {leer("estado_curacion"), leer("motivo_curacion"), leer("motivo_revision")}
     return leer("corpus_final") == "descartados" and bool(motivos & DESCARTES_PERTINENCIA_V1)
+
+
+def motivo_vigente(leer) -> str:
+    """Estado y motivos de la decision vigente, para citarla al cambiarla («; » entre partes)."""
+    return "; ".join(m for m in (leer("estado_curacion"), leer("motivo_curacion"), leer("motivo_revision")) if m)
 
 
 def regla_endurece(leer, motivo: str) -> bool:
@@ -202,9 +202,9 @@ def actualizar_workbook(raiz: Path, fuente: str, aptitud: dict[str, dict[str, st
     puertas tambien a las filas ya decididas, solo si endurecen la decision, y no agrega la
     ficha completa ni enriquece motivos; solo refresca las columnas informativas existentes.
     """
-    ruta, nombre_hoja = WORKBOOKS[fuente]
-    libro = load_workbook(raiz / ruta)
-    hoja = libro[nombre_hoja]
+    ruta = raiz / FUENTES[fuente].workbook
+    libro = load_workbook(ruta)
+    hoja = libro[FUENTES[fuente].hoja]
     encabezado = [celda.value for celda in hoja[1]]
     if not solo_reglas:
         for columna, (_, ancho) in COLUMNAS_APTITUD.items():
@@ -215,18 +215,17 @@ def actualizar_workbook(raiz: Path, fuente: str, aptitud: dict[str, dict[str, st
 
     conteo = {"filas": 0, "automaticas": 0, "editadas": 0, "sin_puntaje": 0, "discrepancias": 0}
     for fila in range(2, hoja.max_row + 1):
-        id_fuente = str(hoja.cell(row=fila, column=indice["id_fuente"]).value or "").strip()
+        id_fuente = celda(hoja.cell(row=fila, column=indice["id_fuente"]).value)
         if not id_fuente:
             continue
         conteo["filas"] += 1
 
         def leer(columna: str) -> str:
-            return str(hoja.cell(row=fila, column=indice[columna]).value or "").strip() if columna in indice else ""
+            return celda(hoja.cell(row=fila, column=indice[columna]).value) if columna in indice else ""
 
         def escribir(**valores: object) -> None:
             for columna, valor in valores.items():
-                celda = hoja.cell(row=fila, column=indice[columna], value=valor)
-                celda.alignment = Alignment(vertical="top", wrap_text=True)
+                hoja.cell(row=fila, column=indice[columna], value=valor).alignment = Alignment(vertical="top", wrap_text=True)
 
         registro = aptitud.get(f"{fuente}:{id_fuente}")
         if registro is None:
@@ -249,7 +248,7 @@ def actualizar_workbook(raiz: Path, fuente: str, aptitud: dict[str, dict[str, st
             corpus_final, texto = PUERTAS[motivo]
             anterior = "" if pendiente else (
                 f" Decisión anterior: {leer('corpus_final')}"
-                f" ({'; '.join(m for m in (leer('estado_curacion'), leer('motivo_curacion'), leer('motivo_revision')) if m) or 'sin motivo'}).")
+                f" ({motivo_vigente(leer) or 'sin motivo'}).")
             escribir(
                 corpus_final=corpus_final,
                 decision_revision=decision_para(leer("corpus_actual"), corpus_final),
@@ -271,7 +270,7 @@ def actualizar_workbook(raiz: Path, fuente: str, aptitud: dict[str, dict[str, st
         escribir(motivo_revision_original=original, motivo_revision=enriquecido, motivo_generado=enriquecido, revisar_anotacion=nota)
 
     hoja.auto_filter.ref = hoja.dimensions
-    libro.save(raiz / ruta)
+    libro.save(ruta)
     return conteo
 
 
@@ -284,14 +283,13 @@ def main(argv: list[str] | None = None) -> int:
                         help="Solo aplica las puertas (tambien a filas decididas, si endurecen) y refresca las columnas existentes.")
     args = parser.parse_args(argv)
     raiz = Path(args.root).resolve()
-    with (raiz / CONFIG_APTITUD).open("rb") as archivo:
-        umbral = tomllib.load(archivo)["revision"]["umbral_discrepancia"]
+    umbral = leer_config_aptitud(raiz)["revision"]["umbral_discrepancia"]
     aptitud = indexar(leer_csv(raiz / SALIDA_APTITUD), "id_global")
-    for fuente in [f.upper() for f in args.fuente] if args.fuente else list(WORKBOOKS):
+    for fuente in [f.upper() for f in args.fuente] if args.fuente else list(FUENTES):
         conteo = actualizar_workbook(raiz, fuente, aptitud, args.fecha, umbral, args.solo_reglas)
         print(f"{fuente}: {conteo['filas']} filas | decisiones automaticas {conteo['automaticas']} | "
               f"automaticas editadas a mano (se respetan) {conteo['editadas']} | "
-              f"discrepancias para revisar {conteo['discrepancias']} | sin puntaje {conteo['sin_puntaje']} -> {WORKBOOKS[fuente][0]}")
+              f"discrepancias para revisar {conteo['discrepancias']} | sin puntaje {conteo['sin_puntaje']} -> {FUENTES[fuente].workbook}")
     return 0
 
 

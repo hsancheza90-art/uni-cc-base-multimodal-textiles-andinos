@@ -8,16 +8,15 @@ reemplaza con --salida apuntando a ella y --forzar.
 from __future__ import annotations
 
 import argparse
-import csv
-import json
 import time
-from collections import defaultdict
+from collections import Counter, defaultdict
 from pathlib import Path
 
 import requests
 
+from src.utils.archivos import escribir_csv, escribir_jsonl, escribir_texto
 from src.utils.http import crear_sesion
-from src.utils.texto import buscar_terminos
+from src.utils.texto import buscar_terminos, texto_plano
 
 API_URL = "https://openaccess-api.clevelandart.org/api/artworks/"
 INSUMO_CURADO = Path("data/metadata/cma_andes_textiles_candidates.csv")
@@ -78,18 +77,6 @@ OUTPUT_COLUMNS = [
 ]
 
 
-def clean_text(value) -> str:
-    if value is None:
-        return ""
-    if isinstance(value, str):
-        return " ".join(value.split())
-    if isinstance(value, list):
-        return "; ".join(clean_text(item) for item in value if item)
-    if isinstance(value, dict):
-        return "; ".join(f"{k}: {clean_text(v)}" for k, v in value.items() if v)
-    return str(value)
-
-
 def get_image_url(record: dict) -> str:
     images = record.get("images") or {}
     if not isinstance(images, dict):
@@ -117,7 +104,7 @@ def searchable_text(record: dict) -> str:
         "description",
         "tombstone",
     ]
-    return " ".join(clean_text(record.get(field)).lower() for field in fields)
+    return " ".join(texto_plano(record.get(field)).lower() for field in fields)
 
 
 def find_terms(text: str, terms: list[str]) -> str:
@@ -146,19 +133,19 @@ def normalize_record(record: dict, queries: list[str]) -> dict:
 
     return {
         "source": "Cleveland Museum of Art",
-        "source_id": clean_text(record.get("id")),
-        "accession_number": clean_text(record.get("accession_number")),
-        "title": clean_text(record.get("title")),
-        "culture": clean_text(record.get("culture")),
-        "creation_date": clean_text(record.get("creation_date")),
-        "classification": clean_text(record.get("type")),
-        "technique": clean_text(record.get("technique")),
-        "medium": clean_text(record.get("medium")),
-        "department": clean_text(record.get("department")),
-        "description": clean_text(record.get("description")),
-        "url": clean_text(record.get("url")),
+        "source_id": texto_plano(record.get("id")),
+        "accession_number": texto_plano(record.get("accession_number")),
+        "title": texto_plano(record.get("title")),
+        "culture": texto_plano(record.get("culture")),
+        "creation_date": texto_plano(record.get("creation_date")),
+        "classification": texto_plano(record.get("type")),
+        "technique": texto_plano(record.get("technique")),
+        "medium": texto_plano(record.get("medium")),
+        "department": texto_plano(record.get("department")),
+        "description": texto_plano(record.get("description")),
+        "url": texto_plano(record.get("url")),
         "image_url": image_url,
-        "share_license_status": clean_text(record.get("share_license_status")),
+        "share_license_status": texto_plano(record.get("share_license_status")),
         "has_image": str(bool(image_url)),
         "andean_terms": andean_terms,
         "textile_terms": textile_terms,
@@ -193,7 +180,7 @@ def fetch_cma_records(
             page = payload.get("data", [])
             total = (payload.get("info") or {}).get("total", total)
             for record in page:
-                source_id = clean_text(record.get("id"))
+                source_id = texto_plano(record.get("id"))
                 if not source_id:
                     continue
                 records[source_id] = record
@@ -213,24 +200,7 @@ def fetch_cma_records(
     return records, query_map, warnings
 
 
-def write_jsonl(path: Path, records: dict) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", encoding="utf-8") as file:
-        for record in records.values():
-            file.write(json.dumps(record, ensure_ascii=False) + "\n")
-
-
-def write_csv(path: Path, rows: list[dict]) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-    with path.open("w", newline="", encoding="utf-8") as file:
-        writer = csv.DictWriter(file, fieldnames=OUTPUT_COLUMNS, lineterminator="\n")
-        writer.writeheader()
-        writer.writerows(rows)
-
-
 def write_report(path: Path, rows: list[dict], warnings: list[str] | None = None) -> None:
-    path.parent.mkdir(parents=True, exist_ok=True)
-
     total = len(rows)
     candidates = sum(row["curation_status"] == "candidate" for row in rows)
 
@@ -244,10 +214,7 @@ def write_report(path: Path, rows: list[dict], warnings: list[str] | None = None
         "",
     ]
 
-    statuses = {}
-    for row in rows:
-        statuses[row["curation_status"]] = statuses.get(row["curation_status"], 0) + 1
-
+    statuses = Counter(row["curation_status"] for row in rows)
     for status, count in sorted(statuses.items()):
         lines.append(f"- {status}: {count}")
 
@@ -255,8 +222,7 @@ def write_report(path: Path, rows: list[dict], warnings: list[str] | None = None
         lines.extend(["", "## Avisos de paginacion", ""])
         lines.extend(f"- {warning}" for warning in warnings)
 
-    path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_bytes(("\n".join(lines) + "\n").encode("utf-8"))
+    escribir_texto(path, lines)
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -302,8 +268,8 @@ def main(argv: list[str] | None = None) -> int:
     csv_path = root / salida
     report_path = root / (REPORTE_INSUMO if es_insumo else salida.with_name(salida.stem + "_resumen.md"))
 
-    write_jsonl(raw_path, records)
-    write_csv(csv_path, rows)
+    escribir_jsonl(raw_path, list(records.values()), ordenar_claves=False)
+    escribir_csv(csv_path, OUTPUT_COLUMNS, rows)
     write_report(report_path, rows, warnings)
 
     print(f"Registros unicos CMA: {len(records)}")

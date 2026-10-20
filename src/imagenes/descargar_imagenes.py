@@ -27,14 +27,8 @@ from pathlib import Path
 import requests
 from PIL import Image
 
-from src.consolidado.construir_consolidado import (
-    COLUMNAS_MANIFIESTO,
-    MANIFIESTO_IMAGENES,
-    construir_registros_base,
-    escribir_csv,
-    indexar,
-    leer_csv,
-)
+from src.consolidado.construir_consolidado import COLUMNAS_MANIFIESTO, MANIFIESTO_IMAGENES, construir_registros_base
+from src.utils.archivos import escribir_csv, indexar, leer_csv
 from src.utils.http import crear_sesion
 
 EXTENSIONES = {"JPEG": "jpg", "PNG": "png", "GIF": "gif", "WEBP": "webp", "TIFF": "tif"}
@@ -130,9 +124,8 @@ def descargar(sesion: requests.Session, raiz: Path, registro: dict[str, str], ur
 
 
 def ejecutar(raiz: Path, limite: int | None, pausa: float) -> int:
-    registros = construir_registros_base(raiz)
-    if limite:
-        registros = registros[:limite]
+    todos = construir_registros_base(raiz)
+    registros = todos[:limite] if limite else todos
 
     ruta_manifiesto = raiz / MANIFIESTO_IMAGENES
     previos = indexar(leer_csv(ruta_manifiesto), "id_global") if ruta_manifiesto.exists() else {}
@@ -164,7 +157,7 @@ def ejecutar(raiz: Path, limite: int | None, pausa: float) -> int:
             print(f"  {numero}/{len(registros)} procesados")
         time.sleep(pausa)
 
-    orden = {registro["id_global"]: i for i, registro in enumerate(construir_registros_base(raiz))}
+    orden = {registro["id_global"]: i for i, registro in enumerate(todos)}
     salida = sorted(filas.values(), key=lambda fila: orden.get(fila["id_global"], len(orden)))
     escribir_csv(ruta_manifiesto, COLUMNAS_MANIFIESTO, salida)
 

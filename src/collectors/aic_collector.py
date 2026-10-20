@@ -18,9 +18,7 @@ imagenes de dominio publico CC0, metadatos CC0, campo description CC BY 4.0.
 from __future__ import annotations
 
 import argparse
-import csv
 import html
-import json
 import re
 import time
 from datetime import date
@@ -31,8 +29,9 @@ import requests
 
 from src.preprocessing.surface_filters import classify_surface_type, normalize_object_type
 from src.preprocessing.textile_filters import ANDEAN_CULTURAL_TERMS, TEXTILE_STRONG_TERMS, evaluate_met_record
+from src.utils.archivos import escribir_csv, escribir_jsonl, escribir_texto
 from src.utils.http import crear_sesion
-from src.utils.texto import buscar_terminos
+from src.utils.texto import buscar_terminos, texto_plano
 
 API_BUSQUEDA = "https://api.artic.edu/api/v1/artworks/search"
 IIIF = "https://www.artic.edu/iiif/2/{image_id}/full/{ancho},/0/default.jpg"
@@ -124,16 +123,8 @@ def consulta_alcance() -> dict[str, Any]:
     }
 
 
-def texto(valor: Any) -> str:
-    if valor is None:
-        return ""
-    if isinstance(valor, list):
-        return "; ".join(texto(v) for v in valor if texto(v))
-    return " ".join(str(valor).split())
-
-
 def limpiar_html(valor: Any) -> str:
-    return texto(html.unescape(re.sub(r"<[^>]+>", " ", texto(valor))))
+    return texto_plano(html.unescape(re.sub(r"<[^>]+>", " ", texto_plano(valor))))
 
 
 def buscar(
@@ -170,7 +161,7 @@ def como_registro_met(obra: dict[str, Any], url_imagen: str) -> dict[str, Any]:
     """Campos de la API del MET que usa el filtro textil del proyecto."""
     return {
         "title": obra.get("title"),
-        "classification": texto(obra.get("classification_titles")) or obra.get("classification_title"),
+        "classification": texto_plano(obra.get("classification_titles")) or obra.get("classification_title"),
         "medium": obra.get("medium_display"),
         "objectName": obra.get("artwork_type_title"),
         "culture": obra.get("style_title"),
@@ -191,7 +182,7 @@ def sugerir(estado_filtro: str, tipo_superficie: str) -> tuple[str, str]:
 
 
 def normalizar(obra: dict[str, Any], fecha_descarga: str) -> dict[str, str]:
-    image_id = texto(obra.get("image_id"))
+    image_id = texto_plano(obra.get("image_id"))
     url_imagen = IIIF.format(image_id=image_id, ancho=1686) if image_id else ""
     descripcion = limpiar_html(obra.get("description"))
     filtro = evaluate_met_record(como_registro_met(obra, url_imagen))
@@ -200,35 +191,35 @@ def normalizar(obra: dict[str, Any], fecha_descarga: str) -> dict[str, str]:
         "titulo_original": obra.get("title"),
         "nombre_objeto_original": obra.get("artwork_type_title"),
         "material_original": obra.get("medium_display"),
-        "clasificacion_original": texto(obra.get("classification_titles")),
+        "clasificacion_original": texto_plano(obra.get("classification_titles")),
         "cultura": obra.get("style_title"),
         "pais": obra.get("place_of_origin"),
     }
     superficie = classify_surface_type(fila_superficie)
     sugerencia, motivo = sugerir(filtro["estado_curacion"], superficie["tipo_superficie"])
 
-    contexto = " ".join(texto(obra.get(c)) for c in ("title", "style_title", "place_of_origin", "medium_display", "description"))
+    contexto = " ".join(texto_plano(obra.get(c)) for c in ("title", "style_title", "place_of_origin", "medium_display", "description"))
     return {
         "fuente": "Art Institute of Chicago",
-        "id_fuente": texto(obra.get("id")),
-        "numero_acceso": texto(obra.get("main_reference_number")),
-        "titulo_original": texto(obra.get("title")),
-        "cultura": texto(obra.get("style_title")),
-        "fecha_objeto": texto(obra.get("date_display")),
-        "fecha_inicio": texto(obra.get("date_start")),
-        "fecha_fin": texto(obra.get("date_end")),
-        "procedencia": texto(obra.get("place_of_origin")),
-        "departamento": texto(obra.get("department_title")),
-        "clasificacion_original": texto(obra.get("classification_titles")) or texto(obra.get("classification_title")),
-        "tipo_objeto_original": texto(obra.get("artwork_type_title")),
-        "material": texto(obra.get("medium_display")),
-        "materiales": texto(obra.get("material_titles")),
-        "tecnicas": texto(obra.get("technique_titles")),
-        "terminos_fuente": texto(obra.get("term_titles")),
-        "dimensiones": texto(obra.get("dimensions")),
+        "id_fuente": texto_plano(obra.get("id")),
+        "numero_acceso": texto_plano(obra.get("main_reference_number")),
+        "titulo_original": texto_plano(obra.get("title")),
+        "cultura": texto_plano(obra.get("style_title")),
+        "fecha_objeto": texto_plano(obra.get("date_display")),
+        "fecha_inicio": texto_plano(obra.get("date_start")),
+        "fecha_fin": texto_plano(obra.get("date_end")),
+        "procedencia": texto_plano(obra.get("place_of_origin")),
+        "departamento": texto_plano(obra.get("department_title")),
+        "clasificacion_original": texto_plano(obra.get("classification_titles")) or texto_plano(obra.get("classification_title")),
+        "tipo_objeto_original": texto_plano(obra.get("artwork_type_title")),
+        "material": texto_plano(obra.get("medium_display")),
+        "materiales": texto_plano(obra.get("material_titles")),
+        "tecnicas": texto_plano(obra.get("technique_titles")),
+        "terminos_fuente": texto_plano(obra.get("term_titles")),
+        "dimensiones": texto_plano(obra.get("dimensions")),
         "descripcion": descripcion,
-        "linea_credito": texto(obra.get("credit_line")),
-        "url_objeto": URL_OBRA.format(id=texto(obra.get("id"))),
+        "linea_credito": texto_plano(obra.get("credit_line")),
+        "url_objeto": URL_OBRA.format(id=texto_plano(obra.get("id"))),
         "url_imagen": url_imagen,
         "url_imagen_miniatura": IIIF.format(image_id=image_id, ancho=843) if image_id else "",
         "es_dominio_publico": str(bool(obra.get("is_public_domain"))),
@@ -246,14 +237,6 @@ def normalizar(obra: dict[str, Any], fecha_descarga: str) -> dict[str, str]:
         "consultas_origen": "alcance: lugar o cultura andina + textil + dominio publico + imagen",
         "fecha_descarga": fecha_descarga,
     }
-
-
-def escribir_csv(ruta: Path, filas: list[dict[str, str]]) -> None:
-    ruta.parent.mkdir(parents=True, exist_ok=True)
-    with ruta.open("w", newline="", encoding="utf-8") as archivo:
-        escritor = csv.DictWriter(archivo, fieldnames=COLUMNAS, lineterminator="\n")
-        escritor.writeheader()
-        escritor.writerows(filas)
 
 
 def escribir_reporte(ruta: Path, filas: list[dict[str, str]], avisos: list[str]) -> None:
@@ -278,8 +261,9 @@ def escribir_reporte(ruta: Path, filas: list[dict[str, str]], avisos: list[str])
         lineas += [f"## {titulo}", "", "| Valor | Registros |", "|---|---:|"] + conteo(campo) + [""]
     if avisos:
         lineas += ["## Avisos de paginacion", ""] + [f"- {aviso}" for aviso in avisos]
-    ruta.parent.mkdir(parents=True, exist_ok=True)
-    ruta.write_bytes(("\n".join(lineas).rstrip() + "\n").encode("utf-8"))
+    while lineas and not lineas[-1]:
+        lineas.pop()  # cada tabla deja una linea en blanco al final
+    escribir_texto(ruta, lineas)
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -301,16 +285,13 @@ def main(argv: list[str] | None = None) -> int:
         return 1
 
     sesion = crear_sesion()
-    sesion.headers["AIC-User-Agent"] = sesion.headers["User-Agent"]
     obras, avisos = buscar(sesion, pausa=args.pausa)
 
     fecha = date.today().isoformat()
     filas = sorted((normalizar(obra, fecha) for obra in obras), key=lambda f: int(f["id_fuente"]))
 
-    crudo = raiz / "data/raw/aic/aic_andes_textiles_raw.jsonl"
-    crudo.parent.mkdir(parents=True, exist_ok=True)
-    crudo.write_text("".join(json.dumps(o, ensure_ascii=False, sort_keys=True) + "\n" for o in obras), encoding="utf-8")
-    escribir_csv(raiz / salida, filas)
+    escribir_jsonl(raiz / "data/raw/aic/aic_andes_textiles_raw.jsonl", obras)
+    escribir_csv(raiz / salida, COLUMNAS, filas)
     reporte = raiz / (REPORTE_INSUMO if es_insumo else salida.with_name(salida.stem + "_resumen.md"))
     escribir_reporte(reporte, filas, avisos)
 

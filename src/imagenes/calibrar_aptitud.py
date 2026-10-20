@@ -38,22 +38,25 @@ from pathlib import Path
 from typing import Any
 
 import numpy as np
-from openpyxl import load_workbook
 
 from src.imagenes.aptitud import (
     PERTINENCIA_DESCARTE,
     capa_calidad,
     metadatos_pertinencia,
     motivo_pertinencia,
+    predecir,
+    sigmoide,
     transformar,
     valor_medida,
     vector,
 )
-from src.imagenes.aptitud_workbooks import WORKBOOKS, es_decision_automatica, motivo_del_revisor
+from src.imagenes.aptitud_workbooks import es_decision_automatica, motivo_del_revisor
 from src.imagenes.medidas import MEDIDAS
 from src.imagenes.motivos import analizar_motivo
-from src.utils.archivos import indexar, leer_csv
+from src.utils.archivos import escribir_texto, indexar, leer_csv
 from src.utils.config import leer_config_aptitud
+from src.utils.fuentes import FUENTES, SUBCONJUNTOS
+from src.utils.libros import leer_hoja, lector
 from src.utils.metricas import auc
 
 MODELO = "config/aptitud_modelo.json"
@@ -65,27 +68,19 @@ SEMILLA = 0
 # ------------------------------------------------------------------ etiquetas
 
 def etiquetas(raiz: Path, fuente: str, medidas: dict[str, dict[str, str]], config: dict[str, Any],
-              origenes: set[str] | None = None) -> list[dict[str, Any]]:
+              metadatos: dict[str, dict[str, str]], origenes: set[str] | None = None) -> list[dict[str, Any]]:
     """Decision y atributos del revisor para cada registro con imagen util y sin regla de pertinencia.
 
     origenes: si se indica, solo cuentan las filas cuyo origen_curacion esta en el conjunto
     (por ejemplo, las decididas con el criterio v2).
     """
-    ruta, hoja = WORKBOOKS[fuente]
-    libro = load_workbook(raiz / ruta, read_only=True, data_only=True)
-    filas = list(libro[hoja].iter_rows(values_only=True))
-    libro.close()
-    indice = {nombre: i for i, nombre in enumerate(filas[0])}
-    metadatos = metadatos_pertinencia(raiz)
     salida = []
-    for fila in filas[1:]:
-        def leer(columna: str, fila=fila) -> str:
-            return str(fila[indice[columna]] or "").strip() if columna in indice else ""
-
+    for fila in leer_hoja(raiz / FUENTES[fuente].workbook, FUENTES[fuente].hoja, clave="id_fuente"):
+        leer = lector(fila)
         id_global = f"{fuente}:{leer('id_fuente')}"
         decision = leer("corpus_final")
         m = medidas.get(id_global)
-        if decision not in ("principal", "secundario", "descartados") or not m or m["estado_imagen"] != "ok":
+        if decision not in SUBCONJUNTOS or not m or m["estado_imagen"] != "ok":
             continue
         if es_decision_automatica(leer):
             continue  # solo las decisiones humanas calibran
@@ -115,7 +110,7 @@ def logistica(x: np.ndarray, y: np.ndarray, l2: float, iteraciones: int = 50) ->
     penal = np.full(xa.shape[1], l2)
     penal[0] = 0
     for _ in range(iteraciones):
-        p = 1 / (1 + np.exp(-np.clip(xa @ w, -30, 30)))
+        p = sigmoide(xa @ w)
         grad = xa.T @ (p - y) + penal * w
         hess = xa.T @ (xa * (p * (1 - p))[:, None]) + np.diag(penal + 1e-9)
         paso = np.linalg.solve(hess, grad)
@@ -123,10 +118,6 @@ def logistica(x: np.ndarray, y: np.ndarray, l2: float, iteraciones: int = 50) ->
         if np.abs(paso).max() < 1e-8:
             break
     return w
-
-
-def predecir(x: np.ndarray, w: np.ndarray) -> np.ndarray:
-    return 1 / (1 + np.exp(-np.clip(w[0] + x @ w[1:], -30, 30)))
 
 
 def pliegues(clases: list[str]) -> np.ndarray:
@@ -149,7 +140,7 @@ def ordinal(z: np.ndarray, y: np.ndarray, iteraciones: int = 3000, paso: float =
         s = z @ w
         grad_w, grad_t = np.zeros_like(w), np.zeros_like(theta)
         for j in range(k):
-            p = 1 / (1 + np.exp(-(s - theta[j])))
+            p = sigmoide(s - theta[j])
             objetivo = (y > j).astype(float)
             grad_w += z.T @ (p - objetivo) / len(y)
             grad_t -= np.sum(p - objetivo) / len(y)
@@ -220,10 +211,11 @@ def estandarizacion(medidas: list[dict[str, str]], nombres: set[str]) -> dict[st
 def registros_calibracion(raiz: Path, medidas: dict[str, dict[str, str]], config: dict[str, Any]) -> list[dict[str, Any]]:
     """Etiquetas de las fuentes de [calibracion]: todas las humanas o solo las del criterio v2."""
     criterio = config["calibracion"]
+    metadatos = metadatos_pertinencia(raiz)
     registros = []
     for fuente in criterio["fuentes"]:
         origenes = None if fuente in criterio["fuentes_completas"] else set(criterio["origenes_criterio_v2"])
-        registros += etiquetas(raiz, fuente, medidas, config, origenes)
+        registros += etiquetas(raiz, fuente, medidas, config, metadatos, origenes)
     return registros
 
 
@@ -411,8 +403,7 @@ def main(argv: list[str] | None = None) -> int:
     raiz = Path(args.root).resolve()
     modelo, informe = calibrar(raiz)
     (raiz / MODELO).write_bytes((json.dumps(modelo, ensure_ascii=False, indent=2) + "\n").encode("utf-8"))
-    (raiz / INFORME).parent.mkdir(parents=True, exist_ok=True)
-    (raiz / INFORME).write_bytes(("\n".join(informe) + "\n").encode("utf-8"))
+    escribir_texto(raiz / INFORME, informe)
     print(f"Modelo: {raiz / MODELO} | informe: {raiz / INFORME}")
     print(f"Registros por fuente: {modelo['registros_por_fuente']} | umbrales: {modelo['umbrales']}")
     return 0

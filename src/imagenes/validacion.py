@@ -11,6 +11,11 @@ comprueba si transfiere: el revisor anota una muestra con el criterio AIC
 (principal, secundario o descartados y su motivo) sin ver el puntaje ni la
 decision v1, y se mide el acuerdo con la banda sugerida y con la decision v1.
 
+El informe versionado (outputs/reports/validacion_met_cma_v2.md) registra esa medicion
+del 2026-10-19, hecha con el modelo calibrado solo con AIC. Tras el traslado, las
+decisiones v1 de la muestra ya son las del revisor y la comparacion pierde sentido: por
+eso la evaluacion no se vuelve a escribir una vez trasladadas las anotaciones.
+
 La muestra excluye lo que ya deciden reglas verificables (pertinencia por
 metadatos, fotografia monocroma, resolucion, sin imagen) y los descartes v1 por
 pertinencia (no andino, no textil, herramienta, materia prima, duplicado): ahi el
@@ -21,22 +26,23 @@ semilla fija; el orden de la galeria y del workbook es aleatorio.
 from __future__ import annotations
 
 import argparse
-import html
-import os
 from collections import Counter
 from pathlib import Path
 
 import numpy as np
-from openpyxl import Workbook, load_workbook
+from openpyxl import Workbook
 from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.worksheet.datavalidation import DataValidation
 
 from src.imagenes.aptitud import SALIDA_APTITUD
-from src.imagenes.aptitud_workbooks import DESCARTES_PERTINENCIA_V1, WORKBOOKS
+from src.imagenes.aptitud_workbooks import PUERTAS, es_descarte_pertinencia_v1
 from src.imagenes.descargar_evaluacion import MANIFIESTO_EVALUACION
 from src.imagenes.motivos import analizar_motivo
 from src.imagenes.traslado import trasladar_anotaciones
-from src.utils.archivos import indexar, leer_csv
+from src.review.galerias import esc, escribir_pagina, imagen_evaluacion, tarjeta
+from src.utils.archivos import escribir_texto, indexar, leer_csv
+from src.utils.fuentes import FUENTES, SUBCONJUNTOS
+from src.utils.libros import leer_hoja, lector
 from src.utils.metricas import kappa, tabla
 
 WORKBOOK_VALIDACION = "data/metadata/validacion_met_cma_v2.xlsx"
@@ -47,24 +53,15 @@ SEMILLA = 20261019
 TAMANO_POR_FUENTE = {"MET": 20, "CMA": 20}
 MINIMO_POR_BANDA = 4
 BANDAS = ("principal", "revisar", "descartar")
-PUERTAS = {"sin_imagen", "resolucion_insuficiente", "fotografia_monocroma", "plumaria", "muneco", "posterior_inca"}
 
 COLUMNAS = ["orden", "id_global", "titulo_original", "cultura", "url_objeto", "url_imagen",
             "corpus_final", "motivo_revision", "revisor", "fecha_revision"]
 
 
 def decisiones_v1(raiz: Path, fuente: str) -> dict[str, dict[str, str]]:
-    ruta, hoja = WORKBOOKS[fuente]
-    libro = load_workbook(raiz / ruta, read_only=True, data_only=True)
-    filas = list(libro[hoja].iter_rows(values_only=True))
-    libro.close()
-    indice = {nombre: i for i, nombre in enumerate(filas[0])}
     salida = {}
-    for fila in filas[1:]:
-        valor = {nombre: str(fila[i] or "").strip() for nombre, i in indice.items()}
-        motivos = {valor.get("estado_curacion", ""), valor.get("motivo_curacion", ""), valor.get("motivo_revision_original", "")
-                   or valor.get("motivo_revision", "")}
-        valor["pertinencia_v1"] = "si" if valor["corpus_final"] == "descartados" and motivos & DESCARTES_PERTINENCIA_V1 else "no"
+    for valor in leer_hoja(raiz / FUENTES[fuente].workbook, FUENTES[fuente].hoja, clave="id_fuente"):
+        valor["pertinencia_v1"] = "si" if es_descarte_pertinencia_v1(lector(valor)) else "no"
         salida[f"{fuente}:{valor['id_fuente']}"] = valor
     return salida
 
@@ -78,7 +75,7 @@ def universo(raiz: Path) -> list[dict[str, str]]:
             ficha = aptitud.get(id_global)
             if not ficha or ficha["motivo_banda"] in PUERTAS or v1["pertinencia_v1"] == "si":
                 continue
-            if v1["corpus_final"] not in ("principal", "secundario", "descartados"):
+            if v1["corpus_final"] not in SUBCONJUNTOS:
                 continue
             salida.append({"id_global": id_global, "fuente": fuente, "banda": ficha["banda_sugerida"],
                            "decision_v1": v1["corpus_final"], "titulo_original": v1["titulo_original"],
@@ -157,57 +154,32 @@ def crear(raiz: Path, forzar: bool) -> int:
 
 
 def galeria(raiz: Path, muestra: list[dict[str, str]]) -> None:
+    """Galeria ciega: solo imagen, titulo y cultura (sin puntaje ni decision anterior)."""
     salida = raiz / GALERIA_VALIDACION
     manifiesto = indexar(leer_csv(raiz / MANIFIESTO_EVALUACION), "id_global")
-    tarjetas = []
-    for fila in sorted(muestra, key=lambda f: int(f["orden"])):
-        registro = manifiesto.get(fila["id_global"], {})
-        ruta = raiz / registro["ruta_copia_evaluacion"] if registro.get("ruta_copia_evaluacion") else None
-        imagen = os.path.relpath(ruta, salida.parent).replace("\\", "/") if ruta and ruta.exists() else registro.get("url_descargada", "")
-        tarjetas.append(f"""<article>
-  <a href="{html.escape(fila['url_objeto'])}" target="_blank" rel="noopener"><img src="{html.escape(imagen)}" alt="{html.escape(fila['id_global'])}" loading="lazy"></a>
-  <p><b>{html.escape(fila['orden'])}.</b> {html.escape(fila['id_global'])}</p>
-  <p class="t">{html.escape(fila['titulo_original'])}</p>
-  <p>{html.escape(fila['cultura'])}</p>
-</article>""")
-    salida.parent.mkdir(parents=True, exist_ok=True)
-    salida.write_bytes(f"""<!doctype html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Validación MET y CMA</title>
-<style>
-body {{ font-family: Arial, sans-serif; margin: 24px; background: #f6f6f4; color: #222; }}
-main {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }}
-article {{ background: #fff; border: 1px solid #ddd; border-radius: 8px; padding-bottom: 8px; }}
-img {{ width: 100%; height: 340px; object-fit: contain; background: #eee; }}
-p {{ margin: 4px 12px; font-size: 14px; }}
-.t {{ font-style: italic; color: #555; }}
-</style>
-</head>
-<body>
-<h1>Validación ciega: {len(muestra)} imágenes MET y CMA</h1>
-<p>Anote cada imagen en <code>{WORKBOOK_VALIDACION}</code> con el criterio AIC. No se muestran el puntaje ni la decisión anterior.</p>
-<main>
-{chr(10).join(tarjetas)}
-</main>
-</body>
-</html>
-""".encode("utf-8"))
+    tarjetas = [
+        tarjeta(imagen_evaluacion(raiz, manifiesto, f["id_global"], salida), f["url_objeto"], f["id_global"], [
+            f"<b>{esc(f['orden'])}.</b> {esc(f['id_global'])}",
+            ("t", esc(f["titulo_original"])),
+            esc(f["cultura"]),
+        ])
+        for f in sorted(muestra, key=lambda f: int(f["orden"]))
+    ]
+    nota = (f"Anote cada imagen en <code>{WORKBOOK_VALIDACION}</code> con el criterio AIC. "
+            "No se muestran el puntaje ni la decisión anterior.")
+    escribir_pagina(salida, f"Validación ciega: {len(muestra)} imágenes MET y CMA", nota, [("", tarjetas)])
 
 
 # ------------------------------------------------------------------ evaluacion
 
 def evaluar(raiz: Path) -> int:
-    libro = load_workbook(raiz / WORKBOOK_VALIDACION, read_only=True, data_only=True)
-    filas = list(libro[HOJA].iter_rows(values_only=True))
-    libro.close()
-    indice = {nombre: i for i, nombre in enumerate(filas[0])}
-    anotadas = [{c: str(f[indice[c]] or "").strip() for c in COLUMNAS} for f in filas[1:]]
-    anotadas = [a for a in anotadas if a["corpus_final"] in ("principal", "secundario", "descartados")]
+    filas = leer_hoja(raiz / WORKBOOK_VALIDACION, HOJA, clave="id_global")
+    anotadas = [a for a in filas if a["corpus_final"] in SUBCONJUNTOS]
     aptitud = indexar(leer_csv(raiz / SALIDA_APTITUD), "id_global")
     v1 = {**decisiones_v1(raiz, "MET"), **decisiones_v1(raiz, "CMA")}
+    if any(fila.get("origen_curacion") == ORIGEN_VALIDACION for fila in v1.values()):
+        print(f"Las anotaciones ya se trasladaron a los workbooks: {INFORME_VALIDACION} se conserva como registro de la validacion.")
+        return 0
     if not anotadas:
         print("La muestra aun no tiene anotaciones.")
         return 0
@@ -217,7 +189,7 @@ def evaluar(raiz: Path) -> int:
 
     lineas = ["# Validación ciega del puntaje de aptitud en MET y CMA", "",
               f"Generado por `python -m src.imagenes.validacion` desde `{WORKBOOK_VALIDACION}` "
-              f"({len(anotadas)} de {len(filas) - 1} imágenes anotadas).", "",
+              f"({len(anotadas)} de {len(filas)} imágenes anotadas).", "",
               "El revisor anotó sin ver el puntaje ni la decisión v1, con el criterio aplicado en AIC. "
               "La comparación principal es binaria (principal frente al resto), porque el puntaje no separa "
               "secundario de descartados y la zona «revisar» queda para la decisión manual.", ""]
@@ -234,7 +206,7 @@ def evaluar(raiz: Path) -> int:
                                   "Kappa con el modelo", "Acuerdo con v1", "Kappa con v1"])
     cruce = Counter((a["corpus_final"], aptitud[a["id_global"]]["banda_sugerida"]) for a in anotadas)
     lineas += ["", "## Anotación frente a banda sugerida", ""]
-    lineas += tabla([[d] + [str(cruce[(d, b)]) for b in BANDAS] for d in ("principal", "secundario", "descartados")],
+    lineas += tabla([[d] + [str(cruce[(d, b)]) for b in BANDAS] for d in SUBCONJUNTOS],
                     ["Anotación \\ banda", *BANDAS])
     revisar = [a for a in anotadas if aptitud[a["id_global"]]["banda_sugerida"] == "revisar"]
     lineas += ["", f"En la banda «revisar» ({len(revisar)} imágenes) el revisor puso: "
@@ -255,8 +227,7 @@ def evaluar(raiz: Path) -> int:
     lineas += tabla([[c, v, n_, str(n)] for (c, v, n_), n in sorted(atributos.items())],
                     ["Atributo", "Revisor", "Imagen", "Registros"])
     ruta = raiz / INFORME_VALIDACION
-    ruta.parent.mkdir(parents=True, exist_ok=True)
-    ruta.write_bytes(("\n".join(lineas) + "\n").encode("utf-8"))
+    escribir_texto(ruta, lineas)
     print(f"Informe: {ruta}")
     return 0
 

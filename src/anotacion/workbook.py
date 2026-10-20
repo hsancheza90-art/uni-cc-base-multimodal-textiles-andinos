@@ -14,17 +14,17 @@ que ya no estan en el consolidado pasan a la hoja "fuera_del_corpus".
 from __future__ import annotations
 
 import argparse
-import csv
-from datetime import date, datetime
 from pathlib import Path
 
-from openpyxl import Workbook, load_workbook
+from openpyxl import Workbook
 from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
 
 from src.consolidado.construir_consolidado import SALIDA_CONSOLIDADO
 from src.consolidado.esquema import ATRIBUTOS_ANOTACION, COLUMNAS_ANOTACIONES, CORRECCIONES
+from src.utils.archivos import leer_csv
+from src.utils.libros import leer_hoja
 from src.utils.vocabulario import Campo, leer_vocabulario
 
 WORKBOOK = Path("data/metadata/anotacion_met_cma_v1.xlsx")
@@ -78,36 +78,18 @@ GUIA = [
 ]
 
 
-def leer_consolidado(raiz: Path) -> list[dict[str, str]]:
-    with (raiz / SALIDA_CONSOLIDADO).open(newline="", encoding="utf-8-sig") as archivo:
-        return list(csv.DictReader(archivo))
-
-
-def texto_celda(valor: object) -> str:
-    """Valor de celda como texto; las fechas de Excel se escriben AAAA-MM-DD."""
-    if valor is None:
-        return ""
-    if isinstance(valor, datetime):
-        return valor.date().isoformat()
-    if isinstance(valor, date):
-        return valor.isoformat()
-    return str(valor).strip()
-
-
 def leer_anotaciones_existentes(ruta: Path) -> dict[str, dict[str, str]]:
     """Anotaciones del workbook actual (hoja principal y fuera_del_corpus) por id_global."""
     if not ruta.exists():
         return {}
-    libro = load_workbook(ruta, data_only=True)
     anotaciones: dict[str, dict[str, str]] = {}
     for nombre in (HOJA_ANOTACION, HOJA_HUERFANAS):
-        if nombre not in libro.sheetnames:
-            continue
-        hoja = libro[nombre]
-        encabezados = [texto_celda(celda.value) for celda in hoja[1]]
-        for fila in hoja.iter_rows(min_row=2, values_only=True):
-            datos = {encabezados[i]: texto_celda(v) for i, v in enumerate(fila) if i < len(encabezados)}
-            if datos.get("id_global") and any(datos.get(c) for c in COLUMNAS_EDITABLES):
+        try:
+            filas = leer_hoja(ruta, nombre, clave="id_global")
+        except ValueError:
+            continue  # la hoja fuera_del_corpus solo existe si hubo registros huerfanos
+        for datos in filas:
+            if any(datos.get(c) for c in COLUMNAS_EDITABLES):
                 anotaciones[datos["id_global"]] = {c: datos.get(c, "") for c in COLUMNAS_EDITABLES}
     return anotaciones
 
@@ -226,7 +208,7 @@ def main(argv: list[str] | None = None) -> int:
     raiz = Path(parse_args(argv).root).resolve()
     ruta = raiz / WORKBOOK
     anotaciones = leer_anotaciones_existentes(ruta)
-    registros = leer_consolidado(raiz)
+    registros = leer_csv(raiz / SALIDA_CONSOLIDADO, recortar=False)
     libro = construir_libro(registros, anotaciones, leer_vocabulario(raiz))
     ruta.parent.mkdir(parents=True, exist_ok=True)
     try:

@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import csv
-import shutil
 from pathlib import Path
 
 import pytest
@@ -15,6 +14,7 @@ from src.preprocessing import (
     create_met_review_workbook_v2,
 )
 from src.utils.config import RAIZ_REPO, conjuntos_esperados, contar_filas_csv, leer_config
+from tests.insumos import copiar_insumos
 
 # Insumos versionados de los que parte el flujo; todo lo demas se regenera.
 INSUMOS = [
@@ -71,11 +71,7 @@ def leer_ids(ruta: Path, columna: str) -> list[str]:
 @pytest.fixture(scope="module")
 def copia_regenerada(tmp_path_factory: pytest.TempPathFactory) -> Path:
     raiz = tmp_path_factory.mktemp("repo")
-    for relativa in INSUMOS:
-        destino = raiz / relativa
-        destino.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(RAIZ_REPO / relativa, destino)
-
+    copiar_insumos(raiz, INSUMOS)
     assert flujo.main(["--root", str(raiz)]) == 0
     return raiz
 

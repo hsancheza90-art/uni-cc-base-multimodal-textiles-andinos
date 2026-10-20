@@ -1,9 +1,21 @@
+"""Audita el CSV de candidatos CMA: columnas, identificadores, estados y evidencias.
+
+Uso desde la raiz del repositorio (lo ejecuta tambien python -m src.flujo):
+
+    python -m src.metadata.audit_cma_outputs
+
+Las columnas en ingles son las de la API Open Access del CMA, conservadas tal como las
+normaliza src/collectors/cma_collector.py.
+"""
+
 from __future__ import annotations
 
 import argparse
-import csv
 import sys
+from collections import Counter
 from pathlib import Path
+
+from src.utils.archivos import leer_csv_con_columnas
 
 FORBIDDEN_MARKER = "Forbidden. Calls to this URL via the terminal are not allowed."
 
@@ -38,12 +50,6 @@ VALID_STATUSES = {
 }
 
 
-def read_csv_rows(path: Path) -> tuple[list[str], list[dict[str, str]]]:
-    with path.open(newline="", encoding="utf-8-sig") as file:
-        reader = csv.DictReader(file)
-        return list(reader.fieldnames or []), list(reader)
-
-
 def audit_csv(path: Path) -> list[str]:
     issues: list[str] = []
 
@@ -54,7 +60,7 @@ def audit_csv(path: Path) -> list[str]:
     if FORBIDDEN_MARKER in text:
         return [f"CORRUPTO: {path} contiene mensaje Forbidden"]
 
-    fields, rows = read_csv_rows(path)
+    fields, rows = leer_csv_con_columnas(path)
 
     if not fields:
         issues.append(f"VACIO: {path} no tiene encabezados")
@@ -114,12 +120,8 @@ def summarize_csv(path: Path) -> list[str]:
     if not path.exists():
         return []
 
-    _, rows = read_csv_rows(path)
-    status_counts: dict[str, int] = {}
-
-    for row in rows:
-        status = row.get("curation_status", "SIN_ESTADO")
-        status_counts[status] = status_counts.get(status, 0) + 1
+    _, rows = leer_csv_con_columnas(path)
+    status_counts = Counter(row.get("curation_status", "SIN_ESTADO") for row in rows)
 
     lines = [
         f"Registros auditados: {len(rows)}",

@@ -21,7 +21,8 @@ tildes). Es independiente de la fuente: sirve igual para AIC, MET, CMA u otras.
 from __future__ import annotations
 
 import re
-import unicodedata
+
+from src.utils.texto import sin_tildes
 
 ATRIBUTOS_VISUALES = {
     "colores": "colores", "color": "colores",
@@ -52,10 +53,6 @@ ETIQUETAS = {
         "multiples_piezas": "varias piezas en la imagen", "resolucion_insuficiente": "resolución insuficiente",
     },
 }
-
-
-def sin_tildes(texto: str) -> str:
-    return "".join(c for c in unicodedata.normalize("NFD", texto) if unicodedata.category(c) != "Mn")
 
 
 def analizar_motivo(motivo: str | None) -> dict:

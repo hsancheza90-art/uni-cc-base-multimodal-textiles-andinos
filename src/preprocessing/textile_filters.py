@@ -1,8 +1,17 @@
+"""Filtro textil andino por metadatos: decide si un registro es un textil andino analizable.
+
+evaluate_met_record suma evidencias (clasificacion, nombre del objeto, materiales,
+titulo, etiquetas y terminos culturales andinos), resta las de objetos no textiles y
+herramientas de hilado o tejido, y devuelve la decision, el puntaje y el motivo. Lo
+usan los colectores y la auditoria del filtro (src/metadata/auditar_filtros.py). Los
+nombres en ingles se conservan porque figuran en los informes versionados de la serie v1.
+"""
+
 from __future__ import annotations
 
-from typing import Any, Dict, List
+from typing import Any
 
-from src.utils.texto import buscar_terminos, normalizar_texto
+from src.utils.texto import buscar_terminos
 
 TEXTILE_STRONG_TERMS = [
     "textile",
@@ -166,17 +175,7 @@ NON_TEXTILE_TITLE_TERMS = [
 ]
 
 
-def normalize_text(value: Any) -> str:
-    """Compatibilidad: ver src.utils.texto.normalizar_texto."""
-    return normalizar_texto(value)
-
-
-def contains_any(text: Any, terms: List[str]) -> List[str]:
-    """Terminos presentes en el texto como palabra o frase completa."""
-    return buscar_terminos(text, terms)
-
-
-def get_tags_text(record: Dict[str, Any]) -> str:
+def get_tags_text(record: dict[str, Any]) -> str:
     """
     Convert The Met tag list into a single searchable string.
     """
@@ -193,7 +192,7 @@ def get_tags_text(record: Dict[str, Any]) -> str:
     return " ".join(terms)
 
 
-def evaluate_met_record(record: Dict[str, Any]) -> Dict[str, Any]:
+def evaluate_met_record(record: dict[str, Any]) -> dict[str, Any]:
     """
     Evaluate whether a The Met object is likely to be an Andean textile.
 
@@ -214,49 +213,49 @@ def evaluate_met_record(record: Dict[str, Any]) -> Dict[str, Any]:
     primary_image = record.get("primaryImage") or record.get("primaryImageSmall")
 
     score = 0
-    reasons: List[str] = []
+    reasons: list[str] = []
     textile_evidence_count = 0
     exclusion_evidence_count = 0
 
     # Strong textile evidence
-    classification_hits = contains_any(classification, ["textile", "textiles"])
+    classification_hits = buscar_terminos(classification, ["textile", "textiles"])
     if classification_hits:
         score += 5
         textile_evidence_count += 1
         reasons.append(f"clasificación contiene evidencia textil: {classification_hits}")
 
-    object_name_hits = contains_any(object_name, TEXTILE_STRONG_TERMS)
+    object_name_hits = buscar_terminos(object_name, TEXTILE_STRONG_TERMS)
     if object_name_hits:
         score += 4
         textile_evidence_count += 1
         reasons.append(f"nombre de objeto contiene términos textiles: {object_name_hits}")
 
-    medium_hits = contains_any(medium, TEXTILE_FIBER_TERMS)
+    medium_hits = buscar_terminos(medium, TEXTILE_FIBER_TERMS)
     if medium_hits:
         score += 4
         textile_evidence_count += 1
         reasons.append(f"material contiene fibras o soporte textil: {medium_hits}")
 
-    title_strong_hits = contains_any(title, TEXTILE_STRONG_TERMS)
+    title_strong_hits = buscar_terminos(title, TEXTILE_STRONG_TERMS)
     if title_strong_hits:
         score += 3
         textile_evidence_count += 1
         reasons.append(f"título contiene términos textiles: {title_strong_hits}")
 
-    tags_hits = contains_any(tags_text, TEXTILE_STRONG_TERMS)
+    tags_hits = buscar_terminos(tags_text, TEXTILE_STRONG_TERMS)
     if tags_hits:
         score += 2
         textile_evidence_count += 1
         reasons.append(f"etiquetas contienen términos textiles: {tags_hits}")
 
-    title_weak_hits = contains_any(title, TEXTILE_WEAK_TERMS)
+    title_weak_hits = buscar_terminos(title, TEXTILE_WEAK_TERMS)
     if title_weak_hits:
         score += 1
         reasons.append(f"título contiene términos débiles asociados a fragmentos o paneles: {title_weak_hits}")
 
     # Andean evidence: useful but not sufficient alone
     cultural_text = " ".join([culture, country, region, department, title, medium])
-    cultural_hits = contains_any(cultural_text, ANDEAN_CULTURAL_TERMS)
+    cultural_hits = buscar_terminos(cultural_text, ANDEAN_CULTURAL_TERMS)
     if cultural_hits:
         score += 1
         reasons.append(f"evidencia cultural/geográfica andina: {cultural_hits}")
@@ -264,7 +263,7 @@ def evaluate_met_record(record: Dict[str, Any]) -> Dict[str, Any]:
     # Non-textile evidence. Una clasificacion o un material con evidencia textil
     # explicita (p. ej. "Textiles-Sculpture" o "Cotton, silk, metal") no se penaliza:
     # describe un textil con componentes o motivos no textiles.
-    non_textile_class_hits = contains_any(classification, NON_TEXTILE_CLASSIFICATION_TERMS)
+    non_textile_class_hits = buscar_terminos(classification, NON_TEXTILE_CLASSIFICATION_TERMS)
     if non_textile_class_hits and classification_hits:
         reasons.append(f"clasificación mixta textil/no textil, sin penalización: {non_textile_class_hits}")
     elif non_textile_class_hits:
@@ -272,7 +271,7 @@ def evaluate_met_record(record: Dict[str, Any]) -> Dict[str, Any]:
         exclusion_evidence_count += 1
         reasons.append(f"clasificación sugiere objeto no textil: {non_textile_class_hits}")
 
-    non_textile_medium_hits = contains_any(medium, NON_TEXTILE_MEDIUM_TERMS)
+    non_textile_medium_hits = buscar_terminos(medium, NON_TEXTILE_MEDIUM_TERMS)
     if non_textile_medium_hits and medium_hits:
         reasons.append(f"material mixto con fibras textiles, sin penalización: {non_textile_medium_hits}")
     elif non_textile_medium_hits:
@@ -284,7 +283,7 @@ def evaluate_met_record(record: Dict[str, Any]) -> Dict[str, Any]:
     # clasificacion ni el material aportan evidencia textil.
     sin_evidencia_material = not (classification_hits or medium_hits)
 
-    non_textile_title_hits = contains_any(title, NON_TEXTILE_TITLE_TERMS)
+    non_textile_title_hits = buscar_terminos(title, NON_TEXTILE_TITLE_TERMS)
     if non_textile_title_hits and sin_evidencia_material:
         score -= 4
         exclusion_evidence_count += 1
@@ -292,13 +291,13 @@ def evaluate_met_record(record: Dict[str, Any]) -> Dict[str, Any]:
     elif non_textile_title_hits:
         reasons.append(f"título con término no textil, sin penalización por evidencia textil: {non_textile_title_hits}")
 
-    non_textile_object_hits = contains_any(object_name, NON_TEXTILE_TITLE_TERMS)
+    non_textile_object_hits = buscar_terminos(object_name, NON_TEXTILE_TITLE_TERMS)
     if non_textile_object_hits and sin_evidencia_material:
         score -= 4
         exclusion_evidence_count += 1
         reasons.append(f"nombre de objeto sugiere objeto no textil: {non_textile_object_hits}")
 
-    tool_hits = contains_any(" ".join([title, object_name, classification]), TEXTILE_TOOL_TERMS)
+    tool_hits = buscar_terminos(" ".join([title, object_name, classification]), TEXTILE_TOOL_TERMS)
     if tool_hits:
         score -= 5
         exclusion_evidence_count += 1

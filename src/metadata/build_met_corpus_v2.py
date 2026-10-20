@@ -1,10 +1,22 @@
+"""Construye las salidas base MET v2 desde el corpus MET v1 congelado.
+
+Uso desde la raiz del repositorio (lo ejecuta tambien python -m src.flujo):
+
+    python -m src.metadata.build_met_corpus_v2
+
+Reorganiza el corpus MET v1 (data/processed/corpus_met_textiles_andinos_v1_*.csv) en el
+esquema v2: un CSV por subconjunto (principal, secundario, descartados) con el estado y
+el destino de la curacion. Estas salidas sembraron el workbook de revision MET
+(src/preprocessing/create_met_review_workbook_v2.py), donde quedan las decisiones vigentes.
+"""
+
 from __future__ import annotations
 
 import argparse
-import csv
 from pathlib import Path
 
-from src.utils.archivos import leer_csv
+from src.utils.archivos import escribir_csv, escribir_texto, leer_csv
+from src.utils.libros import lector
 
 COLUMNAS_V2 = [
     "fuente",
@@ -44,24 +56,13 @@ COLUMNAS_V2 = [
 ]
 
 
-def escribir_csv(ruta: Path, filas: list[dict[str, str]]) -> None:
-    ruta.parent.mkdir(parents=True, exist_ok=True)
-    with ruta.open("w", newline="", encoding="utf-8") as archivo:
-        escritor = csv.DictWriter(archivo, fieldnames=COLUMNAS_V2, lineterminator="\n")
-        escritor.writeheader()
-        escritor.writerows(filas)
-
-
-def valor(fila: dict[str, str], campo: str) -> str:
-    return (fila.get(campo) or "").strip()
-
-
 def motivo_principal(fila: dict[str, str]) -> str:
+    leer = lector(fila)
     candidatos = [
-        valor(fila, "motivo_curacion_final"),
-        valor(fila, "motivo_revision_v2"),
-        valor(fila, "motivo_superficie"),
-        valor(fila, "motivo_filtrado"),
+        leer("motivo_curacion_final"),
+        leer("motivo_revision_v2"),
+        leer("motivo_superficie"),
+        leer("motivo_filtrado"),
     ]
     return next((texto for texto in candidatos if texto), "")
 
@@ -71,41 +72,42 @@ def normalizar_fila(
     estado_curacion: str,
     destino_curacion: str,
 ) -> dict[str, str]:
+    leer = lector(fila)
     return {
-        "fuente": valor(fila, "fuente") or "met",
-        "id_fuente": valor(fila, "id_objeto"),
-        "id_registro": valor(fila, "id_registro") or f"MET-{valor(fila, 'id_objeto')}",
-        "institucion": valor(fila, "institucion") or "The Metropolitan Museum of Art",
-        "titulo_original": valor(fila, "titulo_original"),
-        "titulo_es_sugerido": valor(fila, "titulo_es_sugerido"),
-        "cultura": valor(fila, "cultura"),
-        "periodo": valor(fila, "periodo"),
-        "fecha_objeto": valor(fila, "fecha_objeto"),
-        "procedencia": valor(fila, "procedencia"),
-        "clasificacion_original": valor(fila, "clasificacion_original"),
-        "tipo_objeto": valor(fila, "tipo_objeto"),
-        "tipo_superficie": valor(fila, "tipo_superficie"),
-        "material": valor(fila, "material") or valor(fila, "material_original"),
-        "material_normalizado": valor(fila, "material_normalizado"),
-        "tecnica": valor(fila, "tecnica"),
-        "descripcion": valor(fila, "descripcion") or valor(fila, "descripcion_oficial"),
-        "url_objeto": valor(fila, "url_objeto"),
-        "url_imagen": valor(fila, "url_imagen"),
-        "ruta_imagen_local": valor(fila, "imagen_local"),
-        "licencia": valor(fila, "licencia"),
+        "fuente": leer("fuente") or "met",
+        "id_fuente": leer("id_objeto"),
+        "id_registro": leer("id_registro") or f"MET-{leer('id_objeto')}",
+        "institucion": leer("institucion") or "The Metropolitan Museum of Art",
+        "titulo_original": leer("titulo_original"),
+        "titulo_es_sugerido": leer("titulo_es_sugerido"),
+        "cultura": leer("cultura"),
+        "periodo": leer("periodo"),
+        "fecha_objeto": leer("fecha_objeto"),
+        "procedencia": leer("procedencia"),
+        "clasificacion_original": leer("clasificacion_original"),
+        "tipo_objeto": leer("tipo_objeto"),
+        "tipo_superficie": leer("tipo_superficie"),
+        "material": leer("material") or leer("material_original"),
+        "material_normalizado": leer("material_normalizado"),
+        "tecnica": leer("tecnica"),
+        "descripcion": leer("descripcion") or leer("descripcion_oficial"),
+        "url_objeto": leer("url_objeto"),
+        "url_imagen": leer("url_imagen"),
+        "ruta_imagen_local": leer("imagen_local"),
+        "licencia": leer("licencia"),
         "estado_curacion": estado_curacion,
         "destino_curacion": destino_curacion,
-        "origen_curacion": valor(fila, "origen_curacion"),
+        "origen_curacion": leer("origen_curacion"),
         "motivo_curacion": motivo_principal(fila),
-        "decision_filtro": valor(fila, "decision_filtro"),
-        "puntaje_filtro": valor(fila, "puntaje_filtro"),
-        "motivo_filtrado": valor(fila, "motivo_filtrado"),
-        "decision_auditoria": valor(fila, "decision_auditoria"),
-        "motivo_auditoria": valor(fila, "motivo_auditoria"),
-        "observacion_auditoria": valor(fila, "observacion_auditoria"),
-        "posible_duplicado_suave": valor(fila, "posible_duplicado_suave"),
-        "estado_metadata": valor(fila, "estado_metadata"),
-        "estado_anotacion": valor(fila, "estado_anotacion"),
+        "decision_filtro": leer("decision_filtro"),
+        "puntaje_filtro": leer("puntaje_filtro"),
+        "motivo_filtrado": leer("motivo_filtrado"),
+        "decision_auditoria": leer("decision_auditoria"),
+        "motivo_auditoria": leer("motivo_auditoria"),
+        "observacion_auditoria": leer("observacion_auditoria"),
+        "posible_duplicado_suave": leer("posible_duplicado_suave"),
+        "estado_metadata": leer("estado_metadata"),
+        "estado_anotacion": leer("estado_anotacion"),
     }
 
 
@@ -115,8 +117,6 @@ def escribir_reporte(
     secundario: list[dict[str, str]],
     descartados: list[dict[str, str]],
 ) -> None:
-    ruta.parent.mkdir(parents=True, exist_ok=True)
-
     total = len(principal) + len(secundario) + len(descartados)
 
     lineas = [
@@ -144,7 +144,7 @@ def escribir_reporte(
         "- `data/metadata/met_descartados_v2.csv`",
     ]
 
-    ruta.write_bytes(("\n".join(lineas) + "\n").encode("utf-8"))
+    escribir_texto(ruta, lineas)
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -163,9 +163,9 @@ def main(argv: list[str] | None = None) -> int:
     ruta_secundario = raiz / "data/processed/corpus_met_textiles_andinos_v1_complementario.csv"
     ruta_descartados = raiz / "data/processed/corpus_met_textiles_andinos_v1_exclusiones_curatoriales.csv"
 
-    principal_base = leer_csv(ruta_principal, recortar=False)
-    secundario_base = leer_csv(ruta_secundario, recortar=False)
-    descartados_base = leer_csv(ruta_descartados, recortar=False)
+    principal_base = leer_csv(ruta_principal)
+    secundario_base = leer_csv(ruta_secundario)
+    descartados_base = leer_csv(ruta_descartados)
 
     principal = [
         normalizar_fila(fila, "corpus_principal", "principal")
@@ -180,9 +180,9 @@ def main(argv: list[str] | None = None) -> int:
         for fila in descartados_base
     ]
 
-    escribir_csv(raiz / "data/metadata/met_corpus_principal_v2.csv", principal)
-    escribir_csv(raiz / "data/metadata/met_corpus_secundario_v2.csv", secundario)
-    escribir_csv(raiz / "data/metadata/met_descartados_v2.csv", descartados)
+    escribir_csv(raiz / "data/metadata/met_corpus_principal_v2.csv", COLUMNAS_V2, principal)
+    escribir_csv(raiz / "data/metadata/met_corpus_secundario_v2.csv", COLUMNAS_V2, secundario)
+    escribir_csv(raiz / "data/metadata/met_descartados_v2.csv", COLUMNAS_V2, descartados)
     escribir_reporte(
         raiz / "outputs/reports/met_resumen_curacion_v2.md",
         principal,

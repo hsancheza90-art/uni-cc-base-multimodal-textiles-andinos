@@ -30,6 +30,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+from collections import Counter
 from pathlib import Path
 from typing import Any
 
@@ -219,11 +220,19 @@ def estructura(valores: dict[str, float], config: dict[str, Any]) -> str:
     return "_y_".join(rasgos) or "no_evidente"
 
 
+def sigmoide(z):
+    return 1 / (1 + np.exp(-np.clip(z, -30, 30)))
+
+
+def predecir(x: np.ndarray, w: np.ndarray) -> np.ndarray:
+    """Probabilidad del modelo logistico de un atributo (w[0] es el intercepto)."""
+    return sigmoide(w[0] + x @ w[1:])
+
+
 def probabilidad(medidas: dict[str, str], modelo: dict[str, Any], atributo: str) -> float:
     parametros = modelo["atributos"][atributo]
     x = vector(medidas, parametros["medidas"], modelo["estandarizacion"])
-    w = np.array(parametros["pesos"])
-    return float(1 / (1 + np.exp(-np.clip(w[0] + x @ w[1:], -30, 30))))
+    return float(predecir(x, np.array(parametros["pesos"])))
 
 
 def puntuar_registro(medidas: dict[str, str], config: dict[str, Any], modelo: dict[str, Any], pertinencia: str = "") -> dict[str, str]:
@@ -361,9 +370,7 @@ def main(argv: list[str] | None = None) -> int:
         print(f"Falta {MODELO_APTITUD}: ejecute python -m src.imagenes.calibrar_aptitud antes de puntuar.")
         return 1
     filas = puntuar(raiz, leer_config_aptitud(raiz))
-    conteo: dict[str, int] = {}
-    for fila in filas:
-        conteo[fila["banda_sugerida"]] = conteo.get(fila["banda_sugerida"], 0) + 1
+    conteo = Counter(fila["banda_sugerida"] for fila in filas)
     referencias = sum(fila["referencia_sugerida"] == "si" for fila in filas)
     print(f"Aptitud: {raiz / SALIDA_APTITUD} | " + ", ".join(f"{banda} {n}" for banda, n in sorted(conteo.items()))
           + f" | referencias sugeridas {referencias}")

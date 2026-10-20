@@ -37,6 +37,7 @@ from PIL import Image
 
 from src.imagenes.descargar_imagenes import TAMANO_MAXIMO, escribir_atomico
 from src.utils.archivos import escribir_csv, indexar, leer_csv
+from src.utils.fuentes import FUENTES
 from src.utils.http import crear_sesion
 
 MANIFIESTO_EVALUACION = "data/metadata/imagenes_evaluacion_manifiesto_v2.csv"
@@ -44,12 +45,7 @@ CARPETA_EVALUACION = Path("data/images/evaluacion")
 LADO_EVALUACION = 1600
 CALIDAD_JPEG = 95
 
-ENTRADAS_MET = (
-    "data/metadata/met_corpus_principal_v2_revisado.csv",
-    "data/metadata/met_corpus_secundario_v2_revisado.csv",
-    "data/metadata/met_descartados_v2_revisado.csv",
-    "data/metadata/met_pendientes_revision_v2.csv",
-)
+ENTRADAS_MET = FUENTES["MET"].revisados
 ENTRADA_CMA = "data/metadata/cma_andes_textiles_candidates.csv"
 ENTRADA_AIC = "data/metadata/aic_andes_textiles_candidates.csv"
 
@@ -225,8 +221,6 @@ def ejecutar(raiz: Path, fuentes: list[str], limite: int | None) -> int:
             nonlocal hechos
             if not hasattr(local, "sesion"):
                 local.sesion = crear_sesion()
-                # El IIIF del AIC rechaza (403) las peticiones sin esta cabecera, igual que su API.
-                local.sesion.headers["AIC-User-Agent"] = local.sesion.headers["User-Agent"]
             fila = descargar(local.sesion, raiz, candidato)
             time.sleep(pausa)
             with cerrojo:

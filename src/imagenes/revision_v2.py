@@ -23,22 +23,23 @@ andino, no textil, herramienta, duplicado), que no dependen de la imagen.
 from __future__ import annotations
 
 import argparse
-import html
-import os
 from collections import Counter
 from datetime import date
 from pathlib import Path
 
-from openpyxl import Workbook, load_workbook
+from openpyxl import Workbook
 from openpyxl.styles import Alignment, Font, PatternFill
 from openpyxl.worksheet.datavalidation import DataValidation
 
 from src.imagenes.aptitud import SALIDA_APTITUD
-from src.imagenes.aptitud_workbooks import WORKBOOKS, es_decision_automatica, es_descarte_pertinencia_v1
+from src.imagenes.aptitud_workbooks import es_decision_automatica, es_descarte_pertinencia_v1, motivo_vigente
 from src.imagenes.descargar_evaluacion import MANIFIESTO_EVALUACION
 from src.imagenes.traslado import trasladar_anotaciones
 from src.imagenes.validacion import ORIGEN_VALIDACION
+from src.review.galerias import esc, escribir_pagina, imagen_evaluacion, tarjeta
 from src.utils.archivos import indexar, leer_csv
+from src.utils.fuentes import FUENTES
+from src.utils.libros import leer_hoja, lector
 
 WORKBOOK_REVISION = "data/metadata/revision_criterio_v2_met_cma.xlsx"
 GALERIA_REVISION = "outputs/review/revision_criterio_v2_met_cma_galeria.html"
@@ -62,15 +63,8 @@ def seleccionar(raiz: Path) -> list[dict[str, str]]:
     aptitud = indexar(leer_csv(raiz / SALIDA_APTITUD), "id_global")
     salida = []
     for fuente in ("MET", "CMA"):
-        ruta, nombre_hoja = WORKBOOKS[fuente]
-        libro = load_workbook(raiz / ruta, read_only=True, data_only=True)
-        filas = list(libro[nombre_hoja].iter_rows(values_only=True))
-        libro.close()
-        indice = {nombre: i for i, nombre in enumerate(filas[0])}
-        for fila in filas[1:]:
-            def leer(columna: str, fila=fila) -> str:
-                return str(fila[indice[columna]] or "").strip() if columna in indice else ""
-
+        for fila in leer_hoja(raiz / FUENTES[fuente].workbook, FUENTES[fuente].hoja, clave="id_fuente"):
+            leer = lector(fila)
             id_global = f"{fuente}:{leer('id_fuente')}"
             ficha = aptitud.get(id_global, {})
             decision = leer("corpus_final")
@@ -79,7 +73,7 @@ def seleccionar(raiz: Path) -> list[dict[str, str]]:
                 continue  # ya decididas con el criterio v2, o no dependen de la imagen
             if decision == "principal" and ficha.get("banda_sugerida") != "descartar":
                 continue  # el criterio v2 es mas permisivo: un principal solo se revisa si la imagen lo pone en duda
-            motivo = "; ".join(m for m in (leer("estado_curacion"), leer("motivo_curacion"), leer("motivo_revision")) if m)
+            motivo = motivo_vigente(leer)
             salida.append({
                 "id_global": id_global, "fuente": fuente, "titulo_original": leer("titulo_original"), "cultura": leer("cultura"),
                 "decision_actual": decision, "motivo_actual": motivo, "url_objeto": leer("url_objeto"), "url_imagen": leer("url_imagen"),
@@ -154,46 +148,17 @@ def galeria(raiz: Path, registros: list[dict[str, str]]) -> None:
     manifiesto = indexar(leer_csv(raiz / MANIFIESTO_EVALUACION), "id_global")
     tarjetas = []
     for r in registros:
-        copia = manifiesto.get(r["id_global"], {})
-        ruta = raiz / copia["ruta_copia_evaluacion"] if copia.get("ruta_copia_evaluacion") else None
-        imagen = os.path.relpath(ruta, salida.parent).replace("\\", "/") if ruta and ruta.exists() else copia.get("url_descargada", "")
-        e = {k: html.escape(str(v)) for k, v in r.items()}
         referencia = " · referencia" if r["referencia_sugerida"] == "si" else ""
-        tarjetas.append(f"""<article>
-  <a href="{e['url_objeto']}" target="_blank" rel="noopener"><img src="{html.escape(imagen)}" alt="{e['id_global']}" loading="lazy"></a>
-  <p><b>{e['orden']}.</b> {e['id_global']} <span class="p">{e['puntaje_aptitud']}</span></p>
-  <p class="t">{e['titulo_original']} · {e['cultura']}</p>
-  <p><b>Actual:</b> {e['decision_actual']} <span class="m">({e['motivo_actual']})</span></p>
-  <p><b>Sugerencia:</b> {e['banda_sugerida']}{referencia} · {e['fotografia']} · {e['colores']} · {e['formas']} · {e['completitud']}</p>
-  <p class="m">{e['justificacion_aptitud']}</p>
-</article>""")
-    salida.parent.mkdir(parents=True, exist_ok=True)
-    salida.write_bytes(f"""<!doctype html>
-<html lang="es">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Revisión criterio v2</title>
-<style>
-body {{ font-family: Arial, sans-serif; margin: 24px; background: #f6f6f4; color: #222; }}
-main {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; }}
-article {{ background: #fff; border: 1px solid #ddd; border-radius: 8px; padding-bottom: 8px; }}
-img {{ width: 100%; height: 320px; object-fit: contain; background: #eee; }}
-p {{ margin: 4px 12px; font-size: 13px; line-height: 1.35; }}
-.t {{ font-style: italic; color: #555; }}
-.m {{ color: #555; }}
-.p {{ float: right; background: #1f4e78; color: #fff; border-radius: 999px; padding: 1px 8px; }}
-</style>
-</head>
-<body>
-<h1>Revisión de MET y CMA con el criterio v2 ({len(registros)} registros)</h1>
-<p>Mismo orden que <code>{WORKBOOK_REVISION}</code>. Decida en el workbook; la sugerencia orienta, no decide.</p>
-<main>
-{chr(10).join(tarjetas)}
-</main>
-</body>
-</html>
-""".encode("utf-8"))
+        tarjetas.append(tarjeta(imagen_evaluacion(raiz, manifiesto, r["id_global"], salida), r["url_objeto"], r["id_global"], [
+            f"<b>{esc(r['orden'])}.</b> {esc(r['id_global'])} <span class=\"p\">{esc(r['puntaje_aptitud'])}</span>",
+            ("t", f"{esc(r['titulo_original'])} · {esc(r['cultura'])}"),
+            f"<b>Actual:</b> {esc(r['decision_actual'])} <span class=\"m\">({esc(r['motivo_actual'])})</span>",
+            f"<b>Sugerencia:</b> {esc(r['banda_sugerida'])}{referencia} · "
+            + " · ".join(esc(r[c]) for c in ("fotografia", "colores", "formas", "completitud")),
+            ("m", esc(r["justificacion_aptitud"])),
+        ]))
+    nota = f"Mismo orden que <code>{WORKBOOK_REVISION}</code>. Decida en el workbook; la sugerencia orienta, no decide."
+    escribir_pagina(salida, f"Revisión de MET y CMA con el criterio v2 ({len(registros)} registros)", nota, [("", tarjetas)])
 
 
 def trasladar(raiz: Path, fecha: str) -> int:

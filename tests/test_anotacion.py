@@ -3,7 +3,6 @@
 from __future__ import annotations
 
 import csv
-import shutil
 from pathlib import Path
 
 import pytest
@@ -11,8 +10,8 @@ from openpyxl import load_workbook
 
 from src.anotacion import aplicar_anotaciones, workbook
 from src.consolidado import construir_consolidado as cc
-from src.utils.config import RAIZ_REPO
 from src.utils.vocabulario import leer_vocabulario
+from tests.insumos import copiar_insumos
 
 INSUMOS_CONSOLIDADO = [
     "config/corpus.toml",
@@ -50,10 +49,7 @@ def test_codigos_del_vocabulario_son_ascii_sin_espacios() -> None:
 
 @pytest.fixture()
 def repo(tmp_path: Path) -> Path:
-    for relativa in INSUMOS_CONSOLIDADO:
-        destino = tmp_path / relativa
-        destino.parent.mkdir(parents=True, exist_ok=True)
-        shutil.copy2(RAIZ_REPO / relativa, destino)
+    copiar_insumos(tmp_path, INSUMOS_CONSOLIDADO)
     assert workbook.main(["--root", str(tmp_path)]) == 0
     return tmp_path
 

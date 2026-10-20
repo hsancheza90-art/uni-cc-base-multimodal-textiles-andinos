@@ -13,7 +13,7 @@ from collections import Counter
 from pathlib import Path
 
 from src.preprocessing.textile_filters import evaluate_met_record
-from src.utils.archivos import leer_csv
+from src.utils.archivos import escribir_texto, leer_csv
 
 INVENTARIO = "data/processed/corpus_met_textiles_andinos_v1_inventario_base.csv"
 CONSOLIDADO = "data/processed/corpus_textiles_andinos_met_cma_v1_consolidado.csv"
@@ -96,8 +96,7 @@ def main(argv: list[str] | None = None) -> int:
     raiz = Path(parse_args(argv).root).resolve()
     lineas = auditar(raiz)
     ruta = raiz / REPORTE
-    ruta.parent.mkdir(parents=True, exist_ok=True)
-    ruta.write_bytes(("\n".join(lineas) + "\n").encode("utf-8"))
+    escribir_texto(ruta, lineas)
     print(next(linea for linea in lineas if linea.startswith("- Registros con decision distinta")))
     print(f"Reporte: {ruta}")
     return 0

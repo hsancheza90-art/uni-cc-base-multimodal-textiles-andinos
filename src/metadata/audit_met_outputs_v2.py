@@ -1,27 +1,23 @@
+"""Audita las salidas base MET v2: conteos, columnas, identificadores y trazabilidad minima.
+
+Uso desde la raiz del repositorio (lo ejecuta tambien python -m src.flujo):
+
+    python -m src.metadata.audit_met_outputs_v2
+
+Las rutas y los conteos esperados se leen de [met.base] en config/corpus.toml.
+"""
+
 from __future__ import annotations
 
 import argparse
-import csv
 import sys
 from pathlib import Path
 
-ARCHIVOS_ESPERADOS = {
-    "principal": {
-        "ruta": "data/metadata/met_corpus_principal_v2.csv",
-        "conteo": 132,
-        "estado": "corpus_principal",
-    },
-    "secundario": {
-        "ruta": "data/metadata/met_corpus_secundario_v2.csv",
-        "conteo": 50,
-        "estado": "corpus_secundario",
-    },
-    "descartados": {
-        "ruta": "data/metadata/met_descartados_v2.csv",
-        "conteo": 29,
-        "estado": "descartado",
-    },
-}
+from src.utils.archivos import escribir_texto, leer_csv_con_columnas
+from src.utils.config import leer_config
+
+# Estado de curacion que debe tener cada fila de cada subconjunto.
+ESTADOS = {"principal": "corpus_principal", "secundario": "corpus_secundario", "descartados": "descartado"}
 
 COLUMNAS_REQUERIDAS = [
     "fuente",
@@ -41,18 +37,12 @@ COLUMNAS_REQUERIDAS = [
 ]
 
 
-def leer_csv(ruta: Path) -> tuple[list[str], list[dict[str, str]]]:
-    with ruta.open(newline="", encoding="utf-8-sig") as archivo:
-        lector = csv.DictReader(archivo)
-        return list(lector.fieldnames or []), list(lector)
-
-
 def auditar_archivo(nombre: str, config: dict[str, object], raiz: Path) -> list[str]:
     problemas: list[str] = []
 
     ruta = raiz / str(config["ruta"])
-    conteo_esperado = int(config["conteo"])
-    estado_esperado = str(config["estado"])
+    conteo_esperado = int(config["filas"])
+    estado_esperado = ESTADOS[nombre]
 
     if not ruta.exists():
         return [f"{nombre}: falta archivo {ruta}"]
@@ -61,7 +51,7 @@ def auditar_archivo(nombre: str, config: dict[str, object], raiz: Path) -> list[
     if "Forbidden. Calls to this URL" in texto:
         problemas.append(f"{nombre}: contiene mensaje Forbidden en lugar de datos validos")
 
-    columnas, filas = leer_csv(ruta)
+    columnas, filas = leer_csv_con_columnas(ruta)
 
     faltantes = [columna for columna in COLUMNAS_REQUERIDAS if columna not in columnas]
     if faltantes:
@@ -111,8 +101,6 @@ def auditar_archivo(nombre: str, config: dict[str, object], raiz: Path) -> list[
 
 
 def escribir_reporte(ruta: Path, problemas: list[str]) -> None:
-    ruta.parent.mkdir(parents=True, exist_ok=True)
-
     lineas = [
         "# Auditoria tecnica MET v2",
         "",
@@ -130,7 +118,7 @@ def escribir_reporte(ruta: Path, problemas: list[str]) -> None:
             "Sin hallazgos criticos. Las salidas MET v2 cumplen los controles definidos.",
         ])
 
-    ruta.write_bytes(("\n".join(lineas) + "\n").encode("utf-8"))
+    escribir_texto(ruta, lineas)
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
@@ -144,7 +132,9 @@ def main(argv: list[str] | None = None) -> int:
     raiz = Path(args.root).resolve()
 
     problemas: list[str] = []
-    for nombre, config in ARCHIVOS_ESPERADOS.items():
+    for nombre, config in leer_config(raiz)["met"]["base"].items():
+        if not isinstance(config, dict):
+            continue  # descripcion
         problemas.extend(auditar_archivo(nombre, config, raiz))
 
     escribir_reporte(raiz / "outputs/reports/met_auditoria_tecnica_v2.md", problemas)

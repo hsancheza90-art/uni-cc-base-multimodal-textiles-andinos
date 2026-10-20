@@ -1,7 +1,16 @@
+"""Tipo de superficie textil a partir del tipo de objeto y del titulo (reglas por terminos).
+
+Clasifica cada registro en tipos como manto, tunica, banda, faja, gorro o fragmento
+(classify_surface_type) y normaliza el tipo de objeto (normalize_object_type). Los
+terminos son los de las fichas de los museos, en ingles; la comparacion se hace por
+palabra completa y sin tildes (src/utils/texto.py). Los nombres en ingles se conservan
+porque figuran en los informes versionados de la serie v1.
+"""
+
 from __future__ import annotations
 
 import re
-from typing import Any, Dict, List
+from typing import Any
 
 from src.utils.texto import buscar_terminos, normalizar_texto, unir_textos
 
@@ -88,21 +97,12 @@ TIPOS_OBJETO: list[tuple[str, list[str]]] = [
 ]
 
 
-def normalize_text(value: Any) -> str:
-    """Compatibilidad: ver src.utils.texto.normalizar_texto."""
-    return normalizar_texto(value)
-
-
-def contains_any(value: Any, terms: List[str]) -> List[str]:
-    return buscar_terminos(value, terms)
-
-
 def nucleo_titulo(titulo: Any) -> str:
     """Parte del titulo que nombra al objeto: "Tunic with Diamond Band" -> "tunic"."""
     return re.split(r"\b(?:with|depicting|showing)\b", normalizar_texto(titulo), maxsplit=1)[0]
 
 
-def build_combined_text(row: Dict[str, Any]) -> str:
+def build_combined_text(row: dict[str, Any]) -> str:
     return unir_textos(
         row.get("titulo_original"),
         row.get("titulo_es_sugerido"),
@@ -118,7 +118,7 @@ def build_combined_text(row: Dict[str, Any]) -> str:
     )
 
 
-def build_object_text(row: Dict[str, Any]) -> str:
+def build_object_text(row: dict[str, Any]) -> str:
     """Texto que nombra al objeto, sin material ni contexto cultural."""
     return unir_textos(
         nucleo_titulo(row.get("titulo_original")),
@@ -127,11 +127,11 @@ def build_object_text(row: Dict[str, Any]) -> str:
     )
 
 
-def is_wari_related(row: Dict[str, Any]) -> bool:
-    return bool(contains_any(build_combined_text(row), WARI_TERMS))
+def is_wari_related(row: dict[str, Any]) -> bool:
+    return bool(buscar_terminos(build_combined_text(row), WARI_TERMS))
 
 
-def classify_surface_type(row: Dict[str, Any]) -> Dict[str, Any]:
+def classify_surface_type(row: dict[str, Any]) -> dict[str, Any]:
     """
     Clasifica si el textil es útil para la primera etapa de análisis iconográfico.
 
@@ -144,11 +144,11 @@ def classify_surface_type(row: Dict[str, Any]) -> Dict[str, Any]:
     nombra al objeto, para que "Tunic with Diamond Band" no se tome por una banda.
     """
     objeto = build_object_text(row)
-    narrow_hits = contains_any(objeto, NARROW_OBJECT_TERMS)
-    border_hits = contains_any(objeto, BORDER_TERMS)
-    hat_hits = contains_any(objeto, HAT_TERMS)
-    surface_hits = contains_any(build_combined_text(row), SURFACE_OBJECT_TERMS)
-    fragment_hits = contains_any(objeto, FRAGMENT_TERMS)
+    narrow_hits = buscar_terminos(objeto, NARROW_OBJECT_TERMS)
+    border_hits = buscar_terminos(objeto, BORDER_TERMS)
+    hat_hits = buscar_terminos(objeto, HAT_TERMS)
+    surface_hits = buscar_terminos(build_combined_text(row), SURFACE_OBJECT_TERMS)
+    fragment_hits = buscar_terminos(objeto, FRAGMENT_TERMS)
     wari_related = is_wari_related(row)
 
     # 1. Excepción: sombreros Wari/Huari con potencial iconográfico.
@@ -206,14 +206,14 @@ def classify_surface_type(row: Dict[str, Any]) -> Dict[str, Any]:
     }
 
 
-def normalize_object_type(row: Dict[str, Any]) -> str:
+def normalize_object_type(row: dict[str, Any]) -> str:
     objeto = build_object_text(row)
 
-    if contains_any(objeto, HAT_TERMS):
+    if buscar_terminos(objeto, HAT_TERMS):
         return "sombrero_wari_iconografico" if is_wari_related(row) else "sombrero_o_gorro"
 
     for codigo, terminos in TIPOS_OBJETO:
-        if contains_any(objeto, terminos):
+        if buscar_terminos(objeto, terminos):
             return codigo
 
     return "tipo_no_determinado"
