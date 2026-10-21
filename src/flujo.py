@@ -24,7 +24,7 @@ import sys
 from collections.abc import Callable
 from pathlib import Path
 
-from src.anotacion import aplicar_anotaciones, corpus_v2, documentar_vocabulario
+from src.anotacion import aplicar_anotaciones, corpus_v2, documentar_vocabulario, nucleo
 from src.consolidado import construir_consolidado
 from src.imagenes import aptitud, calibrar_aptitud, informe_aptitud
 from src.metadata import (
@@ -53,6 +53,7 @@ PASOS: list[tuple[str, Callable[[list[str]], int]]] = [
     ("Consolidado MET+CMA v1: construir y validar", construir_consolidado.main),
     ("MET: comparar filtro textil vigente con el inventario", auditar_filtros.main),
     ("Principal v2: construir el corpus armonizado (MET, CMA y AIC)", corpus_v2.main),
+    ("Anotacion v2: regenerar el nucleo de anotacion (muestra estratificada)", nucleo.main),
 ]
 
 

@@ -72,6 +72,12 @@ descripcion = "Corpus principal v2 armonizado (src/anotacion/corpus_v2.py): unio
 # coincidir con la suma de met.revisado, cma.revisado y aic.revisado (principal).
 principal = { ruta = "data/processed/corpus_textiles_andinos_v2_principal.csv", filas = 462 }
 
+[corpus_v2.anotacion]
+descripcion = "Nucleo de anotacion v2 (src/anotacion/nucleo.py, parametros en config/anotacion.toml)"
+# 2026-10-20: muestra estratificada de 150 piezas del principal v2 (MET 42, CMA 34, AIC 74) en 5 lotes de 30,
+# para la anotacion estructural y la medicion del acuerdo entre anotadores.
+nucleo = { ruta = "data/metadata/nucleo_anotacion_v2.csv", filas = 150 }
+
 [consolidado.conteos]
 # Principal y complementario de MET v2 revisado y CMA v2 revisado.
 # MET:312615 paso de principal a complementario (imagen no disponible en el museo, 2026-10-05).

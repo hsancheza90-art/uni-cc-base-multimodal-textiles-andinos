@@ -1,0 +1,76 @@
+# Parametros de la anotacion estructural v2: nucleo de anotacion (src/anotacion/nucleo.py)
+# y acuerdo entre anotadores (src/anotacion/acuerdo.py). Cada cambio se comenta con su
+# fecha y su motivo, como en config/corpus.toml.
+
+[nucleo]
+# Semilla del muestreo y del orden dentro de cada lote. Su valor no tiene significado (es la
+# fecha en que se fijo el diseno); lo que importa es que sea fija y declarada. Con otra
+# semilla cambian las piezas elegidas dentro de cada estrato, nunca las cuotas.
+semilla = 20261020
+# Piezas del nucleo: un tercio del principal v2 (462), suficiente para estimar el acuerdo
+# entre anotadores por atributo y abarcable en cinco sesiones de anotacion.
+tamano = 150
+# Piezas por lote: una sesion de anotacion. 150 / 30 = 5 lotes; tamano debe ser multiplo.
+tamano_lote = 30
+# Proporcion maxima de una sola fuente dentro de un lote. Evita que una sesion se anote casi
+# solo sobre las fotografias de un museo (fondo, iluminacion y encuadre propios); AIC aporta
+# cerca de la mitad del principal, asi que 0,6 deja margen sin forzar lotes artificiales.
+tope_fuente_lote = 0.6
+
+[cultura]
+# Cultura agrupada: el campo cultura de la fuente se normaliza (minusculas, sin tildes) y se
+# buscan los terminos de cada grupo como palabra completa (src/utils/texto.py). Grupos
+# fijados por el revisor el 2026-10-20; inca y chimu se agregaron por su peso en el corpus.
+grupos = ["paracas", "nasca", "wari", "chancay", "inca", "chimu"]
+# Grupo de las culturas con valor que no nombran ningun grupo (Lambayeque, Tiwanaku, Moche...).
+otras = "otras"
+# Grupo de los registros sin cultura en la fuente: no se mezclan con otras.
+sin_cultura = "sin_cultura"
+
+[cultura.terminos]
+# Ocucaje es un sitio del valle de Ica con material de estilo Paracas (decision del revisor,
+# 2026-10-20: los valores que nombran un sitio o llevan «?» van al grupo nombrado).
+paracas = ["paracas", "ocucaje"]
+nasca = ["nasca", "nazca"]
+wari = ["wari", "huari"]
+chancay = ["chancay"]
+inca = ["inca", "inka"]
+chimu = ["chimu"]
+
+# Valores que nombran mas de un grupo. Se resuelven aqui, uno por uno, con el valor exacto
+# de la fuente; si aparece otro, el nucleo falla en lugar de elegir. Decisiones del revisor
+# del 2026-10-20.
+[[cultura.casos]]
+valor = "Nasca-Wari"
+grupo = "wari"
+motivo = "Estilo hibrido: se asigna a Wari, la cultura con mayor dominancia."
+
+[[cultura.casos]]
+valor = "Peru, South Coast, Nasca-Huari style"
+grupo = "wari"
+motivo = "Estilo hibrido: se asigna a Wari, la cultura con mayor dominancia."
+
+[[cultura.casos]]
+valor = "Peru, South Coast, Paracas or Nasca?"
+grupo = "nasca"
+motivo = "Atribucion dudosa entre dos grupos: se asigna al mas grande del principal v2 (nasca 79, paracas 71)."
+
+[[cultura.casos]]
+valor = "Peru, North Coast, Chimu-Inka"
+grupo = "inca"
+motivo = "Estilo Chimu bajo dominio inca: se asigna a Inca, la cultura con mayor dominancia."
+
+[[cultura.casos]]
+valor = "Peru, Central Andes, Chimú or Chimú-Inka, 11th-16th century"
+grupo = "chimu"
+motivo = "Chimu esta en las dos alternativas de la atribucion."
+
+[[cultura.casos]]
+valor = "Peru, Chimú or Chimú-Inka, 12th-16th century"
+grupo = "chimu"
+motivo = "Chimu esta en las dos alternativas de la atribucion."
+
+[[cultura.casos]]
+valor = "Peru, Central Coast, Chancay-Chimú style, 11th-15th century"
+grupo = "chancay"
+motivo = "Estilo Chancay con rasgos Chimu: se asigna a Chancay (decision del revisor)."

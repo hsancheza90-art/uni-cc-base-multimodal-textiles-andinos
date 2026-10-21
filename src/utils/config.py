@@ -37,3 +37,12 @@ def leer_config_aptitud(raiz: Path = RAIZ_REPO) -> dict[str, Any]:
     """Parametros del puntaje de aptitud: medicion, atributos, puertas y criterios de calibracion."""
     with (raiz / CONFIG_APTITUD).open("rb") as archivo:
         return tomllib.load(archivo)
+
+
+CONFIG_ANOTACION = Path("config/anotacion.toml")
+
+
+def leer_config_anotacion(raiz: Path = RAIZ_REPO) -> dict[str, Any]:
+    """Parametros de la anotacion v2: nucleo de anotacion, cultura agrupada y acuerdo entre anotadores."""
+    with (raiz / CONFIG_ANOTACION).open("rb") as archivo:
+        return tomllib.load(archivo)
