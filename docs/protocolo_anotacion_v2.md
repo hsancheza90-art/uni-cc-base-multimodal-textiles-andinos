@@ -31,7 +31,7 @@ Cada pieza se anota en cinco capas y en este orden. Las capas fijan el orden de 
 | 4 | Iconográfica | `motivos`, `familia_iconografica`, `motivo_principal` |
 | 5 | Correcciones | `tipo_objeto_corregido`, `tipo_superficie_corregido`, `material_corregido`, `tecnica_corregida`, `estado_imagen_corregido` |
 
-Los valores permitidos son los códigos de `config/vocabulario.toml`, que la hoja `vocabulario` del workbook lista con sus etiquetas. El criterio de cada atributo es el de la guía v1 (`docs/corpus/guia_anotacion_met_cma_v1.md`, «Criterios por atributo»).
+Los valores permitidos son los códigos de `config/vocabulario.toml`, que la hoja `vocabulario` del workbook lista con sus etiquetas (también en `docs/corpus/taxonomia_atributos_v2.md`). El criterio de cada atributo es el de la guía v1 (`docs/corpus/guia_anotacion_met_cma_v1.md`, «Criterios por atributo»).
 
 - **Campos múltiples** (`colores`, `motivos`, `material_corregido`, `tecnica_corregida`): la lista desplegable muestra los códigos. Para registrar varios se escriben separados por `; ` (por ejemplo, `rojo; crema`).
 - **Correcciones:** solo se llenan si el valor gris del workbook es incorrecto. Vacías significan «acepto el valor vigente».

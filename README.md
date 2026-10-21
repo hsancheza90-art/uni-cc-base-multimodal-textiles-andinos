@@ -103,7 +103,7 @@ python -m src.imagenes.informe_aptitud         # una galería por banda de aptit
 | Carpeta | Uso |
 |---|---|
 | `config/corpus.toml` | Conteos esperados por fuente y etapa, con el motivo de cada cambio |
-| `config/vocabulario.toml` | Vocabulario controlado (Cuadros 6.3 a 6.8 de la tesis) |
+| `config/vocabulario.toml` | Vocabulario controlado vigente (Cuadros 6.3 a 6.8 de la tesis); la serie v1 lee su copia congelada en `data/metadata/v1_congelado/` |
 | `config/anotacion.toml` | Núcleo de anotación v2, cultura agrupada, capas y acuerdo entre anotadores |
 | `config/aptitud.toml`, `config/aptitud_modelo.json` | Parámetros comentados del puntaje de aptitud y modelo calibrado |
 | `data/raw/` | Respuestas originales de las API; no se versiona |

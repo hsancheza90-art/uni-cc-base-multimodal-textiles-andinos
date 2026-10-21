@@ -11,6 +11,9 @@ Salidas:
 - data/processed/corpus_textiles_andinos_met_cma_v1_sha256.txt
 - outputs/reports/corpus_textiles_andinos_met_cma_v1_resumen.md
 - docs/esquema_consolidado_met_cma_v1.md
+
+El vocabulario es la copia congelada de la v1 (data/metadata/v1_congelado/vocabulario.toml),
+no el vigente: un valor nuevo del vocabulario no cambia el consolidado v1.
 """
 
 from __future__ import annotations
@@ -33,7 +36,7 @@ from src.preprocessing.surface_filters import normalize_object_type, nucleo_titu
 from src.utils.archivos import escribir_csv, escribir_texto, indexar, leer_csv
 from src.utils.config import leer_config
 from src.utils.fuentes import FUENTES
-from src.utils.vocabulario import Campo, leer_vocabulario
+from src.utils.vocabulario import RUTA_VOCABULARIO_V1, Campo, leer_vocabulario
 
 # Valores de reglas que no aportan un tipo de objeto concreto.
 TIPOS_SIN_DETERMINAR = {"tipo_no_determinado"}
@@ -282,7 +285,7 @@ def normalizar_campos(fila: dict[str, str], vocabulario: dict[str, Campo]) -> No
 
 def construir_registros_base(raiz: Path) -> list[dict[str, str]]:
     """Registros armonizados sin informacion de imagen, ordenados por fuente e id."""
-    vocabulario = leer_vocabulario(raiz)
+    vocabulario = leer_vocabulario(raiz, RUTA_VOCABULARIO_V1)
     registros = registros_met(raiz) + registros_cma(raiz)
     for fila in registros:
         normalizar_campos(fila, vocabulario)
@@ -582,7 +585,7 @@ def construir(raiz: Path) -> int:
     lado_minimo = int(config["parametros"]["lado_minimo_imagen"])
     umbral = int(config["parametros"]["umbral_dhash"])
 
-    vocabulario = leer_vocabulario(raiz)
+    vocabulario = leer_vocabulario(raiz, RUTA_VOCABULARIO_V1)
     registros = construir_registros_base(raiz)
     ruta_manifiesto = raiz / MANIFIESTO_IMAGENES
     manifiesto = indexar(leer_csv(ruta_manifiesto), "id_global") if ruta_manifiesto.exists() else {}

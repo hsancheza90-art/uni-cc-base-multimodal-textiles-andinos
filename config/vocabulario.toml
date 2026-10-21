@@ -36,6 +36,9 @@ valores = [
     ["azul", "azul"], ["amarillo", "amarillo"], ["verde", "verde"],
     ["blanco", "blanco", "extension"], ["naranja", "naranja", "extension"], ["rosado", "rosado", "extension"],
     ["morado", "morado", "extension"], ["gris", "gris", "extension"],
+    # ocre: tono amarillo pardo frecuente en el corpus que no encaja ni en amarillo ni en marron
+    # (decision del revisor, 2026-10-21). Solo en colores; color_dominante sigue el Cuadro 6.3.
+    ["ocre", "ocre", "extension"],
 ]
 
 [campos.contraste]

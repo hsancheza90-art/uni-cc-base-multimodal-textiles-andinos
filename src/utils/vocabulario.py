@@ -1,4 +1,8 @@
-"""Acceso al vocabulario controlado de config/vocabulario.toml."""
+"""Acceso al vocabulario controlado de config/vocabulario.toml.
+
+La serie v1 (consolidado y taxonomia v1) lee la copia congelada RUTA_VOCABULARIO_V1, para
+regenerarse identica aunque el vocabulario vigente gane valores nuevos.
+"""
 
 from __future__ import annotations
 
@@ -9,6 +13,7 @@ from pathlib import Path
 from src.utils.config import RAIZ_REPO
 
 RUTA_VOCABULARIO = Path("config/vocabulario.toml")
+RUTA_VOCABULARIO_V1 = Path("data/metadata/v1_congelado/vocabulario.toml")
 SEPARADOR = "; "
 
 
@@ -58,8 +63,8 @@ class Campo:
         return SEPARADOR.join(self.ordenar(codigos) if self.multiple else codigos)
 
 
-def leer_vocabulario(raiz: Path = RAIZ_REPO) -> dict[str, Campo]:
-    with (raiz / RUTA_VOCABULARIO).open("rb") as archivo:
+def leer_vocabulario(raiz: Path = RAIZ_REPO, ruta: Path = RUTA_VOCABULARIO) -> dict[str, Campo]:
+    with (raiz / ruta).open("rb") as archivo:
         datos = tomllib.load(archivo)
     campos: dict[str, Campo] = {}
     for nombre, definicion in datos["campos"].items():

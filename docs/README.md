@@ -10,6 +10,7 @@ Documentación metodológica del corpus multimodal de textiles andinos. Según l
 | `fuentes.md` | Fuentes incluidas (MET, CMA, AIC), particularidades de cada API y fuentes descartadas. |
 | `met_protocolo_fuente_v2.md` | Protocolo y cadena de curación MET. |
 | `cma/cma_source_protocol.md` | Protocolo y cadena de curación CMA. |
+| `corpus/taxonomia_atributos_v2.md` | Vocabulario controlado vigente (códigos, etiquetas y extensiones), generado desde `config/vocabulario.toml`. |
 
 Los conteos vigentes y el motivo de cada cambio están en `config/corpus.toml`.
 
@@ -19,7 +20,7 @@ Los conteos vigentes y el motivo de cada cambio están en `config/corpus.toml`.
 |---|---|
 | `corpus/ficha_dataset_met_cma_v1.md` | Ficha del dataset: contenido, conteos, archivos, licencias y limitaciones. |
 | `corpus/protocolo_curacion_met_cma_v1.md` | Criterios de inclusión, complementario y exclusión de la v1. |
-| `corpus/taxonomia_atributos_met_cma_v1.md` | Vocabulario controlado (códigos y etiquetas), generado desde `config/vocabulario.toml`. |
+| `corpus/taxonomia_atributos_met_cma_v1.md` | Vocabulario controlado de la v1, generado desde su copia congelada `data/metadata/v1_congelado/vocabulario.toml`. |
 | `corpus/guia_anotacion_met_cma_v1.md` | Flujo y criterios de la anotación manual. |
 | `corpus/trazabilidad_met_cma_v1.md` | Cadena de cada registro, versiones, sumas de verificación y cambios curatoriales. |
 | `corpus/uso_etico_met_cma_v1.md` | Principios de uso responsable. |

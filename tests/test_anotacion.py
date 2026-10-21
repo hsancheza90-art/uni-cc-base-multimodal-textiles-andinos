@@ -8,14 +8,16 @@ from pathlib import Path
 import pytest
 from openpyxl import load_workbook
 
-from src.anotacion import aplicar_anotaciones, workbook
+from src.anotacion import aplicar_anotaciones, documentar_vocabulario, workbook
 from src.consolidado import construir_consolidado as cc
-from src.utils.vocabulario import leer_vocabulario
+from src.utils.config import RAIZ_REPO
+from src.utils.vocabulario import RUTA_VOCABULARIO_V1, leer_vocabulario
 from tests.insumos import copiar_insumos
 
 INSUMOS_CONSOLIDADO = [
     "config/corpus.toml",
     "config/vocabulario.toml",
+    "data/metadata/v1_congelado/vocabulario.toml",
     "data/processed/corpus_met_textiles_andinos_v1_principal.csv",
     "data/processed/corpus_met_textiles_andinos_v1_complementario.csv",
     "data/processed/corpus_met_textiles_andinos_v1_inventario_base.csv",
@@ -42,6 +44,25 @@ def test_codigos_del_vocabulario_son_ascii_sin_espacios() -> None:
     for campo in leer_vocabulario().values():
         for codigo in campo.codigos:
             assert codigo.isascii() and " " not in codigo and codigo == codigo.lower(), (campo.nombre, codigo)
+
+
+def test_vocabulario_vigente_amplia_al_congelado_sin_quitar_codigos() -> None:
+    vigente, congelado = leer_vocabulario(), leer_vocabulario(ruta=RUTA_VOCABULARIO_V1)
+    assert set(congelado) <= set(vigente)
+    for nombre, campo in congelado.items():
+        assert set(campo.codigos) <= set(vigente[nombre].codigos), nombre
+
+
+def test_valor_nuevo_del_vocabulario_no_cambia_la_taxonomia_v1(tmp_path: Path) -> None:
+    copiar_insumos(tmp_path, ["config/vocabulario.toml", RUTA_VOCABULARIO_V1.as_posix()])
+    ruta = tmp_path / "config/vocabulario.toml"
+    texto = ruta.read_text(encoding="utf-8")
+    ruta.write_text(texto.replace('["gris", "gris", "extension"],', '["gris", "gris", "extension"], ["prueba", "prueba", "extension"],', 1),
+                    encoding="utf-8", newline="\n")
+    assert documentar_vocabulario.main(["--root", str(tmp_path)]) == 0
+    v1 = (tmp_path / documentar_vocabulario.SALIDA_V1).read_text(encoding="utf-8")
+    assert v1 == (RAIZ_REPO / documentar_vocabulario.SALIDA_V1).read_text(encoding="utf-8")
+    assert "`prueba`" in (tmp_path / documentar_vocabulario.SALIDA).read_text(encoding="utf-8")
 
 
 # --------------------------------------------------------------------------- workbook

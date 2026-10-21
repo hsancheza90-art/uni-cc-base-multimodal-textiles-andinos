@@ -1,7 +1,8 @@
 """Valida el workbook de anotacion y exporta las anotaciones a CSV.
 
 Paso del flujo (sin red). Lee data/metadata/anotacion_met_cma_v1.xlsx, recodifica
-etiquetas a codigos, valida cada valor contra config/vocabulario.toml y escribe:
+etiquetas a codigos, valida cada valor contra el vocabulario congelado de la v1
+(data/metadata/v1_congelado/vocabulario.toml) y escribe:
 
 - data/metadata/anotaciones_met_cma_v1.csv: solo registros con alguna anotacion.
 - outputs/reports/anotacion_met_cma_v1_validacion.md: avance y errores.
@@ -23,7 +24,7 @@ from src.consolidado.construir_consolidado import ANOTACIONES, clave_orden, cons
 from src.consolidado.esquema import ATRIBUTOS_ANOTACION, COLUMNAS_ANOTACIONES, CORRECCIONES
 from src.utils.archivos import escribir_csv, escribir_texto
 from src.utils.libros import leer_hoja
-from src.utils.vocabulario import Campo, leer_vocabulario
+from src.utils.vocabulario import RUTA_VOCABULARIO_V1, Campo, leer_vocabulario
 
 REPORTE = "outputs/reports/anotacion_met_cma_v1_validacion.md"
 FECHA = re.compile(r"^\d{4}-\d{2}-\d{2}$")
@@ -92,7 +93,7 @@ def aplicar(raiz: Path) -> int:
         print(f"No existe {WORKBOOK.as_posix()}; no hay anotaciones que aplicar.")
         return 0
 
-    vocabulario = leer_vocabulario(raiz)
+    vocabulario = leer_vocabulario(raiz, RUTA_VOCABULARIO_V1)
     registros = construir_registros_base(raiz)
     orden = {fila["id_global"]: clave_orden(fila) for fila in registros}
 

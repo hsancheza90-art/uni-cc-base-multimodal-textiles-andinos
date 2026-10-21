@@ -38,7 +38,7 @@ from src.consolidado.esquema import ATRIBUTOS_ANOTACION, COLUMNAS_ANOTACIONES, C
 from src.utils.archivos import indexar, leer_csv
 from src.utils.config import CONFIG_ANOTACION, leer_config_anotacion
 from src.utils.libros import leer_hoja
-from src.utils.vocabulario import Campo, leer_vocabulario
+from src.utils.vocabulario import RUTA_VOCABULARIO, RUTA_VOCABULARIO_V1, Campo, leer_vocabulario
 
 WORKBOOK = Path("data/metadata/anotacion_met_cma_v1.xlsx")
 WORKBOOK_V2 = Path("data/metadata/anotacion_v2.xlsx")
@@ -376,12 +376,14 @@ def main(argv: list[str] | None = None) -> int:
     if args.corpus == "v2":
         diseno = diseno_v2(raiz)
         registros, resto = registros_v2(raiz)
+        ruta_vocabulario = RUTA_VOCABULARIO
     else:
         diseno = V1
         registros, resto = leer_csv(raiz / SALIDA_CONSOLIDADO, recortar=False), []
+        ruta_vocabulario = RUTA_VOCABULARIO_V1  # la v1 no gana valores nuevos del vocabulario
     ruta = raiz / diseno.workbook
     anotaciones = leer_anotaciones_existentes(ruta, diseno)
-    libro = construir_libro(registros, anotaciones, leer_vocabulario(raiz), diseno, resto)
+    libro = construir_libro(registros, anotaciones, leer_vocabulario(raiz, ruta_vocabulario), diseno, resto)
     ruta.parent.mkdir(parents=True, exist_ok=True)
     try:
         libro.save(ruta)

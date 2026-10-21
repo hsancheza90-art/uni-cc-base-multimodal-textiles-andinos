@@ -288,7 +288,8 @@ def test_workbook_v2_conserva_anotaciones_aunque_la_pieza_cambie_de_hoja(repo_wo
 
 def test_workbook_v1_no_cambia(tmp_path: Path) -> None:
     copiar_insumos(tmp_path, [
-        "config/vocabulario.toml", "data/processed/corpus_textiles_andinos_met_cma_v1_consolidado.csv",
+        "config/vocabulario.toml", "data/metadata/v1_congelado/vocabulario.toml",
+        "data/processed/corpus_textiles_andinos_met_cma_v1_consolidado.csv",
     ])
     # Sin workbook previo y regenerando sobre el versionado: los dos coinciden con el actual.
     assert workbook.main(["--root", str(tmp_path)]) == 0

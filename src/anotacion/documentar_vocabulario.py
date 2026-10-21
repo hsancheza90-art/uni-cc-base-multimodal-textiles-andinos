@@ -1,6 +1,10 @@
-"""Genera la taxonomia de atributos desde config/vocabulario.toml.
+"""Genera las taxonomias de atributos desde el vocabulario controlado.
 
-Salida: docs/corpus/taxonomia_atributos_met_cma_v1.md (no se edita a mano).
+Salidas (no se editan a mano):
+- docs/corpus/taxonomia_atributos_v2.md, desde el vocabulario vigente (config/vocabulario.toml).
+- docs/corpus/taxonomia_atributos_met_cma_v1.md, desde la copia congelada de la v1
+  (data/metadata/v1_congelado/vocabulario.toml). Conserva el texto con que se publico en
+  corpus-met-cma-v1.2, cuando la copia congelada aun era config/vocabulario.toml.
 """
 
 from __future__ import annotations
@@ -9,9 +13,10 @@ import argparse
 from pathlib import Path
 
 from src.utils.archivos import escribir_texto
-from src.utils.vocabulario import RUTA_VOCABULARIO, Campo, leer_vocabulario
+from src.utils.vocabulario import RUTA_VOCABULARIO, RUTA_VOCABULARIO_V1, Campo, leer_vocabulario
 
-SALIDA = "docs/corpus/taxonomia_atributos_met_cma_v1.md"
+SALIDA = "docs/corpus/taxonomia_atributos_v2.md"
+SALIDA_V1 = "docs/corpus/taxonomia_atributos_met_cma_v1.md"
 
 FAMILIAS = [
     ("visual", "Familia visual", "Rasgos perceptibles en la imagen digital. Dependen de iluminación, fotografía, conservación y resolución, por lo que deben interpretarse con cautela."),
@@ -20,6 +25,17 @@ FAMILIAS = [
     ("iconografica", "Familia iconográfica", "Motivos observables o registrados. Son descriptores preliminares, no interpretaciones definitivas."),
     ("control", "Estados de control", "Avance de curación y anotación; separan información oficial, anotación manual y revisión pendiente."),
     ("curatorial", "Campos curatoriales y de licencia", "Decisión de curación y condición de uso de cada registro."),
+]
+
+INTRODUCCION = [
+    "La taxonomía sigue los Cuadros 6.3 a 6.8 del avance de tesis. En los datos se guarda el **código** "
+    "(minúsculas, sin tildes ni espacios); la **etiqueta** es la forma usada en la tesis, los documentos y las "
+    "figuras. Los valores marcados como *extensión del corpus* no figuran en la tesis y se agregaron durante la "
+    "curación porque aparecen en los registros.",
+    "",
+    "Los atributos contextuales (Cuadro 6.7: cultura, periodo, fecha, procedencia, fuente, institución, URL) "
+    "provienen de la fuente oficial y no tienen vocabulario cerrado.",
+    "",
 ]
 
 
@@ -41,22 +57,8 @@ def lineas_campo(campo: Campo) -> list[str]:
     return lineas + [""]
 
 
-def generar(vocabulario: dict[str, Campo]) -> list[str]:
-    lineas = [
-        "# Taxonomía de atributos del corpus MET+CMA v1",
-        "",
-        f"Documento generado desde `{RUTA_VOCABULARIO.as_posix()}` por `src/anotacion/documentar_vocabulario.py`; "
-        "no editar a mano. Para cambiar un valor, editar el vocabulario y ejecutar `python -m src.flujo`.",
-        "",
-        "La taxonomía sigue los Cuadros 6.3 a 6.8 del avance de tesis. En los datos se guarda el **código** "
-        "(minúsculas, sin tildes ni espacios); la **etiqueta** es la forma usada en la tesis, los documentos y las "
-        "figuras. Los valores marcados como *extensión del corpus* no figuran en la tesis y se agregaron durante la "
-        "curación porque aparecen en los registros.",
-        "",
-        "Los atributos contextuales (Cuadro 6.7: cultura, periodo, fecha, procedencia, fuente, institución, URL) "
-        "provienen de la fuente oficial y no tienen vocabulario cerrado.",
-        "",
-    ]
+def generar(vocabulario: dict[str, Campo], encabezado: list[str]) -> list[str]:
+    lineas = list(encabezado) + INTRODUCCION
     for familia, titulo, descripcion in FAMILIAS:
         campos = [campo for campo in vocabulario.values() if campo.familia == familia]
         if not campos:
@@ -64,23 +66,47 @@ def generar(vocabulario: dict[str, Campo]) -> list[str]:
         lineas += [f"## {titulo}", "", descripcion, ""]
         for campo in campos:
             lineas += lineas_campo(campo)
+    while lineas and not lineas[-1]:
+        lineas.pop()  # lineas_campo deja una linea en blanco tras cada seccion
     return lineas
 
 
+ENCABEZADO_V2 = [
+    "# Taxonomía de atributos del corpus v2 (MET, CMA y AIC)",
+    "",
+    f"Documento generado desde `{RUTA_VOCABULARIO.as_posix()}` por `src/anotacion/documentar_vocabulario.py`; "
+    "no editar a mano. Para cambiar un valor, editar el vocabulario y ejecutar `python -m src.flujo`.",
+    "",
+    "Es el vocabulario vigente, el que valida la anotación v2. La serie v1 conserva el suyo en "
+    f"`taxonomia_atributos_met_cma_v1.md`, generado desde la copia congelada `{RUTA_VOCABULARIO_V1.as_posix()}`.",
+    "",
+]
+
+# Texto publicado en corpus-met-cma-v1.2: en ese momento la copia congelada era config/vocabulario.toml.
+ENCABEZADO_V1 = [
+    "# Taxonomía de atributos del corpus MET+CMA v1",
+    "",
+    f"Documento generado desde `{RUTA_VOCABULARIO.as_posix()}` por `src/anotacion/documentar_vocabulario.py`; "
+    "no editar a mano. Para cambiar un valor, editar el vocabulario y ejecutar `python -m src.flujo`.",
+    "",
+]
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Genera la taxonomia de atributos desde el vocabulario.")
+    parser = argparse.ArgumentParser(description="Genera las taxonomias de atributos desde el vocabulario.")
     parser.add_argument("--root", default=".", help="Raiz del repositorio.")
     return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> int:
     raiz = Path(parse_args(argv).root).resolve()
-    ruta = raiz / SALIDA
-    lineas = generar(leer_vocabulario(raiz))
-    while lineas and not lineas[-1]:
-        lineas.pop()  # generar deja una linea en blanco tras cada seccion
-    escribir_texto(ruta, lineas)
-    print(f"Taxonomia: {ruta}")
+    for salida, ruta_vocabulario, encabezado in (
+        (SALIDA, RUTA_VOCABULARIO, ENCABEZADO_V2),
+        (SALIDA_V1, RUTA_VOCABULARIO_V1, ENCABEZADO_V1),
+    ):
+        ruta = raiz / salida
+        escribir_texto(ruta, generar(leer_vocabulario(raiz, ruta_vocabulario), encabezado))
+        print(f"Taxonomia: {ruta}")
     return 0
 
 
