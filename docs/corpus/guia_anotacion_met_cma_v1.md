@@ -1,5 +1,7 @@
 # Guía de anotación del corpus MET+CMA v1
 
+> Para el corpus principal v2 (MET, CMA y AIC) la anotación sigue `docs/protocolo_anotacion_v2.md`: workbook `data/metadata/anotacion_v2.xlsx`, núcleo de 150 piezas en cinco lotes, cinco capas y medición del acuerdo entre anotadores. Los criterios por atributo de esta guía siguen vigentes en la v2.
+
 ## Propósito
 
 Registrar de forma controlada atributos visuales, composicionales, técnicos e iconográficos observables en cada textil, para usarlos en los experimentos computacionales. La anotación describe lo que se ve; no interpreta el significado cultural de los motivos.
