@@ -27,6 +27,11 @@ class Fuente:
     salidas: dict[str, str]  # subconjunto -> CSV revisado
     pendientes: str
     reporte: str
+    # Registro de origen de la fuente, con los datos oficiales que el workbook no copia
+    # (institución, licencia, clasificación, fecha). En CMA y AIC es la lista de candidatos
+    # del colector; en MET, el inventario de la descarga de la API (solo lectura).
+    candidatos: str = ""
+    clave_candidatos: str = ""
 
     @property
     def revisados(self) -> tuple[str, ...]:
@@ -42,8 +47,19 @@ NOMBRES_SALIDA = {
 }
 
 
+# Registro de origen de cada fuente y su columna de identificador. MET no tiene colector v2:
+# su origen es el inventario de la descarga de la API que formó el corpus MET v1. Se lee,
+# nunca se escribe (no pertenece a data/metadata/v1_congelado/).
+CANDIDATOS = {
+    "MET": ("data/processed/corpus_met_textiles_andinos_v1_inventario_base.csv", "id_objeto"),
+    "CMA": ("data/metadata/cma_andes_textiles_candidates.csv", "source_id"),
+    "AIC": ("data/metadata/aic_andes_textiles_candidates.csv", "id_fuente"),
+}
+
+
 def _fuente(codigo: str) -> Fuente:
     prefijo = codigo.lower()
+    candidatos, clave = CANDIDATOS.get(codigo, ("", ""))
     return Fuente(
         codigo=codigo,
         workbook=f"data/metadata/{prefijo}_revision_manual_v2.xlsx",
@@ -51,6 +67,8 @@ def _fuente(codigo: str) -> Fuente:
         salidas={s: f"data/metadata/{prefijo}_{NOMBRES_SALIDA[s]}" for s in SUBCONJUNTOS},
         pendientes=f"data/metadata/{prefijo}_pendientes_revision_v2.csv",
         reporte=f"outputs/reports/{prefijo}_resumen_revision_manual_v2.md",
+        candidatos=candidatos,
+        clave_candidatos=clave,
     )
 
 

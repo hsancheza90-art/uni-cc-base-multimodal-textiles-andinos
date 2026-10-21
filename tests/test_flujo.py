@@ -34,6 +34,7 @@ INSUMOS = [
     "config/vocabulario.toml",
     "config/aptitud.toml",
     "data/metadata/aptitud_medidas_v2.csv",
+    "data/metadata/imagenes_evaluacion_manifiesto_v2.csv",
     "data/metadata/v1_congelado/met_corpus_principal_v2_revisado.csv",
     "data/metadata/v1_congelado/met_corpus_secundario_v2_revisado.csv",
     "data/metadata/v1_congelado/cma_corpus_principal_revisado.csv",
@@ -57,6 +58,7 @@ REPORTES = [
     "data/metadata/aptitud_imagenes_v2.csv",
     "outputs/reports/aptitud_calibracion_v2.md",
     "outputs/reports/aptitud_imagenes_v2_resumen.md",
+    "outputs/reports/corpus_textiles_andinos_v2_principal_resumen.md",
 ]
 
 

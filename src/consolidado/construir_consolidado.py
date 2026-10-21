@@ -18,6 +18,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 from collections import Counter, defaultdict
+from collections.abc import Callable
 from pathlib import Path
 
 from src.consolidado.esquema import (
@@ -31,6 +32,7 @@ from src.preprocessing.normalizacion import normalizar_material, normalizar_tecn
 from src.preprocessing.surface_filters import normalize_object_type, nucleo_titulo
 from src.utils.archivos import escribir_csv, escribir_texto, indexar, leer_csv
 from src.utils.config import leer_config
+from src.utils.fuentes import FUENTES
 from src.utils.vocabulario import Campo, leer_vocabulario
 
 # Valores de reglas que no aportan un tipo de objeto concreto.
@@ -43,7 +45,7 @@ MET_REVISADOS = {
     "principal": "data/metadata/v1_congelado/met_corpus_principal_v2_revisado.csv",
     "complementario": "data/metadata/v1_congelado/met_corpus_secundario_v2_revisado.csv",
 }
-MET_INVENTARIO = "data/processed/corpus_met_textiles_andinos_v1_inventario_base.csv"
+MET_INVENTARIO = FUENTES["MET"].candidatos
 MET_V1 = [
     "data/processed/corpus_met_textiles_andinos_v1_principal.csv",
     "data/processed/corpus_met_textiles_andinos_v1_complementario.csv",
@@ -387,9 +389,13 @@ def completar(
         fila["estado_imagen"] = estado_imagen(imagen, lado_minimo)
         aplicar_anotacion(fila, anotaciones.get(fila["id_global"]))
         fila["estado_metadatos"] = estado_metadatos(fila)
+    marcar_duplicados(registros, clave_orden)
 
+
+def marcar_duplicados(registros: list[dict[str, str]], orden: Callable[[dict[str, str]], tuple]) -> None:
+    """Numera los grupos de imagen compartida (DUP-001...) en el orden de los registros y lo anota en observaciones."""
     por_id = {fila["id_global"]: fila for fila in registros}
-    grupos = sorted(agrupar_duplicados(registros).values(), key=lambda ids: clave_orden(por_id[ids[0]]))
+    grupos = sorted(agrupar_duplicados(registros).values(), key=lambda ids: orden(por_id[ids[0]]))
     for numero, ids in enumerate(grupos, start=1):
         for id_global in ids:
             fila = por_id[id_global]

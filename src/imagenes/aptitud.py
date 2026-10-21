@@ -41,8 +41,9 @@ from src.imagenes.medidas import COLUMNAS_MEDIDAS, MEDIDAS
 from src.utils.archivos import escribir_csv, leer_csv
 from src.utils.config import leer_config_aptitud
 from src.utils.fechas import anio_inicio
+from src.utils.fuentes import FUENTES
 
-INVENTARIO_MET = "data/processed/corpus_met_textiles_andinos_v1_inventario_base.csv"
+INVENTARIO_MET = FUENTES["MET"].candidatos
 SALIDA_APTITUD = "data/metadata/aptitud_imagenes_v2.csv"
 COLUMNAS_APTITUD = [
     "id_global",

@@ -66,6 +66,12 @@ secundario = { ruta = "data/metadata/aic_corpus_secundario_v2_revisado.csv", fil
 descartados = { ruta = "data/metadata/aic_descartados_v2_revisado.csv", filas = 156 }
 pendientes = { ruta = "data/metadata/aic_pendientes_revision_v2.csv", filas = 0 }
 
+[corpus_v2.principal]
+descripcion = "Corpus principal v2 armonizado (src/anotacion/corpus_v2.py): union de los principales revisados"
+# 2026-10-20: primera construccion, base de la anotacion estructural v2. MET 130 + CMA 104 + AIC 228; debe
+# coincidir con la suma de met.revisado, cma.revisado y aic.revisado (principal).
+principal = { ruta = "data/processed/corpus_textiles_andinos_v2_principal.csv", filas = 462 }
+
 [consolidado.conteos]
 # Principal y complementario de MET v2 revisado y CMA v2 revisado.
 # MET:312615 paso de principal a complementario (imagen no disponible en el museo, 2026-10-05).
