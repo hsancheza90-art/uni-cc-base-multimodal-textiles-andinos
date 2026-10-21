@@ -5,10 +5,13 @@ from __future__ import annotations
 import csv
 from collections import Counter
 from pathlib import Path
+from typing import Any
 
 import pytest
+from openpyxl import load_workbook
+from openpyxl.utils import get_column_letter
 
-from src.anotacion import corpus_v2, nucleo
+from src.anotacion import corpus_v2, nucleo, workbook
 from src.imagenes.aptitud import SALIDA_APTITUD
 from src.imagenes.descargar_evaluacion import MANIFIESTO_EVALUACION
 from src.utils.archivos import escribir_csv, leer_csv_con_columnas
@@ -16,6 +19,7 @@ from src.utils.config import RAIZ_REPO, leer_config, leer_config_anotacion
 from src.utils.fuentes import FUENTES
 from src.utils.vocabulario import leer_vocabulario
 from tests.insumos import copiar_insumos
+from tests.libros import contenido_libro
 
 
 def insumos_corpus_v2() -> list[str]:
@@ -195,3 +199,98 @@ def test_cultura_agrupada_usa_terminos_casos_y_sin_cultura() -> None:
     assert nucleo.agrupar_cultura("", config, casos) == "sin_cultura"
     with pytest.raises(nucleo.ErrorNucleo, match="nombra varios grupos"):
         nucleo.agrupar_cultura("Paracas-Wari", config, casos)
+
+
+# --------------------------------------------------------------------------- workbook v2
+
+
+@pytest.fixture()
+def repo_workbook(tmp_path: Path) -> Path:
+    copiar_insumos(tmp_path, [
+        "config/anotacion.toml", "config/vocabulario.toml", corpus_v2.SALIDA_PRINCIPAL_V2, nucleo.SALIDA_NUCLEO,
+    ])
+    assert workbook.main(["--root", str(tmp_path), "--corpus", "v2"]) == 0
+    return tmp_path
+
+
+def filas_hoja(ruta: Path, hoja: str) -> list[dict[str, Any]]:
+    datos = load_workbook(ruta)[hoja]
+    encabezados = [celda.value for celda in datos[1]]
+    return [dict(zip(encabezados, fila)) for fila in datos.iter_rows(min_row=2, values_only=True)]
+
+
+def anotar_v2(ruta: Path, valores: dict[str, dict[str, str]]) -> None:
+    libro = load_workbook(ruta)
+    for hoja in (workbook.HOJA_ANOTACION, workbook.HOJA_FUERA_NUCLEO):
+        datos = libro[hoja]
+        encabezados = [celda.value for celda in datos[1]]
+        for fila in datos.iter_rows(min_row=2):
+            for columna, valor in valores.get(fila[0].value, {}).items():
+                fila[encabezados.index(columna)].value = valor
+    libro.save(ruta)
+
+
+def test_workbook_v2_tiene_el_nucleo_ordenado_y_17_columnas_vacias_con_lista(repo_workbook: Path) -> None:
+    ruta = repo_workbook / workbook.WORKBOOK_V2
+    libro = load_workbook(ruta)
+    assert libro.sheetnames == ["guia", "anotacion", "fuera_del_nucleo", "vocabulario"]
+    hoja = libro[workbook.HOJA_ANOTACION]
+    encabezados = [celda.value for celda in hoja[1]]
+    anotables = [c for c in encabezados if c in workbook.CAMPO_DE_COLUMNA and c != "estado_anotacion"]
+    assert len(anotables) == 17
+    assert anotables == [campo for capa in leer_config_anotacion()["capas"] for campo in capa["campos"]]
+    columnas_con_lista = {
+        str(v.sqref).split(":")[0].rstrip("0123456789") for v in hoja.data_validations.dataValidation if v.type == "list"
+    }
+    assert all(get_column_letter(encabezados.index(c) + 1) in columnas_con_lista for c in anotables)
+
+    filas = filas_hoja(ruta, workbook.HOJA_ANOTACION)
+    nucleo_csv = leer(RAIZ_REPO / nucleo.SALIDA_NUCLEO)
+    assert [f["id_global"] for f in filas] == [f["id_global"] for f in nucleo_csv]
+    assert [(f["lote"], f["orden"]) for f in filas] == sorted((f["lote"], f["orden"]) for f in filas)
+    assert all(f[c] is None for f in filas for c in anotables)
+    resto = filas_hoja(ruta, workbook.HOJA_FUERA_NUCLEO)
+    assert len(filas) + len(resto) == len(leer(RAIZ_REPO / corpus_v2.SALIDA_PRINCIPAL_V2))
+
+    guia = [fila[0] for fila in libro["guia"].iter_rows(values_only=True) if fila[0]]
+    assert any("treinta segundos" in linea for linea in guia)
+    capas = [linea.strip() for linea in guia if linea.strip()[:2] in {"1.", "2.", "3.", "4.", "5."} and ":" in linea]
+    assert [linea.split(":")[0][3:] for linea in capas[-5:]] == [c["titulo"] for c in leer_config_anotacion()["capas"]]
+
+
+def test_workbook_v2_versionado_coincide_con_el_generado(repo_workbook: Path) -> None:
+    assert contenido_libro(repo_workbook / workbook.WORKBOOK_V2) == contenido_libro(RAIZ_REPO / workbook.WORKBOOK_V2)
+
+
+def test_workbook_v2_conserva_anotaciones_aunque_la_pieza_cambie_de_hoja(repo_workbook: Path) -> None:
+    ruta = repo_workbook / workbook.WORKBOOK_V2
+    antes = {f["id_global"] for f in leer(repo_workbook / nucleo.SALIDA_NUCLEO)}
+    despues = {f["id_global"] for f in correr_nucleo(repo_workbook, semilla=7).filas}
+    entra = sorted(despues - antes)[0]  # estaba fuera del nucleo y entra
+    sale = sorted(antes - despues)[0]   # estaba en el nucleo y sale
+    anotar_v2(ruta, {
+        entra: {"composicion": "bandas", "colores": "rojo; crema", "observaciones_anotacion": "franjas"},
+        sale: {"simetria": "bilateral", "estado_anotacion": "revisar"},
+    })
+
+    assert nucleo.main(["--root", str(repo_workbook), "--semilla", "7"]) == 0
+    assert workbook.main(["--root", str(repo_workbook), "--corpus", "v2"]) == 0
+
+    dentro = {f["id_global"]: f for f in filas_hoja(ruta, workbook.HOJA_ANOTACION)}
+    fuera = {f["id_global"]: f for f in filas_hoja(ruta, workbook.HOJA_FUERA_NUCLEO)}
+    assert dentro[entra]["composicion"] == "bandas" and dentro[entra]["colores"] == "rojo; crema"
+    assert dentro[entra]["observaciones_anotacion"] == "franjas"
+    assert fuera[sale]["simetria"] == "bilateral" and fuera[sale]["estado_anotacion"] == "revisar"
+    assert workbook.HOJA_HUERFANAS not in load_workbook(ruta).sheetnames
+
+
+def test_workbook_v1_no_cambia(tmp_path: Path) -> None:
+    copiar_insumos(tmp_path, [
+        "config/vocabulario.toml", "data/processed/corpus_textiles_andinos_met_cma_v1_consolidado.csv",
+    ])
+    # Sin workbook previo y regenerando sobre el versionado: los dos coinciden con el actual.
+    assert workbook.main(["--root", str(tmp_path)]) == 0
+    assert contenido_libro(tmp_path / workbook.WORKBOOK) == contenido_libro(RAIZ_REPO / workbook.WORKBOOK)
+    copiar_insumos(tmp_path, [str(workbook.WORKBOOK.as_posix())])
+    assert workbook.main(["--root", str(tmp_path), "--corpus", "v1"]) == 0
+    assert contenido_libro(tmp_path / workbook.WORKBOOK) == contenido_libro(RAIZ_REPO / workbook.WORKBOOK)

@@ -74,3 +74,32 @@ motivo = "Chimu esta en las dos alternativas de la atribucion."
 valor = "Peru, Central Coast, Chancay-Chimú style, 11th-15th century"
 grupo = "chancay"
 motivo = "Estilo Chancay con rasgos Chimu: se asigna a Chancay (decision del revisor)."
+
+# Capas de la anotacion v2, en el orden en que se anota cada pieza (docs/protocolo_anotacion_v2.md).
+# Fijan el orden de las columnas del workbook v2 y la guia; entre todas cubren los 12 atributos
+# y las 5 correcciones del esquema (src/consolidado/esquema.py). densidad_visual va con la capa
+# cromatica, como en el Cuadro 6.3 (decision del revisor, 2026-10-20).
+[[capas]]
+nombre = "cromatica"
+titulo = "Cromatica"
+campos = ["color_dominante", "colores", "contraste", "densidad_visual"]
+
+[[capas]]
+nombre = "estructural"
+titulo = "Estructural"
+campos = ["composicion", "borde", "centro"]
+
+[[capas]]
+nombre = "repeticion_simetria"
+titulo = "Repeticion y simetria"
+campos = ["repeticion", "simetria"]
+
+[[capas]]
+nombre = "iconografica"
+titulo = "Iconografica"
+campos = ["motivos", "familia_iconografica", "motivo_principal"]
+
+[[capas]]
+nombre = "correcciones"
+titulo = "Correcciones"
+campos = ["tipo_objeto_corregido", "tipo_superficie_corregido", "material_corregido", "tecnica_corregida", "estado_imagen_corregido"]
