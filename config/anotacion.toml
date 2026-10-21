@@ -75,6 +75,37 @@ valor = "Peru, Central Coast, Chancay-Chimú style, 11th-15th century"
 grupo = "chancay"
 motivo = "Estilo Chancay con rasgos Chimu: se asigna a Chancay (decision del revisor)."
 
+[acuerdo]
+# Workbooks que compara src/anotacion/acuerdo.py por defecto: el del primer anotador y la copia
+# del segundo, que parte del mismo workbook v2 sin anotar (decision del revisor, 2026-10-20).
+# Las dos rutas se pueden sobrescribir con --a y --b.
+anotador_a = "data/metadata/anotacion_v2.xlsx"
+anotador_b = "data/metadata/anotacion_v2_evaluador2.xlsx"
+# Hojas con piezas en cada workbook: el nucleo y el resto del principal v2.
+hojas = ["anotacion", "fuera_del_nucleo"]
+# Criterio de acuerdo aceptable, el mismo que exige una fuente nueva en el puntaje de aptitud
+# (kappa >= 0,6: acuerdo sustancial en la escala de Landis y Koch, 1977).
+umbral_kappa = 0.6
+
+[acuerdo.campos]
+# Tipo de medida por atributo. Nominales: kappa de Cohen. Ordinales: kappa ponderado lineal,
+# con el orden de [acuerdo.orden]. Multiples: Jaccard medio por pieza y kappa por etiqueta.
+# Presencia: kappa sobre si/no, solo en piezas que los dos marcaron observables (no no_visible).
+# Las correcciones se comparan por su valor efectivo: la correccion o, si esta vacia, el valor
+# vigente que muestra el workbook (vacia significa «acepto el valor vigente»).
+nominales = ["color_dominante", "composicion", "simetria", "familia_iconografica", "motivo_principal",
+             "tipo_objeto_corregido", "tipo_superficie_corregido", "estado_imagen_corregido"]
+ordinales = ["contraste", "densidad_visual", "repeticion"]
+multiples = ["colores", "motivos", "material_corregido", "tecnica_corregida"]
+presencia = ["borde", "centro"]
+
+[acuerdo.orden]
+# Orden de menor a mayor de las categorias ordinales (codigos de config/vocabulario.toml).
+contraste = ["bajo", "medio", "alto"]
+densidad_visual = ["baja", "media", "alta"]
+# parcial esta entre no y si: la repeticion se interrumpe o se ve solo en parte.
+repeticion = ["no", "parcial", "si"]
+
 # Capas de la anotacion v2, en el orden en que se anota cada pieza (docs/protocolo_anotacion_v2.md).
 # Fijan el orden de las columnas del workbook v2 y la guia; entre todas cubren los 12 atributos
 # y las 5 correcciones del esquema (src/consolidado/esquema.py). densidad_visual va con la capa

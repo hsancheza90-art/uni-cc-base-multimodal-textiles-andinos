@@ -7,16 +7,18 @@ from collections import Counter
 from pathlib import Path
 from typing import Any
 
+import numpy as np
 import pytest
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
 
-from src.anotacion import corpus_v2, nucleo, workbook
+from src.anotacion import acuerdo, corpus_v2, nucleo, workbook
 from src.imagenes.aptitud import SALIDA_APTITUD
 from src.imagenes.descargar_evaluacion import MANIFIESTO_EVALUACION
 from src.utils.archivos import escribir_csv, leer_csv_con_columnas
 from src.utils.config import RAIZ_REPO, leer_config, leer_config_anotacion
 from src.utils.fuentes import FUENTES
+from src.utils.metricas import jaccard, kappa_detalle
 from src.utils.vocabulario import leer_vocabulario
 from tests.insumos import copiar_insumos
 from tests.libros import contenido_libro
@@ -294,3 +296,92 @@ def test_workbook_v1_no_cambia(tmp_path: Path) -> None:
     copiar_insumos(tmp_path, [str(workbook.WORKBOOK.as_posix())])
     assert workbook.main(["--root", str(tmp_path), "--corpus", "v1"]) == 0
     assert contenido_libro(tmp_path / workbook.WORKBOOK) == contenido_libro(RAIZ_REPO / workbook.WORKBOOK)
+
+
+# --------------------------------------------------------------------------- acuerdo entre anotadores
+
+
+def test_kappa_de_una_tabla_hecha_a_mano() -> None:
+    # 50 piezas: 20 si/si, 5 si/no, 10 no/si, 15 no/no. Observado 0,70; esperado 0,5*0,6 + 0,5*0,4 = 0,50.
+    pares = [("si", "si")] * 20 + [("si", "no")] * 5 + [("no", "si")] * 10 + [("no", "no")] * 15
+    resultado = kappa_detalle(pares)
+    assert resultado.n == 50
+    assert resultado.observado == pytest.approx(0.70)
+    assert resultado.esperado == pytest.approx(0.50)
+    assert resultado.kappa == pytest.approx(0.40)
+
+
+def test_kappa_con_acuerdo_perfecto_es_uno() -> None:
+    pares = [("bandas", "bandas"), ("paneles", "paneles"), ("reticula", "reticula"), ("bandas", "bandas")]
+    assert kappa_detalle(pares).kappa == pytest.approx(1.0)
+
+
+def test_kappa_con_acuerdo_al_azar_es_cercano_a_cero() -> None:
+    generador = np.random.default_rng(20261020)
+    categorias = ["bandas", "paneles", "reticula", "composicion_libre"]
+    a, b = generador.choice(categorias, 4000), generador.choice(categorias, 4000)
+    assert abs(kappa_detalle(list(zip(a, b))).kappa) < 0.05
+
+
+def test_kappa_ponderado_supera_al_simple_si_los_desacuerdos_son_vecinos() -> None:
+    orden = ["bajo", "medio", "alto"]
+    pares = [("bajo", "bajo"), ("medio", "medio"), ("alto", "alto"), ("bajo", "medio"), ("medio", "alto"), ("alto", "medio")]
+    simple, ponderado = kappa_detalle(pares, orden), kappa_detalle(pares, orden, ponderado=True)
+    assert simple.kappa == pytest.approx(0.25)
+    assert ponderado.kappa == pytest.approx(0.40)
+    assert ponderado.kappa > simple.kappa
+
+
+def test_atributo_constante_o_sin_piezas_no_es_estimable() -> None:
+    constante = kappa_detalle([("si", "si")] * 8, ["no", "si"])
+    assert constante.kappa is None and "una sola categoria" in constante.motivo
+    vacio = kappa_detalle([])
+    assert vacio.kappa is None and vacio.motivo == "sin piezas comparables"
+    assert acuerdo.alcanza(constante, 0.6).startswith("no estimable")
+
+
+def test_jaccard_por_pieza() -> None:
+    assert jaccard({"rojo", "crema"}, {"rojo", "crema"}) == 1.0
+    assert jaccard({"rojo", "crema"}, {"rojo", "negro"}) == pytest.approx(1 / 3)
+
+
+def test_informe_de_acuerdo_versionado_se_regenera(tmp_path: Path) -> None:
+    copiar_insumos(tmp_path, ["config/anotacion.toml", "config/vocabulario.toml", workbook.WORKBOOK_V2.as_posix()])
+    assert acuerdo.main(["--root", str(tmp_path)]) == 0
+    relativa = acuerdo.SALIDA_REPORTE
+    assert (tmp_path / relativa).read_bytes() == (RAIZ_REPO / relativa).read_bytes()
+
+
+def test_acuerdo_entre_dos_workbooks_anotados(repo_workbook: Path) -> None:
+    ruta_a = repo_workbook / workbook.WORKBOOK_V2
+    ruta_b = repo_workbook / "data/metadata/anotacion_v2_evaluador2.xlsx"
+    ruta_b.write_bytes(ruta_a.read_bytes())
+    ids = [f["id_global"] for f in filas_hoja(ruta_a, workbook.HOJA_ANOTACION)][:6]
+    comunes = {"color_dominante": "rojo", "contraste": "alto", "colores": "rojo; crema"}
+    composiciones = ["bandas", "paneles", "bandas", "reticula", "bandas", "paneles"]
+    anotar_v2(ruta_a, {
+        id_: {**comunes, "composicion": c, "borde": "si" if i % 2 else "no"}
+        for i, (id_, c) in enumerate(zip(ids, composiciones))
+    } | {ids[5]: {"composicion": "paneles", "borde": "no_visible", "contraste": "altisimo", "color_dominante": "rojo"}})
+    anotar_v2(ruta_b, {
+        id_: {**comunes, "composicion": c, "borde": "si" if i % 2 else "no"}
+        for i, (id_, c) in enumerate(zip(ids[:5], composiciones))
+    } | {ids[5]: {"composicion": "paneles", "borde": "si", "contraste": "alto", "color_dominante": "rojo"}})
+    # Una pieza anotada solo por A no se compara.
+    extra = [f["id_global"] for f in filas_hoja(ruta_a, workbook.HOJA_FUERA_NUCLEO)][0]
+    anotar_v2(ruta_a, {extra: {"composicion": "bandas"}})
+
+    assert acuerdo.main(["--root", str(repo_workbook)]) == 0
+    reporte = (repo_workbook / acuerdo.SALIDA_REPORTE).read_text(encoding="utf-8")
+    fila = lambda atributo: next(l for l in reporte.splitlines() if l.startswith("| ") and f"| `{atributo}` |" in l)  # noqa: E731
+    assert "- Piezas anotadas por los dos (emparejadas por `id_global`): 6." in reporte
+    assert fila("composicion").endswith("| 6 | 0 | 1.000 | 0.389 | 1.000 | si |")
+    # Borde: la pieza marcada no_visible por A sale del calculo y se cuenta aparte.
+    assert "| `borde` | 0 | 0 | 1 |" in reporte
+    assert fila("borde").split("|")[4].strip() == "5"
+    # Color dominante constante en los dos: no estimable, nunca 1 ni 0.
+    assert "no estimable: una sola categoria observada (rojo)" in fila("color_dominante")
+    # Valor fuera del vocabulario: se informa y la pieza sale del atributo.
+    assert "| `contraste` | 0 | 1 | 0 |" in reporte and "altisimo" in reporte
+    # Correccion vacia en los dos: se compara el valor vigente, que es el mismo.
+    assert fila("estado_imagen_corregido").split("|")[4].strip() == "6"
