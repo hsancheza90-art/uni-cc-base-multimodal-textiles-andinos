@@ -132,6 +132,24 @@ def test_valor_fuera_del_vocabulario_detiene_y_no_toca_el_csv(repo: Path) -> Non
     assert "altisimo" in reporte and "AAAA-MM-DD" in reporte
 
 
+@pytest.mark.parametrize(
+    ("fecha", "valida"),
+    [
+        ("2026-10-26", True),
+        ("2024-02-29", True),
+        ("2026-99-99", False),
+        ("2026-02-30", False),
+        ("2025-02-29", False),
+        ("20261026", False),
+        ("26/10/2026", False),
+    ],
+)
+def test_fecha_de_anotacion_debe_existir_en_el_calendario(fecha: str, valida: bool) -> None:
+    vocabulario = leer_vocabulario(RAIZ_REPO, RUTA_VOCABULARIO_V1)
+    _, errores = aplicar_anotaciones.normalizar_fila({"id_global": "MET:1", "fecha_anotacion": fecha}, vocabulario)
+    assert (not errores) is valida
+
+
 def test_regenerar_workbook_conserva_lo_anotado(repo: Path) -> None:
     anotar(repo, "MET:307449", {"familia_iconografica": "geometrica", "observaciones_anotacion": "bandas escalonadas"})
     assert workbook.main(["--root", str(repo)]) == 0

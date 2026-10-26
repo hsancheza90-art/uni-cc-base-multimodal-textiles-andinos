@@ -17,6 +17,7 @@ from __future__ import annotations
 import argparse
 import re
 from collections import Counter
+from datetime import date
 from pathlib import Path
 
 from src.anotacion.workbook import CAMPO_DE_COLUMNA, COLUMNAS_EDITABLES, HOJA_ANOTACION, WORKBOOK
@@ -28,6 +29,17 @@ from src.utils.vocabulario import RUTA_VOCABULARIO_V1, Campo, leer_vocabulario
 
 REPORTE = "outputs/reports/anotacion_met_cma_v1_validacion.md"
 FECHA = re.compile(r"^\d{4}-\d{2}-\d{2}$")
+
+
+def fecha_valida(texto: str) -> bool:
+    """AAAA-MM-DD y ademas una fecha de calendario (descarta 2026-99-99 o 2026-02-30)."""
+    if not FECHA.match(texto):
+        return False
+    try:
+        date.fromisoformat(texto)
+    except ValueError:
+        return False
+    return True
 
 
 def normalizar_fila(fila: dict[str, str], vocabulario: dict[str, Campo]) -> tuple[dict[str, str] | None, list[str]]:
@@ -46,8 +58,8 @@ def normalizar_fila(fila: dict[str, str], vocabulario: dict[str, Campo]) -> tupl
                 errores.append(f"{fila['id_global']}: {columna} fuera del vocabulario: {invalidos}")
         salida[columna] = valor
 
-    if salida["fecha_anotacion"] and not FECHA.match(salida["fecha_anotacion"]):
-        errores.append(f"{fila['id_global']}: fecha_anotacion debe tener formato AAAA-MM-DD")
+    if salida["fecha_anotacion"] and not fecha_valida(salida["fecha_anotacion"]):
+        errores.append(f"{fila['id_global']}: fecha_anotacion debe ser una fecha valida AAAA-MM-DD")
     if not salida["estado_anotacion"] or salida["estado_anotacion"] == "sin_anotar":
         hay_correccion = any(salida[c] for c in CORRECCIONES)
         hay_atributos = any(salida[c] for c in ATRIBUTOS_ANOTACION)
