@@ -18,6 +18,10 @@ Del original solo se registran sus dimensiones y su SHA-256. Se guarda una copia
 de evaluacion reducida a 1600 px de lado mayor en data/images/evaluacion/<fuente>/
 (fuera de git). El manifiesto data/metadata/imagenes_evaluacion_manifiesto_v2.csv
 si se versiona. Una copia ya descargada cuyo SHA-256 coincide no se vuelve a pedir.
+
+Las descargas fallidas quedan en el manifiesto (estado_descarga = error o sin_url) y se
+reintentan en la ejecucion siguiente. Si en esta ejecucion fallo alguna, termina con
+codigo 1 para que nadie la tome por completa.
 """
 
 from __future__ import annotations
@@ -241,7 +245,7 @@ def ejecutar(raiz: Path, fuentes: list[str], limite: int | None) -> int:
     total = guardar()
     print(f"Registros en el manifiesto: {total} | errores en esta ejecucion: {errores}")
     print(f"Manifiesto: {ruta_manifiesto}")
-    return 0
+    return 1 if errores else 0
 
 
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:

@@ -13,6 +13,7 @@ from PIL import Image
 
 from src.consolidado import construir_consolidado as cc
 from src.consolidado.esquema import COLUMNAS, OBLIGATORIOS
+from src.imagenes import descargar_evaluacion as de
 from src.imagenes import descargar_imagenes as di
 from src.utils.config import RAIZ_REPO, leer_config
 from src.utils.vocabulario import leer_vocabulario
@@ -201,6 +202,19 @@ def test_descarga_registra_error_si_ninguna_url_responde(tmp_path: Path) -> None
     assert fila["estado_descarga"] == "error"
     assert "404" in fila["error"]
     assert not (tmp_path / "data/images").exists()
+
+
+@pytest.mark.parametrize(("estado", "codigo"), [(200, 0), (404, 1)])
+def test_descarga_de_evaluacion_termina_en_1_si_alguna_falla(tmp_path: Path, monkeypatch, estado: int, codigo: int) -> None:
+    candidato = {"id_global": "MET:1", "fuente": "MET", "id_fuente": "1", "urls": ["https://x/original.jpg"]}
+    sesion = SesionFalsa({"https://x/original.jpg": RespuestaFalsa(estado, jpeg((10, 200, 10)))})
+    monkeypatch.setattr(de, "candidatos_evaluacion", lambda raiz: [candidato])
+    monkeypatch.setattr(de, "crear_sesion", lambda: sesion)
+
+    assert de.ejecutar(tmp_path, ["MET"], None) == codigo
+    texto = (tmp_path / de.MANIFIESTO_EVALUACION).read_text(encoding="utf-8")
+    fila = next(csv.DictReader(io.StringIO(texto)))
+    assert fila["estado_descarga"] == ("ok" if estado == 200 else "error")
 
 
 def test_misma_fotografia_tiene_mismo_hash_de_pixeles() -> None:
