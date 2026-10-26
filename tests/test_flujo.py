@@ -6,8 +6,10 @@ import csv
 from pathlib import Path
 
 import pytest
+from openpyxl import load_workbook
 
 from src import flujo
+from src.metadata import apply_aic_review_v2, apply_cma_review_v2, apply_met_review_v2
 from src.preprocessing import (
     create_aic_review_workbook_v2,
     create_cma_review_workbook_v2,
@@ -15,6 +17,7 @@ from src.preprocessing import (
 )
 from src.utils.config import RAIZ_REPO, conjuntos_esperados, contar_filas_csv, leer_config
 from src.utils.fuentes import FUENTES
+from src.utils.libros import indice_columnas, leer_hoja
 from tests.insumos import copiar_insumos
 
 # Insumos versionados de los que parte el flujo; todo lo demas se regenera.
@@ -118,6 +121,51 @@ def test_subconjuntos_revisados_no_comparten_ids(archivos: list[str], columna: s
     assert all(ids), "Hay identificadores vacios"
     repetidos = sorted({id_ for id_ in ids if ids.count(id_) > 1})
     assert not repetidos, f"Identificadores en mas de un subconjunto: {repetidos[:10]}"
+
+
+APLICAR_REVISION = {"MET": apply_met_review_v2.main, "CMA": apply_cma_review_v2.main, "AIC": apply_aic_review_v2.main}
+
+
+def editar_revision(raiz: Path, codigo: str, cambios: dict[tuple[int, str], object]) -> None:
+    """Escribe valores en el workbook de revision copiado: {(fila de Excel, columna): valor}."""
+    fuente = FUENTES[codigo]
+    libro = load_workbook(raiz / fuente.workbook)
+    hoja = libro[fuente.hoja]
+    columnas = indice_columnas(hoja)
+    for (fila, columna), valor in cambios.items():
+        hoja.cell(row=fila, column=columnas[columna]).value = valor  # cell(value=None) no borra
+    libro.save(raiz / fuente.workbook)
+
+
+@pytest.mark.parametrize("caso", ["decision_invalida", "fila_sin_id", "id_repetido"])
+@pytest.mark.parametrize("codigo", list(FUENTES))
+def test_revision_con_hallazgos_termina_en_1_sin_reemplazar_salidas(tmp_path: Path, codigo: str, caso: str) -> None:
+    fuente = FUENTES[codigo]
+    copiar_insumos(tmp_path, [fuente.workbook])
+    assert APLICAR_REVISION[codigo](["--root", str(tmp_path)]) == 0
+    salidas = [*fuente.salidas.values(), fuente.pendientes, fuente.reporte]
+    antes = {relativa: (tmp_path / relativa).read_bytes() for relativa in salidas}
+
+    segunda_id = leer_hoja(tmp_path / fuente.workbook, fuente.hoja)[1]["id_fuente"]
+    cambios = {
+        "decision_invalida": {(2, "corpus_final"): "principall"},
+        "fila_sin_id": {(2, "id_fuente"): None},
+        "id_repetido": {(2, "id_fuente"): segunda_id},
+    }[caso]
+    editar_revision(tmp_path, codigo, cambios)
+
+    assert APLICAR_REVISION[codigo](["--root", str(tmp_path)]) == 1
+    assert {relativa: (tmp_path / relativa).read_bytes() for relativa in salidas} == antes
+
+
+def test_revisar_es_un_pendiente_legitimo(tmp_path: Path) -> None:
+    fuente = FUENTES["AIC"]
+    copiar_insumos(tmp_path, [fuente.workbook])
+    primera_id = leer_hoja(tmp_path / fuente.workbook, fuente.hoja)[0]["id_fuente"]
+    editar_revision(tmp_path, "AIC", {(2, "corpus_final"): "revisar"})
+
+    assert APLICAR_REVISION["AIC"](["--root", str(tmp_path)]) == 0
+    assert leer_ids(tmp_path / fuente.pendientes, "id_fuente") == [primera_id]
 
 
 @pytest.mark.parametrize(

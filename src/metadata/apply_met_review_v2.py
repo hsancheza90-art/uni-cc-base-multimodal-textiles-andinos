@@ -7,8 +7,10 @@ Uso desde la raíz del repositorio (lo ejecuta también python -m src.flujo):
 Lee las decisiones del workbook de la fuente (src/utils/fuentes.py) y escribe un CSV por
 subconjunto (principal, secundario, descartados), los pendientes (corpus_final = revisar)
 y el resumen de movimientos. Un corpus_final vacío conserva la sugerencia automática
-(corpus_actual); un valor fuera del vocabulario se envía a pendientes. Devuelve 1 si hay
-hallazgos (valores inválidos o identificadores repetidos), para que el flujo se detenga.
+(corpus_actual); «revisar» envía la fila a pendientes. Antes de escribir se valida la hoja
+tal como está: una fila con contenido y sin id_fuente, un id_fuente repetido o una
+decisión fuera de DECISIONES son hallazgos. Con hallazgos devuelve 1, para que el flujo se
+detenga, y no reemplaza ninguna salida.
 """
 
 from __future__ import annotations
@@ -31,10 +33,30 @@ CURACION = {
 
 
 def normalizar_corpus_final(fila: dict[str, str]) -> str:
-    corpus_final = fila.get("corpus_final", "").lower()
-    if not corpus_final:
-        return fila.get("corpus_actual", "").lower()
-    return corpus_final if corpus_final in DECISIONES else "revisar"
+    """Decisión final de la fila: corpus_final o, si está vacío, la sugerencia corpus_actual."""
+    return (fila.get("corpus_final") or fila.get("corpus_actual", "")).lower()
+
+
+def validar(filas: list[dict[str, str]]) -> list[str]:
+    """Hallazgos que impiden aplicar la revisión, sobre los valores tal como están en la hoja.
+
+    Las filas se numeran como en Excel (la 1 es el encabezado); las filas en blanco se omiten.
+    """
+    problemas: list[str] = []
+    for numero, fila in enumerate(filas, start=2):
+        if not any(fila.values()):
+            continue
+        if not fila.get("id_fuente"):
+            problemas.append(f"fila {numero}: tiene contenido pero no id_fuente")
+            continue
+        corpus_final = normalizar_corpus_final(fila)
+        if corpus_final not in DECISIONES:
+            problemas.append(f"{fila['id_fuente']}: corpus_final invalido: {corpus_final!r}")
+    vistos = Counter(fila["id_fuente"] for fila in filas if fila.get("id_fuente"))
+    duplicados = sorted(id_fuente for id_fuente, n in vistos.items() if n > 1)
+    if duplicados:
+        problemas.append(f"IDs duplicados en workbook: {', '.join(duplicados[:20])}")
+    return problemas
 
 
 def preparar_fila_salida(fila: dict[str, str], corpus_final: str) -> dict[str, str]:
@@ -46,8 +68,7 @@ def preparar_fila_salida(fila: dict[str, str], corpus_final: str) -> dict[str, s
 
 
 def escribir_reporte(raiz: Path, fuente: Fuente, filas_revision: list[dict[str, str]],
-                     salidas: dict[str, list[dict[str, str]]], pendientes: list[dict[str, str]],
-                     problemas: list[str]) -> None:
+                     salidas: dict[str, list[dict[str, str]]], pendientes: list[dict[str, str]]) -> None:
     movimientos = Counter()
     for fila in filas_revision:
         corpus_actual = fila.get("corpus_actual", "").lower()
@@ -77,43 +98,37 @@ def escribir_reporte(raiz: Path, fuente: Fuente, filas_revision: list[dict[str, 
     if pendientes:
         lineas += ["", "## Pendientes", ""]
         lineas += [f"- {fila.get('id_fuente', '')}: {fila.get('titulo_original', '')}" for fila in pendientes[:30]]
-    if problemas:
-        lineas += ["", "## Hallazgos", ""]
-        lineas += [f"- {problema}" for problema in problemas]
     escribir_texto(raiz / fuente.reporte, lineas)
 
 
 def aplicar_revision(raiz: Path, fuente: Fuente) -> int:
-    filas_revision = leer_hoja(raiz / fuente.workbook, fuente.hoja, clave="id_fuente")
+    filas_hoja = leer_hoja(raiz / fuente.workbook, fuente.hoja)
+    problemas = validar(filas_hoja)
+    if problemas:
+        print(f"Revision {fuente.codigo} no aplicada: {len(problemas)} hallazgos; no se modifico ninguna salida.")
+        for problema in problemas[:20]:
+            print(f"- {problema}")
+        return 1
+
+    filas_revision = [fila for fila in filas_hoja if fila.get("id_fuente")]
     salidas: dict[str, list[dict[str, str]]] = {subconjunto: [] for subconjunto in fuente.salidas}
     pendientes: list[dict[str, str]] = []
-    problemas: list[str] = []
-
-    vistos = Counter(fila["id_fuente"] for fila in filas_revision)
     for fila in filas_revision:
         corpus_final = normalizar_corpus_final(fila)
         fila_salida = preparar_fila_salida(fila, corpus_final)
-        if corpus_final in salidas:
-            salidas[corpus_final].append(fila_salida)
-        else:
-            pendientes.append(fila_salida)
-            if corpus_final != "revisar":
-                problemas.append(f"{fila['id_fuente']}: corpus_final invalido: {corpus_final}")
-    duplicados = sorted(id_fuente for id_fuente, n in vistos.items() if n > 1)
-    if duplicados:
-        problemas.append(f"IDs duplicados en workbook: {', '.join(duplicados[:20])}")
+        (salidas[corpus_final] if corpus_final in salidas else pendientes).append(fila_salida)
 
     for subconjunto, ruta in fuente.salidas.items():
         escribir_csv(raiz / ruta, COLUMNAS_SALIDA, salidas[subconjunto])
     escribir_csv(raiz / fuente.pendientes, COLUMNAS_SALIDA, pendientes)
-    escribir_reporte(raiz, fuente, filas_revision, salidas, pendientes, problemas)
+    escribir_reporte(raiz, fuente, filas_revision, salidas, pendientes)
 
     print(f"Principal revisado: {len(salidas['principal'])}")
     print(f"Secundario revisado: {len(salidas['secundario'])}")
     print(f"Descartados revisados: {len(salidas['descartados'])}")
     print(f"Pendientes por revisar: {len(pendientes)}")
     print(f"Reporte: {raiz / fuente.reporte}")
-    return 1 if problemas else 0
+    return 0
 
 
 def main(argv: list[str] | None = None, fuente: str = "MET") -> int:
