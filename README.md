@@ -50,7 +50,7 @@ Desde la raíz del repositorio, sin acceso a red:
 
 ```bash
 python -m src.flujo     # regenera todas las salidas y verifica los conteos de config/corpus.toml
-pytest                  # comprueba que la regeneración coincide byte a byte con lo versionado
+pytest                  # comprueba que la regeneración coincide con lo versionado (mismo texto, finales LF)
 ```
 
 El flujo aplica la revisión manual de cada fuente (workbooks `data/metadata/*_revision_manual_v2.xlsx`), calibra el puntaje de aptitud con las decisiones del revisor en AIC, MET y CMA, puntúa todas las imágenes, valida la anotación manual, construye el consolidado v1, arma el corpus principal v2 de las tres fuentes (`data/processed/corpus_textiles_andinos_v2_principal.csv`) y regenera el núcleo de anotación v2 (`data/metadata/nucleo_anotacion_v2.csv`). Termina con código distinto de cero si algún paso o conteo falla; tras un cambio curatorial eso es lo esperado: se actualiza `config/corpus.toml` y se documenta el motivo.
@@ -63,7 +63,7 @@ Cada fuente recorre la misma cadena, y cada eslabón deja un archivo versionado:
 2. **Decisión.** El workbook de revisión (`data/metadata/<fuente>_revision_manual_v2.xlsx`) es el único lugar donde se registran decisiones: `corpus_final`, `decision_revision`, `motivo_revision`, `revisor`, `fecha_revision` y `origen_curacion` (manual, regla automática documentada, validación ciega o revisión v2). Las reglas automáticas firman con `revisor = auto` y el revisor puede corregirlas; nunca se edita un CSV a mano.
 3. **Aplicación.** El flujo lee cada workbook y escribe un CSV por subconjunto y un resumen de movimientos (`outputs/reports/<fuente>_resumen_revision_manual_v2.md`).
 4. **Etiquetas de imagen.** Las medidas de imagen y la ficha de aptitud (`data/metadata/aptitud_*_v2.csv`) apoyan la decisión con una justificación legible; no deciden por sí solas, salvo las reglas verificables (fotografía monocroma, resolución, sin imagen y pertinencia por metadatos). La tabla de trazabilidad de cada decisión está en `docs/protocolo_aptitud_v2.md`.
-5. **Verificación.** `config/corpus.toml` fija los conteos y comenta cada cambio con su fecha y motivo; `pytest` comprueba que todo se regenera byte a byte.
+5. **Verificación.** `config/corpus.toml` fija los conteos y comenta cada cambio con su fecha y motivo; `pytest` comprueba que cada salida regenerada tiene el mismo texto que la versionada, con finales de línea LF; los workbooks se comparan por contenido (hojas, celdas, listas y formato), porque openpyxl guarda la fecha de creación dentro del archivo.
 
 Las rutas de los archivos de cada fuente se definen una sola vez en `src/utils/fuentes.py`; los workbooks se leen siempre con `src/utils/libros.py` y los CSV e informes se escriben con `src/utils/archivos.py`.
 

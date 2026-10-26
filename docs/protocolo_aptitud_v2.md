@@ -86,6 +86,8 @@ Después, el puntaje sugiere principal, revisar o descartar; la imagen de refere
 
 ## Resultados vigentes
 
+**Alcance: validación de desarrollo.** Las cifras de esta sección miden el ajuste del puntaje con las mismas decisiones que lo calibran; no son una evaluación independiente y son optimistas por tres motivos que están en `src/imagenes/calibrar_aptitud.py`: la estandarización de las medidas usa todas las imágenes antes de dividir en pliegues; los pliegues se forman por registro, no por grupo de imágenes de una misma pieza; y los umbrales se eligen con las mismas predicciones fuera de pliegue con las que se informa la matriz de decisiones. El puntaje es un apoyo exploratorio de la revisión, no un clasificador validado. Para afirmar que transfiere a una fuente nueva hace falta una muestra ciega nueva y una validación por grupos.
+
 - Calibración conjunta AIC+MET+CMA (fuera de pliegue, por fuente): `outputs/reports/aptitud_calibracion_v2.md`.
 - Resumen por fuente, atributos y cultura: `outputs/reports/aptitud_imagenes_v2_resumen.md`.
 - Validación ciega en MET y CMA del modelo calibrado solo con AIC: `outputs/reports/validacion_met_cma_v2.md`. El kappa (0,56) no alcanzó el criterio de 0,6, por lo que en MET y CMA solo se aplicaron las reglas y las decisiones del revisor. El diagnóstico (el modelo de AIC no generalizaba a MET) llevó a calibrar con las tres fuentes: con las etiquetas MET y CMA del criterio v2, la separación útil/resto fuera de pliegue es 0,91 en AIC, 0,76 en MET y 0,83 en CMA. Como la muestra de validación ya forma parte del entrenamiento, afirmar la transferencia a una fuente nueva exige otra muestra ciega.
