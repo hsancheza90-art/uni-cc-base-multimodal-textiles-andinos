@@ -40,8 +40,11 @@ INTRODUCCION = [
 
 
 def lineas_campo(campo: Campo) -> list[str]:
-    atributos = [f"Cuadro {campo.cuadro} de la tesis"]
-    atributos.append("admite varios valores separados por `; `" if campo.multiple else "un solo valor")
+    atributos = [f"Cuadro {campo.cuadro} de la tesis" if campo.cuadro else "no figura en la tesis"]
+    if campo.secuencia:
+        atributos.append("secuencia ordenada de valores separados por ` > `")
+    else:
+        atributos.append("admite varios valores separados por `; `" if campo.multiple else "un solo valor")
     atributos.append("se registra en la anotación manual" if campo.anotable else "lo asigna el flujo")
     lineas = [
         f"### `{campo.nombre}`",
@@ -54,6 +57,8 @@ def lineas_campo(campo: Campo) -> list[str]:
     for codigo, etiqueta in campo.etiquetas.items():
         origen = "extensión del corpus" if codigo in campo.extensiones else "tesis"
         lineas.append(f"| `{codigo}` | {etiqueta} | {origen} |")
+    for codigo, etiqueta in campo.estados.items():
+        lineas.append(f"| `{codigo}` | {etiqueta} | estado de anotación |")
     return lineas + [""]
 
 
@@ -79,6 +84,11 @@ ENCABEZADO_V2 = [
     "",
     "Es el vocabulario vigente, el que valida la anotación v2. La serie v1 conserva el suyo en "
     f"`taxonomia_atributos_met_cma_v1.md`, generado desde la copia congelada `{RUTA_VOCABULARIO_V1.as_posix()}`.",
+    "",
+    "En la anotación v2, un atributo sin valor registra su **estado de anotación**, solo en la celda: `ausente` (la "
+    "superficie pertinente se ve y el rasgo no está), `no_observable` (la superficie no se ve) o `desconocido` (se ve, "
+    "pero el anotador no puede decidir). Cada atributo lista los estados que admite; una celda vacía significa «no "
+    "anotado». Procedimiento: `docs/protocolo_anotacion_v2.md`.",
     "",
 ]
 

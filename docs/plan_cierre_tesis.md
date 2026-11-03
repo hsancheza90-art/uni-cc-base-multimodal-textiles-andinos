@@ -176,7 +176,7 @@ La puerta de salida de la semana 1 no se cruzó.
 | S1.3 | No iniciada |
 | S1.4 | Hecho (26 de octubre) |
 | S1.5 | Hecho (26 de octubre) |
-| S1.6 | No iniciada |
+| S1.6 | Hecho (3 de noviembre): ver D3 abajo |
 | S1.7 | No iniciada |
 | S1.8 | No iniciada: la pieza llenada el 22 de octubre era una prueba y se descartó; el workbook v2 vuelve a estar vacío |
 | S1.9 | Sin registro en el repositorio |
@@ -185,3 +185,5 @@ La puerta de salida de la semana 1 no se cruzó.
 
 - **D1.** No hay segundo anotador ni evaluador. El estudio se declara piloto con un solo anotador y un solo evaluador, como prevé la tabla de riesgos. La doble anotación del lote 1 (S2.1) y los juicios dobles con adjudicación (S3.4) no se pueden hacer; se reportan como limitación.
 - **Alcance.** Se mantiene el cierre del 22 de noviembre con alcance reducido. El recorte concreto (consultas, modelos y tareas) se fija en el protocolo experimental (S1.3) antes de ver cualquier dato de prueba.
+- **Acuerdo sin segundo anotador.** Reemplaza a S2.1: el anotador re-anota a ciegas el lote 1 (30 piezas, otro orden) al menos 7 días después de la primera anotación, y se mide el acuerdo intra-anotador (test-retest). Se reporta como estabilidad de la anotación, no como acuerdo entre personas.
+- **D3 (esquema de anotación).** Se agregan `eje_bandas` y `secuencia_bandas`: la palabra de bandas con el tipo de cada banda (`lisa`, `geometrica`, `figurativa`, `mixta`, `no_determinada`, y `laguna` para un tramo que no se ve), sin color ni anchos. Los estados `ausente`, `no_observable` y `desconocido` se escriben en la misma celda del atributo. Detalle: `docs/protocolo_anotacion_v2.md`.

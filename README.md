@@ -53,7 +53,7 @@ python -m src.flujo     # regenera todas las salidas y verifica los conteos de c
 pytest                  # comprueba que la regeneración coincide con lo versionado (mismo texto, finales LF)
 ```
 
-El flujo aplica la revisión manual de cada fuente (workbooks `data/metadata/*_revision_manual_v2.xlsx`), calibra el puntaje de aptitud con las decisiones del revisor en AIC, MET y CMA, puntúa todas las imágenes, valida la anotación manual, construye el consolidado v1, arma el corpus principal v2 de las tres fuentes (`data/processed/corpus_textiles_andinos_v2_principal.csv`) y regenera el núcleo de anotación v2 (`data/metadata/nucleo_anotacion_v2.csv`). Termina con código distinto de cero si algún paso o conteo falla; tras un cambio curatorial eso es lo esperado: se actualiza `config/corpus.toml` y se documenta el motivo.
+El flujo aplica la revisión manual de cada fuente (workbooks `data/metadata/*_revision_manual_v2.xlsx`), calibra el puntaje de aptitud con las decisiones del revisor en AIC, MET y CMA, puntúa todas las imágenes, valida la anotación manual, construye el consolidado v1, arma el corpus principal v2 de las tres fuentes (`data/processed/corpus_textiles_andinos_v2_principal.csv`), regenera el núcleo de anotación v2 (`data/metadata/nucleo_anotacion_v2.csv`) y mide el acuerdo intra-anotador de la anotación v2 (`outputs/reports/anotacion_acuerdo_v2.md`). Termina con código distinto de cero si algún paso o conteo falla; tras un cambio curatorial eso es lo esperado: se actualiza `config/corpus.toml` y se documenta el motivo.
 
 ## Trazabilidad del proceso
 
@@ -91,7 +91,8 @@ python -m src.imagenes.revision_v2 --crear | --trasladar     # revisión de MET 
 # Anotación manual
 python -m src.anotacion.workbook                 # crea o actualiza data/metadata/anotacion_met_cma_v1.xlsx
 python -m src.anotacion.workbook --corpus v2     # crea o actualiza data/metadata/anotacion_v2.xlsx (núcleo y resto del principal v2)
-python -m src.anotacion.acuerdo                  # acuerdo entre dos anotadores (rutas en config/anotacion.toml)
+python -m src.anotacion.workbook --corpus v2 --reanotacion   # re-anotacion ciega del lote 1 (acuerdo intra-anotador)
+python -m src.anotacion.acuerdo                  # acuerdo entre la primera anotacion y la re-anotacion (rutas en config/anotacion.toml)
 
 # Galerías HTML de revisión (locales, no se versionan)
 python -m src.review.galerias --fuente met     # una galería por decisión del workbook (también cma o aic)
@@ -104,7 +105,7 @@ python -m src.imagenes.informe_aptitud         # una galería por banda de aptit
 |---|---|
 | `config/corpus.toml` | Conteos esperados por fuente y etapa, con el motivo de cada cambio |
 | `config/vocabulario.toml` | Vocabulario controlado vigente (Cuadros 6.3 a 6.8 de la tesis); la serie v1 lee su copia congelada en `data/metadata/v1_congelado/` |
-| `config/anotacion.toml` | Núcleo de anotación v2, cultura agrupada, capas y acuerdo entre anotadores |
+| `config/anotacion.toml` | Núcleo de anotación v2, cultura agrupada, capas, re-anotación y acuerdo intra-anotador |
 | `config/aptitud.toml`, `config/aptitud_modelo.json` | Parámetros comentados del puntaje de aptitud y modelo calibrado |
 | `data/raw/` | Respuestas originales de las API; no se versiona |
 | `data/images/` | Imágenes locales (consolidado y copias de evaluación); no se versiona |
@@ -120,7 +121,7 @@ python -m src.imagenes.informe_aptitud         # una galería por banda de aptit
 | `src/metadata/` | Construcción, auditoría y aplicación de la revisión manual |
 | `src/imagenes/` | Descargas, medidas, calibración, ficha de aptitud y validación |
 | `src/consolidado/` | Esquema armonizado y constructor del consolidado |
-| `src/anotacion/` | Corpus principal v2, núcleo de anotación, workbook de anotación, acuerdo entre anotadores, validación y taxonomía |
+| `src/anotacion/` | Corpus principal v2, núcleo de anotación, workbooks de anotación y re-anotación, acuerdo intra-anotador, validación y taxonomía |
 | `src/review/` | Galerías HTML de revisión |
 | `src/utils/` | Registro de fuentes, lectura de workbooks, lectura y escritura de archivos, métricas, fechas, texto, HTTP y configuración |
 | `src/flujo.py` | Punto de entrada único del flujo reproducible |
@@ -132,7 +133,7 @@ python -m src.imagenes.informe_aptitud         # una galería por banda de aptit
 |---|---|
 | `docs/fuentes.md` | Fuentes incluidas, extracción y fuentes descartadas |
 | `docs/protocolo_aptitud_v2.md` | Criterio de selección v2, etapas, medidas, puntaje y validación |
-| `docs/protocolo_anotacion_v2.md` | Anotación estructural del principal v2: capas, regla de los treinta segundos, muestra del núcleo y acuerdo entre anotadores |
+| `docs/protocolo_anotacion_v2.md` | Anotación estructural del principal v2: capas, bandas, estados, regla de los treinta segundos, muestra del núcleo y acuerdo intra-anotador |
 | `docs/met_protocolo_fuente_v2.md`, `docs/cma/cma_source_protocol.md` | Protocolo y cadena de curación por fuente |
 | `docs/corpus/` | Ficha, protocolo, taxonomía, guía de anotación, trazabilidad y uso ético del consolidado v1 |
 | `docs/esquema_consolidado_met_cma_v1.md` | Esquema del consolidado (generado por el flujo) |

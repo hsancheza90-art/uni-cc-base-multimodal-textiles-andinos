@@ -76,28 +76,46 @@ grupo = "chancay"
 motivo = "Estilo Chancay con rasgos Chimu: se asigna a Chancay (decision del revisor)."
 
 [acuerdo]
-# Workbooks que compara src/anotacion/acuerdo.py por defecto: el del primer anotador y la copia
-# del segundo, que parte del mismo workbook v2 sin anotar (decision del revisor, 2026-10-20).
-# Las dos rutas se pueden sobrescribir con --a y --b.
+# Workbooks que compara src/anotacion/acuerdo.py por defecto (se pueden sobrescribir con --a y --b).
+# 2026-11-03: no hay segundo anotador (plan de cierre, D1). El acuerdo se mide entre la primera
+# anotacion y una re-anotacion ciega del mismo anotador (test-retest, [reanotacion]); antes, la
+# copia de un segundo anotador, data/metadata/anotacion_v2_evaluador2.xlsx (2026-10-20).
+modalidad = "intraanotador"
 anotador_a = "data/metadata/anotacion_v2.xlsx"
-anotador_b = "data/metadata/anotacion_v2_evaluador2.xlsx"
+anotador_b = "data/metadata/anotacion_v2_reanotacion.xlsx"
 # Hojas con piezas en cada workbook: el nucleo y el resto del principal v2.
 hojas = ["anotacion", "fuera_del_nucleo"]
 # Criterio de acuerdo aceptable, el mismo que exige una fuente nueva en el puntaje de aptitud
 # (kappa >= 0,6: acuerdo sustancial en la escala de Landis y Koch, 1977).
 umbral_kappa = 0.6
 
+[reanotacion]
+# Re-anotacion ciega para el acuerdo intra-anotador (decision del revisor, 2026-11-03). El
+# workbook anotador_b de [acuerdo] se genera vacio, con las piezas de un lote en otro orden:
+#     python -m src.anotacion.workbook --corpus v2 --reanotacion
+# lote: el primero que se anota; 30 piezas (la auditoria pide 30 a 40 para un piloto).
+lote = 1
+# Semilla del nuevo orden dentro del lote (fecha en que se fijo; su valor no tiene significado).
+semilla = 20261103
+# Dias minimos entre la primera anotacion y la re-anotacion de cada pieza, para que el
+# anotador no recuerde su respuesta. Las piezas con menos dias o sin fecha no se comparan.
+intervalo_minimo_dias = 7
+
 [acuerdo.campos]
 # Tipo de medida por atributo. Nominales: kappa de Cohen. Ordinales: kappa ponderado lineal,
 # con el orden de [acuerdo.orden]. Multiples: Jaccard medio por pieza y kappa por etiqueta.
 # Presencia: kappa sobre si/no, solo en piezas que los dos marcaron observables (no no_visible).
+# Secuencias: coincidencia exacta y similitud de edicion media entre las dos palabras de bandas.
 # Las correcciones se comparan por su valor efectivo: la correccion o, si esta vacia, el valor
 # vigente que muestra el workbook (vacia significa «acepto el valor vigente»).
-nominales = ["color_dominante", "composicion", "simetria", "familia_iconografica", "motivo_principal",
+# Los estados no_observable y desconocido sacan la pieza del atributo y se cuentan aparte;
+# ausente se compara como un valor mas (es una observacion).
+nominales = ["color_dominante", "composicion", "eje_bandas", "simetria", "familia_iconografica", "motivo_principal",
              "tipo_objeto_corregido", "tipo_superficie_corregido", "estado_imagen_corregido"]
 ordinales = ["contraste", "densidad_visual", "repeticion"]
 multiples = ["colores", "motivos", "material_corregido", "tecnica_corregida"]
 presencia = ["borde", "centro"]
+secuencias = ["secuencia_bandas"]
 
 [acuerdo.orden]
 # Orden de menor a mayor de las categorias ordinales (codigos de config/vocabulario.toml).
@@ -107,9 +125,11 @@ densidad_visual = ["baja", "media", "alta"]
 repeticion = ["no", "parcial", "si"]
 
 # Capas de la anotacion v2, en el orden en que se anota cada pieza (docs/protocolo_anotacion_v2.md).
-# Fijan el orden de las columnas del workbook v2 y la guia; entre todas cubren los 12 atributos
+# Fijan el orden de las columnas del workbook v2 y la guia; entre todas cubren los 14 atributos
 # y las 5 correcciones del esquema (src/consolidado/esquema.py). densidad_visual va con la capa
 # cromatica, como en el Cuadro 6.3 (decision del revisor, 2026-10-20).
+# 2026-11-03: eje_bandas y secuencia_bandas van en la capa estructural, despues de composicion:
+# primero se decide si hay bandas y luego se leen en orden (plan de cierre, D3).
 [[capas]]
 nombre = "cromatica"
 titulo = "Cromatica"
@@ -118,7 +138,7 @@ campos = ["color_dominante", "colores", "contraste", "densidad_visual"]
 [[capas]]
 nombre = "estructural"
 titulo = "Estructural"
-campos = ["composicion", "borde", "centro"]
+campos = ["composicion", "eje_bandas", "secuencia_bandas", "borde", "centro"]
 
 [[capas]]
 nombre = "repeticion_simetria"

@@ -102,6 +102,28 @@ def jaccard(a: set[str], b: set[str]) -> float:
     return len(a & b) / len(a | b)
 
 
+def distancia_edicion(a: list[str], b: list[str]) -> int:
+    """Distancia de Levenshtein entre dos secuencias de simbolos (insercion, borrado y sustitucion cuestan 1)."""
+    previa = list(range(len(b) + 1))
+    for i, simbolo_a in enumerate(a, start=1):
+        actual = [i]
+        for j, simbolo_b in enumerate(b, start=1):
+            actual.append(min(previa[j] + 1, actual[j - 1] + 1, previa[j - 1] + (simbolo_a != simbolo_b)))
+        previa = actual
+    return previa[-1]
+
+
+def similitud_edicion(a: list[str], b: list[str]) -> float:
+    """1 - distancia de edicion / longitud de la mas larga, en [0, 1]; dos secuencias vacias coinciden (1).
+
+    Mide el acuerdo entre dos palabras de bandas: una banda de mas o una banda distinta
+    restan lo mismo, y el valor no depende de la longitud de las palabras.
+    """
+    if not a and not b:
+        return 1.0
+    return 1 - distancia_edicion(a, b) / max(len(a), len(b))
+
+
 def tabla(filas: list[list[str]], encabezado: list[str]) -> list[str]:
     """Tabla en Markdown para los informes de outputs/reports/."""
     lineas = ["| " + " | ".join(encabezado) + " |", "|" + "---|" * len(encabezado)]

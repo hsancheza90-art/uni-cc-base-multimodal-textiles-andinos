@@ -4,6 +4,7 @@ Uso desde la raiz del repositorio (despues de `python -m src.flujo`):
 
     python -m src.anotacion.workbook                 # v1: data/metadata/anotacion_met_cma_v1.xlsx
     python -m src.anotacion.workbook --corpus v2     # v2: data/metadata/anotacion_v2.xlsx
+    python -m src.anotacion.workbook --corpus v2 --reanotacion   # re-anotacion ciega ([reanotacion])
 
 v1: una fila por registro del consolidado MET+CMA v1, con columnas de contexto (solo lectura)
 y columnas de anotacion con listas desplegables del vocabulario controlado.
@@ -11,8 +12,12 @@ y columnas de anotacion con listas desplegables del vocabulario controlado.
 v2: la hoja "anotacion" tiene las piezas del nucleo de anotacion
 (data/metadata/nucleo_anotacion_v2.csv) ordenadas por lote y orden; el resto del principal
 v2 va a la hoja "fuera_del_nucleo", con las mismas columnas. Las columnas de anotacion siguen
-el orden de las capas de config/anotacion.toml, y los campos multiples tambien muestran la
-lista de codigos (aceptan varios separados por "; ").
+el orden de las capas de config/anotacion.toml, y los campos multiples y de secuencia tambien
+muestran la lista de codigos (aceptan varios separados por "; " o " > "). Las listas incluyen
+los estados que admite cada atributo (ausente, no_observable, desconocido).
+
+Re-anotacion (v2): el workbook anotador_b de [acuerdo] con las piezas del lote de
+[reanotacion], sin anotar y en otro orden, para medir el acuerdo intra-anotador.
 
 En los dos casos, si el workbook ya existe se regenera conservando todo lo anotado por
 id_global, aunque la pieza haya cambiado de hoja; las anotaciones de registros que ya no
@@ -32,9 +37,9 @@ from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
 
 from src.anotacion.corpus_v2 import SALIDA_PRINCIPAL_V2
-from src.anotacion.nucleo import SALIDA_NUCLEO
+from src.anotacion.nucleo import SALIDA_NUCLEO, huella
 from src.consolidado.construir_consolidado import SALIDA_CONSOLIDADO
-from src.consolidado.esquema import ATRIBUTOS_ANOTACION, COLUMNAS_ANOTACIONES, CORRECCIONES
+from src.consolidado.esquema import ATRIBUTOS_ANOTACION_V2, COLUMNAS_ANOTACIONES, CORRECCIONES
 from src.utils.archivos import indexar, leer_csv
 from src.utils.config import CONFIG_ANOTACION, leer_config_anotacion
 from src.utils.libros import leer_hoja
@@ -80,9 +85,9 @@ CONTEXTO_V2 = [
     *ENLACES,
 ]
 
-# Columna de anotacion -> campo del vocabulario que define sus valores.
+# Columna de anotacion -> campo del vocabulario que define sus valores (las de bandas solo existen en v2).
 CAMPO_DE_COLUMNA: dict[str, str] = {
-    **{campo: campo for campo in ATRIBUTOS_ANOTACION},
+    **{campo: campo for campo in ATRIBUTOS_ANOTACION_V2},
     **CORRECCIONES,
     "estado_anotacion": "estado_anotacion",
 }
@@ -128,10 +133,10 @@ V1 = Diseno(workbook=WORKBOOK, contexto=CONTEXTO, editables=COLUMNAS_EDITABLES, 
 
 
 def leer_capas(config: dict[str, Any]) -> list[dict[str, Any]]:
-    """Capas de config/anotacion.toml; deben cubrir exactamente los 12 atributos y las 5 correcciones."""
+    """Capas de config/anotacion.toml; deben cubrir exactamente los 14 atributos v2 y las 5 correcciones."""
     capas = config["capas"]
     campos = [campo for capa in capas for campo in capa["campos"]]
-    esperados = ATRIBUTOS_ANOTACION + list(CORRECCIONES)
+    esperados = ATRIBUTOS_ANOTACION_V2 + list(CORRECCIONES)
     if sorted(campos) != sorted(esperados) or len(campos) != len(set(campos)):
         raise ValueError(
             f"Las capas de {CONFIG_ANOTACION.as_posix()} deben cubrir una vez cada columna de anotacion: {esperados}"
@@ -139,12 +144,23 @@ def leer_capas(config: dict[str, Any]) -> list[dict[str, Any]]:
     return capas
 
 
-def guia_v2(capas: list[dict[str, Any]]) -> list[str]:
-    lineas = [
-        "Anotacion estructural del corpus principal v2 (MET, CMA y AIC)",
-        "",
-        "1. La hoja 'anotacion' tiene las piezas del nucleo, ordenadas por lote y orden: un lote por sesion, en ese orden.",
-        "2. La hoja 'fuera_del_nucleo' tiene el resto del principal v2, con las mismas columnas, para anotar mas adelante.",
+def guia_v2(capas: list[dict[str, Any]], reanotacion: dict[str, Any] | None = None) -> list[str]:
+    if reanotacion:
+        lineas = [
+            f"Re-anotacion ciega del lote {reanotacion['lote']} (acuerdo intra-anotador, test-retest)",
+            "",
+            f"1. Anotar cada pieza al menos {reanotacion['intervalo_minimo_dias']} dias despues de su primera anotacion, "
+            "sin abrir anotacion_v2.xlsx ni las notas de esa sesion.",
+            "2. Las piezas estan en un orden distinto al de la primera anotacion: anotar en el orden de la columna 'orden'.",
+        ]
+    else:
+        lineas = [
+            "Anotacion estructural del corpus principal v2 (MET, CMA y AIC)",
+            "",
+            "1. La hoja 'anotacion' tiene las piezas del nucleo, ordenadas por lote y orden: un lote por sesion, en ese orden.",
+            "2. La hoja 'fuera_del_nucleo' tiene el resto del principal v2, con las mismas columnas, para anotar mas adelante.",
+        ]
+    lineas += [
         "3. Las columnas grises son contexto y no se editan. Las de color se anotan con los codigos de la hoja 'vocabulario'.",
         "4. Se anota sobre la copia de evaluacion (columna imagen_local); url_imagen abre la imagen del museo.",
         "",
@@ -154,8 +170,18 @@ def guia_v2(capas: list[dict[str, Any]]) -> list[str]:
         lineas.append(f"   {numero}. {capa['titulo']}: {', '.join(capa['campos'])}")
     lineas += [
         "",
-        "Regla de los treinta segundos: si un atributo toma mas de treinta segundos de duda, se deja vacio y la pieza "
-        "se marca 'revisar' en estado_anotacion; la duda se explica en observaciones_anotacion.",
+        "Estados: si un atributo no tiene valor, se escribe su estado, solo en la celda: ausente (la superficie se ve y "
+        "el rasgo no esta), no_observable (la superficie no se ve: fragmento, recorte o pliegue) o desconocido (se ve, "
+        "pero no se puede decidir). La lista de cada columna muestra los estados que admite. Celda vacia = no anotado.",
+        "borde y centro: 'no' es ausente y 'no_visible' es no observable; solo suman desconocido.",
+        "",
+        "Bandas: eje_bandas es horizontal (las bandas se leen de arriba abajo) o vertical (de izquierda a derecha). "
+        "secuencia_bandas lista el tipo de cada banda en ese orden, separados por ' > ' (por ejemplo: "
+        "lisa > geometrica > figurativa > geometrica > lisa). Un tramo que no se ve es 'laguna'. "
+        "Sin bandas: ausente en los dos.",
+        "",
+        "Regla de los treinta segundos: si un atributo toma mas de treinta segundos de duda, se anota desconocido y la "
+        "pieza se marca 'revisar' en estado_anotacion; la duda se explica en observaciones_anotacion.",
         "",
         "Campos multiples (colores, motivos, material_corregido, tecnica_corregida): la lista muestra los codigos; "
         "para registrar varios, escribirlos separados por '; ' (por ejemplo: rojo; crema).",
@@ -167,16 +193,17 @@ def guia_v2(capas: list[dict[str, Any]]) -> list[str]:
     return lineas
 
 
-def diseno_v2(raiz: Path) -> Diseno:
-    capas = leer_capas(leer_config_anotacion(raiz))
+def diseno_v2(raiz: Path, reanotacion: bool = False) -> Diseno:
+    config = leer_config_anotacion(raiz)
+    capas = leer_capas(config)
     columnas = [campo for capa in capas for campo in capa["campos"]]
     tonos = {campo: TONOS_CAPAS[i % len(TONOS_CAPAS)] for i, capa in enumerate(capas) for campo in capa["campos"]}
     return Diseno(
-        workbook=WORKBOOK_V2,
+        workbook=Path(config["acuerdo"]["anotador_b"]) if reanotacion else WORKBOOK_V2,
         contexto=CONTEXTO_V2,
         editables=columnas + CONTROL_ANOTACION,
-        guia=guia_v2(capas),
-        hoja_resto=HOJA_FUERA_NUCLEO,
+        guia=guia_v2(capas, config["reanotacion"] if reanotacion else None),
+        hoja_resto="" if reanotacion else HOJA_FUERA_NUCLEO,
         listas_en_multiples=True,
         tonos=tonos,
     )
@@ -219,6 +246,17 @@ def registros_v2(raiz: Path) -> tuple[list[dict[str, str]], list[dict[str, str]]
     return dentro, fuera
 
 
+def registros_reanotacion(raiz: Path, config: dict[str, Any]) -> list[dict[str, Any]]:
+    """Piezas del lote de [reanotacion] en un orden nuevo, fijado por su semilla (no por la del nucleo)."""
+    lote, semilla = int(config["reanotacion"]["lote"]), int(config["reanotacion"]["semilla"])
+    dentro, _ = registros_v2(raiz)
+    piezas = [fila for fila in dentro if fila["lote"] == lote]
+    if not piezas:
+        raise ValueError(f"El lote {lote} de [reanotacion] no tiene piezas en el nucleo")
+    piezas.sort(key=lambda fila: huella(semilla, "reanotacion", fila["id_global"]))
+    return [{**fila, "orden": orden} for orden, fila in enumerate(piezas, start=1)]
+
+
 # --------------------------------------------------------------------------- escritura
 
 
@@ -234,10 +272,11 @@ def escribir_hoja_vocabulario(libro: Workbook, vocabulario: dict[str, Campo]) ->
         hoja[f"{letra_codigo}1"] = campo.nombre
         hoja[f"{letra_etiqueta}1"] = "etiqueta"
         hoja[f"{letra_codigo}1"].font = hoja[f"{letra_etiqueta}1"].font = Font(bold=True)
-        for fila, (codigo, etiqueta) in enumerate(campo.etiquetas.items(), start=2):
+        # Valores y, al final, los estados que admite el campo (la v1 no tiene estados).
+        for fila, (codigo, etiqueta) in enumerate(campo.admitidos.items(), start=2):
             hoja[f"{letra_codigo}{fila}"] = codigo
             hoja[f"{letra_etiqueta}{fila}"] = etiqueta
-        rangos[campo.nombre] = f"{HOJA_VOCABULARIO}!${letra_codigo}$2:${letra_codigo}${len(campo.etiquetas) + 1}"
+        rangos[campo.nombre] = f"{HOJA_VOCABULARIO}!${letra_codigo}$2:${letra_codigo}${len(campo.admitidos) + 1}"
         hoja.column_dimensions[letra_codigo].width = 28
         hoja.column_dimensions[letra_etiqueta].width = 28
         columna += 3
@@ -251,10 +290,19 @@ def agregar_validaciones(
         return
     encabezados = [celda.value for celda in hoja[1]]
     for columna, nombre_campo in CAMPO_DE_COLUMNA.items():
+        if columna not in encabezados:
+            continue  # columnas de bandas: solo en el workbook v2
         campo = vocabulario[nombre_campo]
         letra = get_column_letter(encabezados.index(columna) + 1)
         rango_celdas = f"{letra}2:{letra}{filas + 1}"
-        if campo.multiple and listas_en_multiples:
+        if campo.secuencia and listas_en_multiples:
+            # La lista muestra los tipos de banda; sin mensaje de error, para escribir la secuencia con " > ".
+            validacion = DataValidation(type="list", formula1=f"={rangos[nombre_campo]}", allow_blank=True)
+            validacion.showErrorMessage = False
+            validacion.promptTitle = columna[:32]
+            validacion.prompt = "Tipo de cada banda en el orden del eje, separados por ' > ', o un estado."
+            validacion.showInputMessage = True
+        elif campo.multiple and listas_en_multiples:
             # La lista muestra los codigos; sin mensaje de error, para admitir varios separados por "; ".
             validacion = DataValidation(type="list", formula1=f"={rangos[nombre_campo]}", allow_blank=True)
             validacion.showErrorMessage = False
@@ -367,15 +415,25 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
         "--corpus", choices=["v1", "v2"], default="v1",
         help="v1: consolidado MET+CMA v1 (por defecto); v2: nucleo y resto del principal v2.",
     )
+    parser.add_argument(
+        "--reanotacion", action="store_true",
+        help="Con --corpus v2: workbook de re-anotacion ciega del lote de [reanotacion] (acuerdo intra-anotador).",
+    )
     return parser.parse_args(argv)
 
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
     raiz = Path(args.root).resolve()
+    if args.reanotacion and args.corpus != "v2":
+        print("--reanotacion solo se usa con --corpus v2.")
+        return 1
     if args.corpus == "v2":
-        diseno = diseno_v2(raiz)
-        registros, resto = registros_v2(raiz)
+        diseno = diseno_v2(raiz, reanotacion=args.reanotacion)
+        if args.reanotacion:
+            registros, resto = registros_reanotacion(raiz, leer_config_anotacion(raiz)), []
+        else:
+            registros, resto = registros_v2(raiz)
         ruta_vocabulario = RUTA_VOCABULARIO
     else:
         diseno = V1

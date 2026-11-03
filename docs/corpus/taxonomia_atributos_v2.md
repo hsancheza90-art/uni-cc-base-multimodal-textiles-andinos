@@ -4,6 +4,8 @@ Documento generado desde `config/vocabulario.toml` por `src/anotacion/documentar
 
 Es el vocabulario vigente, el que valida la anotación v2. La serie v1 conserva el suyo en `taxonomia_atributos_met_cma_v1.md`, generado desde la copia congelada `data/metadata/v1_congelado/vocabulario.toml`.
 
+En la anotación v2, un atributo sin valor registra su **estado de anotación**, solo en la celda: `ausente` (la superficie pertinente se ve y el rasgo no está), `no_observable` (la superficie no se ve) o `desconocido` (se ve, pero el anotador no puede decidir). Cada atributo lista los estados que admite; una celda vacía significa «no anotado». Procedimiento: `docs/protocolo_anotacion_v2.md`.
+
 La taxonomía sigue los Cuadros 6.3 a 6.8 del avance de tesis. En los datos se guarda el **código** (minúsculas, sin tildes ni espacios); la **etiqueta** es la forma usada en la tesis, los documentos y las figuras. Los valores marcados como *extensión del corpus* no figuran en la tesis y se agregaron durante la curación porque aparecen en los registros.
 
 Los atributos contextuales (Cuadro 6.7: cultura, periodo, fecha, procedencia, fuente, institución, URL) provienen de la fuente oficial y no tienen vocabulario cerrado.
@@ -26,6 +28,8 @@ Color visualmente predominante (Cuadro 6.3 de la tesis; un solo valor; se regist
 | `amarillo` | amarillo | tesis |
 | `verde` | verde | tesis |
 | `multicolor` | multicolor | tesis |
+| `no_observable` | no observable | estado de anotación |
+| `desconocido` | desconocido | estado de anotación |
 
 ### `colores`
 
@@ -46,6 +50,8 @@ Lista breve de colores visibles (Cuadro 6.3 de la tesis; admite varios valores s
 | `morado` | morado | extensión del corpus |
 | `gris` | gris | extensión del corpus |
 | `ocre` | ocre | extensión del corpus |
+| `no_observable` | no observable | estado de anotación |
+| `desconocido` | desconocido | estado de anotación |
 
 ### `contraste`
 
@@ -56,6 +62,8 @@ Diferencia visual entre zonas cromáticas (Cuadro 6.3 de la tesis; un solo valor
 | `bajo` | bajo | tesis |
 | `medio` | medio | tesis |
 | `alto` | alto | tesis |
+| `no_observable` | no observable | estado de anotación |
+| `desconocido` | desconocido | estado de anotación |
 
 ### `densidad_visual`
 
@@ -66,6 +74,8 @@ Saturación de elementos visuales en la superficie (Cuadro 6.3 de la tesis; un s
 | `baja` | baja | tesis |
 | `media` | media | tesis |
 | `alta` | alta | tesis |
+| `no_observable` | no observable | estado de anotación |
+| `desconocido` | desconocido | estado de anotación |
 
 ## Familia composicional
 
@@ -83,6 +93,8 @@ Organización general del diseño (Cuadro 6.4 de la tesis; un solo valor; se reg
 | `paneles` | paneles | tesis |
 | `reticula` | retícula | tesis |
 | `composicion_libre` | composición libre | tesis |
+| `no_observable` | no observable | estado de anotación |
+| `desconocido` | desconocido | estado de anotación |
 
 ### `simetria`
 
@@ -95,6 +107,8 @@ Organización simétrica o repetitiva (Cuadro 6.4 de la tesis; un solo valor; se
 | `repeticion_modular` | repetición modular | tesis |
 | `traslacional` | traslacional | tesis |
 | `no_evidente` | no evidente | tesis |
+| `no_observable` | no observable | estado de anotación |
+| `desconocido` | desconocido | estado de anotación |
 
 ### `repeticion`
 
@@ -105,6 +119,8 @@ Presencia de patrones repetidos (Cuadro 6.4 de la tesis; un solo valor; se regis
 | `si` | sí | tesis |
 | `no` | no | tesis |
 | `parcial` | parcial | tesis |
+| `no_observable` | no observable | estado de anotación |
+| `desconocido` | desconocido | estado de anotación |
 
 ### `borde`
 
@@ -115,6 +131,7 @@ Presencia de borde decorado (Cuadro 6.4 de la tesis; un solo valor; se registra 
 | `si` | sí | tesis |
 | `no` | no | tesis |
 | `no_visible` | no visible | tesis |
+| `desconocido` | desconocido | estado de anotación |
 
 ### `centro`
 
@@ -125,6 +142,35 @@ Presencia de campo central diferenciado (Cuadro 6.4 de la tesis; un solo valor; 
 | `si` | sí | tesis |
 | `no` | no | tesis |
 | `no_visible` | no visible | tesis |
+| `desconocido` | desconocido | estado de anotación |
+
+### `eje_bandas`
+
+Orientación de las bandas en la fotografía; fija el eje de lectura de secuencia_bandas (no figura en la tesis; un solo valor; se registra en la anotación manual).
+
+| Código | Etiqueta | Origen |
+|---|---|---|
+| `horizontal` | horizontal (se lee de arriba abajo) | extensión del corpus |
+| `vertical` | vertical (se lee de izquierda a derecha) | extensión del corpus |
+| `ausente` | ausente | estado de anotación |
+| `no_observable` | no observable | estado de anotación |
+| `desconocido` | desconocido | estado de anotación |
+
+### `secuencia_bandas`
+
+Palabra de bandas: el tipo de cada banda, en el orden del eje de lectura (no figura en la tesis; secuencia ordenada de valores separados por ` > `; se registra en la anotación manual).
+
+| Código | Etiqueta | Origen |
+|---|---|---|
+| `lisa` | lisa | extensión del corpus |
+| `geometrica` | geométrica | extensión del corpus |
+| `figurativa` | figurativa | extensión del corpus |
+| `mixta` | mixta | extensión del corpus |
+| `no_determinada` | no determinada | extensión del corpus |
+| `laguna` | laguna (tramo no observable) | extensión del corpus |
+| `ausente` | ausente | estado de anotación |
+| `no_observable` | no observable | estado de anotación |
+| `desconocido` | desconocido | estado de anotación |
 
 ## Familia técnica
 
@@ -218,6 +264,9 @@ Motivos observables (Cuadro 6.6 de la tesis; admite varios valores separados por
 | `zoomorfo` | zoomorfo | tesis |
 | `fitomorfo` | fitomorfo | tesis |
 | `abstracto` | abstracto | tesis |
+| `ausente` | ausente | estado de anotación |
+| `no_observable` | no observable | estado de anotación |
+| `desconocido` | desconocido | estado de anotación |
 
 ### `familia_iconografica`
 
@@ -230,6 +279,9 @@ Familia dominante de representación (Cuadro 6.6 de la tesis; un solo valor; se 
 | `mixta` | mixta | tesis |
 | `abstracta` | abstracta | tesis |
 | `no_determinada` | no determinada | tesis |
+| `ausente` | ausente | estado de anotación |
+| `no_observable` | no observable | estado de anotación |
+| `desconocido` | desconocido | estado de anotación |
 
 ### `motivo_principal`
 
@@ -248,6 +300,9 @@ Motivo más visible o relevante (Cuadro 6.6 de la tesis; un solo valor; se regis
 | `camelidos` | camélidos | extensión del corpus |
 | `cruces` | cruces | extensión del corpus |
 | `volutas` | volutas | extensión del corpus |
+| `ausente` | ausente | estado de anotación |
+| `no_observable` | no observable | estado de anotación |
+| `desconocido` | desconocido | estado de anotación |
 
 ## Estados de control
 

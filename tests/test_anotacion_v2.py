@@ -18,8 +18,9 @@ from src.imagenes.descargar_evaluacion import MANIFIESTO_EVALUACION
 from src.utils.archivos import escribir_csv, leer_csv_con_columnas
 from src.utils.config import RAIZ_REPO, leer_config, leer_config_anotacion
 from src.utils.fuentes import FUENTES
-from src.utils.metricas import jaccard, kappa_detalle
-from src.utils.vocabulario import leer_vocabulario
+from src.utils.libros import celda
+from src.utils.metricas import jaccard, kappa_detalle, similitud_edicion
+from src.utils.vocabulario import RUTA_VOCABULARIO_V1, leer_vocabulario
 from tests.insumos import copiar_insumos
 from tests.libros import contenido_libro
 
@@ -224,6 +225,8 @@ def filas_hoja(ruta: Path, hoja: str) -> list[dict[str, Any]]:
 def anotar_v2(ruta: Path, valores: dict[str, dict[str, str]]) -> None:
     libro = load_workbook(ruta)
     for hoja in (workbook.HOJA_ANOTACION, workbook.HOJA_FUERA_NUCLEO):
+        if hoja not in libro.sheetnames:
+            continue  # la re-anotacion no tiene hoja fuera_del_nucleo
         datos = libro[hoja]
         encabezados = [celda.value for celda in datos[1]]
         for fila in datos.iter_rows(min_row=2):
@@ -232,14 +235,14 @@ def anotar_v2(ruta: Path, valores: dict[str, dict[str, str]]) -> None:
     libro.save(ruta)
 
 
-def test_workbook_v2_tiene_el_nucleo_ordenado_y_17_columnas_vacias_con_lista(repo_workbook: Path) -> None:
+def test_workbook_v2_tiene_el_nucleo_ordenado_y_19_columnas_vacias_con_lista(repo_workbook: Path) -> None:
     ruta = repo_workbook / workbook.WORKBOOK_V2
     libro = load_workbook(ruta)
     assert libro.sheetnames == ["guia", "anotacion", "fuera_del_nucleo", "vocabulario"]
     hoja = libro[workbook.HOJA_ANOTACION]
     encabezados = [celda.value for celda in hoja[1]]
     anotables = [c for c in encabezados if c in workbook.CAMPO_DE_COLUMNA and c != "estado_anotacion"]
-    assert len(anotables) == 17
+    assert len(anotables) == 19
     assert anotables == [campo for capa in leer_config_anotacion()["capas"] for campo in capa["campos"]]
     columnas_con_lista = {
         str(v.sqref).split(":")[0].rstrip("0123456789") for v in hoja.data_validations.dataValidation if v.type == "list"
@@ -260,8 +263,20 @@ def test_workbook_v2_tiene_el_nucleo_ordenado_y_17_columnas_vacias_con_lista(rep
     assert [linea.split(":")[0][3:] for linea in capas[-5:]] == [c["titulo"] for c in leer_config_anotacion()["capas"]]
 
 
-def test_workbook_v2_versionado_coincide_con_el_generado(repo_workbook: Path) -> None:
-    assert contenido_libro(repo_workbook / workbook.WORKBOOK_V2) == contenido_libro(RAIZ_REPO / workbook.WORKBOOK_V2)
+def celdas_libro(ruta: Path) -> dict[str, list[list[str]]]:
+    """Texto de cada celda por hoja, con la convencion de src/utils/libros.py (fechas AAAA-MM-DD)."""
+    return {hoja.title: [[celda(c.value) for c in fila] for fila in hoja.iter_rows()] for hoja in load_workbook(ruta).worksheets}
+
+
+@pytest.mark.parametrize("reanotacion", [False, True], ids=["anotacion", "reanotacion"])
+def test_regenerar_sobre_el_workbook_versionado_no_cambia_ninguna_celda(repo_workbook: Path, reanotacion: bool) -> None:
+    # Vale vacio o ya anotado. Se comparan celdas y no la estructura: al guardar, Excel mueve las listas
+    # desplegables a una extension que openpyxl no lee (la estructura se prueba sobre el workbook generado).
+    relativa = Path(leer_config_anotacion()["acuerdo"]["anotador_b"]) if reanotacion else workbook.WORKBOOK_V2
+    copiar_insumos(repo_workbook, [relativa.as_posix()])
+    argv = ["--root", str(repo_workbook), "--corpus", "v2"] + (["--reanotacion"] if reanotacion else [])
+    assert workbook.main(argv) == 0
+    assert celdas_libro(repo_workbook / relativa) == celdas_libro(RAIZ_REPO / relativa)
 
 
 def test_workbook_v2_conserva_anotaciones_aunque_la_pieza_cambie_de_hoja(repo_workbook: Path) -> None:
@@ -347,35 +362,44 @@ def test_jaccard_por_pieza() -> None:
 
 
 def test_informe_de_acuerdo_versionado_se_regenera(tmp_path: Path) -> None:
-    copiar_insumos(tmp_path, ["config/anotacion.toml", "config/vocabulario.toml", workbook.WORKBOOK_V2.as_posix()])
+    config = leer_config_anotacion()
+    copiar_insumos(tmp_path, ["config/anotacion.toml", "config/vocabulario.toml", workbook.WORKBOOK_V2.as_posix(),
+                              config["acuerdo"]["anotador_b"]])
     assert acuerdo.main(["--root", str(tmp_path)]) == 0
     relativa = acuerdo.SALIDA_REPORTE
     assert (tmp_path / relativa).read_bytes() == (RAIZ_REPO / relativa).read_bytes()
 
 
+def fila_de(reporte: str, atributo: str) -> str:
+    return next(l for l in reporte.splitlines() if l.startswith("| ") and f"| `{atributo}` |" in l)
+
+
 def test_acuerdo_entre_dos_workbooks_anotados(repo_workbook: Path) -> None:
     ruta_a = repo_workbook / workbook.WORKBOOK_V2
-    ruta_b = repo_workbook / "data/metadata/anotacion_v2_evaluador2.xlsx"
+    ruta_b = repo_workbook / leer_config_anotacion()["acuerdo"]["anotador_b"]
     ruta_b.write_bytes(ruta_a.read_bytes())
     ids = [f["id_global"] for f in filas_hoja(ruta_a, workbook.HOJA_ANOTACION)][:6]
+    # Intra-anotador: la re-anotacion, 7 dias despues (el minimo de [reanotacion]).
     comunes = {"color_dominante": "rojo", "contraste": "alto", "colores": "rojo; crema"}
     composiciones = ["bandas", "paneles", "bandas", "reticula", "bandas", "paneles"]
     anotar_v2(ruta_a, {
-        id_: {**comunes, "composicion": c, "borde": "si" if i % 2 else "no"}
+        id_: {**comunes, "composicion": c, "borde": "si" if i % 2 else "no", "fecha_anotacion": "2026-11-05"}
         for i, (id_, c) in enumerate(zip(ids, composiciones))
-    } | {ids[5]: {"composicion": "paneles", "borde": "no_visible", "contraste": "altisimo", "color_dominante": "rojo"}})
+    } | {ids[5]: {"composicion": "paneles", "borde": "no_visible", "contraste": "altisimo", "color_dominante": "rojo",
+                  "fecha_anotacion": "2026-11-05"}})
     anotar_v2(ruta_b, {
-        id_: {**comunes, "composicion": c, "borde": "si" if i % 2 else "no"}
+        id_: {**comunes, "composicion": c, "borde": "si" if i % 2 else "no", "fecha_anotacion": "2026-11-12"}
         for i, (id_, c) in enumerate(zip(ids[:5], composiciones))
-    } | {ids[5]: {"composicion": "paneles", "borde": "si", "contraste": "alto", "color_dominante": "rojo"}})
-    # Una pieza anotada solo por A no se compara.
+    } | {ids[5]: {"composicion": "paneles", "borde": "si", "contraste": "alto", "color_dominante": "rojo",
+                  "fecha_anotacion": "2026-11-12"}})
+    # Una pieza anotada solo en A no se compara.
     extra = [f["id_global"] for f in filas_hoja(ruta_a, workbook.HOJA_FUERA_NUCLEO)][0]
     anotar_v2(ruta_a, {extra: {"composicion": "bandas"}})
 
     assert acuerdo.main(["--root", str(repo_workbook)]) == 0
     reporte = (repo_workbook / acuerdo.SALIDA_REPORTE).read_text(encoding="utf-8")
-    fila = lambda atributo: next(l for l in reporte.splitlines() if l.startswith("| ") and f"| `{atributo}` |" in l)  # noqa: E731
-    assert "- Piezas anotadas por los dos (emparejadas por `id_global`): 6." in reporte
+    fila = lambda atributo: fila_de(reporte, atributo)  # noqa: E731
+    assert "con el intervalo minimo: 6; fuera de plazo: 0." in reporte
     assert fila("composicion").endswith("| 6 | 0 | 1.000 | 0.389 | 1.000 | si |")
     # Borde: la pieza marcada no_visible por A sale del calculo y se cuenta aparte.
     assert "| `borde` | 0 | 0 | 1 |" in reporte
@@ -386,3 +410,86 @@ def test_acuerdo_entre_dos_workbooks_anotados(repo_workbook: Path) -> None:
     assert "| `contraste` | 0 | 1 | 0 |" in reporte and "altisimo" in reporte
     # Correccion vacia en los dos: se compara el valor vigente, que es el mismo.
     assert fila("estado_imagen_corregido").split("|")[4].strip() == "6"
+
+
+# --------------------------------------------------------------------------- estados, bandas y re-anotacion
+
+
+def test_un_estado_vale_solo_en_la_celda_y_solo_si_el_atributo_lo_admite() -> None:
+    vocabulario = leer_vocabulario()
+    motivos, colores, borde = vocabulario["motivos"], vocabulario["colores"], vocabulario["borde"]
+    assert motivos.invalidos("ausente") == []
+    assert motivos.invalidos("geometrico; ausente") == ["ausente"]  # un estado no se mezcla con valores
+    assert colores.invalidos("ausente") == ["ausente"]  # siempre hay algun color: no admite ausente
+    assert borde.invalidos("ausente") == ["ausente"] and borde.invalidos("desconocido") == []  # borde usa no
+    assert colores.recodificar("no observable") == "no_observable"  # la etiqueta se recodifica
+
+
+def test_la_secuencia_de_bandas_conserva_el_orden() -> None:
+    secuencia = leer_vocabulario()["secuencia_bandas"]
+    assert secuencia.recodificar("lisa >geométrica> lisa> laguna") == "lisa > geometrica > lisa > laguna"
+    assert secuencia.separar("figurativa > lisa") == ["figurativa", "lisa"]  # sin ordenar
+    assert secuencia.invalidos("lisa > roja") == ["roja"]
+    assert secuencia.invalidos("lisa > ausente") == ["ausente"]
+    assert secuencia.invalidos("ausente") == []
+
+
+def test_el_vocabulario_v1_congelado_no_gana_estados_ni_bandas() -> None:
+    v1 = leer_vocabulario(RAIZ_REPO, RUTA_VOCABULARIO_V1)
+    assert "secuencia_bandas" not in v1 and "eje_bandas" not in v1
+    assert not any(campo.estados or campo.secuencia for campo in v1.values())
+
+
+def test_similitud_de_edicion_entre_palabras_de_bandas() -> None:
+    palabra = ["lisa", "geometrica", "lisa"]
+    assert similitud_edicion(palabra, palabra) == 1.0
+    assert similitud_edicion(palabra, ["lisa", "geometrica"]) == pytest.approx(2 / 3)  # una banda de menos
+    assert similitud_edicion(list("aabb"), list("abab")) == pytest.approx(0.5)  # mismo histograma, otro orden
+    assert similitud_edicion([], []) == 1.0
+
+
+def test_reanotacion_tiene_el_lote_sin_anotar_y_en_otro_orden(repo_workbook: Path) -> None:
+    config = leer_config_anotacion()
+    primera = filas_hoja(repo_workbook / workbook.WORKBOOK_V2, workbook.HOJA_ANOTACION)
+    lote = [f for f in primera if f["lote"] == config["reanotacion"]["lote"]]
+    anotar_v2(repo_workbook / workbook.WORKBOOK_V2, {lote[0]["id_global"]: {"composicion": "bandas"}})
+
+    assert workbook.main(["--root", str(repo_workbook), "--corpus", "v2", "--reanotacion"]) == 0
+    ruta = repo_workbook / config["acuerdo"]["anotador_b"]
+    assert load_workbook(ruta).sheetnames == ["guia", "anotacion", "vocabulario"]
+    filas = filas_hoja(ruta, workbook.HOJA_ANOTACION)
+    assert sorted(f["id_global"] for f in filas) == sorted(f["id_global"] for f in lote)
+    assert [f["orden"] for f in filas] == list(range(1, len(lote) + 1))
+    assert [f["id_global"] for f in filas] != [f["id_global"] for f in lote]
+    # Ciega: no arrastra lo anotado en la primera anotacion.
+    anotables = [c for c in workbook.CAMPO_DE_COLUMNA if c != "estado_anotacion"]
+    assert all(f[c] is None for f in filas for c in anotables)
+
+
+def test_acuerdo_intraanotador_excluye_fuera_de_plazo_y_no_observados(repo_workbook: Path) -> None:
+    assert workbook.main(["--root", str(repo_workbook), "--corpus", "v2", "--reanotacion"]) == 0
+    ruta_a = repo_workbook / workbook.WORKBOOK_V2
+    ruta_b = repo_workbook / leer_config_anotacion()["acuerdo"]["anotador_b"]
+    ids = [f["id_global"] for f in filas_hoja(ruta_b, workbook.HOJA_ANOTACION)][:5]
+    a = {
+        ids[0]: {"eje_bandas": "horizontal", "secuencia_bandas": "lisa > geometrica > lisa", "motivos": "ausente"},
+        ids[1]: {"eje_bandas": "vertical", "secuencia_bandas": "lisa > geometrica > figurativa", "motivos": "geometrico"},
+        ids[2]: {"eje_bandas": "ausente", "secuencia_bandas": "ausente", "motivos": "no_observable"},
+        ids[3]: {"composicion": "bandas"},
+        ids[4]: {"composicion": "bandas"},
+    }
+    b = {**a, ids[1]: {**a[ids[1]], "secuencia_bandas": "lisa > geometrica"}, ids[2]: {**a[ids[2]], "motivos": "ausente"}}
+    fechas_a = {ids[3]: "2026-11-10", ids[4]: ""}  # 2 dias antes de la re-anotacion y sin fecha
+    anotar_v2(ruta_a, {id_: {**v, "fecha_anotacion": fechas_a.get(id_, "2026-11-05")} for id_, v in a.items()})
+    anotar_v2(ruta_b, {id_: {**v, "fecha_anotacion": "2026-11-12"} for id_, v in b.items()})
+
+    assert acuerdo.main(["--root", str(repo_workbook)]) == 0
+    reporte = (repo_workbook / acuerdo.SALIDA_REPORTE).read_text(encoding="utf-8")
+    assert "con el intervalo minimo: 3; fuera de plazo: 2." in reporte
+    assert f"| {ids[3]} | 2 dias entre anotaciones (minimo 7) |" in reporte
+    assert f"| {ids[4]} | fecha_anotacion vacia o invalida |" in reporte
+    # Secuencias: dos identicas y una con una banda de menos (2/3): media 0,889.
+    assert fila_de(reporte, "secuencia_bandas").endswith("| 3 | 0 | 0.889 |  |  | coincidencia exacta: 2 de 3 |")
+    # ausente es una observacion y entra en el kappa; no_observable saca la pieza y se cuenta.
+    assert fila_de(reporte, "eje_bandas").endswith("| 3 | 0 | 1.000 | 0.333 | 1.000 | si |")
+    assert "| `motivos` | 0 | 0 | 1 |" in reporte

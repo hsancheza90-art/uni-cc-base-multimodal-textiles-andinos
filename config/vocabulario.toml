@@ -11,6 +11,20 @@
 #   anotable    true si se registra en el workbook de anotación manual
 #   valores     [codigo, etiqueta] o [codigo, etiqueta, "extension"] cuando el valor
 #               no figura en la tesis y lo agregó la curación del corpus.
+#   estados     (opcional) códigos de [estados] que el atributo admite en lugar de un valor.
+#   secuencia   (opcional) true si el valor es una secuencia ordenada separada por " > ".
+
+# Estado de un atributo anotado cuando no se registra un valor (anotación v2; auditoría del
+# asesor, informe 05, y plan de cierre, D3; decisión del revisor, 2026-11-03). Van solos en
+# la celda, nunca mezclados con valores. Una celda vacía significa «no anotado».
+#   ausente        la superficie pertinente se ve y el rasgo no está.
+#   no_observable  la superficie pertinente no se ve (fragmento, recorte, pliegue, foto parcial).
+#   desconocido    se ve, pero el anotador no puede decidir (regla de los treinta segundos).
+# borde y centro ya tienen no (ausente) y no_visible (no observable): solo suman desconocido.
+[estados]
+ausente = "ausente"
+no_observable = "no observable"
+desconocido = "desconocido"
 
 # --------------------------------------------------------------- familia visual (6.3)
 
@@ -20,6 +34,7 @@ cuadro = "6.3"
 descripcion = "Color visualmente predominante."
 multiple = false
 anotable = true
+estados = ["no_observable", "desconocido"]
 valores = [
     ["rojo", "rojo"], ["marron", "marrón"], ["crema", "crema"], ["negro", "negro"],
     ["azul", "azul"], ["amarillo", "amarillo"], ["verde", "verde"], ["multicolor", "multicolor"],
@@ -31,6 +46,7 @@ cuadro = "6.3"
 descripcion = "Lista breve de colores visibles."
 multiple = true
 anotable = true
+estados = ["no_observable", "desconocido"]
 valores = [
     ["rojo", "rojo"], ["marron", "marrón"], ["crema", "crema"], ["negro", "negro"],
     ["azul", "azul"], ["amarillo", "amarillo"], ["verde", "verde"],
@@ -47,6 +63,7 @@ cuadro = "6.3"
 descripcion = "Diferencia visual entre zonas cromáticas."
 multiple = false
 anotable = true
+estados = ["no_observable", "desconocido"]
 valores = [["bajo", "bajo"], ["medio", "medio"], ["alto", "alto"]]
 
 [campos.densidad_visual]
@@ -55,6 +72,7 @@ cuadro = "6.3"
 descripcion = "Saturación de elementos visuales en la superficie."
 multiple = false
 anotable = true
+estados = ["no_observable", "desconocido"]
 valores = [["baja", "baja"], ["media", "media"], ["alta", "alta"]]
 
 # --------------------------------------------------------------- familia composicional (6.4)
@@ -65,6 +83,7 @@ cuadro = "6.4"
 descripcion = "Organización general del diseño."
 multiple = false
 anotable = true
+estados = ["no_observable", "desconocido"]
 valores = [
     ["bandas", "bandas"], ["campo_central", "campo central"], ["borde", "borde"],
     ["paneles", "paneles"], ["reticula", "retícula"], ["composicion_libre", "composición libre"],
@@ -76,6 +95,7 @@ cuadro = "6.4"
 descripcion = "Organización simétrica o repetitiva."
 multiple = false
 anotable = true
+estados = ["no_observable", "desconocido"]
 valores = [
     ["bilateral", "bilateral"], ["radial", "radial"], ["repeticion_modular", "repetición modular"],
     ["traslacional", "traslacional"], ["no_evidente", "no evidente"],
@@ -87,6 +107,7 @@ cuadro = "6.4"
 descripcion = "Presencia de patrones repetidos."
 multiple = false
 anotable = true
+estados = ["no_observable", "desconocido"]
 valores = [["si", "sí"], ["no", "no"], ["parcial", "parcial"]]
 
 [campos.borde]
@@ -95,6 +116,7 @@ cuadro = "6.4"
 descripcion = "Presencia de borde decorado."
 multiple = false
 anotable = true
+estados = ["desconocido"]
 valores = [["si", "sí"], ["no", "no"], ["no_visible", "no visible"]]
 
 [campos.centro]
@@ -103,7 +125,40 @@ cuadro = "6.4"
 descripcion = "Presencia de campo central diferenciado."
 multiple = false
 anotable = true
+estados = ["desconocido"]
 valores = [["si", "sí"], ["no", "no"], ["no_visible", "no visible"]]
+
+# Bandas (anotación v2): la palabra de bandas que lee el descriptor estructural. No figuran en
+# la tesis; se agregan por la auditoría del asesor (informe 05) y el plan de cierre (D3).
+# Decisiones del revisor del 2026-11-03: el símbolo de cada banda es su tipo, sin color, y no
+# se registran anchos. Si composicion no tiene bandas, eje y secuencia van ausente.
+[campos.eje_bandas]
+familia = "composicional"
+cuadro = ""
+descripcion = "Orientación de las bandas en la fotografía; fija el eje de lectura de secuencia_bandas."
+multiple = false
+anotable = true
+estados = ["ausente", "no_observable", "desconocido"]
+valores = [
+    ["horizontal", "horizontal (se lee de arriba abajo)", "extension"],
+    ["vertical", "vertical (se lee de izquierda a derecha)", "extension"],
+]
+
+[campos.secuencia_bandas]
+familia = "composicional"
+cuadro = ""
+descripcion = "Palabra de bandas: el tipo de cada banda, en el orden del eje de lectura."
+multiple = false
+secuencia = true
+anotable = true
+estados = ["ausente", "no_observable", "desconocido"]
+# laguna: tramo de la secuencia que no se ve (rotura, pliegue, recorte). El descriptor lo
+# enmascara; no es un tipo de banda que se repita (auditoría, informe 05).
+valores = [
+    ["lisa", "lisa", "extension"], ["geometrica", "geométrica", "extension"],
+    ["figurativa", "figurativa", "extension"], ["mixta", "mixta", "extension"],
+    ["no_determinada", "no determinada", "extension"], ["laguna", "laguna (tramo no observable)", "extension"],
+]
 
 # --------------------------------------------------------------- familia técnica (6.5)
 
@@ -172,6 +227,7 @@ cuadro = "6.6"
 descripcion = "Motivos observables."
 multiple = true
 anotable = true
+estados = ["ausente", "no_observable", "desconocido"]
 valores = [
     ["geometrico", "geométrico"], ["antropomorfo", "antropomorfo"], ["zoomorfo", "zoomorfo"],
     ["fitomorfo", "fitomorfo"], ["abstracto", "abstracto"],
@@ -183,6 +239,7 @@ cuadro = "6.6"
 descripcion = "Familia dominante de representación."
 multiple = false
 anotable = true
+estados = ["ausente", "no_observable", "desconocido"]
 valores = [
     ["geometrica", "geométrica"], ["figurativa", "figurativa"], ["mixta", "mixta"],
     ["abstracta", "abstracta"], ["no_determinada", "no determinada"],
@@ -194,6 +251,7 @@ cuadro = "6.6"
 descripcion = "Motivo más visible o relevante."
 multiple = false
 anotable = true
+estados = ["ausente", "no_observable", "desconocido"]
 valores = [
     ["rombos", "rombos"], ["aves", "aves"], ["felinos", "felinos"], ["figuras_humanas", "figuras humanas"],
     ["serpientes", "serpientes"], ["escalonados", "escalonados"], ["no_determinado", "no determinado"],

@@ -98,6 +98,11 @@ ATRIBUTOS_ANOTACION: list[str] = [
     "motivo_principal",
 ]
 
+# Anotacion v2 (no entra al consolidado v1): eje de lectura y palabra de bandas, que pidio la
+# auditoria del asesor (informe 05) para el descriptor estructural (plan de cierre, D3).
+ATRIBUTOS_BANDAS: list[str] = ["eje_bandas", "secuencia_bandas"]
+ATRIBUTOS_ANOTACION_V2: list[str] = ATRIBUTOS_ANOTACION + ATRIBUTOS_BANDAS
+
 # Correcciones manuales de campos ya normalizados: columna de anotacion -> campo del corpus.
 CORRECCIONES: dict[str, str] = {
     "tipo_objeto_corregido": "tipo_objeto",
