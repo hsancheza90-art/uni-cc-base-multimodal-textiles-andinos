@@ -1,4 +1,4 @@
-# Versiones exactas con las que se verifico el flujo (Python 3.14).
+# Versiones exactas con las que se verifico el flujo (Python 3.14 y 3.15.2).
 # Los rangos minimos compatibles estan en pyproject.toml.
 numpy==2.5.3
 openpyxl==3.1.5
