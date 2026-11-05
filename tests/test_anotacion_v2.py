@@ -12,7 +12,7 @@ import pytest
 from openpyxl import load_workbook
 from openpyxl.utils import get_column_letter
 
-from src.anotacion import acuerdo, corpus_v2, nucleo, workbook
+from src.anotacion import acuerdo, aplicar_anotaciones_v2, corpus_v2, nucleo, workbook
 from src.imagenes.aptitud import SALIDA_APTITUD
 from src.imagenes.descargar_evaluacion import MANIFIESTO_EVALUACION
 from src.utils.archivos import escribir_csv, leer_csv_con_columnas
@@ -493,3 +493,84 @@ def test_acuerdo_intraanotador_excluye_fuera_de_plazo_y_no_observados(repo_workb
     # ausente es una observacion y entra en el kappa; no_observable saca la pieza y se cuenta.
     assert fila_de(reporte, "eje_bandas").endswith("| 3 | 0 | 1.000 | 0.333 | 1.000 | si |")
     assert "| `motivos` | 0 | 0 | 1 |" in reporte
+
+
+# --------------------------------------------------------------------------- validacion y exportacion v2
+
+
+CONTROL_VALIDO = {"estado_anotacion": "anotado_manual", "anotador": "HS", "fecha_anotacion": "2026-11-05"}
+
+
+def test_validacion_v2_exporta_las_piezas_anotadas_recodificadas_y_sin_revelarlas(repo_workbook: Path) -> None:
+    ruta = repo_workbook / workbook.WORKBOOK_V2
+    dentro = [f["id_global"] for f in filas_hoja(ruta, workbook.HOJA_ANOTACION)]
+    fuera = [f["id_global"] for f in filas_hoja(ruta, workbook.HOJA_FUERA_NUCLEO)]
+    anotar_v2(ruta, {
+        dentro[1]: {**CONTROL_VALIDO, "colores": "crema; rojo", "motivos": "no observable",
+                    "eje_bandas": "horizontal", "secuencia_bandas": "lisa >geométrica> lisa",
+                    "observaciones_anotacion": "texto reservado. DUDA motivo_principal: ave o felino"},
+        dentro[0]: {**CONTROL_VALIDO, "composicion": "bandas", "motivo_principal": "desconocido"},
+        fuera[0]: {**CONTROL_VALIDO, "composicion": "paneles"},
+    })
+
+    assert aplicar_anotaciones_v2.main(["--root", str(repo_workbook)]) == 0
+    exportadas = leer(repo_workbook / aplicar_anotaciones_v2.SALIDA_ANOTACIONES_V2)
+    # Orden del workbook: nucleo por lote y orden, luego el resto, con su posicion en el nucleo.
+    assert [f["id_global"] for f in exportadas] == [dentro[0], dentro[1], fuera[0]]
+    assert exportadas[0]["lote"] and exportadas[2]["lote"] == ""
+    assert exportadas[1]["colores"] == "rojo; crema"  # orden del vocabulario
+    assert exportadas[1]["motivos"] == "no_observable"  # la etiqueta se recodifica
+    assert exportadas[1]["secuencia_bandas"] == "lisa > geometrica > lisa"  # la secuencia conserva su orden
+
+    reporte = (repo_workbook / aplicar_anotaciones_v2.REPORTE_V2).read_text(encoding="utf-8")
+    # Ciego: solo conteos, nunca valores ni observaciones por pieza.
+    assert "texto reservado" not in reporte and "ave o felino" not in reporte
+    assert not any(id_ in reporte for id_ in (dentro[0], dentro[1], fuera[0]))
+    assert "| 1 | 2 | 2026-11-05 a 2026-11-05 | anotado_manual 2 | 1 | 0 | 0 |" in reporte
+    assert "puede empezar el 2026-11-12" in reporte
+    assert "| desconocido en una pieza que no esta en revisar (regla de los treinta segundos) | 1 |" in reporte
+
+
+def test_validacion_v2_con_errores_termina_en_1_sin_reemplazar_el_csv(repo_workbook: Path) -> None:
+    ruta = repo_workbook / workbook.WORKBOOK_V2
+    ids = [f["id_global"] for f in filas_hoja(ruta, workbook.HOJA_ANOTACION)]
+    anotar_v2(ruta, {ids[0]: {**CONTROL_VALIDO, "composicion": "bandas"}})
+    assert aplicar_anotaciones_v2.main(["--root", str(repo_workbook)]) == 0
+    salida = repo_workbook / aplicar_anotaciones_v2.SALIDA_ANOTACIONES_V2
+    antes = salida.read_bytes()
+
+    anotar_v2(ruta, {
+        ids[1]: {**CONTROL_VALIDO, "contraste": "altisimo"},
+        ids[2]: {**CONTROL_VALIDO, "estado_anotacion": "", "composicion": "bandas"},
+        ids[3]: {**CONTROL_VALIDO, "fecha_anotacion": "2026-02-30", "composicion": "bandas"},
+        ids[4]: {**CONTROL_VALIDO, "eje_bandas": "horizontal", "secuencia_bandas": "ausente"},
+        ids[5]: {**CONTROL_VALIDO, "anotador": "", "motivos": "geometrico; ausente"},
+    })
+    assert aplicar_anotaciones_v2.main(["--root", str(repo_workbook)]) == 1
+    assert salida.read_bytes() == antes
+    reporte = (repo_workbook / aplicar_anotaciones_v2.REPORTE_V2).read_text(encoding="utf-8")
+    assert f"- {ids[1]}: contraste fuera del vocabulario: ['altisimo']" in reporte
+    assert f"- {ids[2]}: estado_anotacion debe ser uno de" in reporte
+    assert f"- {ids[3]}: fecha_anotacion vacia o invalida" in reporte
+    assert f"- {ids[4]}: eje_bandas y secuencia_bandas no concuerdan" in reporte
+    assert f"- {ids[5]}: anotador vacio" in reporte and f"- {ids[5]}: motivos fuera del vocabulario: ['ausente']" in reporte
+
+
+def test_validacion_v2_sin_workbook_no_hace_nada(tmp_path: Path) -> None:
+    copiar_insumos(tmp_path, ["config/anotacion.toml", "config/vocabulario.toml"])
+    assert aplicar_anotaciones_v2.main(["--root", str(tmp_path)]) == 0
+    assert not (tmp_path / aplicar_anotaciones_v2.SALIDA_ANOTACIONES_V2).exists()
+
+
+def test_acuerdo_declara_si_la_primera_anotacion_fue_asistida(repo_workbook: Path) -> None:
+    assert leer_vocabulario()["estado_anotacion"].extensiones >= {"anotado_asistido"}
+    assert "anotado_asistido" not in leer_vocabulario(RAIZ_REPO, RUTA_VOCABULARIO_V1)["estado_anotacion"].etiquetas
+    ruta = repo_workbook / workbook.WORKBOOK_V2
+    ids = [f["id_global"] for f in filas_hoja(ruta, workbook.HOJA_ANOTACION)][:2]
+    assert acuerdo.main(["--root", str(repo_workbook)]) == 0
+    assert "fue asistida" not in (repo_workbook / acuerdo.SALIDA_REPORTE).read_text(encoding="utf-8")
+    # Codigo reservado: el nucleo es manual, pero si una anotacion futura lo usa, el informe lo declara.
+    anotar_v2(ruta, {id_: {**CONTROL_VALIDO, "estado_anotacion": "anotado_asistido", "composicion": "bandas"} for id_ in ids})
+    assert acuerdo.main(["--root", str(repo_workbook)]) == 0
+    reporte = (repo_workbook / acuerdo.SALIDA_REPORTE).read_text(encoding="utf-8")
+    assert "La primera anotacion de 2 piezas fue asistida" in reporte and "no es un test-retest puro" in reporte

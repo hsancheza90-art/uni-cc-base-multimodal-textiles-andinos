@@ -77,6 +77,10 @@ descripcion = "Nucleo de anotacion v2 (src/anotacion/nucleo.py, parametros en co
 # 2026-10-20: muestra estratificada de 150 piezas del principal v2 (MET 42, CMA 34, AIC 74) en 5 lotes de 30,
 # para la anotacion estructural y la medicion del acuerdo entre anotadores.
 nucleo = { ruta = "data/metadata/nucleo_anotacion_v2.csv", filas = 150 }
+# 2026-11-05: primera anotacion manual del nucleo completa (5 lotes de 30), validada y exportada por
+# src/anotacion/aplicar_anotaciones_v2.py. Cuenta las piezas anotadas de data/metadata/anotacion_v2.xlsx; el
+# resto del principal v2 (hoja fuera_del_nucleo) sigue sin anotar.
+anotadas = { ruta = "data/metadata/anotaciones_v2.csv", filas = 150 }
 
 [consolidado.conteos]
 # Principal y complementario de MET v2 revisado y CMA v2 revisado.

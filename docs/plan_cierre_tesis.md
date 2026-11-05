@@ -187,3 +187,17 @@ La puerta de salida de la semana 1 no se cruzó.
 - **Alcance.** Se mantiene el cierre del 22 de noviembre con alcance reducido. El recorte concreto (consultas, modelos y tareas) se fija en el protocolo experimental (S1.3) antes de ver cualquier dato de prueba.
 - **Acuerdo sin segundo anotador.** Reemplaza a S2.1: el anotador re-anota a ciegas el lote 1 (30 piezas, otro orden) al menos 7 días después de la primera anotación, y se mide el acuerdo intra-anotador (test-retest). Se reporta como estabilidad de la anotación, no como acuerdo entre personas.
 - **D3 (esquema de anotación).** Se agregan `eje_bandas` y `secuencia_bandas`: la palabra de bandas con el tipo de cada banda (`lisa`, `geometrica`, `figurativa`, `mixta`, `no_determinada`, y `laguna` para un tramo que no se ve), sin color ni anchos. Los estados `ausente`, `no_observable` y `desconocido` se escriben en la misma celda del atributo. Detalle: `docs/protocolo_anotacion_v2.md`.
+
+### Avance de la semana 2 (5 de noviembre)
+
+| ID | Estado |
+|---|---|
+| S1.8 y S2.4 | Hecho (5 de noviembre): los cinco lotes del núcleo, 150 piezas, anotación manual en una sola fecha. El tiempo por pieza no quedó medido |
+| Validación v2 | Hecho (5 de noviembre): el flujo valida los dos workbooks v2 y exporta `data/metadata/anotaciones_v2.csv`; informe en `outputs/reports/anotacion_v2_validacion.md` |
+| S2.1 (re-anotación del lote 1) | Desde el 12 de noviembre (7 días después) |
+| S1.3 | Siguiente, mientras corre el plazo de la re-anotación |
+
+**Decisiones del investigador (5 de noviembre):**
+
+- **Estado de anotación.** El núcleo queda como `anotado_manual`. Se agrega `anotado_asistido` al vocabulario, reservado para una anotación futura con propuestas de un asistente de IA; no se usa en el núcleo.
+- **Criterios y vocabulario después del retest.** Las observaciones marcan 104 piezas con `DUDA`, `CRITERIO` o `VOCAB`: huecos del vocabulario (colores, motivos vegetales y animales, damero, simetría rotacional, técnica de amarre) y criterios por unificar (esquinas de borde, varias tiras en una foto, listados, paneles a lo largo de una tira). Se deciden después de la re-anotación del lote 1, para no cambiar la guía entre las dos pasadas. Las piezas afectadas se corrigen luego en el workbook.

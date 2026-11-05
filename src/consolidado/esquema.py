@@ -119,6 +119,15 @@ COLUMNAS_ANOTACIONES: list[str] = (
     + ["estado_anotacion", "anotador", "fecha_anotacion", "observaciones_anotacion"]
 )
 
+# Anotacion v2 exportada (src/anotacion/aplicar_anotaciones_v2.py): la posicion en el nucleo,
+# los 14 atributos v2, las 5 correcciones y el control.
+COLUMNAS_ANOTACIONES_V2: list[str] = (
+    ["id_global", "lote", "orden"]
+    + ATRIBUTOS_ANOTACION_V2
+    + list(CORRECCIONES)
+    + ["estado_anotacion", "anotador", "fecha_anotacion", "observaciones_anotacion"]
+)
+
 # Campos que no pueden quedar vacios en ningun registro.
 OBLIGATORIOS = [
     "id_global",

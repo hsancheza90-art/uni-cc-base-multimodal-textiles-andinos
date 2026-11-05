@@ -9,7 +9,7 @@ Ejecuta, sin acceso a red, los pasos que regeneran los CSV curados a partir de
 los insumos versionados (corpus MET v1, workbooks de revision manual de MET, CMA
 y AIC, medidas de imagen y manifiesto de imagenes), calibra y aplica el puntaje
 de aptitud, construye el consolidado MET+CMA v1 (congelado) y el corpus principal
-v2 (MET, CMA y AIC), mide el acuerdo de la anotacion v2 y verifica los conteos
+v2 (MET, CMA y AIC), valida y exporta la anotacion v2, mide su acuerdo y verifica los conteos
 esperados de config/corpus.toml.
 
 Fuera del flujo quedan los pasos que necesitan red o imagenes locales: los
@@ -25,7 +25,7 @@ import sys
 from collections.abc import Callable
 from pathlib import Path
 
-from src.anotacion import acuerdo, aplicar_anotaciones, corpus_v2, documentar_vocabulario, nucleo
+from src.anotacion import acuerdo, aplicar_anotaciones, aplicar_anotaciones_v2, corpus_v2, documentar_vocabulario, nucleo
 from src.consolidado import construir_consolidado
 from src.imagenes import aptitud, calibrar_aptitud, informe_aptitud
 from src.metadata import (
@@ -55,6 +55,7 @@ PASOS: list[tuple[str, Callable[[list[str]], int]]] = [
     ("MET: comparar filtro textil vigente con el inventario", auditar_filtros.main),
     ("Principal v2: construir el corpus armonizado (MET, CMA y AIC)", corpus_v2.main),
     ("Anotacion v2: regenerar el nucleo de anotacion (muestra estratificada)", nucleo.main),
+    ("Anotacion v2: validar los workbooks y exportar la primera anotacion", aplicar_anotaciones_v2.main),
     ("Anotacion v2: medir el acuerdo intra-anotador (primera anotacion y re-anotacion)", acuerdo.main),
 ]
 

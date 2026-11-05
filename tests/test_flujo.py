@@ -40,6 +40,8 @@ INSUMOS = [
     "data/metadata/aptitud_medidas_v2.csv",
     "data/metadata/imagenes_evaluacion_manifiesto_v2.csv",
     "config/anotacion.toml",
+    "data/metadata/anotacion_v2.xlsx",
+    "data/metadata/anotacion_v2_reanotacion.xlsx",
     "data/metadata/v1_congelado/met_corpus_principal_v2_revisado.csv",
     "data/metadata/v1_congelado/met_corpus_secundario_v2_revisado.csv",
     "data/metadata/v1_congelado/cma_corpus_principal_revisado.csv",
@@ -66,6 +68,8 @@ REPORTES = [
     "outputs/reports/aptitud_imagenes_v2_resumen.md",
     "outputs/reports/corpus_textiles_andinos_v2_principal_resumen.md",
     "outputs/reports/nucleo_anotacion_v2.md",
+    "outputs/reports/anotacion_v2_validacion.md",
+    "outputs/reports/anotacion_acuerdo_v2.md",
 ]
 
 

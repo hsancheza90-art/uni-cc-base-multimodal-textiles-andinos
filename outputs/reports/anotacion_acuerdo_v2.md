@@ -4,7 +4,7 @@ Generado por `python -m src.anotacion.acuerdo` (`src/anotacion/acuerdo.py`); par
 
 Sin segundo anotador (plan de cierre, D1), el mismo anotador re-anota a ciegas el lote 1, en otro orden y al menos 7 dias despues. Mide la estabilidad de la anotacion, no su acuerdo con otra persona: es una limitacion del estudio.
 
-- Anotador A (primera anotacion): `data/metadata/anotacion_v2.xlsx` (hojas anotacion, fuera_del_nucleo): 462 piezas, 0 anotadas.
+- Anotador A (primera anotacion): `data/metadata/anotacion_v2.xlsx` (hojas anotacion, fuera_del_nucleo): 462 piezas, 150 anotadas.
 - Anotador B (re-anotacion): `data/metadata/anotacion_v2_reanotacion.xlsx` (hojas anotacion, fuera_del_nucleo): 30 piezas, 0 anotadas.
 - Piezas anotadas en las dos (emparejadas por `id_global`) con el intervalo minimo: 0; fuera de plazo: 0.
 

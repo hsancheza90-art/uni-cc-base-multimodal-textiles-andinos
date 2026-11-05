@@ -97,6 +97,8 @@ umbral_kappa = 0.6
 lote = 1
 # Semilla del nuevo orden dentro del lote (fecha en que se fijo; su valor no tiene significado).
 semilla = 20261103
+# 2026-11-05: la guia y el vocabulario no cambian hasta cerrar la re-anotacion, para que las dos
+# pasadas usen los mismos criterios (decision del revisor, 2026-11-05).
 # Dias minimos entre la primera anotacion y la re-anotacion de cada pieza, para que el
 # anotador no recuerde su respuesta. Las piezas con menos dias o sin fecha no se comparan.
 intervalo_minimo_dias = 7

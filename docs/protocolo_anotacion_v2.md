@@ -19,6 +19,31 @@ La unidad es el registro (`id_global`): un textil tal como aparece en su fotogra
 
 Algunos registros comparten fotografía (`grupo_imagen_duplicada`). Se anotan de forma coherente, y en las observaciones se indica a qué parte de la imagen corresponde cada uno.
 
+## Estado de anotación
+
+`estado_anotacion` es obligatorio en cada pieza anotada y admite un solo valor:
+
+| Estado | Cuándo se usa |
+|---|---|
+| `anotado_manual` | El anotador decidió cada valor sin asistencia. Es el estado del núcleo (primera anotación, 5 de noviembre de 2026) y de la re-anotación. |
+| `revisar` | La pieza tiene una duda que pide una segunda mirada (regla de los treinta segundos). |
+| `corregido` | La pieza solo corrige valores vigentes. |
+| `anotado_asistido` | Reservado (extensión del vocabulario): un asistente de IA propone los valores y el anotador revisa y decide cada uno. No se usa en el núcleo. Si se usa, el informe de acuerdo lo declara y la medida deja de ser un test-retest puro. |
+
+La guía y el vocabulario no cambian hasta cerrar la re-anotación del lote 1, para que las dos pasadas usen los mismos criterios. Decisiones del revisor, 2026-11-05.
+
+## Observaciones
+
+`observaciones_anotacion` es texto libre. Lo que queda por decidir se marca con una etiqueta en mayúsculas, para poder contarlo sin leer cada nota:
+
+| Etiqueta | Uso |
+|---|---|
+| `DUDA <atributo>` | Duda entre valores de un atributo (por ejemplo, `DUDA motivo_principal: ave o felino`). |
+| `CRITERIO` | Un caso que la guía no resuelve y que conviene unificar (esquinas de borde, varias tiras en una foto, listados...). |
+| `VOCAB` | Un hueco del vocabulario: el valor observado no tiene código. |
+
+El informe de validación cuenta por lote las piezas con cada etiqueta. Las decisiones que piden se toman después de la re-anotación del lote 1 (ver «Estado de anotación»).
+
 ## Capas
 
 Cada pieza se anota en cinco capas y en este orden. Las capas fijan el orden de las columnas del workbook y están declaradas en `config/anotacion.toml` (`[[capas]]`).
@@ -79,9 +104,11 @@ Si un atributo toma más de treinta segundos de duda, se anota `desconocido` y l
 
    El workbook `data/metadata/anotacion_v2.xlsx` conserva todo lo anotado por `id_global` al regenerarse, aunque la pieza haya pasado de una hoja a otra. Las anotaciones de piezas que ya no están en el corpus pasan a la hoja `fuera_del_corpus`.
 
-2. Anotar en la hoja `anotacion` un lote por sesión, en el orden de las columnas `lote` y `orden`. Registrar `anotador` (nombre o iniciales) y `fecha_anotacion` (AAAA-MM-DD).
+2. Anotar en la hoja `anotacion` un lote por sesión, en el orden de las columnas `lote` y `orden`. Registrar `estado_anotacion` (`anotado_manual`, `anotado_asistido`, `revisar` o `corregido`), `anotador` (nombre o iniciales) y `fecha_anotacion` (AAAA-MM-DD). Los tres son obligatorios en cada pieza anotada.
 
-3. Hacer commit del workbook. Es el único lugar donde vive la anotación: nunca se edita un CSV a mano.
+3. `python -m src.flujo` valida los dos workbooks v2 (`src/anotacion/aplicar_anotaciones_v2.py`) y exporta la primera anotación a `data/metadata/anotaciones_v2.csv`. Si hay errores (un valor fuera del vocabulario, un estado que el atributo no admite, control vacío, una fecha que no existe, o `eje_bandas` y `secuencia_bandas` que no concuerdan), el flujo termina con código 1 y no actualiza el CSV. El informe `outputs/reports/anotacion_v2_validacion.md` da solo conteos, sin valores ni observaciones por pieza, para no romper la re-anotación ciega; los errores sí se detallan. **Antes de re-anotar no se abre el CSV exportado**, porque tiene la primera anotación.
+
+4. Hacer commit del workbook. Es el único lugar donde vive la anotación: nunca se edita un CSV a mano.
 
 ## Diseño de la muestra
 
@@ -102,7 +129,7 @@ La banda de aptitud es una sugerencia del modelo, no una decisión: todas las pi
 No hay segundo anotador (plan de cierre, D1). Para estimar la consistencia de la anotación (§6.5.7 de la tesis), el mismo anotador vuelve a anotar a ciegas el lote 1 y se compara con su primera anotación. Mide la estabilidad de la anotación, no el acuerdo con otra persona: el informe lo declara como limitación. Decisión del revisor, 2026-11-03; parámetros en `config/anotacion.toml` (`[reanotacion]` y `[acuerdo]`).
 
 1. Anotar el lote 1 en `data/metadata/anotacion_v2.xlsx`, con `fecha_anotacion` en cada pieza.
-2. Al menos **7 días después** de esa fecha, anotar el workbook de re-anotación `data/metadata/anotacion_v2_reanotacion.xlsx`, sin abrir la primera anotación ni sus notas. Tiene solo las 30 piezas del lote 1, sin anotar y en otro orden (semilla propia). Si hubiera que regenerarlo, conserva lo ya re-anotado:
+2. Al menos **7 días después** de esa fecha, anotar el workbook de re-anotación `data/metadata/anotacion_v2_reanotacion.xlsx`, sin abrir la primera anotación, sus notas ni `data/metadata/anotaciones_v2.csv`. El informe de validación indica desde qué fecha se puede empezar. Tiene solo las 30 piezas del lote 1, sin anotar y en otro orden (semilla propia). Si hubiera que regenerarlo, conserva lo ya re-anotado:
 
    ```bash
    python -m src.anotacion.workbook --corpus v2 --reanotacion
@@ -129,5 +156,4 @@ No hay segundo anotador (plan de cierre, D1). Para estimar la consistencia de la
 
 ## Pendiente
 
-- El flujo valida contra el vocabulario el workbook v1, pero todavía no el v2; por ahora, el informe de acuerdo lista los valores fuera del vocabulario.
-- La anotación v2 no se incorpora aún al corpus: se hará cuando el núcleo esté anotado y su acuerdo medido.
+- La anotación v2 se valida y se exporta (desde el 2026-11-05), pero no se incorpora aún al corpus: se hará cuando el acuerdo del lote 1 esté medido y se hayan decidido los criterios y el vocabulario que piden las observaciones.

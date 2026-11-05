@@ -329,6 +329,7 @@ Estado de revisión manual (Cuadro 6.8 de la tesis; un solo valor; se registra e
 | `revisar` | revisar | tesis |
 | `corregido` | corregido | tesis |
 | `descartado` | descartado | tesis |
+| `anotado_asistido` | anotado asistido | extensión del corpus |
 
 ### `estado_imagen`
 
