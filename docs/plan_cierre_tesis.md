@@ -195,9 +195,10 @@ La puerta de salida de la semana 1 no se cruzó.
 | S1.8 y S2.4 | Hecho (5 de noviembre): los cinco lotes del núcleo, 150 piezas, anotación manual en una sola fecha. El tiempo por pieza no quedó medido |
 | Validación v2 | Hecho (5 de noviembre): el flujo valida los dos workbooks v2 y exporta `data/metadata/anotaciones_v2.csv`; informe en `outputs/reports/anotacion_v2_validacion.md` |
 | S2.1 (re-anotación del lote 1) | Desde el 12 de noviembre (7 días después) |
-| S1.3 | Siguiente, mientras corre el plazo de la re-anotación |
+| S1.3 | En curso (5 de noviembre): `docs/protocolo_experimental_v2.md`, versión 0.1 propuesta, pendiente de aprobación del asesor |
 
 **Decisiones del investigador (5 de noviembre):**
 
 - **Estado de anotación.** El núcleo queda como `anotado_manual`. Se agrega `anotado_asistido` al vocabulario, reservado para una anotación futura con propuestas de un asistente de IA; no se usa en el núcleo.
 - **Criterios y vocabulario después del retest.** Las observaciones marcan 104 piezas con `DUDA`, `CRITERIO` o `VOCAB`: huecos del vocabulario (colores, motivos vegetales y animales, damero, simetría rotacional, técnica de amarre) y criterios por unificar (esquinas de borde, varias tiras en una foto, listados, paneles a lo largo de una tira). Se deciden después de la re-anotación del lote 1, para no cambiar la guía entre las dos pasadas. Las piezas afectadas se corrigen luego en el workbook.
+- **Protocolo experimental (S1.3).** Tarea primaria T3 (estructura por ejemplar) y T1 (texto a imagen) como secundaria exploratoria; 10 consultas de desarrollo y 30 de prueba en T3, más 6 de T1; juicio ciego sobre imágenes, con un doble juicio parcial de 5 consultas de prueba por el asesor u otra persona; D2 y D4–D7 entran como propuestas que el asesor ratifica antes de abrir el test.

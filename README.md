@@ -134,6 +134,7 @@ python -m src.imagenes.informe_aptitud         # una galería por banda de aptit
 | `docs/fuentes.md` | Fuentes incluidas, extracción y fuentes descartadas |
 | `docs/protocolo_aptitud_v2.md` | Criterio de selección v2, etapas, medidas, puntaje y validación |
 | `docs/protocolo_anotacion_v2.md` | Anotación estructural del principal v2: capas, bandas, estados, regla de los treinta segundos, muestra del núcleo y acuerdo intra-anotador |
+| `docs/protocolo_experimental_v2.md` | Experimento de recuperación estructural (Seminario II): hipótesis, galería, tareas, sistemas M0–M4, particiones, juicios, métricas y criterios de suspensión del test |
 | `docs/met_protocolo_fuente_v2.md`, `docs/cma/cma_source_protocol.md` | Protocolo y cadena de curación por fuente |
 | `docs/corpus/` | Ficha, protocolo, taxonomía, guía de anotación, trazabilidad y uso ético del consolidado v1 |
 | `docs/esquema_consolidado_met_cma_v1.md` | Esquema del consolidado (generado por el flujo) |
