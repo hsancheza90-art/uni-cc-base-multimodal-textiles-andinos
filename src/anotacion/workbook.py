@@ -152,7 +152,7 @@ def guia_v2(capas: list[dict[str, Any]], reanotacion: dict[str, Any] | None = No
             f"1. Anotar cada pieza al menos {reanotacion['intervalo_minimo_dias']} dias despues de su primera anotacion, "
             "sin abrir anotacion_v2.xlsx ni las notas de esa sesion.",
             "2. Las piezas estan en un orden distinto al de la primera anotacion: anotar en el orden de la columna 'orden'.",
-            "   Sin asistencia de IA: estado_anotacion = anotado_manual (o revisar).",
+            "   estado_anotacion = anotado_manual (o revisar).",
         ]
     else:
         lineas = [
@@ -188,8 +188,7 @@ def guia_v2(capas: list[dict[str, Any]], reanotacion: dict[str, Any] | None = No
         "para registrar varios, escribirlos separados por '; ' (por ejemplo: rojo; crema).",
         "Las columnas *_corregido solo se llenan si el valor gris es incorrecto; vacias, se acepta el valor vigente.",
         "fecha_anotacion con formato AAAA-MM-DD; anotador con nombre o iniciales.",
-        "estado_anotacion es obligatorio en cada pieza anotada: anotado_manual, anotado_asistido (un asistente de IA "
-        "propuso los valores y el anotador reviso y decidio cada uno), revisar o corregido.",
+        "estado_anotacion es obligatorio en cada pieza anotada: anotado_manual, revisar o corregido.",
         "",
         "Protocolo completo: docs/protocolo_anotacion_v2.md",
     ]

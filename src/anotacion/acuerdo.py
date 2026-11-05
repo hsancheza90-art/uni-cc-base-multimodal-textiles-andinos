@@ -250,16 +250,14 @@ def describir(anotador: Anotador, nombre: str) -> str:
             f"{len(anotador.anotadas)} anotadas.")
 
 
-def lineas_asistencia(a: Anotador) -> list[str]:
-    """Aviso si la primera anotacion fue asistida por IA (estado anotado_asistido)."""
+def lineas_estado_reservado(a: Anotador) -> list[str]:
+    """Aviso si la primera anotacion tiene piezas con el estado reservado anotado_asistido."""
     asistidas = sum(1 for fila in a.filas.values() if fila.get("estado_anotacion") == ASISTIDA)
     if not asistidas:
         return []
     return [
-        f"La primera anotacion de {asistidas} piezas fue asistida (`estado_anotacion = {ASISTIDA}`): un asistente de IA "
-        "propuso los valores sobre la imagen y el anotador reviso y decidio cada uno. La re-anotacion se hace sin "
-        "asistencia, asi que el acuerdo compara la anotacion asistida con una re-anotacion humana: no es un test-retest "
-        "puro (docs/protocolo_anotacion_v2.md, «Asistencia»).",
+        f"La primera anotacion tiene {asistidas} piezas con `estado_anotacion = {ASISTIDA}`, un estado reservado "
+        "(docs/protocolo_anotacion_v2.md, «Estado de anotacion»): el acuerdo de esas piezas no es un test-retest puro.",
         "",
     ]
 
@@ -283,7 +281,7 @@ def lineas_reporte(a: Anotador, b: Anotador, piezas: list[str], resultados: list
             f"{reanotacion['lote']}, en otro orden y al menos {reanotacion['intervalo_minimo_dias']} dias despues. "
             "Mide la estabilidad de la anotacion, no su acuerdo con otra persona: es una limitacion del estudio.",
             "",
-            *lineas_asistencia(a),
+            *lineas_estado_reservado(a),
             describir(a, "A (primera anotacion)"),
             describir(b, "B (re-anotacion)"),
             f"- Piezas anotadas en las dos (emparejadas por `id_global`) con el intervalo minimo: {len(piezas)}; "

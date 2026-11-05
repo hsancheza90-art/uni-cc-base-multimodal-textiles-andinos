@@ -82,6 +82,14 @@ nucleo = { ruta = "data/metadata/nucleo_anotacion_v2.csv", filas = 150 }
 # resto del principal v2 (hoja fuera_del_nucleo) sigue sin anotar.
 anotadas = { ruta = "data/metadata/anotaciones_v2.csv", filas = 150 }
 
+[modelos.m2]
+descripcion = "M2, OpenCLIP congelado (src/modelos/m2_openclip.py, fuera del flujo; parametros en config/modelos.toml)"
+# 2026-11-05: embeddings de las 873 copias de evaluacion descargadas (MET:312615 no tiene imagen), en CPU.
+indice = { ruta = "data/metadata/m2_openclip_indice_v2.csv", filas = 873 }
+# 2026-11-05: pares del principal v2 con coseno >= 0,95 (src/modelos/candidatos_duplicado.py): 12 son los pares de
+# imagen compartida ya conocidos (grupo_imagen_duplicada) y 13 son candidatos nuevos para el workbook de grupos (S1.7).
+candidatos = { ruta = "data/metadata/m2_candidatos_duplicado_v2.csv", filas = 25 }
+
 [consolidado.conteos]
 # Principal y complementario de MET v2 revisado y CMA v2 revisado.
 # MET:312615 paso de principal a complementario (imagen no disponible en el museo, 2026-10-05).

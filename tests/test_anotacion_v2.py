@@ -562,15 +562,15 @@ def test_validacion_v2_sin_workbook_no_hace_nada(tmp_path: Path) -> None:
     assert not (tmp_path / aplicar_anotaciones_v2.SALIDA_ANOTACIONES_V2).exists()
 
 
-def test_acuerdo_declara_si_la_primera_anotacion_fue_asistida(repo_workbook: Path) -> None:
+def test_acuerdo_declara_el_estado_reservado_si_se_usa(repo_workbook: Path) -> None:
     assert leer_vocabulario()["estado_anotacion"].extensiones >= {"anotado_asistido"}
     assert "anotado_asistido" not in leer_vocabulario(RAIZ_REPO, RUTA_VOCABULARIO_V1)["estado_anotacion"].etiquetas
     ruta = repo_workbook / workbook.WORKBOOK_V2
     ids = [f["id_global"] for f in filas_hoja(ruta, workbook.HOJA_ANOTACION)][:2]
     assert acuerdo.main(["--root", str(repo_workbook)]) == 0
-    assert "fue asistida" not in (repo_workbook / acuerdo.SALIDA_REPORTE).read_text(encoding="utf-8")
+    assert "estado reservado" not in (repo_workbook / acuerdo.SALIDA_REPORTE).read_text(encoding="utf-8")
     # Codigo reservado: el nucleo es manual, pero si una anotacion futura lo usa, el informe lo declara.
     anotar_v2(ruta, {id_: {**CONTROL_VALIDO, "estado_anotacion": "anotado_asistido", "composicion": "bandas"} for id_ in ids})
     assert acuerdo.main(["--root", str(repo_workbook)]) == 0
     reporte = (repo_workbook / acuerdo.SALIDA_REPORTE).read_text(encoding="utf-8")
-    assert "La primera anotacion de 2 piezas fue asistida" in reporte and "no es un test-retest puro" in reporte
+    assert "La primera anotacion tiene 2 piezas con `estado_anotacion = anotado_asistido`" in reporte

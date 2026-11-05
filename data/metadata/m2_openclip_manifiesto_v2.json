@@ -1,0 +1,28 @@
+{
+  "archivo_pesos": "open_clip_pytorch_model.bin",
+  "arquitectura": "xlm-roberta-base-ViT-B-32",
+  "dimension": 512,
+  "dispositivo": "Intel64 Family 6 Model 197 Stepping 2, GenuineIntel",
+  "encuadre": "relleno_cuadrado",
+  "imagenes": 873,
+  "licencia_pesos": "MIT",
+  "lote": 32,
+  "pesos": "laion5b_s13b_b90k",
+  "precision": "fp32",
+  "repositorio_pesos": "laion/CLIP-ViT-B-32-xlm-roberta-base-laion5B-s13B-b90k",
+  "revision_pesos": "506d40eb551f4801a1c27fc20a31c7b8f590deda",
+  "sha256_embeddings": "131418045b53748651594469bf8339e27a7438b8ea392c0610af741e9dcee78f",
+  "sha256_indice": "29bc0021ea7bf4aae710177bc303672823974355217f242b91c9ccd3ef7f3acb",
+  "sha256_pesos": "a5412f19cca70db8d434f68361f7254bd322a553455a63dbb709bd6a650cf378",
+  "sistema": "M2",
+  "versiones": {
+    "Pillow": "12.3.0",
+    "huggingface_hub": "2.4.0",
+    "numpy": "2.5.3",
+    "open_clip_torch": "3.3.0",
+    "python": "3.15.2",
+    "torch": "2.15.0",
+    "torchvision": "0.29.2",
+    "transformers": "5.22.1"
+  }
+}

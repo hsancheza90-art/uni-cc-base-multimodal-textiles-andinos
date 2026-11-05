@@ -278,9 +278,8 @@ anotable = true
 valores = [
     ["sin_anotar", "sin anotar"], ["anotado_manual", "anotado manual"], ["revisar", "revisar"],
     ["corregido", "corregido"], ["descartado", "descartado"],
-    # anotado_asistido: reservado para una anotación en la que un asistente de IA propone los
-    # valores y el anotador revisa y decide cada uno. No se usa en el núcleo v2, anotado de
-    # forma manual (decisión del revisor, 2026-11-05).
+    # anotado_asistido: reservado para uso futuro. No se usa en el núcleo v2, anotado de forma
+    # manual (decisión del revisor, 2026-11-05).
     ["anotado_asistido", "anotado asistido", "extension"],
 ]
 

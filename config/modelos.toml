@@ -1,0 +1,39 @@
+# Parametros de los sistemas de recuperacion (docs/protocolo_experimental_v2.md, seccion 4).
+# Cada cambio se comenta con su fecha y su motivo, como en config/corpus.toml. Los pasos que
+# usan estos parametros viven fuera del flujo (necesitan imagenes locales y, para M2, torch):
+# escriben insumos versionados que el flujo y las pruebas solo leen.
+
+[m2]
+# M2: OpenCLIP congelado (decision del revisor, 2026-11-05; adelanta D6 del plan de cierre).
+# Checkpoint multilingue: su codificador de texto (XLM-RoBERTa base) admite consultas en espanol,
+# de modo que la tarea T1 no requiere traduccion. Torre visual ViT-B/32.
+arquitectura = "xlm-roberta-base-ViT-B-32"
+pesos = "laion5b_s13b_b90k"
+# Repositorio de los pesos en Hugging Face y su licencia, verificada en la ficha del modelo.
+repositorio_pesos = "laion/CLIP-ViT-B-32-xlm-roberta-base-laion5B-s13B-b90k"
+licencia_pesos = "MIT"
+# cpu (decision del revisor, 2026-11-05): la compilacion CUDA de torch para Python 3.15
+# (2.14.1+cu130) no carga en el equipo (c10.dll, WinError 87) y no hay otra para 3.15; torch
+# 2.15.0 CPU si. Con una GPU disponible se puede pasar --dispositivo cuda y comparar con CPU.
+dispositivo = "cpu"
+# fp32 en todo el calculo: los embeddings no dependen de la precision mixta del dispositivo.
+precision = "fp32"
+lote = 32
+# Encuadre antes del preprocesamiento del modelo (224 px, recorte central). Muchas piezas son tiras
+# o fajas muy alargadas: el recorte central perderia sus extremos, que son parte de la estructura.
+# "relleno_cuadrado" lleva la imagen a un cuadrado con el color mediano de su borde y luego aplica
+# el preprocesamiento; "centro" usa el recorte central sin cambios. Se fija antes de ver resultados
+# y solo puede cambiarse con datos de desarrollo (protocolo, seccion 4).
+encuadre = "relleno_cuadrado"
+# Piezas para comprobar el determinismo: se recalculan y se compara con la primera pasada.
+muestra_determinismo = 32
+# Diferencia maxima admitida entre dos pasadas (y entre GPU y CPU) por componente del embedding.
+tolerancia_determinismo = 1e-5
+tolerancia_dispositivo = 1e-3
+
+[m2.duplicados]
+# Candidatos a duplicado o vista de una misma pieza para S1.7: pares del principal v2 con coseno
+# alto. Son candidatos para la decision humana en el workbook de grupos, nunca uniones automaticas.
+# Umbral alto para listar solo imagenes casi iguales (no piezas solo parecidas): asi el workbook no
+# muestra rankings de la galeria al evaluador (protocolo, seccion 6, salvaguarda 2).
+umbral_coseno = 0.95

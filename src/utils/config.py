@@ -46,3 +46,12 @@ def leer_config_anotacion(raiz: Path = RAIZ_REPO) -> dict[str, Any]:
     """Parametros de la anotacion v2: nucleo de anotacion, cultura agrupada y acuerdo entre anotadores."""
     with (raiz / CONFIG_ANOTACION).open("rb") as archivo:
         return tomllib.load(archivo)
+
+
+CONFIG_MODELOS = Path("config/modelos.toml")
+
+
+def leer_config_modelos(raiz: Path = RAIZ_REPO) -> dict[str, Any]:
+    """Parametros de los sistemas de recuperacion (M2 OpenCLIP y siguientes)."""
+    with (raiz / CONFIG_MODELOS).open("rb") as archivo:
+        return tomllib.load(archivo)

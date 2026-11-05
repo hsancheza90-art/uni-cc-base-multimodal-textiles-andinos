@@ -25,10 +25,10 @@ Algunos registros comparten fotografía (`grupo_imagen_duplicada`). Se anotan de
 
 | Estado | Cuándo se usa |
 |---|---|
-| `anotado_manual` | El anotador decidió cada valor sin asistencia. Es el estado del núcleo (primera anotación, 5 de noviembre de 2026) y de la re-anotación. |
+| `anotado_manual` | El anotador decidió cada valor. Es el estado del núcleo (primera anotación, 5 de noviembre de 2026) y de la re-anotación. |
 | `revisar` | La pieza tiene una duda que pide una segunda mirada (regla de los treinta segundos). |
 | `corregido` | La pieza solo corrige valores vigentes. |
-| `anotado_asistido` | Reservado (extensión del vocabulario): un asistente de IA propone los valores y el anotador revisa y decide cada uno. No se usa en el núcleo. Si se usa, el informe de acuerdo lo declara y la medida deja de ser un test-retest puro. |
+| `anotado_asistido` | Reservado para uso futuro (extensión del vocabulario). No se usa en el núcleo. Si se usa, el informe de acuerdo lo declara. |
 
 La guía y el vocabulario no cambian hasta cerrar la re-anotación del lote 1, para que las dos pasadas usen los mismos criterios. Decisiones del revisor, 2026-11-05.
 
@@ -104,7 +104,7 @@ Si un atributo toma más de treinta segundos de duda, se anota `desconocido` y l
 
    El workbook `data/metadata/anotacion_v2.xlsx` conserva todo lo anotado por `id_global` al regenerarse, aunque la pieza haya pasado de una hoja a otra. Las anotaciones de piezas que ya no están en el corpus pasan a la hoja `fuera_del_corpus`.
 
-2. Anotar en la hoja `anotacion` un lote por sesión, en el orden de las columnas `lote` y `orden`. Registrar `estado_anotacion` (`anotado_manual`, `anotado_asistido`, `revisar` o `corregido`), `anotador` (nombre o iniciales) y `fecha_anotacion` (AAAA-MM-DD). Los tres son obligatorios en cada pieza anotada.
+2. Anotar en la hoja `anotacion` un lote por sesión, en el orden de las columnas `lote` y `orden`. Registrar `estado_anotacion` (`anotado_manual`, `revisar` o `corregido`), `anotador` (nombre o iniciales) y `fecha_anotacion` (AAAA-MM-DD). Los tres son obligatorios en cada pieza anotada.
 
 3. `python -m src.flujo` valida los dos workbooks v2 (`src/anotacion/aplicar_anotaciones_v2.py`) y exporta la primera anotación a `data/metadata/anotaciones_v2.csv`. Si hay errores (un valor fuera del vocabulario, un estado que el atributo no admite, control vacío, una fecha que no existe, o `eje_bandas` y `secuencia_bandas` que no concuerdan), el flujo termina con código 1 y no actualiza el CSV. El informe `outputs/reports/anotacion_v2_validacion.md` da solo conteos, sin valores ni observaciones por pieza, para no romper la re-anotación ciega; los errores sí se detallan. **Antes de re-anotar no se abre el CSV exportado**, porque tiene la primera anotación.
 

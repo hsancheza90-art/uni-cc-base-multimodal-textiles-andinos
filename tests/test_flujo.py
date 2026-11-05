@@ -42,6 +42,9 @@ INSUMOS = [
     "config/anotacion.toml",
     "data/metadata/anotacion_v2.xlsx",
     "data/metadata/anotacion_v2_reanotacion.xlsx",
+    "config/modelos.toml",
+    "data/metadata/m2_openclip_embeddings_v2.npy",
+    "data/metadata/m2_openclip_indice_v2.csv",
     "data/metadata/v1_congelado/met_corpus_principal_v2_revisado.csv",
     "data/metadata/v1_congelado/met_corpus_secundario_v2_revisado.csv",
     "data/metadata/v1_congelado/cma_corpus_principal_revisado.csv",
@@ -70,6 +73,7 @@ REPORTES = [
     "outputs/reports/nucleo_anotacion_v2.md",
     "outputs/reports/anotacion_v2_validacion.md",
     "outputs/reports/anotacion_acuerdo_v2.md",
+    "outputs/reports/m2_candidatos_duplicado_v2.md",
 ]
 
 

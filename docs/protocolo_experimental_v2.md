@@ -2,12 +2,12 @@
 
 | | |
 |---|---|
-| Versión | 0.1, **propuesta**, 5 de noviembre de 2026 |
+| Versión | 0.2, **propuesta**, 5 de noviembre de 2026 |
 | Estado | Pendiente de aprobación del asesor. Se congela al aprobarse: la fecha y el commit de aprobación se registran en «Historial» y desde entonces cualquier cambio queda registrado allí con su motivo, antes de abrir el test |
 | Responde a | MET01 de la auditoría del asesor (20 de octubre de 2026), informe 08; actividad S1.3 de `docs/plan_cierre_tesis.md` |
 | Alcance | Estudio **piloto**: un solo anotador y un solo evaluador principal (decisión D1, 3 de noviembre) |
 
-Este documento fija, antes de ver cualquier resultado de prueba, qué se compara, con qué datos, cómo se mide y qué cuenta como evidencia. Ningún modelo, consulta ni juicio de relevancia existe todavía; todo lo que sigue es plan. Las secciones marcadas **[propuesta]** recogen decisiones del plan de cierre (D2, D4–D7) que el asesor debe ratificar.
+Este documento fija, antes de ver cualquier resultado de prueba, qué se compara, con qué datos, cómo se mide y qué cuenta como evidencia. Ningún modelo, consulta ni juicio de relevancia existe todavía; todo lo que sigue es plan. Las secciones marcadas **[propuesta]** recogen decisiones del plan de cierre (D2, D4, D5 y D7) que el asesor debe ratificar; D6 (dependencias y checkpoint de M2) la tomó el investigador el 5 de noviembre.
 
 ## 1. Pregunta, hipótesis y población
 
@@ -52,7 +52,7 @@ Todos los sistemas son deterministas y se ejecutan sin entrenamiento. Los empate
 |---|---|---|
 | **M0** | BM25 sobre el texto de la ficha: título original, título sugerido en español, descripción del museo, material y técnica. El texto de crédito de MET no entra (SW10). Normalización a minúsculas y sin tildes; el idioma mixto (inglés y español) se declara | k1 y b en una rejilla pequeña, o los valores por defecto 1,2 y 0,75 |
 | **M1** | Visión convencional: histograma de color en Lab y textura (LBP) sobre la copia de evaluación; distancia normalizada por bloque | Resolución y peso de cada bloque |
-| **M2** | OpenCLIP congelado: embeddings de imagen (y de texto en T1) normalizados L2, similitud coseno. **[propuesta, D6]**: el checkpoint exacto, con licencia verificada, se fija en S3.1 junto con la aprobación de las dependencias `torch` y `open_clip` | Plantilla de texto (T1) |
+| **M2** | OpenCLIP congelado: embeddings de imagen (y de texto en T1) normalizados L2, similitud coseno. Checkpoint fijado el 5 de noviembre (D6, decisión del investigador): `xlm-roberta-base-ViT-B-32` con pesos `laion5b_s13b_b90k`, multilingüe para que T1 no requiera traducción; fp32; la imagen se lleva a un cuadrado con el color de su borde antes del recorte central del modelo, para no cortar los extremos de las piezas alargadas. Parámetros en `config/modelos.toml`; checkpoint, hash de los pesos y versiones en `data/metadata/m2_openclip_manifiesto_v2.json` | Plantilla de texto (T1); encuadre |
 | **M3** | Descriptor estructural desde la anotación v2 (especificación completa en S2.5, siguiendo el informe 05): composición; palabra de bandas canonizada bajo reversión, c(w) = mínimo lexicográfico de {w, rev(w)}; histograma de pares de bandas adyacentes de c(w); borde, centro, simetría y repetición; histograma de motivos y familia iconográfica; máscara de observabilidad. Disimilitud mixta D(i,j) = Σ λ_b m_ib m_jb d_b(i,j) / Σ λ_b m_ib m_jb; si el denominador es 0, el par queda «sin evidencia estructural» y no recibe similitud máxima. **No incluye color**, para que una ganancia de M3 no sea cromática | Pesos λ_b y vocabulario |
 | **M3-sin-orden** | Igual que M3, pero la palabra de bandas se reemplaza por el histograma de sus tipos y no hay adyacencias | Los mismos pesos que M3, sin reajustar |
 | **M4** | Fusión tardía y aditiva de scores: s = Σ_c α_c ŝ_c con c ∈ {M0, M2, M3}, cada ŝ_c normalizado por consulta (mínimo-máximo sobre los candidatos). Si M3 no tiene evidencia para un par, su peso se reparte entre los demás en proporción a sus pesos (regla fija) y la cobertura se informa | Pesos α_c en la rejilla {0; 0,25; 0,5; 0,75; 1} normalizada a suma 1, elegidos por nDCG@10 medio en desarrollo |
@@ -169,3 +169,4 @@ Para cada resultado del top 10 de M4 en prueba se registran las contribuciones �
 | Fecha | Versión | Cambio |
 |---|---|---|
 | 2026-11-05 | 0.1 | Propuesta inicial para la aprobación del asesor |
+| 2026-11-05 | 0.2 | M2: checkpoint, precisión y encuadre fijados (D6) al calcular los embeddings de las imágenes, antes de cualquier consulta, juicio o ranking de la galería |

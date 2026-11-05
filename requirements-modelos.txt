@@ -1,0 +1,36 @@
+# Dependencias opcionales de los sistemas de recuperacion (M2, OpenCLIP), fuera del flujo.
+# Versiones exactas con las que se calcularon los embeddings versionados (Python 3.15.2, CPU).
+# El flujo y pytest no las necesitan: leen los embeddings ya calculados.
+#
+#   pip install -r requirements.txt
+#   set PYYAML_FORCE_LIBYAML=0        (PowerShell: $env:PYYAML_FORCE_LIBYAML = "0")
+#   pip install -r requirements-modelos.txt
+#
+# PyYAML 6.0.3 no publica rueda para Python 3.15 y su extension en C necesita Visual C++;
+# con PYYAML_FORCE_LIBYAML=0 se instala la version en Python puro, suficiente aqui.
+# torch con CUDA para Python 3.15 (2.14.1+cu130) no cargo en el equipo de referencia
+# (c10.dll, WinError 87): se usa la compilacion CPU de PyPI (config/modelos.toml, [m2]).
+torch==2.15.0
+torchvision==0.29.2
+open_clip_torch==3.3.0
+transformers==5.22.1
+tokenizers==0.23.3
+sentencepiece==0.2.3
+huggingface_hub==2.4.0
+hf-xet==1.8.0
+safetensors==0.8.0
+timm==1.0.31
+ftfy==6.3.1
+regex==2026.9.29
+PyYAML==6.0.3
+tqdm==4.70.1
+filelock==4.2.9
+fsspec==2026.9.0
+sympy==1.14.0
+mpmath==1.3.0
+networkx==3.7
+Jinja2==3.1.6
+MarkupSafe==3.0.4
+packaging==26.3
+typing_extensions==4.16.0
+wcwidth==0.9.4

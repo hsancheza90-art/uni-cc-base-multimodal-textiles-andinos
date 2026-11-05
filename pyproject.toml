@@ -14,6 +14,8 @@ dependencies = [
 
 [project.optional-dependencies]
 dev = ["pytest>=8"]
+# Sistemas de recuperacion (M2, OpenCLIP), fuera del flujo. Versiones exactas en requirements-modelos.txt.
+modelos = ["torch>=2.14", "torchvision>=0.29", "open_clip_torch>=3.3", "transformers>=5", "sentencepiece>=0.2"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

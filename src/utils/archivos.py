@@ -61,6 +61,12 @@ def escribir_texto(ruta: Path, lineas: list[str]) -> None:
     ruta.write_bytes(("\n".join(lineas) + "\n").encode("utf-8"))
 
 
+def escribir_json(ruta: Path, datos: dict) -> None:
+    """Un objeto JSON legible (claves ordenadas, sangría de 2) con LF y un salto final."""
+    ruta.parent.mkdir(parents=True, exist_ok=True)
+    ruta.write_bytes((json.dumps(datos, ensure_ascii=False, sort_keys=True, indent=2) + "\n").encode("utf-8"))
+
+
 def escribir_jsonl(ruta: Path, registros: list[dict], ordenar_claves: bool = True) -> None:
     """Respuestas crudas de una API, una por línea, con LF en cualquier sistema."""
     ruta.parent.mkdir(parents=True, exist_ok=True)

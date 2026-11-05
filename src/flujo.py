@@ -37,6 +37,7 @@ from src.metadata import (
     auditar_filtros,
     build_met_corpus_v2,
 )
+from src.modelos import candidatos_duplicado
 from src.utils.config import RAIZ_REPO, conjuntos_esperados, contar_filas_csv, leer_config
 
 PASOS: list[tuple[str, Callable[[list[str]], int]]] = [
@@ -54,6 +55,7 @@ PASOS: list[tuple[str, Callable[[list[str]], int]]] = [
     ("Consolidado MET+CMA v1: construir y validar", construir_consolidado.main),
     ("MET: comparar filtro textil vigente con el inventario", auditar_filtros.main),
     ("Principal v2: construir el corpus armonizado (MET, CMA y AIC)", corpus_v2.main),
+    ("M2: candidatos a duplicado desde los embeddings versionados", candidatos_duplicado.main),
     ("Anotacion v2: regenerar el nucleo de anotacion (muestra estratificada)", nucleo.main),
     ("Anotacion v2: validar los workbooks y exportar la primera anotacion", aplicar_anotaciones_v2.main),
     ("Anotacion v2: medir el acuerdo intra-anotador (primera anotacion y re-anotacion)", acuerdo.main),

@@ -53,7 +53,7 @@ python -m src.flujo     # regenera todas las salidas y verifica los conteos de c
 pytest                  # comprueba que la regeneración coincide con lo versionado (mismo texto, finales LF)
 ```
 
-El flujo aplica la revisión manual de cada fuente (workbooks `data/metadata/*_revision_manual_v2.xlsx`), calibra el puntaje de aptitud con las decisiones del revisor en AIC, MET y CMA, puntúa todas las imágenes, valida la anotación manual, construye el consolidado v1, arma el corpus principal v2 de las tres fuentes (`data/processed/corpus_textiles_andinos_v2_principal.csv`), regenera el núcleo de anotación v2 (`data/metadata/nucleo_anotacion_v2.csv`), valida y exporta la anotación v2 (`data/metadata/anotaciones_v2.csv`, informe `outputs/reports/anotacion_v2_validacion.md`) y mide el acuerdo intra-anotador de la anotación v2 (`outputs/reports/anotacion_acuerdo_v2.md`). Termina con código distinto de cero si algún paso o conteo falla; tras un cambio curatorial eso es lo esperado: se actualiza `config/corpus.toml` y se documenta el motivo.
+El flujo aplica la revisión manual de cada fuente (workbooks `data/metadata/*_revision_manual_v2.xlsx`), calibra el puntaje de aptitud con las decisiones del revisor en AIC, MET y CMA, puntúa todas las imágenes, valida la anotación manual, construye el consolidado v1, arma el corpus principal v2 de las tres fuentes (`data/processed/corpus_textiles_andinos_v2_principal.csv`), regenera el núcleo de anotación v2 (`data/metadata/nucleo_anotacion_v2.csv`), valida y exporta la anotación v2 (`data/metadata/anotaciones_v2.csv`, informe `outputs/reports/anotacion_v2_validacion.md`), lista los candidatos a duplicado según los embeddings versionados de M2 (`data/metadata/m2_candidatos_duplicado_v2.csv`) y mide el acuerdo intra-anotador de la anotación v2 (`outputs/reports/anotacion_acuerdo_v2.md`). Termina con código distinto de cero si algún paso o conteo falla; tras un cambio curatorial eso es lo esperado: se actualiza `config/corpus.toml` y se documenta el motivo.
 
 ## Trazabilidad del proceso
 
@@ -93,6 +93,10 @@ python -m src.anotacion.workbook                 # crea o actualiza data/metadat
 python -m src.anotacion.workbook --corpus v2     # crea o actualiza data/metadata/anotacion_v2.xlsx (núcleo y resto del principal v2)
 python -m src.anotacion.workbook --corpus v2 --reanotacion   # re-anotacion ciega del lote 1 (acuerdo intra-anotador)
 python -m src.anotacion.acuerdo                  # acuerdo entre la primera anotacion y la re-anotacion (rutas en config/anotacion.toml)
+
+# Sistemas de recuperacion (docs/protocolo_experimental_v2.md); dependencias opcionales:
+#   pip install -r requirements-modelos.txt
+python -m src.modelos.m2_openclip                # M2: embeddings OpenCLIP de las copias de evaluacion (GPU; --dispositivo cpu)
 
 # Galerías HTML de revisión (locales, no se versionan)
 python -m src.review.galerias --fuente met     # una galería por decisión del workbook (también cma o aic)
