@@ -1,0 +1,2937 @@
+{
+  "status": "ok",
+  "message-type": "work-list",
+  "message-version": "1.0.0",
+  "message": {
+    "facets": {},
+    "total-results": 1568572,
+    "items": [
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              7,
+              8
+            ]
+          ],
+          "date-time": "2026-07-08T06:04:30Z",
+          "timestamp": 1783490670413,
+          "version": "3.55.0"
+        },
+        "reference-count": 0,
+        "publisher": "Oxbow Books",
+        "isbn-type": [
+          {
+            "value": "9781782977384",
+            "type": "electronic"
+          },
+          {
+            "value": "9781782977353",
+            "type": "print"
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2014,
+              10,
+              31
+            ]
+          ]
+        },
+        "DOI": "10.2307/j.ctvh1dpz7.8",
+        "type": "book-chapter",
+        "created": {
+          "date-parts": [
+            [
+              2019,
+              5,
+              15
+            ]
+          ],
+          "date-time": "2019-05-15T20:55:38Z",
+          "timestamp": 1557953738000
+        },
+        "page": "49-64",
+        "source": "Crossref",
+        "is-referenced-by-count": 3,
+        "title": [
+          "The Development of Pattern Weaving Technology through Textile Exchange along the Silk Road"
+        ],
+        "prefix": "10.2307",
+        "author": [
+          {
+            "given": "Zhao",
+            "family": "Feng",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "member": "1121",
+        "container-title": [
+          "Global Textile Encounters"
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2019,
+              5,
+              15
+            ]
+          ],
+          "date-time": "2019-05-15T20:55:42Z",
+          "timestamp": 1557953742000
+        },
+        "score": 29.777512,
+        "resource": {
+          "primary": {
+            "URL": "http://www.jstor.org/stable/10.2307/j.ctvh1dpz7.8"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2014,
+              10,
+              31
+            ]
+          ]
+        },
+        "ISBN": [
+          "9781782977384",
+          "9781782977353"
+        ],
+        "references-count": 0,
+        "URL": "https://doi.org/10.2307/j.ctvh1dpz7.8",
+        "published": {
+          "date-parts": [
+            [
+              2014,
+              10,
+              31
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2024,
+              9,
+              10
+            ]
+          ],
+          "date-time": "2024-09-10T17:54:58Z",
+          "timestamp": 1725990898594
+        },
+        "publisher-location": "Boca Raton, FL : CRC Press, 2017.",
+        "edition-number": "1",
+        "reference-count": 1,
+        "publisher": "CRC Press",
+        "isbn-type": [
+          {
+            "type": "electronic",
+            "value": "9781315390406"
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2017,
+              5,
+              19
+            ]
+          ]
+        },
+        "DOI": "10.1201/9781315390406-7",
+        "type": "book-chapter",
+        "created": {
+          "date-parts": [
+            [
+              2017,
+              5,
+              26
+            ]
+          ],
+          "date-time": "2017-05-26T09:48:54Z",
+          "timestamp": 1495792134000
+        },
+        "page": "123-136",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "Textile Structures for Jacquard Weaving"
+        ],
+        "prefix": "10.1201",
+        "author": [
+          {
+            "given": "Danish Mahmood",
+            "family": "Baitab",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Adeela",
+            "family": "Nasreen",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "301",
+        "reference": [
+          {
+            "key": "ref6",
+            "unstructured": "S. Adanur , Hand Book of Weaving. Alabama, USA: Auburn University, 2001."
+          }
+        ],
+        "container-title": [
+          "Structural Textile Design"
+        ],
+        "language": "en",
+        "link": [
+          {
+            "URL": "http://www.crcnetbase.com/doi/pdf/10.1201/9781315390406-7",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2021,
+              4,
+              5
+            ]
+          ],
+          "date-time": "2021-04-05T14:45:18Z",
+          "timestamp": 1617633918000
+        },
+        "score": 29.577332,
+        "resource": {
+          "primary": {
+            "URL": "https://www.taylorfrancis.com/books/9781315390390/chapters/10.1201/9781315390406-7"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2017,
+              5,
+              19
+            ]
+          ]
+        },
+        "ISBN": [
+          "9781315390406"
+        ],
+        "references-count": 1,
+        "URL": "https://doi.org/10.1201/9781315390406-7",
+        "published": {
+          "date-parts": [
+            [
+              2017,
+              5,
+              19
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              3,
+              30
+            ]
+          ],
+          "date-time": "2026-03-30T14:26:29Z",
+          "timestamp": 1774880789290,
+          "version": "3.50.1"
+        },
+        "publisher-location": "Boca Raton, FL : CRC Press, 2017.",
+        "edition-number": "1",
+        "reference-count": 1,
+        "publisher": "CRC Press",
+        "isbn-type": [
+          {
+            "value": "9781315390406",
+            "type": "electronic"
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2017,
+              5,
+              19
+            ]
+          ]
+        },
+        "DOI": "10.1201/9781315390406-4",
+        "type": "book-chapter",
+        "created": {
+          "date-parts": [
+            [
+              2017,
+              5,
+              26
+            ]
+          ],
+          "date-time": "2017-05-26T09:48:54Z",
+          "timestamp": 1495792134000
+        },
+        "page": "31-46",
+        "source": "Crossref",
+        "is-referenced-by-count": 4,
+        "title": [
+          "Introduction to Weaving"
+        ],
+        "prefix": "10.1201",
+        "author": [
+          {
+            "given": "Syed Talha Ali",
+            "family": "Hamdani",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "301",
+        "reference": [
+          {
+            "key": "ref3",
+            "unstructured": "S. Adanur , Handbook of Weaving. Lancaster, PA: CRC Press, 2000."
+          }
+        ],
+        "container-title": [
+          "Structural Textile Design"
+        ],
+        "language": "en",
+        "link": [
+          {
+            "URL": "http://www.crcnetbase.com/doi/pdf/10.1201/9781315390406-4",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2021,
+              4,
+              5
+            ]
+          ],
+          "date-time": "2021-04-05T14:45:10Z",
+          "timestamp": 1617633910000
+        },
+        "score": 28.176645,
+        "resource": {
+          "primary": {
+            "URL": "https://www.taylorfrancis.com/books/9781315390390/chapters/10.1201/9781315390406-4"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2017,
+              5,
+              19
+            ]
+          ]
+        },
+        "ISBN": [
+          "9781315390406"
+        ],
+        "references-count": 1,
+        "URL": "https://doi.org/10.1201/9781315390406-4",
+        "published": {
+          "date-parts": [
+            [
+              2017,
+              5,
+              19
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2022,
+              4,
+              2
+            ]
+          ],
+          "date-time": "2022-04-02T07:58:38Z",
+          "timestamp": 1648886318065
+        },
+        "reference-count": 2,
+        "publisher": "Informa UK Limited",
+        "issue": "2",
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "short-container-title": [
+          "Journal of the Textile Institute"
+        ],
+        "published-print": {
+          "date-parts": [
+            [
+              1998,
+              1
+            ]
+          ]
+        },
+        "DOI": "10.1080/00405009808658622",
+        "type": "journal-article",
+        "created": {
+          "date-parts": [
+            [
+              2009,
+              3,
+              30
+            ]
+          ],
+          "date-time": "2009-03-30T23:30:32Z",
+          "timestamp": 1238455832000
+        },
+        "page": "355-364",
+        "source": "Crossref",
+        "is-referenced-by-count": 1,
+        "title": [
+          "The Computerised Weaving of Preforms for Composites. Part III: The Generation of a 3D Net-shaped Preform Weave Pattern and Weaving Instructions"
+        ],
+        "prefix": "10.1080",
+        "volume": "89",
+        "author": [
+          {
+            "given": "Li",
+            "family": "Zhao",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "I.",
+            "family": "Porat",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "K.",
+            "family": "Greenwood",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "301",
+        "reference": [
+          {
+            "key": "CIT0001",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1080/00405009608659067"
+          },
+          {
+            "key": "CIT0002",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1080/00405009608659066"
+          }
+        ],
+        "container-title": [
+          "Journal of the Textile Institute"
+        ],
+        "language": "en",
+        "link": [
+          {
+            "URL": "http://www.tandfonline.com/doi/pdf/10.1080/00405009808658622",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2016,
+              12,
+              18
+            ]
+          ],
+          "date-time": "2016-12-18T20:16:38Z",
+          "timestamp": 1482092198000
+        },
+        "score": 26.335745,
+        "resource": {
+          "primary": {
+            "URL": "http://www.tandfonline.com/doi/abs/10.1080/00405009808658622"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              1998,
+              1
+            ]
+          ]
+        },
+        "references-count": 2,
+        "journal-issue": {
+          "issue": "2",
+          "published-print": {
+            "date-parts": [
+              [
+                1998,
+                1
+              ]
+            ]
+          }
+        },
+        "alternative-id": [
+          "10.1080/00405009808658622"
+        ],
+        "URL": "https://doi.org/10.1080/00405009808658622",
+        "ISSN": [
+          "0040-5000",
+          "1754-2340"
+        ],
+        "issn-type": [
+          {
+            "value": "0040-5000",
+            "type": "print"
+          },
+          {
+            "value": "1754-2340",
+            "type": "electronic"
+          }
+        ],
+        "published": {
+          "date-parts": [
+            [
+              1998,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              4,
+              13
+            ]
+          ],
+          "date-time": "2026-04-13T20:55:38Z",
+          "timestamp": 1776113738382,
+          "version": "3.50.1"
+        },
+        "reference-count": 42,
+        "publisher": "Informa UK Limited",
+        "issue": "4",
+        "content-domain": {
+          "domain": [
+            "www.tandfonline.com"
+          ],
+          "crossmark-restriction": true
+        },
+        "short-container-title": [
+          "TEXTILE"
+        ],
+        "published-print": {
+          "date-parts": [
+            [
+              2022,
+              10,
+              2
+            ]
+          ]
+        },
+        "DOI": "10.1080/14759756.2021.1966284",
+        "type": "journal-article",
+        "created": {
+          "date-parts": [
+            [
+              2021,
+              10,
+              5
+            ]
+          ],
+          "date-time": "2021-10-05T06:27:24Z",
+          "timestamp": 1633415244000
+        },
+        "page": "439-456",
+        "update-policy": "https://doi.org/10.1080/tandf_crossmark_01",
+        "source": "Crossref",
+        "is-referenced-by-count": 2,
+        "title": [
+          "Beyond Weaving: Transdisciplinarity and the Bauhaus Weaving Workshop"
+        ],
+        "prefix": "10.1080",
+        "volume": "20",
+        "author": [
+          {
+            "given": "Erica",
+            "family": "Warren",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "301",
+        "published-online": {
+          "date-parts": [
+            [
+              2021,
+              10,
+              4
+            ]
+          ]
+        },
+        "reference": [
+          {
+            "key": "CIT0001",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.5040/9781350036062"
+          },
+          {
+            "key": "CIT0002",
+            "first-page": "46",
+            "volume-title": "Lenore Tawney: Mirror of the Universe",
+            "author": "Adamson Glenn.",
+            "year": "2019"
+          },
+          {
+            "key": "CIT0003",
+            "first-page": "106",
+            "volume-title": "Lenore Tawney: Mirror of the Universe",
+            "author": "Adamson Glenn.",
+            "year": "2019"
+          },
+          {
+            "key": "CIT0004",
+            "first-page": "222",
+            "volume-title": "Lenore Tawney: Mirror of the Universe",
+            "author": "Adamson Glenn.",
+            "year": "2019"
+          },
+          {
+            "key": "CIT0005",
+            "volume-title": "On Weaving",
+            "author": "Albers Anni.",
+            "year": "1965"
+          },
+          {
+            "key": "CIT0006",
+            "first-page": "41",
+            "volume-title": "Anni Albers: On Designing",
+            "author": "Albers Anni.",
+            "year": "1939"
+          },
+          {
+            "key": "CIT0008",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.2307/1566855"
+          },
+          {
+            "key": "CIT0007",
+            "first-page": "62",
+            "volume-title": "Anni Albers: On Designing",
+            "author": "Albers Anni.",
+            "year": "1961"
+          },
+          {
+            "key": "CIT0009",
+            "first-page": "143",
+            "volume-title": "Bauhaus: 1919–1928",
+            "author": "Albers Anni.",
+            "year": "1938"
+          },
+          {
+            "key": "CIT0010",
+            "first-page": "50",
+            "volume-title": "Anni Albers: On Designing",
+            "author": "Albers Anni.",
+            "year": "1937"
+          },
+          {
+            "key": "CIT0011",
+            "unstructured": "Art Institute of Chicago Press Release 1962. October 11,"
+          },
+          {
+            "key": "CIT0012",
+            "first-page": "7",
+            "volume-title": "Bauhaus: 1919–1928",
+            "author": "Barr Alfred.",
+            "year": "1938"
+          },
+          {
+            "key": "CIT0013",
+            "first-page": "12",
+            "volume-title": "Anni Albers",
+            "author": "Coxon Ann",
+            "year": "2018"
+          },
+          {
+            "key": "CIT0014",
+            "first-page": "166",
+            "volume-title": "Anni Albers",
+            "author": "Coxon Ann.",
+            "year": "2018"
+          },
+          {
+            "key": "CIT0015",
+            "volume-title": "Anni and Josef Albers: Latin American Journeys",
+            "author": "Danilowitz Brenda",
+            "year": "2007"
+          },
+          {
+            "key": "CIT0016",
+            "unstructured": "“extra- prefix.” 2021. OED Online. June 2021. Oxford University Press. Accessed 13 July 2021. https://www.oed.com/view/Entry/67077?rskey=bIeS9f&result=3&isAdvanced=false"
+          },
+          {
+            "key": "CIT0017",
+            "unstructured": "“fabric, n.” 2020. OED Online. December Oxford University Press. Accessed 11 August 2021. https://www-oed-com.proxy.artic.edu/view/Entry/67394?rskey=xvaksq&result=1&isAdvanced=false"
+          },
+          {
+            "key": "CIT0018",
+            "first-page": "20",
+            "volume-title": "Anni Albers",
+            "author": "Fer Briony.",
+            "year": "2018"
+          },
+          {
+            "key": "CIT0019",
+            "volume-title": "Bauhaus: 1919–1928",
+            "volume": "18",
+            "author": "Gropius Walter.",
+            "year": "1919"
+          },
+          {
+            "key": "CIT0020",
+            "first-page": "31",
+            "volume-title": "Bauhaus. Weimar, Dessau, Berlin, Chicago",
+            "author": "Gropius Walter.",
+            "year": "1919"
+          },
+          {
+            "key": "CIT0021",
+            "unstructured": "“inter- prefix.” 2020. OED Online. December 2020. Oxford University Press. Accessed 11 August 2021. https://www-oed-com.proxy.artic.edu/view/Entry/97516?rskey=CA6End&result=5&isAdvanced=false"
+          },
+          {
+            "key": "CIT0022",
+            "unstructured": "“interdisciplinary, adj.” 2020. OED Online. September 2020. Oxford University Press. Accessed 27 October 2020. https://www-oed-com.proxy.artic.edu/view/Entry/97720?redirectedFrom=interdisciplinary"
+          },
+          {
+            "key": "CIT0023",
+            "first-page": "36",
+            "volume": "51",
+            "author": "Kuh Katharine.",
+            "year": "1968",
+            "journal-title": "Saturday Review"
+          },
+          {
+            "key": "CIT0024",
+            "first-page": "13",
+            "volume-title": "Anni and Josef Albers: Latin American Journeys",
+            "author": "Liesbrock Heinz.",
+            "year": "2007"
+          },
+          {
+            "key": "CIT0025",
+            "volume-title": "Gunta Stölzl, Anni Albers: The Museum of Modern Art, New York, February 15–July 10, 1990.",
+            "author": "McQuaid Matilda.",
+            "year": "1990"
+          },
+          {
+            "key": "CIT0026",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1080/17496772.2018.1493794"
+          },
+          {
+            "key": "CIT0027",
+            "volume-title": "Bauhaus Women: Art, Handicraft, Design",
+            "author": "Müller Ulrike.",
+            "year": "2009"
+          },
+          {
+            "key": "CIT0028",
+            "first-page": "130",
+            "volume-title": "Anni Albers",
+            "author": "Mistry Priyest.",
+            "year": "2018"
+          },
+          {
+            "key": "CIT0029",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.5040/9781501344817"
+          },
+          {
+            "key": "CIT0030",
+            "volume-title": "Bauhaus Women: A Global Perspective",
+            "author": "Otto Elizabeth",
+            "year": "2019"
+          },
+          {
+            "key": "CIT0031",
+            "unstructured": "“Oral history interview with Anni Albers.” 1968, July 5. Archives of American Art, Smithsonian Institution."
+          },
+          {
+            "key": "CIT0033",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.7208/chicago/9780226680699.001.0001"
+          },
+          {
+            "key": "CIT0034",
+            "unstructured": "“pictorial, adj. and n.” 2020. OED Online. December 2020. Oxford University Press. Accessed 11 August 2021. https://www.oed.com/view/Entry/143493?redirectedFrom=pictorial."
+          },
+          {
+            "key": "CIT0035",
+            "volume-title": "Convergence/Divergence: Exploring Black Mountain College + Chicago’s New Bauhaus/Institute of Design",
+            "author": "Reid Michael.",
+            "year": "2015"
+          },
+          {
+            "key": "CIT0036",
+            "first-page": "154",
+            "volume-title": "Lenore Tawney: Mirror of the Universe",
+            "author": "Savig Mary.",
+            "year": "2019"
+          },
+          {
+            "key": "CIT0037",
+            "volume-title": "Bauhaus Weaving Theory: From Feminine Craft to Mode of Design",
+            "author": "Smith T’ai.",
+            "year": "2014"
+          },
+          {
+            "key": "CIT0038",
+            "first-page": "60",
+            "volume-title": "Anni Albers",
+            "author": "Smith T’ai.",
+            "year": "2018"
+          },
+          {
+            "key": "CIT0039",
+            "first-page": "116",
+            "volume-title": "Bauhaus. Weimar, Dessau, Berlin, Chicago",
+            "author": "Stölzl Gunta.",
+            "year": "1926"
+          },
+          {
+            "key": "CIT0040",
+            "unstructured": "“trans- prefix.” 2020. OED Online. September 2020. Oxford University Press. Accessed 11 August 2021. https://www-oed-com.proxy.artic.edu/view/Entry/204575?rskey=7uqPYo&result=4&isAdvanced=false."
+          },
+          {
+            "key": "CIT0041",
+            "first-page": "153",
+            "volume-title": "In a Cloud, in a Wall, in a Chair: Six Modernists in Mexico at Midcentury",
+            "author": "Warren Erica.",
+            "year": "2019"
+          },
+          {
+            "key": "CIT0042",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.2307/j.ctvc772j6.17"
+          },
+          {
+            "key": "CIT0043",
+            "first-page": "98",
+            "volume-title": "Lenore Tawney: Mirror of the Universe",
+            "author": "Zaharia Florica.",
+            "year": "2019"
+          }
+        ],
+        "container-title": [
+          "TEXTILE"
+        ],
+        "language": "en",
+        "link": [
+          {
+            "URL": "https://www.tandfonline.com/doi/pdf/10.1080/14759756.2021.1966284",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2022,
+              10,
+              4
+            ]
+          ],
+          "date-time": "2022-10-04T13:59:10Z",
+          "timestamp": 1664891950000
+        },
+        "score": 25.951668,
+        "resource": {
+          "primary": {
+            "URL": "https://www.tandfonline.com/doi/full/10.1080/14759756.2021.1966284"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2021,
+              10,
+              4
+            ]
+          ]
+        },
+        "references-count": 42,
+        "journal-issue": {
+          "issue": "4",
+          "published-print": {
+            "date-parts": [
+              [
+                2022,
+                10,
+                2
+              ]
+            ]
+          }
+        },
+        "alternative-id": [
+          "10.1080/14759756.2021.1966284"
+        ],
+        "URL": "https://doi.org/10.1080/14759756.2021.1966284",
+        "ISSN": [
+          "1475-9756",
+          "1751-8350"
+        ],
+        "issn-type": [
+          {
+            "value": "1475-9756",
+            "type": "print"
+          },
+          {
+            "value": "1751-8350",
+            "type": "electronic"
+          }
+        ],
+        "published": {
+          "date-parts": [
+            [
+              2021,
+              10,
+              4
+            ]
+          ]
+        },
+        "assertion": [
+          {
+            "value": "The publishing and review policy for this title is described in its Aims & Scope.",
+            "order": 1,
+            "name": "peerreview_statement",
+            "label": "Peer Review Statement"
+          },
+          {
+            "value": "http://www.tandfonline.com/action/journalInformation?show=aimsScope&journalCode=rftx20",
+            "URL": "http://www.tandfonline.com/action/journalInformation?show=aimsScope&journalCode=rftx20",
+            "order": 2,
+            "name": "aims_and_scope_url",
+            "label": "Aim & Scope"
+          },
+          {
+            "value": "2021-10-04",
+            "order": 3,
+            "name": "published",
+            "label": "Published",
+            "group": {
+              "name": "publication_history",
+              "label": "Publication History"
+            }
+          }
+        ]
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2025,
+              12,
+              25
+            ]
+          ],
+          "date-time": "2025-12-25T05:01:25Z",
+          "timestamp": 1766638885052,
+          "version": "3.48.0"
+        },
+        "reference-count": 0,
+        "publisher": "Queen's University Library",
+        "license": [
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2025,
+                  12,
+                  24
+                ]
+              ],
+              "date-time": "2025-12-24T00:00:00Z",
+              "timestamp": 1766534400000
+            },
+            "content-version": "unspecified",
+            "delay-in-days": 0,
+            "URL": "https://creativecommons.org/licenses/by-nc-nd/4.0"
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "short-container-title": [
+          "Encounters"
+        ],
+        "DOI": "10.24908/encounters.v26i0.20266",
+        "type": "journal-article",
+        "created": {
+          "date-parts": [
+            [
+              2025,
+              12,
+              25
+            ]
+          ],
+          "date-time": "2025-12-25T05:00:21Z",
+          "timestamp": 1766638821000
+        },
+        "page": "135",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "Structural Weaving"
+        ],
+        "prefix": "10.24908",
+        "volume": "26",
+        "author": [
+          {
+            "given": "Frank",
+            "family": "Dallas",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "10534",
+        "published-online": {
+          "date-parts": [
+            [
+              2025,
+              12,
+              24
+            ]
+          ]
+        },
+        "container-title": [
+          "Encounters in Theory and History of Education"
+        ],
+        "link": [
+          {
+            "URL": "https://ojs.library.queensu.ca/index.php/encounters/article/download/20266/13005",
+            "content-type": "application/pdf",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "https://ojs.library.queensu.ca/index.php/encounters/article/download/20266/13005",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2025,
+              12,
+              25
+            ]
+          ],
+          "date-time": "2025-12-25T05:00:21Z",
+          "timestamp": 1766638821000
+        },
+        "score": 25.191826,
+        "resource": {
+          "primary": {
+            "URL": "https://ojs.library.queensu.ca/index.php/encounters/article/view/20266"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2025,
+              12,
+              24
+            ]
+          ]
+        },
+        "references-count": 0,
+        "URL": "https://doi.org/10.24908/encounters.v26i0.20266",
+        "ISSN": [
+          "2560-8371",
+          "1494-4936"
+        ],
+        "issn-type": [
+          {
+            "value": "2560-8371",
+            "type": "electronic"
+          },
+          {
+            "value": "1494-4936",
+            "type": "print"
+          }
+        ],
+        "published": {
+          "date-parts": [
+            [
+              2025,
+              12,
+              24
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              10,
+              5
+            ]
+          ],
+          "date-time": "2026-10-05T18:17:00Z",
+          "timestamp": 1791224220386,
+          "version": "4.1.0"
+        },
+        "reference-count": 36,
+        "publisher": "Informa UK Limited",
+        "issue": "1-2",
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "short-container-title": [
+          "Textile Progress"
+        ],
+        "published-print": {
+          "date-parts": [
+            [
+              2000,
+              3
+            ]
+          ]
+        },
+        "DOI": "10.1080/00405160008688882",
+        "type": "journal-article",
+        "created": {
+          "date-parts": [
+            [
+              2009,
+              1,
+              15
+            ]
+          ],
+          "date-time": "2009-01-15T06:21:17Z",
+          "timestamp": 1232000477000
+        },
+        "page": "22-40",
+        "source": "Crossref",
+        "is-referenced-by-count": 16,
+        "title": [
+          "3. Advances in Weaving and Weaving Preparation"
+        ],
+        "prefix": "10.1080",
+        "volume": "30",
+        "author": [
+          {
+            "given": "A. M.",
+            "family": "Seyam",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "member": "301",
+        "reference": [
+          {
+            "key": "CIT0001",
+            "volume-title": "Muratec Products Guide, ITMA '99 Paris",
+            "author": "Muratec",
+            "year": "1999"
+          },
+          {
+            "key": "CIT0002",
+            "volume-title": "No. 7V-II Link Coner",
+            "author": "Muratec",
+            "year": "1999"
+          },
+          {
+            "key": "CIT0003",
+            "unstructured": "Savio Macchine Tessili. 1999.Orion Automatic Winder1–29. Savio Catalog."
+          },
+          {
+            "key": "CIT0004",
+            "unstructured": "Savio Macchine Tessili. 1999.Super Espero Automatic Winder1–31. Savio Catalog."
+          },
+          {
+            "key": "CIT0005",
+            "volume-title": "Autoconer 338 RM/K/E: Sensor-Controlled Package Winding",
+            "author": "Schlafhorst",
+            "year": "1999"
+          },
+          {
+            "key": "CIT0006",
+            "volume-title": "Autoconer 338 D/V: The Caddy-System Innovation, Efficient, Flexible",
+            "author": "Schlafhorst",
+            "year": "1999"
+          },
+          {
+            "key": "CIT0007",
+            "volume-title": "Ben-T-Creel: Precise Tangential Unwinding",
+            "author": "Benninger",
+            "year": "1999"
+          },
+          {
+            "key": "CIT0008",
+            "volume-title": "Ben-V-Creel: Direct Beaming Creel for High Productivity with Low Thread Tension",
+            "author": "Benninger",
+            "year": "1999"
+          },
+          {
+            "key": "CIT0009",
+            "volume-title": "Ben-Tronic: New Generation Sectional Warpers",
+            "author": "Benninger",
+            "year": "1999"
+          },
+          {
+            "key": "CIT0010",
+            "volume-title": "Ben-Assemble: Assembly Beaming Filaments with Latest Technology",
+            "author": "Benninger",
+            "year": "1949"
+          },
+          {
+            "key": "CIT0011",
+            "volume-title": "Model 350 Warper",
+            "year": "1999"
+          },
+          {
+            "key": "CIT0012",
+            "volume-title": "Competence in Thread Guiding, Tension Units, Creels, and Accessories",
+            "year": "1999"
+          },
+          {
+            "key": "CIT0013",
+            "volume-title": "Competence in Warping, Sectional Warping Installation",
+            "year": "1999"
+          },
+          {
+            "key": "CIT0014",
+            "series-title": "Brochure 1999–04–4000 G",
+            "volume-title": "Suzuki, NAS-Super 140",
+            "year": "1999"
+          },
+          {
+            "key": "CIT0015",
+            "volume-title": "Suzuki, Automatic Sectional Warper SW-K7A",
+            "year": "1999"
+          },
+          {
+            "key": "CIT0016",
+            "volume-title": "Model 930-A Beam Winder",
+            "year": "1998"
+          },
+          {
+            "key": "CIT0017",
+            "volume-title": "Warper Dust Particle Collector",
+            "year": "1998"
+          },
+          {
+            "key": "CIT0018",
+            "volume-title": "Sire Box SC Wetsize, Brochure",
+            "year": "1999"
+          },
+          {
+            "key": "CIT0019",
+            "volume-title": "Pre-wet Sizing and Control System",
+            "year": "1999"
+          },
+          {
+            "key": "CIT0020",
+            "volume-title": "Sizing Staple Fiber Yarns",
+            "author": "Benninger",
+            "year": "1999"
+          },
+          {
+            "key": "CIT0021",
+            "volume-title": "Pre-wet Box",
+            "author": "Mayer K.",
+            "year": "1999"
+          },
+          {
+            "key": "CIT0022",
+            "volume-title": "Pre-wet Technology",
+            "year": "1999"
+          },
+          {
+            "key": "CIT0023",
+            "volume": "73",
+            "author": "Rozelle W. N.",
+            "year": "1999",
+            "journal-title": "Textile World"
+          },
+          {
+            "key": "CIT0024",
+            "volume": "1",
+            "author": "Benninger",
+            "year": "1999",
+            "journal-title": "Brochure 684-e"
+          },
+          {
+            "key": "CIT0025",
+            "author": "Dornier",
+            "year": "1999",
+            "journal-title": "ITMA '99 Exhibition Program"
+          },
+          {
+            "key": "CIT0026",
+            "author": "Picanol",
+            "year": "1999",
+            "journal-title": "ITMA '99 Booth Guide"
+          },
+          {
+            "key": "CIT0027",
+            "author": "Somet",
+            "year": "1999",
+            "journal-title": "ITMA '99"
+          },
+          {
+            "key": "CIT0028",
+            "unstructured": "Toyoda Textile Machinery. 1999.ITMA '99 Product and Exhibition Guide,"
+          },
+          {
+            "key": "CIT0029",
+            "unstructured": "Tsudakoma Corp. 1999.ITMA '99,"
+          },
+          {
+            "key": "CIT0030",
+            "unstructured": "Sulzer Textil. 1999.ITMA '99 Paris,"
+          },
+          {
+            "key": "CIT0031",
+            "author": "Vamatex",
+            "year": "1999",
+            "journal-title": "ITMA '99"
+          },
+          {
+            "key": "CIT0032",
+            "volume-title": "Unished, Entering a New Age of Technology for Weaving Figured Designs",
+            "author": "Grosse",
+            "year": "1999"
+          },
+          {
+            "key": "CIT0033",
+            "volume-title": "of Staubli, Personal Communications. ITMA '99",
+            "author": "Dudler M.",
+            "year": "1999"
+          },
+          {
+            "key": "CIT0034",
+            "volume-title": "Carpet & Rug Tronic CRT83",
+            "author": "Van de Wiele M.",
+            "year": "1999"
+          },
+          {
+            "key": "CIT0035",
+            "unstructured": "Van de Wiele, M. May 1999. May,Sisal-look Carpet SLC83, Brochure 14148E-99"
+          },
+          {
+            "key": "CIT0036",
+            "volume-title": "Main Motor with Sumo Direct Machine Drive",
+            "author": "Picanol",
+            "year": "1999"
+          }
+        ],
+        "container-title": [
+          "Textile Progress"
+        ],
+        "language": "en",
+        "link": [
+          {
+            "URL": "http://www.tandfonline.com/doi/pdf/10.1080/00405160008688882",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2016,
+              12,
+              18
+            ]
+          ],
+          "date-time": "2016-12-18T08:24:49Z",
+          "timestamp": 1482049489000
+        },
+        "score": 25.14123,
+        "resource": {
+          "primary": {
+            "URL": "http://www.tandfonline.com/doi/abs/10.1080/00405160008688882"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2000,
+              3
+            ]
+          ]
+        },
+        "references-count": 36,
+        "journal-issue": {
+          "issue": "1-2",
+          "published-print": {
+            "date-parts": [
+              [
+                2000,
+                3
+              ]
+            ]
+          }
+        },
+        "alternative-id": [
+          "10.1080/00405160008688882"
+        ],
+        "URL": "https://doi.org/10.1080/00405160008688882",
+        "ISSN": [
+          "0040-5167",
+          "1754-2278"
+        ],
+        "issn-type": [
+          {
+            "value": "0040-5167",
+            "type": "print"
+          },
+          {
+            "value": "1754-2278",
+            "type": "electronic"
+          }
+        ],
+        "published": {
+          "date-parts": [
+            [
+              2000,
+              3
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              6,
+              1
+            ]
+          ],
+          "date-time": "2026-06-01T23:33:36Z",
+          "timestamp": 1780356816627,
+          "version": "3.54.1"
+        },
+        "reference-count": 38,
+        "publisher": "Elsevier BV",
+        "license": [
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2022,
+                  5,
+                  1
+                ]
+              ],
+              "date-time": "2022-05-01T00:00:00Z",
+              "timestamp": 1651363200000
+            },
+            "content-version": "tdm",
+            "delay-in-days": 0,
+            "URL": "https://www.elsevier.com/tdm/userlicense/1.0/"
+          },
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2022,
+                  5,
+                  1
+                ]
+              ],
+              "date-time": "2022-05-01T00:00:00Z",
+              "timestamp": 1651363200000
+            },
+            "content-version": "tdm",
+            "delay-in-days": 0,
+            "URL": "https://www.elsevier.com/legal/tdmrep-license"
+          },
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2022,
+                  5,
+                  1
+                ]
+              ],
+              "date-time": "2022-05-01T00:00:00Z",
+              "timestamp": 1651363200000
+            },
+            "content-version": "stm-asf",
+            "delay-in-days": 0,
+            "URL": "https://doi.org/10.15223/policy-017"
+          },
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2022,
+                  5,
+                  1
+                ]
+              ],
+              "date-time": "2022-05-01T00:00:00Z",
+              "timestamp": 1651363200000
+            },
+            "content-version": "stm-asf",
+            "delay-in-days": 0,
+            "URL": "https://doi.org/10.15223/policy-037"
+          },
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2022,
+                  5,
+                  1
+                ]
+              ],
+              "date-time": "2022-05-01T00:00:00Z",
+              "timestamp": 1651363200000
+            },
+            "content-version": "stm-asf",
+            "delay-in-days": 0,
+            "URL": "https://doi.org/10.15223/policy-012"
+          },
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2022,
+                  5,
+                  1
+                ]
+              ],
+              "date-time": "2022-05-01T00:00:00Z",
+              "timestamp": 1651363200000
+            },
+            "content-version": "stm-asf",
+            "delay-in-days": 0,
+            "URL": "https://doi.org/10.15223/policy-029"
+          },
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2022,
+                  5,
+                  1
+                ]
+              ],
+              "date-time": "2022-05-01T00:00:00Z",
+              "timestamp": 1651363200000
+            },
+            "content-version": "stm-asf",
+            "delay-in-days": 0,
+            "URL": "https://doi.org/10.15223/policy-004"
+          }
+        ],
+        "content-domain": {
+          "domain": [
+            "elsevier.com",
+            "sciencedirect.com"
+          ],
+          "crossmark-restriction": true
+        },
+        "short-container-title": [
+          "Pattern Recognition"
+        ],
+        "published-print": {
+          "date-parts": [
+            [
+              2022,
+              5
+            ]
+          ]
+        },
+        "DOI": "10.1016/j.patcog.2022.108526",
+        "type": "journal-article",
+        "created": {
+          "date-parts": [
+            [
+              2022,
+              1,
+              10
+            ]
+          ],
+          "date-time": "2022-01-10T02:24:28Z",
+          "timestamp": 1641781468000
+        },
+        "page": "108526",
+        "update-policy": "https://doi.org/10.1016/elsevier_cm_policy",
+        "source": "Crossref",
+        "is-referenced-by-count": 11,
+        "special_numbering": "C",
+        "title": [
+          "Hypergraph matching via game-theoretic hypergraph clustering"
+        ],
+        "prefix": "10.1016",
+        "volume": "125",
+        "author": [
+          {
+            "given": "Jian",
+            "family": "Hou",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Marcello",
+            "family": "Pelillo",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Huaqiang",
+            "family": "Yuan",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "member": "78",
+        "reference": [
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0001",
+            "doi-asserted-by": "crossref",
+            "first-page": "1",
+            "DOI": "10.1016/j.patcog.2021.107986",
+            "article-title": "Robust feature matching using guided local outlier factor",
+            "volume": "117",
+            "author": "Wang",
+            "year": "2021",
+            "journal-title": "Pattern Recognit."
+          },
+          {
+            "issue": "1",
+            "key": "10.1016/j.patcog.2022.108526_bib0002",
+            "doi-asserted-by": "crossref",
+            "first-page": "23",
+            "DOI": "10.1007/s11263-020-01359-2",
+            "article-title": "Image matching from handcrafted to deep features: a survey",
+            "volume": "129",
+            "author": "Ma",
+            "year": "2021",
+            "journal-title": "Int. J. Comput. Vis."
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0003",
+            "doi-asserted-by": "crossref",
+            "first-page": "1",
+            "DOI": "10.1016/j.patcog.2020.107665",
+            "article-title": "Ranking list preservation for feature matching",
+            "volume": "111",
+            "author": "Jiang",
+            "year": "2021",
+            "journal-title": "Pattern Recognit."
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0004",
+            "series-title": "IEEE International Conference on Computer Vision and Pattern Recognition",
+            "first-page": "2091",
+            "article-title": "Finding matches in a haystack: a max-pooling strategy for graph matching in the presence of outliers",
+            "author": "Cho",
+            "year": "2014"
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0005",
+            "series-title": "International Conference on Pattern Recognition",
+            "first-page": "1316",
+            "article-title": "A unifying framework for relational structure matching",
+            "author": "Pelillo",
+            "year": "1998"
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0006",
+            "series-title": "IEEE International Conference on Computer Vision",
+            "first-page": "1482",
+            "article-title": "A spectral technique for correspondence problems using pairwise constraints",
+            "author": "Leordeanu",
+            "year": "2005"
+          },
+          {
+            "issue": "8",
+            "key": "10.1016/j.patcog.2022.108526_bib0007",
+            "doi-asserted-by": "crossref",
+            "first-page": "1809",
+            "DOI": "10.1109/TPAMI.2019.2903483",
+            "article-title": "A continuation method for graph matching based feature correspondence",
+            "volume": "42",
+            "author": "Yang",
+            "year": "2020",
+            "journal-title": "IEEE Trans. Pattern Anal. Mach. Intell."
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0008",
+            "doi-asserted-by": "crossref",
+            "first-page": "1",
+            "DOI": "10.1016/j.patcog.2021.108228",
+            "article-title": "Graph matching based on fast normalized cut and multiplicative update mapping",
+            "volume": "122",
+            "author": "Yang",
+            "year": "2022",
+            "journal-title": "Pattern Recognit."
+          },
+          {
+            "issue": "11",
+            "key": "10.1016/j.patcog.2022.108526_bib0009",
+            "first-page": "2737",
+            "article-title": "A functional representation for graph matching",
+            "volume": "42",
+            "author": "Wang",
+            "year": "2020",
+            "journal-title": "IEEE Trans. Pattern Anal. Mach. Intell."
+          },
+          {
+            "issue": "5",
+            "key": "10.1016/j.patcog.2022.108526_bib0010",
+            "doi-asserted-by": "crossref",
+            "first-page": "707",
+            "DOI": "10.1016/j.cviu.2010.10.013",
+            "article-title": "Measuring 3D shape similarity by graph-based matching of the medial scaffolds",
+            "volume": "115",
+            "author": "Chang",
+            "year": "2011",
+            "journal-title": "Comput. Vis. Image Underst."
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0011",
+            "doi-asserted-by": "crossref",
+            "first-page": "395",
+            "DOI": "10.1016/j.ins.2015.03.032",
+            "article-title": "Multi-view ensemble manifold regularization for 3Dobject recognition",
+            "volume": "320",
+            "author": "Hong",
+            "year": "2015",
+            "journal-title": "Inf. Sci."
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0012",
+            "series-title": "Evolution and the Theory of Games",
+            "author": "Smith",
+            "year": "1982"
+          },
+          {
+            "issue": "1",
+            "key": "10.1016/j.patcog.2022.108526_bib0013",
+            "doi-asserted-by": "crossref",
+            "first-page": "167",
+            "DOI": "10.1109/TPAMI.2007.250608",
+            "article-title": "Dominant sets and pairwise clustering",
+            "volume": "29",
+            "author": "Pavan",
+            "year": "2007",
+            "journal-title": "IEEE Trans. Pattern Anal. Mach. Intell."
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0014",
+            "series-title": "International Conference on Pattern Recognition",
+            "first-page": "1012",
+            "article-title": "A game-theoretic hyper-graph matching algorithm",
+            "author": "Hou",
+            "year": "2018"
+          },
+          {
+            "issue": "12",
+            "key": "10.1016/j.patcog.2022.108526_bib0015",
+            "doi-asserted-by": "crossref",
+            "first-page": "8952",
+            "DOI": "10.1109/TGRS.2020.2992542",
+            "article-title": "Simultaneously counting and extracting endmembers in a hyperspectral image based on divergent subsets",
+            "volume": "58",
+            "author": "Tao",
+            "year": "2020",
+            "journal-title": "IEEE Trans. Geosci. Remote Sens."
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0016",
+            "doi-asserted-by": "crossref",
+            "first-page": "393",
+            "DOI": "10.1016/j.patrec.2019.09.023",
+            "article-title": "Hypergraph isomorphism using association hypergraphs",
+            "volume": "128",
+            "author": "Sandi",
+            "year": "2019",
+            "journal-title": "Pattern Recognit. Lett."
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0017",
+            "doi-asserted-by": "crossref",
+            "first-page": "87",
+            "DOI": "10.1016/j.patrec.2016.07.011",
+            "article-title": "Game theoretic hypergraph matching for multi-source image correspondences",
+            "volume": "87",
+            "author": "Zhang",
+            "year": "2017",
+            "journal-title": "Pattern Recognit. Lett."
+          },
+          {
+            "issue": "1",
+            "key": "10.1016/j.patcog.2022.108526_bib0018",
+            "doi-asserted-by": "crossref",
+            "first-page": "123",
+            "DOI": "10.1007/s10107-011-0451-5",
+            "article-title": "On linear and semidefinite programming relaxations for hypergraph matching",
+            "volume": "135",
+            "author": "Chan",
+            "year": "2012",
+            "journal-title": "Math. Program."
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0019",
+            "series-title": "IEEE International Conference on Computer Vision and Pattern Recognition",
+            "first-page": "1",
+            "article-title": "Probabilistic graph and hypergraph matching",
+            "author": "Zass",
+            "year": "2008"
+          },
+          {
+            "issue": "2",
+            "key": "10.1016/j.patcog.2022.108526_bib0020",
+            "doi-asserted-by": "crossref",
+            "first-page": "343",
+            "DOI": "10.2140/pjm.1967.21.343",
+            "article-title": "Concerning nonnegative matrices and doubly stochastic matrices",
+            "volume": "21",
+            "author": "Sinkhorn",
+            "year": "1967",
+            "journal-title": "Pac. J. Math."
+          },
+          {
+            "issue": "12",
+            "key": "10.1016/j.patcog.2022.108526_bib0021",
+            "doi-asserted-by": "crossref",
+            "first-page": "2205",
+            "DOI": "10.1109/TPAMI.2010.51",
+            "article-title": "Efficient high order matching",
+            "volume": "32",
+            "author": "Chertok",
+            "year": "2010",
+            "journal-title": "IEEE Trans. Pattern Anal. Mach. Intell."
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0022",
+            "series-title": "IEEE International Conference on Computer Vision and Pattern Recognition",
+            "first-page": "1980",
+            "article-title": "A tensor-based algorithm for high-order graph matching",
+            "author": "Duchenne",
+            "year": "2009"
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0023",
+            "series-title": "European Conference on Computer Vision",
+            "first-page": "492",
+            "article-title": "Reweighted random walks for graph matching",
+            "author": "Cho",
+            "year": "2010"
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0024",
+            "series-title": "IEEE International Conference on Computer Vision and Pattern Recognition",
+            "first-page": "1633",
+            "article-title": "Hyper-graph matching via reweighted random walks",
+            "author": "Lee",
+            "year": "2011"
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0025",
+            "series-title": "IEEE International Conference on Computer Vision and Pattern Recognition",
+            "first-page": "5270",
+            "article-title": "A flexible tensor block coordinate ascent scheme for hypergraph matching",
+            "author": "Nguyen",
+            "year": "2015"
+          },
+          {
+            "issue": "10",
+            "key": "10.1016/j.patcog.2022.108526_bib0026",
+            "doi-asserted-by": "crossref",
+            "first-page": "2978",
+            "DOI": "10.1109/TCSVT.2017.2718225",
+            "article-title": "Second- and high-order graph matching for correspondence problems",
+            "volume": "28",
+            "author": "Zhang",
+            "year": "2018",
+            "journal-title": "IEEE Trans. Circuits Syst. Video Technol."
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0027",
+            "series-title": "IEEE International Conference on Computer Vision",
+            "first-page": "2274",
+            "article-title": "Semi-supervised learning and optimization for hypergraph matching",
+            "author": "Leordeanu",
+            "year": "2011"
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0028",
+            "series-title": "IEEE International Conference on Computer Vision and Pattern Recognition",
+            "first-page": "1520",
+            "article-title": "Discrete hyper-graph matching",
+            "author": "Yan",
+            "year": "2015"
+          },
+          {
+            "issue": "2",
+            "key": "10.1016/j.patcog.2022.108526_bib0029",
+            "doi-asserted-by": "crossref",
+            "first-page": "765",
+            "DOI": "10.1109/TCYB.2017.2655538",
+            "article-title": "Adaptive discrete hypergraph matching",
+            "volume": "48",
+            "author": "Yan",
+            "year": "2018",
+            "journal-title": "IEEE Trans. Cybern."
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0030",
+            "series-title": "International Joint Conference on Artificial Intelligence",
+            "first-page": "4662",
+            "article-title": "Dynamic programming bipartite belief propagation for hyper graph matching",
+            "author": "Zhang",
+            "year": "2017"
+          },
+          {
+            "issue": "2",
+            "key": "10.1016/j.patcog.2022.108526_bib0031",
+            "doi-asserted-by": "crossref",
+            "first-page": "91",
+            "DOI": "10.1023/B:VISI.0000029664.99615.94",
+            "article-title": "Distinctive image features from scale-invariant keypoints",
+            "volume": "60",
+            "author": "Lowe",
+            "year": "2004",
+            "journal-title": "Int. J. Comput. Vis."
+          },
+          {
+            "issue": "6",
+            "key": "10.1016/j.patcog.2022.108526_bib0032",
+            "doi-asserted-by": "crossref",
+            "first-page": "1312",
+            "DOI": "10.1109/TPAMI.2012.226",
+            "article-title": "A game-theoretic approach to hypergraph clustering",
+            "volume": "35",
+            "author": "Bulo",
+            "year": "2013",
+            "journal-title": "IEEE Trans. Pattern Anal. Mach. Intell."
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0033",
+            "doi-asserted-by": "crossref",
+            "first-page": "360",
+            "DOI": "10.1090/S0002-9904-1967-11751-8",
+            "article-title": "An inequality with applications to statistical estimation for probabilistic functions of Markov processes and to a model for ecology",
+            "volume": "73",
+            "author": "Baum",
+            "year": "1967",
+            "journal-title": "Bull. Am. Math. Soc."
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0034",
+            "series-title": "IEEE International Conference on Computer Vision and Pattern Recognition",
+            "first-page": "838",
+            "article-title": "Beyond pairwise clustering",
+            "author": "Agarwal",
+            "year": "2005"
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0035",
+            "series-title": "Advances in Neural Information Processing Systems",
+            "first-page": "1601",
+            "article-title": "Learning with hypergraphs: clustering, classification, and embedding",
+            "author": "Zhou",
+            "year": "2006"
+          },
+          {
+            "issue": "9",
+            "key": "10.1016/j.patcog.2022.108526_bib0036",
+            "doi-asserted-by": "crossref",
+            "first-page": "1697",
+            "DOI": "10.1109/TPAMI.2016.2614980",
+            "article-title": "Clustering with hypergraphs: the case for large hyperedges",
+            "volume": "39",
+            "author": "Purkait",
+            "year": "2017",
+            "journal-title": "IEEE Trans. Pattern Anal. Mach. Intell."
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0037",
+            "series-title": "German Conference on Pattern Recognition",
+            "first-page": "31",
+            "article-title": "High-resolution stereo datasets with subpixel-accurate ground truth",
+            "author": "Scharstein",
+            "year": "2014"
+          },
+          {
+            "key": "10.1016/j.patcog.2022.108526_bib0038",
+            "doi-asserted-by": "crossref",
+            "first-page": "60",
+            "DOI": "10.1016/j.isprsjprs.2017.09.013",
+            "article-title": "Object scene flow",
+            "volume": "140",
+            "author": "Menze",
+            "year": "2018",
+            "journal-title": "ISPRS J. Photogramm. Remote Sens. (JPRS)"
+          }
+        ],
+        "container-title": [
+          "Pattern Recognition"
+        ],
+        "language": "en",
+        "link": [
+          {
+            "URL": "https://api.elsevier.com/content/article/PII:S0031320322000073?httpAccept=text/xml",
+            "content-type": "text/xml",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "https://api.elsevier.com/content/article/PII:S0031320322000073?httpAccept=text/plain",
+            "content-type": "text/plain",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2025,
+              9,
+              21
+            ]
+          ],
+          "date-time": "2025-09-21T16:59:36Z",
+          "timestamp": 1758473976000
+        },
+        "score": 24.660069,
+        "resource": {
+          "primary": {
+            "URL": "https://linkinghub.elsevier.com/retrieve/pii/S0031320322000073"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2022,
+              5
+            ]
+          ]
+        },
+        "references-count": 38,
+        "alternative-id": [
+          "S0031320322000073"
+        ],
+        "URL": "https://doi.org/10.1016/j.patcog.2022.108526",
+        "ISSN": [
+          "0031-3203"
+        ],
+        "issn-type": [
+          {
+            "value": "0031-3203",
+            "type": "print"
+          }
+        ],
+        "published": {
+          "date-parts": [
+            [
+              2022,
+              5
+            ]
+          ]
+        },
+        "assertion": [
+          {
+            "value": "Elsevier",
+            "name": "publisher",
+            "label": "This article is maintained by"
+          },
+          {
+            "value": "Hypergraph matching via game-theoretic hypergraph clustering",
+            "name": "articletitle",
+            "label": "Article Title"
+          },
+          {
+            "value": "Pattern Recognition",
+            "name": "journaltitle",
+            "label": "Journal Title"
+          },
+          {
+            "value": "https://doi.org/10.1016/j.patcog.2022.108526",
+            "name": "articlelink",
+            "label": "CrossRef DOI link to publisher maintained version"
+          },
+          {
+            "value": "article",
+            "name": "content_type",
+            "label": "Content Type"
+          },
+          {
+            "value": "© 2022 Elsevier Ltd. All rights reserved.",
+            "name": "copyright",
+            "label": "Copyright"
+          }
+        ],
+        "article-number": "108526"
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              5,
+              21
+            ]
+          ],
+          "date-time": "2026-05-21T09:08:43Z",
+          "timestamp": 1779354523298,
+          "version": "3.51.4"
+        },
+        "reference-count": 18,
+        "publisher": "idd3",
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "short-container-title": [
+          "Text Leather Rev"
+        ],
+        "DOI": "10.31881/tlr.2026.3816",
+        "type": "journal-article",
+        "created": {
+          "date-parts": [
+            [
+              2026,
+              5,
+              21
+            ]
+          ],
+          "date-time": "2026-05-21T08:18:46Z",
+          "timestamp": 1779351526000
+        },
+        "page": "3816-3832",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "Applying Musical Structures to Digital Jacquard Weaving: A Cross-Disciplinary Model for Advanced Pattern Design Education"
+        ],
+        "prefix": "10.31881",
+        "volume": "9",
+        "author": [
+          {
+            "given": "Yushi",
+            "family": "Lin",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "33587",
+        "published-online": {
+          "date-parts": [
+            [
+              2026,
+              4,
+              25
+            ]
+          ]
+        },
+        "reference": [
+          {
+            "key": "ref1",
+            "doi-asserted-by": "publisher",
+            "unstructured": "[1] Bertola P, Teunissen J. Fashion 4.0. Innovating fashion industry through digital transformation. Research Journal of Textile and Apparel. 2018; 22(4):352-369. doi: 10.1108/RJTA-03-2018-0023",
+            "DOI": "10.1108/RJTA-03-2018-0023",
+            "type": "journal-article"
+          },
+          {
+            "key": "ref2",
+            "unstructured": "[2] Di Battista A, Grayling S, Hasselaar E, Leopold T, Li R, Rayner M, et al., editors. Future of jobs report 2023. Geneva, Switzerland: World Economic Forum; 2023. Available from: https://www.weforum.org/publications/the-future-of-jobs-report-2023/",
+            "type": "journal-article"
+          },
+          {
+            "key": "ref3",
+            "unstructured": "[3] Fitsilis P, Tsoutsa P, Gerogiannis V. Industry 4.0: Required personnel competences. Industry 40. 2018; 3(3):130-133. Available from: https://stumejournals.com/journals/i4/2018/3/130",
+            "type": "journal-article"
+          },
+          {
+            "key": "ref4",
+            "doi-asserted-by": "publisher",
+            "unstructured": "[4] Hsueh S-L, Kuo C-H. Factors in an interdisciplinary curriculum for the students of industrial design designing multifunctional products. Eurasia Journal of Mathematics, Science and Technology Education. 2016; 12(4):1075-1089. doi: 10.12973/eurasia.2016.1555a",
+            "DOI": "10.12973/eurasia.2016.1555a",
+            "type": "journal-article"
+          },
+          {
+            "key": "ref5",
+            "unstructured": "[5] Brown T. Design thinking. Harvard Business 2008; 86(6):84. Available from: https://hbr.org/2008/06/design-thinking",
+            "type": "journal-article"
+          },
+          {
+            "key": "ref6",
+            "doi-asserted-by": "publisher",
+            "unstructured": "[6] Fromhold-Eisebith M, Marschall P, Peters R, Thomes P. Torn between digitized future and context dependent past-how implementing 'Industry 4.0'production technologies could transform the German industry. Technological Forecasting and Social Change. 2021; 166:120620. doi: 10.1016/j.techfore.2021.120620",
+            "DOI": "10.1016/j.techfore.2021.120620",
+            "type": "journal-article"
+          },
+          {
+            "key": "ref7",
+            "doi-asserted-by": "publisher",
+            "unstructured": "[7] Underwood J. The design of 3D shape knitted preforms [dissertation]. Melbourne, Australia: RMIT University; 2024. doi: 10.25439/rmt.27579813",
+            "DOI": "10.25439/rmt.27579813",
+            "type": "journal-article"
+          },
+          {
+            "key": "ref8",
+            "doi-asserted-by": "publisher",
+            "unstructured": "[8] Glogar M, Petrak S, Mahnić Naglić M. Digital technologies in the sustainable design and development of textiles and clothing-A literature review. Sustainability. 2025; 17(4):1371. doi: 10.3390/su17041371",
+            "DOI": "10.3390/su17041371",
+            "type": "journal-article"
+          },
+          {
+            "key": "ref9",
+            "unstructured": "[9] Cross N. Designerly ways of knowing. Designerly Ways of Knowing. London, UK: Springer; 2006. Available from: https://link.springer.com/chapter/10.1007/1-84628-301-9_6",
+            "type": "journal-article"
+          },
+          {
+            "key": "ref10",
+            "doi-asserted-by": "publisher",
+            "unstructured": "[10] Liao C. From interdisciplinary to transdisciplinary: An arts-integrated approach to STEAM education. ART Education. 2016; 69(6):44-49. doi: 10.1080/00043125.2016.1224873",
+            "DOI": "10.1080/00043125.2016.1224873",
+            "type": "journal-article"
+          },
+          {
+            "key": "ref11",
+            "doi-asserted-by": "publisher",
+            "unstructured": "[11] Pellico LH, Friedlaender L, Fennie KP. Looking is not seeing: Using art to improve observational skills. Journal of Nursing Education. 2009; 48(11):648-652. doi: 10.3928/01484834-20090828-02",
+            "DOI": "10.3928/01484834-20090828-02",
+            "type": "journal-article"
+          },
+          {
+            "key": "ref12",
+            "doi-asserted-by": "publisher",
+            "unstructured": "[12] Razzouk R, Shute V. What is design thinking and why is it important? Review of Educational Research. 2012; 82(3):330-348. doi: 10.3102/0034654312457429",
+            "DOI": "10.3102/0034654312457429",
+            "type": "journal-article"
+          },
+          {
+            "key": "ref13",
+            "unstructured": "[13] Yakman G. STEAM Education: An overview of creating a model of integrative education. 2008. Available from: https://www.researchgate.net/publication/327351326_STEAM_Education_an_overview_of_creating_a_model_of_integrative_education",
+            "type": "journal-article"
+          },
+          {
+            "key": "ref14",
+            "unstructured": "[14] Zuckerkandl V. Sound and Symbol. Princeton, NJ, USA: Princeton University Press; 1969.",
+            "type": "journal-article"
+          },
+          {
+            "key": "ref15",
+            "unstructured": "[15] Patel AD. Music, language, and the brain. Oxford, UK: Oxford University Press; 2010.",
+            "type": "journal-article"
+          },
+          {
+            "key": "ref16",
+            "doi-asserted-by": "publisher",
+            "unstructured": "[16] Patel AD. Language, music, syntax and the brain. Nature Neuroscience. 2003; 6(7):674-681. doi: 10.1038/nn1082",
+            "DOI": "10.1038/nn1082",
+            "type": "journal-article"
+          },
+          {
+            "key": "ref17",
+            "doi-asserted-by": "publisher",
+            "unstructured": "[17] Juslin PN, Västfjäll D. Emotional responses to music: The need to consider underlying mechanisms. Behavioral and Brain Sciences. 2008; 31(5):559-575. doi: 10.1017/S0140525X08005293",
+            "DOI": "10.1017/S0140525X08005293",
+            "type": "journal-article"
+          },
+          {
+            "key": "ref18",
+            "unstructured": "[18] Root-Bernstein RS, Root-Bernstein M. Sparks of genius: The thirteen thinking tools of the world's most creative people. Boston, MA, USA: Houghton Mifflin Harcourt; 2001.",
+            "type": "journal-article"
+          }
+        ],
+        "container-title": [
+          "Textile &amp; Leather Review"
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2026,
+              5,
+              21
+            ]
+          ],
+          "date-time": "2026-05-21T08:21:23Z",
+          "timestamp": 1779351683000
+        },
+        "score": 24.438196,
+        "resource": {
+          "primary": {
+            "URL": "https://www.tlr-journal.com/2026/3816-3832"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2026,
+              4,
+              25
+            ]
+          ]
+        },
+        "references-count": 18,
+        "URL": "https://doi.org/10.31881/tlr.2026.3816",
+        "ISSN": [
+          "2623-6281"
+        ],
+        "issn-type": [
+          {
+            "value": "2623-6281",
+            "type": "electronic"
+          }
+        ],
+        "published": {
+          "date-parts": [
+            [
+              2026,
+              4,
+              25
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2025,
+              2,
+              21
+            ]
+          ],
+          "date-time": "2025-02-21T13:43:24Z",
+          "timestamp": 1740145404845,
+          "version": "3.37.3"
+        },
+        "reference-count": 43,
+        "publisher": "Informa UK Limited",
+        "issue": "5",
+        "funder": [
+          {
+            "DOI": "10.13039/501100007288",
+            "name": "Mahasarakham University",
+            "doi-asserted-by": "publisher",
+            "id": [
+              {
+                "id": "10.13039/501100007288",
+                "id-type": "DOI",
+                "asserted-by": "publisher"
+              }
+            ]
+          }
+        ],
+        "content-domain": {
+          "domain": [
+            "www.tandfonline.com"
+          ],
+          "crossmark-restriction": true
+        },
+        "short-container-title": [
+          "TEXTILE"
+        ],
+        "published-print": {
+          "date-parts": [
+            [
+              2024,
+              12,
+              2
+            ]
+          ]
+        },
+        "DOI": "10.1080/14759756.2024.2379656",
+        "type": "journal-article",
+        "created": {
+          "date-parts": [
+            [
+              2024,
+              8,
+              23
+            ]
+          ],
+          "date-time": "2024-08-23T10:17:53Z",
+          "timestamp": 1724408273000
+        },
+        "page": "744-756",
+        "update-policy": "https://doi.org/10.1080/tandf_crossmark_01",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "Beyond Phu-Tai Matmii Handwoven Silk Fabric: Weaving Pattern Design, Ancestral Wisdom, and Originality"
+        ],
+        "prefix": "10.1080",
+        "volume": "22",
+        "author": [
+          {
+            "given": "Atcharee",
+            "family": "Chantamool",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Choopug",
+            "family": "Suttisa",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Thom",
+            "family": "Gatewongsa",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Apiradee",
+            "family": "Jansaeng",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Narongsak",
+            "family": "Rawarin",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "ORCID": "https://orcid.org/0000-0002-4758-7449",
+            "authenticated-orcid": false,
+            "given": "Hanvedes",
+            "family": "Daovisan",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "301",
+        "published-online": {
+          "date-parts": [
+            [
+              2024,
+              8,
+              23
+            ]
+          ]
+        },
+        "reference": [
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_2_1",
+            "DOI": "10.1177/2333393621102"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_3_1",
+            "DOI": "10.2307/2059037"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_4_1",
+            "DOI": "10.1080/2159676X.2019.1628806"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_5_1",
+            "DOI": "10.1177/0741088387004001002"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_6_1",
+            "DOI": "10.1080/23311975.2021.1872889"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_7_1",
+            "DOI": "10.1080/14759756.2021.1914957"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_8_1",
+            "DOI": "10.1080/10371390120048722"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_9_1",
+            "DOI": "10.2752/175183513X13588738654891"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_10_1",
+            "DOI": "10.1111/nana.12523"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_11_1",
+            "DOI": "10.1080/14747731.2013.786224"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_12_1",
+            "DOI": "10.1080/0951839920050301"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_13_1",
+            "DOI": "10.1177/146879411243908"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_14_1",
+            "DOI": "10.1007/s12231-017-9390-2"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_15_1",
+            "DOI": "10.1080/20932685.2015.1131430"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_16_1",
+            "DOI": "10.3390/ijms19113309"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_17_1",
+            "DOI": "10.1177/1744987110389375"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_18_1",
+            "DOI": "10.3390/su14159439"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_19_1",
+            "DOI": "10.1177/004051750107100814"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_20_1",
+            "DOI": "10.1080/13629387.2014.897621"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_21_1",
+            "DOI": "10.14456/hasss.2022.11"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_22_1",
+            "DOI": "10.1177/0731121418766899"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_23_1",
+            "DOI": "10.1007/s10488-013-0528-y"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_24_1",
+            "DOI": "10.1080/14759756.2022.2043517"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_25_1",
+            "DOI": "10.1108/JFMM-09-2011-0059"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_26_1",
+            "DOI": "10.1177/1473325002001003636"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_27_1",
+            "DOI": "10.1163/15718158-01601002"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_28_1",
+            "DOI": "10.3390/mti2020028"
+          },
+          {
+            "key": "e_1_3_2_29_1",
+            "first-page": "136",
+            "article-title": "Structure of Knowledge in the Culture of Weaving of Thai-Khmer Ethnic Group",
+            "volume": "1",
+            "author": "Promthong Jutamas",
+            "year": "2020",
+            "unstructured": "Promthong, Jutamas, Malee Kabmala, and Wirapong Chansanam. 2020. “Structure of Knowledge in the Culture of Weaving of Thai-Khmer Ethnic Group.” Journal of Information and Knowledge Management 1: 136–144.",
+            "journal-title": "Journal of Information and Knowledge Management"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_30_1",
+            "DOI": "10.1016/j.sbspro.2015.07.098"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_31_1",
+            "DOI": "10.53889/jgl.v2i2.113"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_32_1",
+            "DOI": "10.1016/j.sbspro.2015.07.090"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_33_1",
+            "DOI": "10.18848/2327-008X/CGP/v17i02/37-47"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_34_1",
+            "DOI": "10.1002/jocb.221"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_35_1",
+            "DOI": "10.1017/als.2017.32"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_36_1",
+            "DOI": "10.14456/hasss.2022.18"
+          },
+          {
+            "issue": "1",
+            "key": "e_1_3_2_37_1",
+            "first-page": "155",
+            "article-title": "Existing Condition of Commercial Sericulture Production in Northeastern Thailand",
+            "volume": "36",
+            "author": "Sumranpath Krittayaporn",
+            "year": "2015",
+            "unstructured": "Sumranpath, Krittayaporn, Am-on Aungsuratana, Tipvadee Auttathom, and Nongnooch Poramacom. 2015. “Existing Condition of Commercial Sericulture Production in Northeastern Thailand.” Kasetsart Journal of Social Sciences 36 (1): 155–164.",
+            "journal-title": "Kasetsart Journal of Social Sciences"
+          },
+          {
+            "issue": "2",
+            "key": "e_1_3_2_38_1",
+            "first-page": "145",
+            "article-title": "Laotian Perspectives, Standards, and Meaning of Plain Silk Cloth",
+            "volume": "18",
+            "author": "Sysomphanh Khemphet",
+            "year": "2022",
+            "unstructured": "Sysomphanh, Khemphet, and Buapun Promphakping. 2022. “Laotian Perspectives, Standards, and Meaning of Plain Silk Cloth.” Journal of Mekong Societies 18 (2): 145–164.",
+            "journal-title": "Journal of Mekong Societies"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_39_1",
+            "DOI": "10.1177/1052562910387890"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_40_1",
+            "DOI": "10.1017/S0940739110000251"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_41_1",
+            "DOI": "10.1002/adfm.201805305"
+          },
+          {
+            "issue": "2",
+            "key": "e_1_3_2_42_1",
+            "first-page": "236",
+            "article-title": "Text and Texture of Clothing in Meetei Community: A Contextual Study",
+            "volume": "8",
+            "author": "Wangam Apanthoi M. Yumnam Sapha.",
+            "year": "2019",
+            "unstructured": "Wangam, Apanthoi M. Yumnam Sapha. 2019. “Text and Texture of Clothing in Meetei Community: A Contextual Study.” International Journal of Research in Social Sciences 8 (2): 236–255.",
+            "journal-title": "International Journal of Research in Social Sciences"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_43_1",
+            "DOI": "10.1355/SJ23-2D"
+          },
+          {
+            "doi-asserted-by": "publisher",
+            "key": "e_1_3_2_44_1",
+            "DOI": "10.1177/1354816620966404"
+          }
+        ],
+        "container-title": [
+          "TEXTILE"
+        ],
+        "language": "en",
+        "link": [
+          {
+            "URL": "https://www.tandfonline.com/doi/pdf/10.1080/14759756.2024.2379656",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2024,
+              11,
+              19
+            ]
+          ],
+          "date-time": "2024-11-19T14:04:46Z",
+          "timestamp": 1732025086000
+        },
+        "score": 24.412182,
+        "resource": {
+          "primary": {
+            "URL": "https://www.tandfonline.com/doi/full/10.1080/14759756.2024.2379656"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2024,
+              8,
+              23
+            ]
+          ]
+        },
+        "references-count": 43,
+        "journal-issue": {
+          "issue": "5",
+          "published-print": {
+            "date-parts": [
+              [
+                2024,
+                12,
+                2
+              ]
+            ]
+          }
+        },
+        "alternative-id": [
+          "10.1080/14759756.2024.2379656"
+        ],
+        "URL": "https://doi.org/10.1080/14759756.2024.2379656",
+        "ISSN": [
+          "1475-9756",
+          "1751-8350"
+        ],
+        "issn-type": [
+          {
+            "type": "print",
+            "value": "1475-9756"
+          },
+          {
+            "type": "electronic",
+            "value": "1751-8350"
+          }
+        ],
+        "published": {
+          "date-parts": [
+            [
+              2024,
+              8,
+              23
+            ]
+          ]
+        },
+        "assertion": [
+          {
+            "value": "The publishing and review policy for this title is described in its Aims & Scope.",
+            "order": 1,
+            "name": "peerreview_statement",
+            "label": "Peer Review Statement"
+          },
+          {
+            "value": "http://www.tandfonline.com/action/journalInformation?show=aimsScope&journalCode=rftx20",
+            "URL": "http://www.tandfonline.com/action/journalInformation?show=aimsScope&journalCode=rftx20",
+            "order": 2,
+            "name": "aims_and_scope_url",
+            "label": "Aim & Scope"
+          },
+          {
+            "value": "2024-08-23",
+            "order": 3,
+            "name": "published",
+            "label": "Published",
+            "group": {
+              "name": "publication_history",
+              "label": "Publication History"
+            }
+          }
+        ]
+      }
+    ],
+    "items-per-page": 10,
+    "query": {
+      "start-index": 0,
+      "search-terms": "textile weaving pattern structural hypergraph"
+    }
+  },
+  "nota_exportacion": "Se preservan metadatos bibliográficos; se omiten resúmenes extensos del paquete."
+}

@@ -1,0 +1,13 @@
+{
+  "registros_importados": 64,
+  "crossref": 40,
+  "seleccion_web_dirigida": 24,
+  "decisiones": {
+    "PENDIENTE_TEXTO_COMPLETO": 6,
+    "EXCLUIDO_TITULO_RESUMEN": 32,
+    "INCLUIDO_EVALUACION_TEXTO": 4,
+    "DUPLICADO": 1,
+    "CONTEXTO_PARCIAL": 21
+  },
+  "nota": "Los 21 contextos parciales no se cuentan como estudios con texto completo evaluado; S04 yS05 son dos informes de una familia"
+}

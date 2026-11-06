@@ -1,0 +1,160 @@
+{
+  "query": {
+    "system1_search_query": [
+      {
+        "q": "SigLIP 2 multilingual vision language encoders arxiv",
+        "recency": 730
+      },
+      {
+        "q": "DINOv3 arxiv paper",
+        "recency": 730
+      },
+      {
+        "q": "Concept Bottleneck Models Koh ICML 2020 proceedings"
+      },
+      {
+        "q": "Geometric Deep Learning Grids Groups Graphs Geodesics Gauges Bronstein 2021 arxiv"
+      }
+    ],
+    "response_length": "long"
+  },
+  "resultados_metadatos": [
+    {
+      "encabezado_fuente": "SigLIP 2: Multilingual Vision-Language Encoders with Improved Semantic Understanding, Localization, and Dense Features (https://arxiv.org/abs/2502.14786)",
+      "referencia_recuperacion": "turn3search0"
+    },
+    {
+      "encabezado_fuente": "DINOv3 (https://arxiv.org/abs/2508.10104)",
+      "referencia_recuperacion": "turn3search1"
+    },
+    {
+      "encabezado_fuente": "Concept Bottleneck Models (https://proceedings.mlr.press/v119/koh20a.html)",
+      "referencia_recuperacion": "turn3search2"
+    },
+    {
+      "encabezado_fuente": "Geometric Deep Learning: Grids, Groups, Graphs, Geodesics, and Gauges (https://arxiv.org/abs/2104.13478)",
+      "referencia_recuperacion": "turn3search3"
+    },
+    {
+      "encabezado_fuente": "SigLIP 2: Multilingual Vision-Language Encoders with ... (https://arxiv.org/pdf/2502.14786)",
+      "referencia_recuperacion": "turn3search4"
+    },
+    {
+      "encabezado_fuente": "INSID3: Training-Free In-Context Segmentation with DINOv3 (https://arxiv.org/abs/2603.28480)",
+      "referencia_recuperacion": "turn3search5"
+    },
+    {
+      "encabezado_fuente": "Concept bottleneck models | Proceedings of the 37th ... (https://dl.acm.org/doi/10.5555/3524938.3525433)",
+      "referencia_recuperacion": "turn3search6"
+    },
+    {
+      "encabezado_fuente": "[PDF] Geometric Deep Learning: Grids, Groups, Graphs ... (https://www.semanticscholar.org/paper/Geometric-Deep-Learning%3A-Grids%2C-Groups%2C-Graphs%2C-and-Bronstein-Bruna/14014c024674991149f3ecf9314c93f7e029ef1a)",
+      "referencia_recuperacion": "turn3search7"
+    },
+    {
+      "encabezado_fuente": "SigLIP 2: Multilingual Vision-Language Encoders with ... (https://arxiv.org/html/2502.14786v1)",
+      "referencia_recuperacion": "turn3search8"
+    },
+    {
+      "encabezado_fuente": "DINOv3 | Research - AI at Meta (https://ai.meta.com/research/publications/dinov3/)",
+      "referencia_recuperacion": "turn3search9"
+    },
+    {
+      "encabezado_fuente": "[R] Geometric Deep Learning: Grids, Groups, Graphs ... (https://www.reddit.com/r/MachineLearning/comments/11fp4x0/r_geometric_deep_learning_grids_groups_graphs/)",
+      "referencia_recuperacion": "turn3search11"
+    },
+    {
+      "encabezado_fuente": "Paper page - SigLIP 2: Multilingual Vision-Language ... (https://huggingface.co/papers/2502.14786)",
+      "referencia_recuperacion": "turn3search12"
+    },
+    {
+      "encabezado_fuente": "Paper page - DINOv3 (https://huggingface.co/papers/2508.10104)",
+      "referencia_recuperacion": "turn3search13"
+    },
+    {
+      "encabezado_fuente": "Geometric-Deep-Learning-Grids-Groups-Graphs ... (https://github.com/AIMPer73/Geometric-Deep-Learning-Grids-Groups-Graphs-Geodesics-and-Gauges/blob/main/readme-english.md)",
+      "referencia_recuperacion": "turn3search15"
+    },
+    {
+      "encabezado_fuente": "2025 (Google (Arxiv) [SIGLIP2] SigLIP 2 (https://github.com/guyulongcs/Awesome-LLM-papers/blob/master/00_Organizations/1_Google/2025%20%28Google%20%28Arxiv%29%20%5BSIGLIP2%5D%20SigLIP%202%20-%20Multilingual%20Vision-Language%20Encoders%20with%20Improved%20Semantic%20Understanding%2C%20Localization%2C%20and%20Dense%20Features.pdf)",
+      "referencia_recuperacion": "turn3search16"
+    },
+    {
+      "encabezado_fuente": "DINOv3 (https://arxiv.org/html/2508.10104v1)",
+      "referencia_recuperacion": "turn3search17"
+    },
+    {
+      "encabezado_fuente": "Concept Bottleneck Models (https://arxiv.org/abs/2007.04612)",
+      "referencia_recuperacion": "turn3search18"
+    },
+    {
+      "encabezado_fuente": "Geometric Deep Learning: Grids, Groups, Graphs ... (https://inspirehep.net/literature/1861214)",
+      "referencia_recuperacion": "turn3search19"
+    },
+    {
+      "encabezado_fuente": "Siglip 2 Multilingual Vision Language Encoders With ... (https://www.skillsdirectory.com/skills/feiyang-k-siglip-2-multilingual-vision-language-encoders-wit)",
+      "referencia_recuperacion": "turn3search20"
+    },
+    {
+      "encabezado_fuente": "[2605.03175] DINO Soars: DINOv3 for Open-Vocabulary ... (https://arxiv.org/abs/2605.03175)",
+      "referencia_recuperacion": "turn3search21"
+    },
+    {
+      "encabezado_fuente": "Concept Bottleneck Models (https://research.google/pubs/concept-bottleneck-models/)",
+      "referencia_recuperacion": "turn3search22"
+    },
+    {
+      "encabezado_fuente": "[PDF] SigLIP 2: Multilingual Vision-Language Encoders ... (https://www.semanticscholar.org/paper/SigLIP-2%3A-Multilingual-Vision-Language-Encoders-and-Tschannen-Gritsenko/5bbb904e85ced452f44d9ed9559297334298c407)",
+      "referencia_recuperacion": "turn3search24"
+    },
+    {
+      "encabezado_fuente": "[2508.14809] DINOv3 with Test-Time Training for Medical ... (https://arxiv.org/abs/2508.14809)",
+      "referencia_recuperacion": "turn3search25"
+    },
+    {
+      "encabezado_fuente": "\"Arxiv Papers\" SigLIP 2: Multilingual Vision-Language ... (https://www.imdb.com/title/tt39510693/)",
+      "referencia_recuperacion": "turn3search28"
+    },
+    {
+      "encabezado_fuente": "DINOv3 (https://www.alphaxiv.org/abs/2508.10104)",
+      "referencia_recuperacion": "turn3search29"
+    },
+    {
+      "encabezado_fuente": "Concept Bottleneck Models (https://www.alphaxiv.org/abs/2007.04612)",
+      "referencia_recuperacion": "turn3search30"
+    },
+    {
+      "encabezado_fuente": "Model card for ViT-B-16-SigLIP2 - ModelScope (https://www.modelscope.cn/models/timm/ViT-B-16-SigLIP2)",
+      "referencia_recuperacion": "turn3search32"
+    },
+    {
+      "encabezado_fuente": "Reference PyTorch implementation and models for DINOv3 (https://github.com/facebookresearch/dinov3)",
+      "referencia_recuperacion": "turn3search33"
+    },
+    {
+      "encabezado_fuente": "There Was Never a Bottleneck in Concept Bottleneck Models (https://openreview.net/forum?id=Fy7V5dalvX)",
+      "referencia_recuperacion": "turn3search34"
+    },
+    {
+      "encabezado_fuente": "Geometric Deep Learning - Grids, Groups, Graphs, Geodesics ... (https://geometricdeeplearning.com/)",
+      "referencia_recuperacion": "turn3search35"
+    },
+    {
+      "encabezado_fuente": "A Closer Look at the Intervention Procedure of Concept ... (https://snu.elsevierpure.com/en/publications/a-closer-look-at-the-intervention-procedure-of-concept-bottleneck/)",
+      "referencia_recuperacion": "turn3search36"
+    },
+    {
+      "encabezado_fuente": "Geometric Deep Learning: Grids, Groups, Graphs ... (https://www.researchgate.net/publication/351133995_Geometric_Deep_Learning_Grids_Groups_Graphs_Geodesics_and_Gauges)",
+      "referencia_recuperacion": "turn3search37"
+    },
+    {
+      "encabezado_fuente": "Geometric Deep Learning: Grids, Groups, Graphs ... (https://www.linkedin.com/posts/iglovikov_gdl-book-activity-7455286999919370241-S0Wm)",
+      "referencia_recuperacion": "turn3search38"
+    },
+    {
+      "encabezado_fuente": "Mathematical Foundations of Geometric Deep Learning (https://arxiv.org/pdf/2508.02723)",
+      "referencia_recuperacion": "turn3search39"
+    }
+  ],
+  "nota": "Respuesta reducida a títulos, URL y referencias de recuperación. No incluye extractos de las publicaciones."
+}

@@ -1,0 +1,1909 @@
+{
+  "status": "ok",
+  "message-type": "work-list",
+  "message-version": "1.0.0",
+  "message": {
+    "facets": {},
+    "total-results": 1268137,
+    "items": [
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2025,
+              12,
+              3
+            ]
+          ],
+          "date-time": "2025-12-03T07:15:01Z",
+          "timestamp": 1764746101534,
+          "version": "3.46.0"
+        },
+        "reference-count": 19,
+        "publisher": "IEEE",
+        "license": [
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2025,
+                  8,
+                  21
+                ]
+              ],
+              "date-time": "2025-08-21T00:00:00Z",
+              "timestamp": 1755734400000
+            },
+            "content-version": "stm-asf",
+            "delay-in-days": 0,
+            "URL": "https://doi.org/10.15223/policy-029"
+          },
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2025,
+                  8,
+                  21
+                ]
+              ],
+              "date-time": "2025-08-21T00:00:00Z",
+              "timestamp": 1755734400000
+            },
+            "content-version": "stm-asf",
+            "delay-in-days": 0,
+            "URL": "https://doi.org/10.15223/policy-037"
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2025,
+              8,
+              21
+            ]
+          ]
+        },
+        "DOI": "10.1109/indiscon66021.2025.11252350",
+        "type": "proceedings-article",
+        "created": {
+          "date-parts": [
+            [
+              2025,
+              12,
+              2
+            ]
+          ],
+          "date-time": "2025-12-02T18:44:54Z",
+          "timestamp": 1764701094000
+        },
+        "page": "1-6",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "Enhanced Multimodal Retrieval Augmented Generation for Cultural Heritage Preservation"
+        ],
+        "prefix": "10.1109",
+        "author": [
+          {
+            "given": "T M",
+            "family": "Rabeena",
+            "sequence": "first",
+            "affiliation": [
+              {
+                "name": "NSS College of Engineering (APJKTU),Computer Science And Engineering,Palakkad,Kerala,India"
+              }
+            ],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Anuraj",
+            "family": "Mohan",
+            "sequence": "additional",
+            "affiliation": [
+              {
+                "name": "NSS College of Engineering (APJKTU),Computer Science And Engineering,Palakkad,Kerala,India"
+              }
+            ],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "263",
+        "reference": [
+          {
+            "key": "ref1",
+            "first-page": "41714186",
+            "article-title": "Bert: Pre-training of deep bidirectional transformers for language understanding",
+            "volume-title": "Proceedings of the 2019 conference of the North American chapter of the association for computational linguistics: human language technologies",
+            "volume": "1",
+            "author": "Devlin"
+          },
+          {
+            "issue": "2020",
+            "key": "ref2",
+            "first-page": "1877",
+            "article-title": "Language models are few-shot learners",
+            "volume": "33",
+            "author": "Brown",
+            "journal-title": "Advances in neural information processing systems"
+          },
+          {
+            "key": "ref3",
+            "first-page": "8748",
+            "article-title": "Learning transferable visual models from natural language supervision",
+            "volume-title": "International conference on machine learning",
+            "author": "Radford"
+          },
+          {
+            "key": "ref4",
+            "first-page": "28492",
+            "article-title": "Robust speech recognition via largescale weak supervision",
+            "volume-title": "International conference on machine learning",
+            "author": "Radford"
+          },
+          {
+            "key": "ref5",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.48550/ARXIV.1706.03762"
+          },
+          {
+            "key": "ref6",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1145/3744746"
+          },
+          {
+            "key": "ref7",
+            "article-title": "Challenges and applications of large language models",
+            "author": "Kaddour",
+            "year": "2023",
+            "journal-title": "arXiv preprint arXiv:2307.(10169)"
+          },
+          {
+            "key": "ref8",
+            "article-title": "A comprehensive survey of retrieval-augmented generation (rag): Evolution, current landscape and future directions",
+            "author": "Gupta",
+            "year": "2024",
+            "journal-title": "arXiv preprint arXiv:2410.(12837)"
+          },
+          {
+            "key": "ref9",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1017/S1351324924000044"
+          },
+          {
+            "key": "ref10",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1016/j.procs.2024.09.178"
+          },
+          {
+            "key": "ref11",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/ICAAIC60222.2024.10574972"
+          },
+          {
+            "key": "ref12",
+            "doi-asserted-by": "crossref",
+            "DOI": "10.1007/978-3-031-65647-7",
+            "article-title": "Large Language Models: A Deep Dive",
+            "author": "Kamath",
+            "year": "2024"
+          },
+          {
+            "key": "ref13",
+            "article-title": "Retrievalaugmented generation for large language models: A survey",
+            "volume": "2",
+            "author": "Gao",
+            "year": "2023",
+            "journal-title": "arXiv preprint arXiv:2312.10997"
+          },
+          {
+            "key": "ref14",
+            "article-title": "Development and Testing of Retrieval Augmented Generation in Large Language Models-A Case Study Report",
+            "volume-title": "arXiv preprint arXiv:2402.(01733)",
+            "author": "Ke",
+            "year": "2024"
+          },
+          {
+            "key": "ref15",
+            "article-title": "Enhanced Multimodal RAG-LLM for Accurate Visual Question Answering",
+            "author": "Xue",
+            "year": "2024",
+            "journal-title": "arXiv preprint arXiv:2412.(20927)"
+          },
+          {
+            "key": "ref16",
+            "article-title": "Rag-check: Evaluating multimodal retrieval augmented generation performance",
+            "author": "Mortaheb",
+            "year": "2025",
+            "journal-title": "arXiv preprint arXiv:2501.(03995)"
+          },
+          {
+            "key": "ref17",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.18653/v1/2024.eacl-demo.16"
+          },
+          {
+            "issue": "2020",
+            "key": "ref18",
+            "first-page": "9459",
+            "article-title": "Retrieval-augmented generation for knowledge-intensive nlp tasks",
+            "volume": "33",
+            "author": "Lewis",
+            "journal-title": "Advances in neural information processing systems"
+          },
+          {
+            "key": "ref19",
+            "doi-asserted-by": "publisher",
+            "DOI": "10.1109/IWAIIP58158.2023.10462847"
+          }
+        ],
+        "event": {
+          "name": "2025 IEEE 6th India Council International Subsections Conference (INDISCON)",
+          "start": {
+            "date-parts": [
+              [
+                2025,
+                8,
+                21
+              ]
+            ]
+          },
+          "location": "Rourkela, India",
+          "end": {
+            "date-parts": [
+              [
+                2025,
+                8,
+                23
+              ]
+            ]
+          }
+        },
+        "container-title": [
+          "2025 IEEE 6th India Council International Subsections Conference (INDISCON)"
+        ],
+        "link": [
+          {
+            "URL": "http://xplorestaging.ieee.org/ielx8/11251510/11251524/11252350.pdf?arnumber=11252350",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2025,
+              12,
+              3
+            ]
+          ],
+          "date-time": "2025-12-03T07:09:43Z",
+          "timestamp": 1764745783000
+        },
+        "score": 30.2378,
+        "resource": {
+          "primary": {
+            "URL": "https://ieeexplore.ieee.org/document/11252350/"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2025,
+              8,
+              21
+            ]
+          ]
+        },
+        "references-count": 19,
+        "URL": "https://doi.org/10.1109/indiscon66021.2025.11252350",
+        "published": {
+          "date-parts": [
+            [
+              2025,
+              8,
+              21
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2025,
+              7,
+              4
+            ]
+          ],
+          "date-time": "2025-07-04T08:27:37Z",
+          "timestamp": 1751617657640
+        },
+        "reference-count": 5,
+        "publisher": "IEEE",
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2018,
+              9
+            ]
+          ]
+        },
+        "DOI": "10.1109/is.2018.8710556",
+        "type": "proceedings-article",
+        "created": {
+          "date-parts": [
+            [
+              2019,
+              5,
+              9
+            ]
+          ],
+          "date-time": "2019-05-09T17:58:26Z",
+          "timestamp": 1557424706000
+        },
+        "page": "343-350",
+        "source": "Crossref",
+        "is-referenced-by-count": 10,
+        "title": [
+          "ViMM - Virtual Multimodal Museum: a Manifesto and Roadmap for Europe’s Digital Cultural Heritage"
+        ],
+        "prefix": "10.1109",
+        "author": [
+          {
+            "given": "Marinos",
+            "family": "Ioannides",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          },
+          {
+            "given": "Robert",
+            "family": "Davies",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "263",
+        "reference": [
+          {
+            "journal-title": "European Heritage Strategy for the 21st Century",
+            "year": "2017",
+            "key": "ref4"
+          },
+          {
+            "journal-title": "Heritage and Regeneration Committee for an innovative built environment of the European Council of Spatial Planners (ECTP The FP9 position paper (2021-2027)",
+            "year": "2018",
+            "key": "ref3"
+          },
+          {
+            "journal-title": "Communication from the Commission to the European Parliament the European Council A New European Agenda for Culture",
+            "year": "2018",
+            "key": "ref5"
+          },
+          {
+            "year": "0",
+            "author": "marinos",
+            "key": "ref2"
+          },
+          {
+            "journal-title": "VAST2003 Proceedings of the 4th international symposium on virtual reality archaeology and intelligent cultural heritage",
+            "year": "2003",
+            "author": "arnold",
+            "key": "ref1"
+          }
+        ],
+        "event": {
+          "name": "2018 International Conference on Intelligent Systems (IS)",
+          "start": {
+            "date-parts": [
+              [
+                2018,
+                9,
+                25
+              ]
+            ]
+          },
+          "location": "Funchal - Madeira, Portugal",
+          "end": {
+            "date-parts": [
+              [
+                2018,
+                9,
+                27
+              ]
+            ]
+          }
+        },
+        "container-title": [
+          "2018 International Conference on Intelligent Systems (IS)"
+        ],
+        "link": [
+          {
+            "URL": "http://xplorestaging.ieee.org/ielx7/8703185/8710451/08710556.pdf?arnumber=8710556",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2019,
+              5,
+              27
+            ]
+          ],
+          "date-time": "2019-05-27T19:32:45Z",
+          "timestamp": 1558985565000
+        },
+        "score": 29.748325,
+        "resource": {
+          "primary": {
+            "URL": "https://ieeexplore.ieee.org/document/8710556/"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2018,
+              9
+            ]
+          ]
+        },
+        "references-count": 5,
+        "URL": "https://doi.org/10.1109/is.2018.8710556",
+        "published": {
+          "date-parts": [
+            [
+              2018,
+              9
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2024,
+              5,
+              12
+            ]
+          ],
+          "date-time": "2024-05-12T00:52:21Z",
+          "timestamp": 1715475141369
+        },
+        "edition-number": "1",
+        "reference-count": 0,
+        "publisher": "Routledge",
+        "isbn-type": [
+          {
+            "value": "9781315110035",
+            "type": "electronic"
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2020,
+              9,
+              22
+            ]
+          ]
+        },
+        "DOI": "10.4324/9781315110035-3",
+        "type": "book-chapter",
+        "created": {
+          "date-parts": [
+            [
+              2020,
+              9,
+              3
+            ]
+          ],
+          "date-time": "2020-09-03T13:58:41Z",
+          "timestamp": 1599141521000
+        },
+        "page": "50-71",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "Cultural heritage franchising"
+        ],
+        "prefix": "10.4324",
+        "author": [
+          {
+            "given": "Sarina",
+            "family": "Wakefield",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "301",
+        "container-title": [
+          "Cultural Heritage, Transnational Narratives and Museum Franchising in Abu Dhabi"
+        ],
+        "language": "en",
+        "deposited": {
+          "date-parts": [
+            [
+              2021,
+              4,
+              3
+            ]
+          ],
+          "date-time": "2021-04-03T00:21:45Z",
+          "timestamp": 1617409305000
+        },
+        "score": 28.533037,
+        "resource": {
+          "primary": {
+            "URL": "https://www.taylorfrancis.com/books/9781351614870/chapters/10.4324/9781315110035-3"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2020,
+              9,
+              22
+            ]
+          ]
+        },
+        "ISBN": [
+          "9781315110035"
+        ],
+        "references-count": 0,
+        "URL": "https://doi.org/10.4324/9781315110035-3",
+        "published": {
+          "date-parts": [
+            [
+              2020,
+              9,
+              22
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2024,
+              6,
+              20
+            ]
+          ],
+          "date-time": "2024-06-20T00:23:24Z",
+          "timestamp": 1718843004892
+        },
+        "reference-count": 0,
+        "publisher": "China Science Publishing & Media Ltd.",
+        "issue": "2",
+        "content-domain": {
+          "domain": [
+            "engine.scichina.com"
+          ],
+          "crossmark-restriction": false
+        },
+        "short-container-title": [
+          "Museum"
+        ],
+        "published-print": {
+          "date-parts": [
+            [
+              2022,
+              4,
+              1
+            ]
+          ]
+        },
+        "DOI": "10.3724/2096-1715.2022.006.002.065",
+        "type": "journal-article",
+        "created": {
+          "date-parts": [
+            [
+              2024,
+              6,
+              19
+            ]
+          ],
+          "date-time": "2024-06-19T01:01:57Z",
+          "timestamp": 1718758917000
+        },
+        "page": "65-71",
+        "update-policy": "http://dx.doi.org/10.1360/scp-crossmark-policy-page",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "The Regulation of Cultural Heritage Has Theoretic and Practice Guidance Meaning for Cultural Heritage of Ethnic Minority"
+        ],
+        "prefix": "10.3724",
+        "volume": "6",
+        "author": [
+          {
+            "given": "Tingting",
+            "family": "Zhou",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "2026",
+        "published-online": {
+          "date-parts": [
+            [
+              2024,
+              6,
+              19
+            ]
+          ]
+        },
+        "container-title": [
+          "Museum"
+        ],
+        "language": "en",
+        "link": [
+          {
+            "URL": "https://engine.scichina.com/doi/pdf/25D73A7F6FD648C7A9CE69BB4AC64F30",
+            "content-type": "application/pdf",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "https://engine.scichina.com/doi/10.3724/2096-1715.2022.006.002.065",
+            "content-type": "text/html",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "https://engine.scichina.com/doi/pdf/25D73A7F6FD648C7A9CE69BB4AC64F30",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2024,
+              6,
+              19
+            ]
+          ],
+          "date-time": "2024-06-19T01:02:00Z",
+          "timestamp": 1718758920000
+        },
+        "score": 28.46113,
+        "resource": {
+          "primary": {
+            "URL": "https://engine.scichina.com/doi/10.3724/2096-1715.2022.006.002.065"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2022,
+              4,
+              1
+            ]
+          ]
+        },
+        "references-count": 0,
+        "journal-issue": {
+          "issue": "2",
+          "published-online": {
+            "date-parts": [
+              [
+                2024,
+                6,
+                19
+              ]
+            ]
+          },
+          "published-print": {
+            "date-parts": [
+              [
+                2022,
+                4,
+                1
+              ]
+            ]
+          }
+        },
+        "URL": "https://doi.org/10.3724/2096-1715.2022.006.002.065",
+        "ISSN": [
+          "2096-1715"
+        ],
+        "issn-type": [
+          {
+            "value": "2096-1715",
+            "type": "print"
+          }
+        ],
+        "published": {
+          "date-parts": [
+            [
+              2022,
+              4,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              10,
+              7
+            ]
+          ],
+          "date-time": "2026-10-07T15:54:44Z",
+          "timestamp": 1791388484482,
+          "version": "4.3.3"
+        },
+        "reference-count": 33,
+        "publisher": "Springer Science and Business Media LLC",
+        "issue": "1",
+        "license": [
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2026,
+                  3,
+                  30
+                ]
+              ],
+              "date-time": "2026-03-30T00:00:00Z",
+              "timestamp": 1774828800000
+            },
+            "content-version": "tdm",
+            "delay-in-days": 0,
+            "URL": "https://creativecommons.org/licenses/by-nc-nd/4.0"
+          },
+          {
+            "start": {
+              "date-parts": [
+                [
+                  2026,
+                  3,
+                  31
+                ]
+              ],
+              "date-time": "2026-03-31T00:00:00Z",
+              "timestamp": 1774915200000
+            },
+            "content-version": "vor",
+            "delay-in-days": 1,
+            "URL": "https://creativecommons.org/licenses/by-nc-nd/4.0"
+          }
+        ],
+        "content-domain": {
+          "domain": [
+            "link.springer.com"
+          ],
+          "crossmark-restriction": false
+        },
+        "short-container-title": [
+          "Sci Rep"
+        ],
+        "DOI": "10.1038/s41598-026-44955-x",
+        "type": "journal-article",
+        "created": {
+          "date-parts": [
+            [
+              2026,
+              3,
+              30
+            ]
+          ],
+          "date-time": "2026-03-30T11:50:02Z",
+          "timestamp": 1774871402000
+        },
+        "update-policy": "https://doi.org/10.1007/springer_crossmark_policy",
+        "source": "Crossref",
+        "is-referenced-by-count": 4,
+        "title": [
+          "Multimodal interaction enhancement of digital cultural heritage system: user behavior analysis and interface reconstruction of the heritage scanning library of the palace museum"
+        ],
+        "prefix": "10.1038",
+        "volume": "16",
+        "author": [
+          {
+            "given": "Linghui",
+            "family": "Ke",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Huimin",
+            "family": "Qin",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Jiaao",
+            "family": "Long",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          },
+          {
+            "given": "Pengyu",
+            "family": "Xiao",
+            "sequence": "additional",
+            "affiliation": [],
+            "role": [
+              {
+                "vocabulary": "crossref",
+                "role": "author"
+              }
+            ]
+          }
+        ],
+        "member": "297",
+        "published-online": {
+          "date-parts": [
+            [
+              2026,
+              3,
+              30
+            ]
+          ]
+        },
+        "reference": [
+          {
+            "key": "44955_CR1",
+            "doi-asserted-by": "publisher",
+            "unstructured": "Dalong, D. The Construction of the Virtual Museum in the Forbidden City of China [Article]. Inform. Cult. 59 (3). https://doi.org/10.7560/ic59302 (2024).",
+            "DOI": "10.7560/ic59302"
+          },
+          {
+            "key": "44955_CR2",
+            "doi-asserted-by": "publisher",
+            "unstructured": "Fang, L., Sun, J. & Liu, Y. Research on the Quality Control Method of Cultural Heritage Digital Information Service: A Case Study of the Digital Cultural Relics Library Platform of the Palace Museum in Beijing [Article]. Libr. Trends. 71 (4). https://doi.org/10.1353/lib.2023.a927953 (2023).[In Chinese]",
+            "DOI": "10.1353/lib.2023.a927953"
+          },
+          {
+            "key": "44955_CR3",
+            "doi-asserted-by": "publisher",
+            "unstructured": "Li, J., Nie, J. W. & Ye, J. Evaluation of virtual tour in an online museum: Exhibition of Architecture of the Forbidden City [Article]. Plos One. 17 (1). https://doi.org/10.1371/journal.pone.0261607 (2022). Article e0261607.",
+            "DOI": "10.1371/journal.pone.0261607"
+          },
+          {
+            "key": "44955_CR4",
+            "doi-asserted-by": "publisher",
+            "unstructured": "Tu, J. C., Liu, L. X. & Cui, Y. A Study on Consumers’ Preferences for the Palace Museum’s Cultural and Creative Products from the Perspective of Cultural Sustainability [Article]. Sustainability, 11 (13), Article 3502. (2019). https://doi.org/10.3390/su11133502",
+            "DOI": "10.3390/su11133502"
+          },
+          {
+            "issue": "4",
+            "key": "44955_CR5",
+            "doi-asserted-by": "publisher",
+            "first-page": "521",
+            "DOI": "10.1108/el-01-2023-0018",
+            "volume": "42",
+            "author": "Q Fan",
+            "year": "2024",
+            "unstructured": "Fan, Q. Research on intangible cultural heritage resource description and knowledge fusion based on linked data [Article]. Electron. Libr. 42 (4), 521–535. https://doi.org/10.1108/el-01-2023-0018 (2024).",
+            "journal-title": "Electron. Libr."
+          },
+          {
+            "issue": "4",
+            "key": "44955_CR6",
+            "first-page": "96",
+            "volume": "12",
+            "author": "Z Yu",
+            "year": "2024",
+            "unstructured": "Yu, Z., Hongxiao, C. & Qingfeng, Z. Study on Visitor Experience Value Assessment Based on Multi-Dimensional Factor Analysis - Case Study of Palace Museum in Beijing, World Cultural Heritage Site [research-article]. Int. J. Adv. Cult. Technol. 12 (4), 96–112 (2024). ://KJD:ART003152829.",
+            "journal-title": "Int. J. Adv. Cult. Technol."
+          },
+          {
+            "issue": "1",
+            "key": "44955_CR7",
+            "doi-asserted-by": "publisher",
+            "first-page": "150",
+            "DOI": "10.1108/02640471211204150",
+            "volume": "30",
+            "author": "K Sanderson",
+            "year": "2012",
+            "unstructured": "Sanderson, K. Visual Interface Design for Digital Cultural Heritage: A Guide to Rich-prospect Browsing. Electron. Libr. 30 (1), 150–151. https://doi.org/10.1108/02640471211204150 (2012).",
+            "journal-title": "Electron. Libr."
+          },
+          {
+            "key": "44955_CR8",
+            "unstructured": "Li, D. N. & Zhao, X. C. Design Aesthetic Innovation and Practical Case Studies in the Digital Protection of Museum Cultural Relics: A Case Study of the Jinling Painting Digital Art Exhibition in Nanjing. Orient. Collect., (3), 68–70. (2025)."
+          },
+          {
+            "key": "44955_CR9",
+            "first-page": "162",
+            "volume": "5",
+            "author": "CX Cao",
+            "year": "2024",
+            "unstructured": "Cao, C. X. & Duan, Y. Transformation and dilemmas of artifact-free immersive digital cultural heritage exhibitions: Audience perception analysis based on online text. Dongnan Wenhua. 5, 162–170 (2024).[In Chinese]",
+            "journal-title": "Dongnan Wenhua"
+          },
+          {
+            "key": "44955_CR10",
+            "doi-asserted-by": "publisher",
+            "unstructured": "Zabulis, X. et al. A Digitally Enhanced Ethnography for Craft Action and Process Understanding [Article]. Appl. Sciences-Basel. 15 (10). https://doi.org/10.3390/app15105408 (2025). Article 5408.",
+            "DOI": "10.3390/app15105408"
+          },
+          {
+            "key": "44955_CR11",
+            "first-page": "172",
+            "volume": "6",
+            "author": "Z Huang",
+            "year": "2023",
+            "unstructured": "Huang, Z. Research on a Cross-Resource Interaction Model for Archival Heritage in Virtual and Real Interaction. Shanxi Archives. 6, 172–175 (2023). 171.[In Chinese]",
+            "journal-title": "Shanxi Archives"
+          },
+          {
+            "key": "44955_CR12",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Ting, Z. & Young, K. S. A Comparison Study of Youth Participatory Culture and Arts Education Projects in Chinese and Korean Museums: Focused on the Palace Museum in China and the National Museum of Korea [research-article]. 9 (4), 59–76. (2022).",
+            "DOI": "10.26654/iagc.2022.9.4.059"
+          },
+          {
+            "key": "44955_CR13",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Hornecker, E. & Stifter, M. Learning from interactive museum installations about interaction design for public settings. Proceedings of the SIGCHI Conference on Human Factors in Computing Systems. (2006).",
+            "DOI": "10.1145/1228175.1228201"
+          },
+          {
+            "key": "44955_CR14",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Paananen, V., Kiarostami, M. S., Lik-Hang, L., Braud, T. & Hosio, S. From Digital Media to Empathic Spaces: A Systematic Review of Empathy Research in Extended Reality Environments. In (2023). ACM Computing Surveys.",
+            "DOI": "10.1145/3626518"
+          },
+          {
+            "key": "44955_CR15",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Ye, M., Zhao, C., Ma, H. & Wang, J. Bridging Through Multisensory Experiences: The Inheritance and Innovation of Grand Canal Intangible Cultural Heritage in Cultural and Creative Products. In Advances in Engineering Technology Research. (2025).[In Chinese]",
+            "DOI": "10.56028/aetr.14.1.302.2025"
+          },
+          {
+            "key": "44955_CR16",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Li, Q., Wang, P., Liu, Z. & Wang, C. How generous interface affect user experience and behavior: Evaluating the information display interface for museum cultural heritage. In Computer Animation and Virtual Worlds. (2023).",
+            "DOI": "10.1002/cav.2212"
+          },
+          {
+            "issue": "12",
+            "key": "44955_CR17",
+            "first-page": "133",
+            "volume": "45",
+            "author": "J Seongmi",
+            "year": "2023",
+            "unstructured": "Seongmi, J. For Advancing Digital Archives in Multifaceted Utilization of Intangible Cultural Heritage [research-article]. Cult. Convergence. 45 (12), 133–147 (2023). ://KJD:ART003031175.",
+            "journal-title": "Cult. Convergence"
+          },
+          {
+            "key": "44955_CR18",
+            "doi-asserted-by": "publisher",
+            "unstructured": "Zou, C., Rhee, S. Y., He, L., Chen, D. & Yang, X. Sounds of History: A Digital Twin Approach to Musical Heritage Preservation in Virtual Museums [Article]. Electronics, 13 (12), Article 2388. (2024). https://doi.org/10.3390/electronics13122388",
+            "DOI": "10.3390/electronics13122388"
+          },
+          {
+            "key": "44955_CR19",
+            "doi-asserted-by": "publisher",
+            "first-page": "63",
+            "DOI": "10.26914/c.cnkihy.2025.014198",
+            "volume": "2",
+            "author": "JX Cheng",
+            "year": "2025",
+            "unstructured": "Cheng, J. X. Research on the multidimensional perception reconstruction of the virtual ecosystem of sports intangible cultural heritage in the new era. J. Shandong Sport Univ. 2, 63–64. https://doi.org/10.26914/c.cnkihy.2025.014198 (2025).[In Chinese]",
+            "journal-title": "J. Shandong Sport Univ."
+          },
+          {
+            "key": "44955_CR20",
+            "doi-asserted-by": "publisher",
+            "unstructured": "Liu, Y. T. Application of dynamic graphic interactive narrative based on synsensory psychology [Master’s Thesis, Luxun Academy of Fine Arts]. (2023). https://doi.org/10.27217/d.cnki.glxmc.2023.000044",
+            "DOI": "10.27217/d.cnki.glxmc.2023.000044"
+          },
+          {
+            "key": "44955_CR21",
+            "doi-asserted-by": "publisher",
+            "unstructured": "Niccolucci, F. & Felicetti, A. Digital Twin Sensors in Cultural Heritage Ontology Applications [Article]. Sensors 24 (12). https://doi.org/10.3390/s24123978 (2024). Article 3978.",
+            "DOI": "10.3390/s24123978"
+          },
+          {
+            "issue": "2",
+            "key": "44955_CR22",
+            "doi-asserted-by": "publisher",
+            "first-page": "95",
+            "DOI": "10.14699/kbiblia.2016.27.2.095",
+            "volume": "27",
+            "author": "HH Jeong",
+            "year": "2016",
+            "unstructured": "Jeong, H. H., Oh, H. J., Kim, T. Y. & Kim, Y. A Study on the Construction and Utilization of Digital Archives for Intangible Cultural Heritage in Korea [research-article]. J. Korean Biblia Soc. Libr. Inform. Sci. 27 (2), 95–134. https://doi.org/10.14699/kbiblia.2016.27.2.095 (2016).",
+            "journal-title": "J. Korean Biblia Soc. Libr. Inform. Sci."
+          },
+          {
+            "key": "44955_CR23",
+            "doi-asserted-by": "publisher",
+            "unstructured": "Zeng, Q., Lee, M. & Eune, J. Digital design method of cultural heritage using Ancient Egyptian theological totem [Article]. Heliyon, 9 (5), Article e15960. (2023). https://doi.org/10.1016/j.heliyon.2023.e15960",
+            "DOI": "10.1016/j.heliyon.2023.e15960"
+          },
+          {
+            "issue": "4",
+            "key": "44955_CR24",
+            "doi-asserted-by": "publisher",
+            "first-page": "71",
+            "DOI": "10.1145/3513261",
+            "volume": "15",
+            "author": "J Smithies",
+            "year": "2022",
+            "unstructured": "Smithies, J. et al. MaDiH ((sic)): A Transnational Approach to Building Digital Cultural Heritage Capacity [Article]. Acm J. Comput. Cult. Herit. 15 (4), 71. https://doi.org/10.1145/3513261 (2022).",
+            "journal-title": "Acm J. Comput. Cult. Herit."
+          },
+          {
+            "key": "44955_CR25",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Caine, K. Local standards for sample size at CHI. Proceedings of the 2016 CHI Conference on Human Factors in Computing Systems, 981–992. (2016).",
+            "DOI": "10.1145/2858036.2858498"
+          },
+          {
+            "key": "44955_CR26",
+            "doi-asserted-by": "publisher",
+            "unstructured": "Sweller, J. Cognitive load theory. In J. P. Mestre & B. H. Ross (Eds.), The psychology of learning and motivation: Cognition in education (pp. 37–76). Elsevier Academic Press. (2011). https://doi.org/10.1016/B978-0-12-387691-1.00002-8",
+            "DOI": "10.1016/B978-0-12-387691-1.00002-8"
+          },
+          {
+            "issue": "2",
+            "key": "44955_CR27",
+            "doi-asserted-by": "publisher",
+            "first-page": "77",
+            "DOI": "10.1191/1478088706qp063oa",
+            "volume": "3",
+            "author": "V Braun",
+            "year": "2006",
+            "unstructured": "Braun, V. & Clarke, V. Using thematic analysis in psychology. Qualitative Res. Psychol. 3 (2), 77–101. https://doi.org/10.1191/1478088706qp063oa (2006).",
+            "journal-title": "Qualitative Res. Psychol."
+          },
+          {
+            "issue": "4",
+            "key": "44955_CR28",
+            "doi-asserted-by": "publisher",
+            "first-page": "589",
+            "DOI": "10.1080/2159676X.2019.1628806",
+            "volume": "11",
+            "author": "V Braun",
+            "year": "2019",
+            "unstructured": "Braun, V. & Clarke, V. Reflecting on reflexive thematic analysis. Qualitative Res. Sport Exerc. Health. 11 (4), 589–597. https://doi.org/10.1080/2159676X.2019.1628806 (2019).",
+            "journal-title": "Qualitative Res. Sport Exerc. Health"
+          },
+          {
+            "key": "44955_CR29",
+            "first-page": "78",
+            "volume": "4",
+            "author": "MX Chen",
+            "year": "2024",
+            "unstructured": "Chen, M. X. Application and reflection of digital technology in archaeological site museums: A case study of the Tanshishan Site Museum in Fujian Province. Fujian Wenbo. 4, 78–83 (2024).[In Chinese]",
+            "journal-title": "Fujian Wenbo"
+          },
+          {
+            "issue": "6",
+            "key": "44955_CR30",
+            "doi-asserted-by": "publisher",
+            "first-page": "1988",
+            "DOI": "10.11834/jig.220198",
+            "volume": "27",
+            "author": "G Geng",
+            "year": "2022",
+            "unstructured": "Geng, G., He, X. L., Wang, M. L., Li, K. & He, X. W. Research Progress on Key Technologies for the Revitalization of Cultural Heritage. Chin. J. Image Graphics. 27 (6), 1988–2007 (2022).[In Chinese]",
+            "journal-title": "Chin. J. Image Graphics"
+          },
+          {
+            "key": "44955_CR31",
+            "doi-asserted-by": "crossref",
+            "unstructured": "Gopakumar, M. et al. Full-colour 3D holographic augmented-reality displays with metasurface waveguides. In Nature. (2024).",
+            "DOI": "10.1364/LS.2024.FW7A.1"
+          },
+          {
+            "issue": "5",
+            "key": "44955_CR32",
+            "first-page": "71",
+            "volume": "17",
+            "author": "JY Kim",
+            "year": "2022",
+            "unstructured": "Kim, J. Y., 한한 & 김영진 A Study on the Utilization of Modern Exhibition in Traditional Chinese Palace Architectural Space - Centering on the Ansiru of the Palace Museum [research-article]. J. Korea Intitute Spat. Des. 17 (5), 71–86 (2022).",
+            "journal-title": "J. Korea Intitute Spat. Des."
+          },
+          {
+            "issue": "1",
+            "key": "44955_CR33",
+            "first-page": "45",
+            "volume": "22",
+            "author": "MY Ting",
+            "year": "2024",
+            "unstructured": "Ting, M. Y. & heehyun, K. Research on Package Design of Cultural Products for The Palace Museum of Beijing- Centered on Emotional Design Theory [베이징 고궁박물관의 문화상품 패키지 디자인 연구- 감성디자인 이론을 중심으로 -] [research-article]. J. Brand Des. Association Korea. 22 (1), 45–56 (2024). ://KJD:ART003064808.",
+            "journal-title": "J. Brand Des. Association Korea"
+          }
+        ],
+        "container-title": [
+          "Scientific Reports"
+        ],
+        "language": "en",
+        "link": [
+          {
+            "URL": "https://www.nature.com/articles/s41598-026-44955-x",
+            "content-type": "text/html",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "https://www.nature.com/articles/s41598-026-44955-x.pdf",
+            "content-type": "application/pdf",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "https://www.nature.com/articles/s41598-026-44955-x.pdf",
+            "content-type": "application/pdf",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2026,
+              3,
+              31
+            ]
+          ],
+          "date-time": "2026-03-31T10:00:49Z",
+          "timestamp": 1774951249000
+        },
+        "score": 28.253643,
+        "resource": {
+          "primary": {
+            "URL": "https://www.nature.com/articles/s41598-026-44955-x"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2026,
+              3,
+              30
+            ]
+          ]
+        },
+        "references-count": 33,
+        "journal-issue": {
+          "issue": "1",
+          "published-online": {
+            "date-parts": [
+              [
+                2026,
+                12
+              ]
+            ]
+          }
+        },
+        "alternative-id": [
+          "44955"
+        ],
+        "URL": "https://doi.org/10.1038/s41598-026-44955-x",
+        "ISSN": [
+          "2045-2322"
+        ],
+        "issn-type": [
+          {
+            "value": "2045-2322",
+            "type": "electronic"
+          }
+        ],
+        "published": {
+          "date-parts": [
+            [
+              2026,
+              3,
+              30
+            ]
+          ]
+        },
+        "assertion": [
+          {
+            "value": "18 July 2025",
+            "order": 1,
+            "name": "received",
+            "label": "Received",
+            "group": {
+              "name": "ArticleHistory",
+              "label": "Article History"
+            }
+          },
+          {
+            "value": "16 March 2026",
+            "order": 2,
+            "name": "accepted",
+            "label": "Accepted",
+            "group": {
+              "name": "ArticleHistory",
+              "label": "Article History"
+            }
+          },
+          {
+            "value": "30 March 2026",
+            "order": 3,
+            "name": "first_online",
+            "label": "First Online",
+            "group": {
+              "name": "ArticleHistory",
+              "label": "Article History"
+            }
+          },
+          {
+            "order": 1,
+            "name": "Ethics",
+            "group": {
+              "name": "EthicsHeading",
+              "label": "Declarations"
+            }
+          },
+          {
+            "value": "The authors declare no competing interests.",
+            "order": 2,
+            "name": "Ethics",
+            "group": {
+              "name": "EthicsHeading",
+              "label": "Competing interests"
+            }
+          },
+          {
+            "value": "This study has been approved by HBUT Ethics Research Committee. The ethics project ID number is HBUT/2025/0070.",
+            "order": 3,
+            "name": "Ethics",
+            "group": {
+              "name": "EthicsHeading",
+              "label": "Ethics"
+            }
+          },
+          {
+            "value": "In accordance with the ethical principle soutlined in the Declaration of Helsinki, all participants provided informed consent before participating in the study.The anonymity and confidentiality of the participants were guaranteed, and participation was completely voluntary.",
+            "order": 4,
+            "name": "Ethics",
+            "group": {
+              "name": "EthicsHeading",
+              "label": "Methods"
+            }
+          }
+        ],
+        "article-number": "10654"
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2024,
+              9,
+              8
+            ]
+          ],
+          "date-time": "2024-09-08T07:10:52Z",
+          "timestamp": 1725779452262
+        },
+        "edition-number": "0",
+        "reference-count": 1,
+        "publisher": "Routledge",
+        "isbn-type": [
+          {
+            "type": "electronic",
+            "value": "9780203080641"
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2012,
+              12,
+              12
+            ]
+          ]
+        },
+        "DOI": "10.4324/9780203080641-23",
+        "type": "book-chapter",
+        "created": {
+          "date-parts": [
+            [
+              2020,
+              12,
+              21
+            ]
+          ],
+          "date-time": "2020-12-21T23:24:28Z",
+          "timestamp": 1608593068000
+        },
+        "page": "227-239",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "Putting away the things of childhood: museum representations of children’s cultural heritage"
+        ],
+        "prefix": "10.4324",
+        "member": "301",
+        "reference": [
+          {
+            "key": "ref13",
+            "unstructured": "Ariès, P. (1962) Centuries of Childhood: A Social History of Family Life, trans. Robert Baldick, New York: Knopf."
+          }
+        ],
+        "container-title": [
+          "Children, Childhood and Cultural Heritage"
+        ],
+        "language": "en",
+        "deposited": {
+          "date-parts": [
+            [
+              2020,
+              12,
+              21
+            ]
+          ],
+          "date-time": "2020-12-21T23:25:32Z",
+          "timestamp": 1608593132000
+        },
+        "score": 28.044615,
+        "resource": {
+          "primary": {
+            "URL": "https://www.taylorfrancis.com/books/9781136168710/chapters/10.4324/9780203080641-23"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2012,
+              12,
+              12
+            ]
+          ]
+        },
+        "ISBN": [
+          "9780203080641"
+        ],
+        "references-count": 1,
+        "URL": "https://doi.org/10.4324/9780203080641-23",
+        "published": {
+          "date-parts": [
+            [
+              2012,
+              12,
+              12
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2024,
+              9,
+              8
+            ]
+          ],
+          "date-time": "2024-09-08T07:11:04Z",
+          "timestamp": 1725779464051
+        },
+        "edition-number": "0",
+        "reference-count": 1,
+        "publisher": "Routledge",
+        "isbn-type": [
+          {
+            "type": "electronic",
+            "value": "9780203080641"
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2012,
+              12,
+              12
+            ]
+          ]
+        },
+        "DOI": "10.4324/9780203080641-25",
+        "type": "book-chapter",
+        "created": {
+          "date-parts": [
+            [
+              2020,
+              12,
+              21
+            ]
+          ],
+          "date-time": "2020-12-21T23:24:28Z",
+          "timestamp": 1608593068000
+        },
+        "page": "258-274",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "Children as collectors of cultural heritage: Leland Stanford, Jr and his museum"
+        ],
+        "prefix": "10.4324",
+        "member": "301",
+        "reference": [
+          {
+            "key": "ref15",
+            "unstructured": "Bancroft, H.H. et al. (1874) The Native Races of the Pacific States of North America, New York: D. Appleton and Company."
+          }
+        ],
+        "container-title": [
+          "Children, Childhood and Cultural Heritage"
+        ],
+        "language": "en",
+        "deposited": {
+          "date-parts": [
+            [
+              2020,
+              12,
+              21
+            ]
+          ],
+          "date-time": "2020-12-21T23:25:37Z",
+          "timestamp": 1608593137000
+        },
+        "score": 27.965654,
+        "resource": {
+          "primary": {
+            "URL": "https://www.taylorfrancis.com/books/9781136168710/chapters/10.4324/9780203080641-25"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2012,
+              12,
+              12
+            ]
+          ]
+        },
+        "ISBN": [
+          "9780203080641"
+        ],
+        "references-count": 1,
+        "URL": "https://doi.org/10.4324/9780203080641-25",
+        "published": {
+          "date-parts": [
+            [
+              2012,
+              12,
+              12
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2024,
+              5,
+              12
+            ]
+          ],
+          "date-time": "2024-05-12T00:52:20Z",
+          "timestamp": 1715475140554
+        },
+        "edition-number": "1",
+        "reference-count": 0,
+        "publisher": "Routledge",
+        "isbn-type": [
+          {
+            "value": "9781315110035",
+            "type": "electronic"
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2020,
+              9,
+              22
+            ]
+          ]
+        },
+        "DOI": "10.4324/9781315110035-1",
+        "type": "book-chapter",
+        "created": {
+          "date-parts": [
+            [
+              2020,
+              9,
+              3
+            ]
+          ],
+          "date-time": "2020-09-03T13:58:41Z",
+          "timestamp": 1599141521000
+        },
+        "page": "1-24",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "Cultural heritage development in Abu Dhabi"
+        ],
+        "prefix": "10.4324",
+        "author": [
+          {
+            "given": "Sarina",
+            "family": "Wakefield",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "301",
+        "container-title": [
+          "Cultural Heritage, Transnational Narratives and Museum Franchising in Abu Dhabi"
+        ],
+        "language": "en",
+        "deposited": {
+          "date-parts": [
+            [
+              2021,
+              4,
+              3
+            ]
+          ],
+          "date-time": "2021-04-03T00:21:44Z",
+          "timestamp": 1617409304000
+        },
+        "score": 27.648026,
+        "resource": {
+          "primary": {
+            "URL": "https://www.taylorfrancis.com/books/9781351614870/chapters/10.4324/9781315110035-1"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2020,
+              9,
+              22
+            ]
+          ]
+        },
+        "ISBN": [
+          "9781315110035"
+        ],
+        "references-count": 0,
+        "URL": "https://doi.org/10.4324/9781315110035-1",
+        "published": {
+          "date-parts": [
+            [
+              2020,
+              9,
+              22
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2025,
+              12,
+              16
+            ]
+          ],
+          "date-time": "2025-12-16T14:41:10Z",
+          "timestamp": 1765896070658,
+          "version": "3.48.0"
+        },
+        "edition-number": "1",
+        "reference-count": 0,
+        "publisher": "Rowman & Littlefield",
+        "isbn-type": [
+          {
+            "value": "9798216405382",
+            "type": "electronic"
+          },
+          {
+            "value": "9781538110911",
+            "type": "print"
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2018
+            ]
+          ]
+        },
+        "DOI": "10.5040/9798216405382.ch-008",
+        "type": "other",
+        "created": {
+          "date-parts": [
+            [
+              2025,
+              12,
+              16
+            ]
+          ],
+          "date-time": "2025-12-16T14:15:32Z",
+          "timestamp": 1765894532000
+        },
+        "page": "95-100",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "The Trilogy of Cultural Heritage"
+        ],
+        "prefix": "10.5040",
+        "author": [
+          {
+            "given": "Chiselev",
+            "family": "Alexandru",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "2984",
+        "container-title": [
+          "Cultural Heritage Care and Management"
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2025,
+              12,
+              16
+            ]
+          ],
+          "date-time": "2025-12-16T14:28:14Z",
+          "timestamp": 1765895294000
+        },
+        "score": 27.567324,
+        "resource": {
+          "primary": {
+            "URL": "https://www.bloomsburycollections.com/monograph-detail?docid=b-9798216405382&tocid=b-9798216405382-chapter8"
+          }
+        },
+        "subtitle": [
+          "Preserving Intangible Heritage in an Ethnographical Museum"
+        ],
+        "issued": {
+          "date-parts": [
+            [
+              2018
+            ]
+          ]
+        },
+        "ISBN": [
+          "9798216405382",
+          "9781538110911"
+        ],
+        "references-count": 0,
+        "URL": "https://doi.org/10.5040/9798216405382.ch-008",
+        "published": {
+          "date-parts": [
+            [
+              2018
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              2,
+              6
+            ]
+          ],
+          "date-time": "2026-02-06T23:24:41Z",
+          "timestamp": 1770420281829,
+          "version": "3.49.0"
+        },
+        "publisher-location": "London",
+        "edition-number": "1",
+        "reference-count": 0,
+        "publisher": "Routledge",
+        "isbn-type": [
+          {
+            "value": "9780203937884",
+            "type": "electronic"
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2007,
+              11,
+              14
+            ]
+          ]
+        },
+        "DOI": "10.4324/9780203937884-27",
+        "type": "book-chapter",
+        "created": {
+          "date-parts": [
+            [
+              2026,
+              2,
+              6
+            ]
+          ],
+          "date-time": "2026-02-06T11:54:46Z",
+          "timestamp": 1770378886000
+        },
+        "page": "261-274",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "DESIGNING A VIRTUAL MUSEUM OF ARCHITECTURAL HERITAGE"
+        ],
+        "prefix": "10.4324",
+        "author": [
+          {
+            "given": "Hannah",
+            "family": "Lewi",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "301",
+        "container-title": [
+          "New Heritage"
+        ],
+        "language": "en",
+        "deposited": {
+          "date-parts": [
+            [
+              2026,
+              2,
+              6
+            ]
+          ],
+          "date-time": "2026-02-06T11:54:49Z",
+          "timestamp": 1770378889000
+        },
+        "score": 27.406061,
+        "resource": {
+          "primary": {
+            "URL": "https://www.taylorfrancis.com/books/9780203937884/chapters/10.4324/9780203937884-27"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2007,
+              11,
+              14
+            ]
+          ]
+        },
+        "ISBN": [
+          "9780203937884"
+        ],
+        "references-count": 0,
+        "URL": "https://doi.org/10.4324/9780203937884-27",
+        "published": {
+          "date-parts": [
+            [
+              2007,
+              11,
+              14
+            ]
+          ]
+        }
+      }
+    ],
+    "items-per-page": 10,
+    "query": {
+      "start-index": 0,
+      "search-terms": "multimodal museum cultural heritage retrieval"
+    }
+  },
+  "nota_exportacion": "Se preservan metadatos bibliográficos; se omiten resúmenes extensos del paquete."
+}

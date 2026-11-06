@@ -1,0 +1,185 @@
+{
+  "fecha": "2026-10-20 America/Lima",
+  "tipo": "busqueda_de_cierre_sin_cribado_integral_adicional",
+  "request": {
+    "system2_search_query": [
+      {
+        "q": "(\"cultural heritage\" OR museum) AND (multimodal OR CLIP) AND retrieval"
+      },
+      {
+        "q": "(textile OR \"weaving pattern\") AND (hypergraph OR symmetry OR \"structural similarity\")"
+      },
+      {
+        "q": "(\"concept bottleneck\" OR \"neuro-symbolic\") AND (retrieval OR interpretability)"
+      }
+    ],
+    "response_length": "long"
+  },
+  "resultados_metadatos": [
+    {
+      "encabezado_fuente": "MuseRAG++: a deep retrieval-augmented generation framework for semantic interaction and multi-modal reasoning in virtual museums | Scientific Reports (https://www.nature.com/articles/s41598-026-55700-9)",
+      "referencia_recuperacion": "turn15search0"
+    },
+    {
+      "encabezado_fuente": "MuseRAG++: a deep retrieval-augmented generation framework for semantic interaction and multi-modal reasoning in virtual museums - PubMed (https://pubmed.ncbi.nlm.nih.gov/42230900/)",
+      "referencia_recuperacion": "turn15search1"
+    },
+    {
+      "encabezado_fuente": "A Similarity Measure for Weaving Patterns in Textiles (https://arxiv.org/abs/1810.04604)",
+      "referencia_recuperacion": "turn15academia36"
+    },
+    {
+      "encabezado_fuente": "Structural textile pattern recognition and processing based on hypergraphs | Discover Computing | Springer Nature Link (https://doi.org/10.1007/s10791-020-09384-y)",
+      "referencia_recuperacion": "turn15search2"
+    },
+    {
+      "encabezado_fuente": "Towards Cross-modal Retrieval in Chinese Cultural Heritage Documents: Dataset and Solution (https://arxiv.org/abs/2505.10921)",
+      "referencia_recuperacion": "turn15academia37"
+    },
+    {
+      "encabezado_fuente": "GitHub - REEVALUATE/knowledge_enhanced_multimodal_retrieval · GitHub (https://github.com/REEVALUATE/knowledge_enhanced_multimodal_retrieval)",
+      "referencia_recuperacion": "turn15search3"
+    },
+    {
+      "encabezado_fuente": "Write What You Want: Applying Text-to-Video Retrieval to Audiovisual Archives | Journal on Computing and Cultural Heritage (https://doi.org/10.1145/3627167)",
+      "referencia_recuperacion": "turn15search4"
+    },
+    {
+      "encabezado_fuente": "Resources | Interpretable Deep Learning (https://interpretabledeeplearning.github.io/resources/)",
+      "referencia_recuperacion": "turn15search5"
+    },
+    {
+      "encabezado_fuente": "Neuro-symbolic information fusion for explainable retrieval-augmented generation in mental health applications: A survey and challenges - ScienceDirect (https://www.sciencedirect.com/science/article/pii/S1566253526005786)",
+      "referencia_recuperacion": "turn15search6"
+    },
+    {
+      "encabezado_fuente": "Structural textile pattern recognition and processing based on hypergraphs - PMC (https://pmc.ncbi.nlm.nih.gov/articles/PMC7936973/)",
+      "referencia_recuperacion": "turn15search7"
+    },
+    {
+      "encabezado_fuente": "Structural Textile Pattern Recognition and Processing Based on Hypergraphs (https://arxiv.org/abs/2103.11271)",
+      "referencia_recuperacion": "turn15academia38"
+    },
+    {
+      "encabezado_fuente": "CLMN: Concept based Language Models via Neural Symbolic Reasoning (https://arxiv.org/abs/2510.10063)",
+      "referencia_recuperacion": "turn15academia39"
+    },
+    {
+      "encabezado_fuente": "From Raw Signals to Understood States: A Perspective on Neuro-Symbolic and LLM-Driven Intelligent Sensing of Human Affective and Cognitive States - PMC (https://pmc.ncbi.nlm.nih.gov/articles/PMC13667423/)",
+      "referencia_recuperacion": "turn15search8"
+    },
+    {
+      "encabezado_fuente": "HSAMR: A hierarchical semantic alignment framework for multimodal retrieval - ScienceDirect (https://www.sciencedirect.com/science/article/pii/S0167865526001777)",
+      "referencia_recuperacion": "turn15search9"
+    },
+    {
+      "encabezado_fuente": "Knowledge-Enhanced Multimodal Retrieval over Cultural Heritage Knowledge Graphs (https://eurekamag.com/research/107/288/107288566.php)",
+      "referencia_recuperacion": "turn15search10"
+    },
+    {
+      "encabezado_fuente": "When MLLMs Meet ICH: A visual retrieval-augmented generation-based method for intangible cultural heritage image recognition-take Shadow Puppetry as a case - ScienceDirect (https://www.sciencedirect.com/science/article/pii/S0306457325004224)",
+      "referencia_recuperacion": "turn15search11"
+    },
+    {
+      "encabezado_fuente": "Concept Bottleneck Architectures with Symbolic Readouts: A Field Guide | Scixa (https://scixa.com/article?lang=en&slug=concept-bottleneck-architectures-symbolic-readouts)",
+      "referencia_recuperacion": "turn15search12"
+    },
+    {
+      "encabezado_fuente": "Enhanced Multimodal Retrieval Augmented Generation for Cultural Heritage Preservation | IEEE Conference Publication | IEEE Xplore (https://ieeexplore.ieee.org/document/11252350/)",
+      "referencia_recuperacion": "turn15search13"
+    },
+    {
+      "encabezado_fuente": "A Similarity Measure for Weaving Patterns in Textiles (https://researchrepository.ucd.ie/server/api/core/bitstreams/9230e38c-8e89-4527-8ec5-e861d92fe543/content)",
+      "referencia_recuperacion": "turn15search40"
+    },
+    {
+      "encabezado_fuente": "Structural textile pattern recognition and processing based on hypergraphs | Discover Computing | Springer Nature Link (https://link.springer.com/article/10.1007/s10791-020-09384-y)",
+      "referencia_recuperacion": "turn15search14"
+    },
+    {
+      "encabezado_fuente": "MuseRAG++: a deep retrieval-augmented generation framework for semantic interaction and multi-modal reasoning in virtual museums - PMC (https://pmc.ncbi.nlm.nih.gov/articles/PMC13470485/)",
+      "referencia_recuperacion": "turn15search15"
+    },
+    {
+      "encabezado_fuente": "Reshaping Museum Experiences with AI: The ReInHerit Toolkit (https://www.mdpi.com/2571-9408/8/7/277)",
+      "referencia_recuperacion": "turn15search16"
+    },
+    {
+      "encabezado_fuente": "Towards Cross-Modal Retrieval in Chinese Cultural Heritage Documents: Dataset and Solution — Lacuna (https://lacuna.tiptreesystems.com/work/towards-cross-modal-retrieval-in-chinese-cultural-heritage-documents-dataset-and/wrk_ae7fa91ea5d0d7a013f33d7a4780ef6b)",
+      "referencia_recuperacion": "turn15search17"
+    },
+    {
+      "encabezado_fuente": "Multimodal Mobile Interfaces for Cultural Heritage With Balanced Immersion and Accessibility - ScienceDirect (https://www.sciencedirect.com/org/science/article/pii/S1942390X26000078)",
+      "referencia_recuperacion": "turn15search18"
+    },
+    {
+      "encabezado_fuente": "(PDF) Structural Textile Pattern Recognition and Processing Based on Hypergraphs (https://www.researchgate.net/publication/350310974_Structural_Textile_Pattern_Recognition_and_Processing_Based_on_Hypergraphs)",
+      "referencia_recuperacion": "turn15search19"
+    },
+    {
+      "encabezado_fuente": "https://doi.org/10.1038/s41598-026-55700-9 (https://www.nature.com/articles/s41598-026-55700-9_reference.pdf)",
+      "referencia_recuperacion": "turn15search41"
+    },
+    {
+      "encabezado_fuente": "Structural textile pattern recognition and processing based on hypergraphs (https://openalex.org/W3123725289)",
+      "referencia_recuperacion": "turn15search20"
+    },
+    {
+      "encabezado_fuente": "Structural textile pattern recognition and processing based on hypergraphs (https://link.springer.com/content/pdf/10.1007/s10791-020-09384-y.pdf)",
+      "referencia_recuperacion": "turn15search42"
+    },
+    {
+      "encabezado_fuente": "(PDF) Structural textile pattern recognition and processing based on hypergraphs (https://www.researchgate.net/publication/348725815_Structural_textile_pattern_recognition_and_processing_based_on_hypergraphs)",
+      "referencia_recuperacion": "turn15search21"
+    },
+    {
+      "encabezado_fuente": "Do Concept Bottleneck Models Learn as Intended? (https://www.repository.cam.ac.uk/items/3c62e164-75d2-4a4e-bf94-ae5468b7f50d)",
+      "referencia_recuperacion": "turn15search22"
+    },
+    {
+      "encabezado_fuente": "Neurosymbolic artificial intelligence and mechanistic interpretability in the era of artificial general intelligence | Discover Artificial Intelligence | Springer Nature Link (https://link.springer.com/article/10.1007/s44163-026-01424-8)",
+      "referencia_recuperacion": "turn15search23"
+    },
+    {
+      "encabezado_fuente": "A Comprehensive Review of Neuro-symbolic AI for Robustness, Uncertainty Quantification, and Intervenability | Arabian Journal for Science and Engineering | Springer Nature Link (https://doi.org/10.1007/s13369-025-10887-3)",
+      "referencia_recuperacion": "turn15search24"
+    },
+    {
+      "encabezado_fuente": "Interpretability Is in the Mind of the Beholder: A Causal Framework for Human-Interpretable Representation Learning (https://pmc.ncbi.nlm.nih.gov/articles/PMC10742865/)",
+      "referencia_recuperacion": "turn15search25"
+    },
+    {
+      "encabezado_fuente": "Structural Textile Pattern Recognition and Processing Based on Hypergraphs | alphaXiv (https://www.alphaxiv.org/abs/2103.11271v1)",
+      "referencia_recuperacion": "turn15search26"
+    },
+    {
+      "encabezado_fuente": "Paper page - Neurosymbolic Retrievers for Retrieval-augmented Generation (https://huggingface.co/papers/2601.04568)",
+      "referencia_recuperacion": "turn15search27"
+    },
+    {
+      "encabezado_fuente": "The relational bottleneck as an inductive bias for efficient abstraction - ScienceDirect (https://www.sciencedirect.com/science/article/pii/S1364661324000809)",
+      "referencia_recuperacion": "turn15search28"
+    },
+    {
+      "encabezado_fuente": "Surveying neuro-symbolic approaches for reliable artificial intelligence of things | Journal of Reliable Intelligent Environments | Springer Nature Link (https://link.springer.com/article/10.1007/s40860-024-00231-1)",
+      "referencia_recuperacion": "turn15search29"
+    },
+    {
+      "encabezado_fuente": "The Future Is Neuro-Symbolic: Where Has It Been, and Where Is It Going? | Proceedings of the AAAI Conference on Artificial Intelligence (https://ojs.aaai.org/index.php/AAAI/article/view/42130)",
+      "referencia_recuperacion": "turn15search30"
+    },
+    {
+      "encabezado_fuente": "Structural textile pattern recognition and processing based on hypergraphs (pdf) | Paperity (https://paperity.org/p/260196303/structural-textile-pattern-recognition-and-processing-based-on-hypergraphs)",
+      "referencia_recuperacion": "turn15search31"
+    },
+    {
+      "encabezado_fuente": "A Similarity Measure for Weaving Patterns in Textiles | Scholar Feed (https://www.scholarfeed.org/paper/1810.04604)",
+      "referencia_recuperacion": "turn15search32"
+    },
+    {
+      "encabezado_fuente": "Context or Retrieval? Evaluating RAG Methods for Art and Museum QA System (https://aclanthology.org/2025.iwsds-1.10.pdf)",
+      "referencia_recuperacion": "turn15search43"
+    }
+  ],
+  "nota": "Respuesta reducida a títulos, URL y referencias de recuperación. No incluye extractos de las publicaciones."
+}

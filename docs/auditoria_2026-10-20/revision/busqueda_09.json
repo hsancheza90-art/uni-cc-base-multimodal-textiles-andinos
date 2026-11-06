@@ -1,0 +1,101 @@
+{
+  "resultados_metadatos": [
+    {
+      "encabezado_fuente": "The FAIR Guiding Principles for scientific data ... (https://www.nature.com/articles/sdata201618)",
+      "referencia_recuperacion": "turn9search0"
+    },
+    {
+      "encabezado_fuente": "Explainable Search and Discovery of Visual Cultural Heritage Collections with Multimodal Large Language Models (https://arxiv.org/abs/2411.04663)",
+      "referencia_recuperacion": "turn9search1"
+    },
+    {
+      "encabezado_fuente": "The “Collections as ML Data” checklist for machine ... (https://dl.acm.org/doi/abs/10.1002/asi.24765)",
+      "referencia_recuperacion": "turn9search2"
+    },
+    {
+      "encabezado_fuente": "Weisfeiler-Lehman Graph Kernels (https://jmlr.org/papers/v12/shervashidze11a.html)",
+      "referencia_recuperacion": "turn9search3"
+    },
+    {
+      "encabezado_fuente": "Publication: The FAIR Guiding Principles for scientific data ... (https://dash.harvard.edu/entities/publication/73120379-2cc8-6bd4-e053-0100007fdf3b)",
+      "referencia_recuperacion": "turn9search4"
+    },
+    {
+      "encabezado_fuente": "Unveiling new data services and tools for cultural heritage ... (https://www.dariah.fi/2026/02/10/unveiling-new-data-services-and-tools-for-cultural-heritage-researchers/)",
+      "referencia_recuperacion": "turn9search5"
+    },
+    {
+      "encabezado_fuente": "The “Collections as ML Data” checklist for machine learning ... (https://asistdl.onlinelibrary.wiley.com/doi/10.1002/asi.24765)",
+      "referencia_recuperacion": "turn9search6"
+    },
+    {
+      "encabezado_fuente": "Weisfeiler-Lehman Graph Kernels | The Journal of ... (https://dl.acm.org/doi/10.5555/1953048.2078187)",
+      "referencia_recuperacion": "turn9search7"
+    },
+    {
+      "encabezado_fuente": "FAIR Principles (https://www.go-fair.org/fair-principles/)",
+      "referencia_recuperacion": "turn9search8"
+    },
+    {
+      "encabezado_fuente": "Advanced solutions for presenting visual cultural heritage ... (https://www.kansalliskirjasto.fi/en/projects/images-dialogue-advanced-solutions-presenting-visual-cultural-heritage-digitally-various)",
+      "referencia_recuperacion": "turn9search9"
+    },
+    {
+      "encabezado_fuente": "The \"Collections as ML Data\" Checklist for Machine Learning & Cultural Heritage (https://arxiv.org/abs/2207.02960)",
+      "referencia_recuperacion": "turn9search10"
+    },
+    {
+      "encabezado_fuente": "Weisfeiler-Lehman Graph Kernels - Nino Shervashidze (https://scispace.com/papers/weisfeiler-lehman-graph-kernels-2mc1fyeygq)",
+      "referencia_recuperacion": "turn9search11"
+    },
+    {
+      "encabezado_fuente": "The FAIR Guiding Principles for scientific data management ... (https://pubmed.ncbi.nlm.nih.gov/26978244/)",
+      "referencia_recuperacion": "turn9search12"
+    },
+    {
+      "encabezado_fuente": "Explainable Search and Discovery of Visual Cultural ... (https://ceur-ws.org/Vol-3834/paper1.pdf)",
+      "referencia_recuperacion": "turn9search13"
+    },
+    {
+      "encabezado_fuente": "The “Collections as ML Data” checklist for machine ... (https://www.researchgate.net/publication/371296773_The_Collections_as_ML_Data_checklist_for_machine_learning_and_cultural_heritage)",
+      "referencia_recuperacion": "turn9search14"
+    },
+    {
+      "encabezado_fuente": "Weisfeiler-Lehman Graph Kernels | Empirische Inferenz – MPI-IS (https://is.mpg.de/ics/de/publications/shervashidzesvmb2011)",
+      "referencia_recuperacion": "turn9search15"
+    },
+    {
+      "encabezado_fuente": "Acceptance of online audio-visual cultural heritage archive ... (https://informationr.net/ir/18-2/paper575.html)",
+      "referencia_recuperacion": "turn9search17"
+    },
+    {
+      "encabezado_fuente": "The “Collections as ML Data” checklist for machine learning and ... (https://scite.ai/reports/10.1002/asi.24765)",
+      "referencia_recuperacion": "turn9search18"
+    },
+    {
+      "encabezado_fuente": "Computational Understanding of Iconography and ... (https://www.dhss.phil.fau.de/2021/02/13/conographics-computational-understanding-of-iconography-and-narration-in-visual-cultural-heritage/)",
+      "referencia_recuperacion": "turn9search21"
+    },
+    {
+      "encabezado_fuente": "Global Weisfeiler-Lehman Graph Kernels (https://arxiv.org/abs/1703.02379)",
+      "referencia_recuperacion": "turn9academia46"
+    },
+    {
+      "encabezado_fuente": "Wasserstein Weisfeiler-Lehman Graph Kernels (https://arxiv.org/abs/1906.01277)",
+      "referencia_recuperacion": "turn9academia48"
+    },
+    {
+      "encabezado_fuente": "Taming CLIP for Fine-grained and Structured Visual Understanding of Museum Exhibits (https://arxiv.org/html/2409.01690v1)",
+      "referencia_recuperacion": "turn9view0"
+    },
+    {
+      "encabezado_fuente": "Multimodal Metadata Assignment for Cultural Heritage Artifacts (https://arxiv.org/html/2406.00423v1)",
+      "referencia_recuperacion": "turn9view1"
+    },
+    {
+      "encabezado_fuente": "Structural textile pattern recognition and processing based on hypergraphs | Discover Computing | Springer Nature Link (https://link.springer.com/article/10.1007/s10791-020-09384-y)",
+      "referencia_recuperacion": "turn9view2"
+    }
+  ],
+  "nota": "Respuesta reducida a títulos, URL y referencias de recuperación. No incluye extractos de las publicaciones."
+}

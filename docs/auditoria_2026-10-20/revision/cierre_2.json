@@ -1,0 +1,68 @@
+{
+  "fecha": "2026-10-20 America/Lima",
+  "tipo": "busqueda_de_cierre_sin_cribado_integral_adicional",
+  "request": {
+    "system1_search_query": [
+      {
+        "q": "(\"small data\" OR \"small sample\") AND (\"domain shift\" OR \"cross-validation\")"
+      },
+      {
+        "q": "(\"expert annotation\" OR \"relevance judgments\") AND (agreement OR uncertainty)"
+      },
+      {
+        "q": "\"Andean weaving\" AND (ontology OR computational)"
+      },
+      {
+        "q": "\"cultural heritage\" \"multimodal retrieval\" 2026"
+      }
+    ],
+    "response_length": "long"
+  },
+  "resultados_metadatos": [
+    {
+      "encabezado_fuente": "Domain-Adaptive Prototype Networks for few-shot intangible cultural heritage image classification - ScienceDirect (https://www.sciencedirect.com/science/article/pii/S1110016826002504)",
+      "referencia_recuperacion": "turn16search0"
+    },
+    {
+      "encabezado_fuente": "OracleNet: a few-shot multi-scale deep learning framework for calibrated authentication of oracle bone artefacts | npj Heritage Science (https://doi.org/10.1038/s40494-026-02747-6)",
+      "referencia_recuperacion": "turn16search1"
+    },
+    {
+      "encabezado_fuente": "The warring states linguistic benchmark for hierarchical multimodal reasoning in digital heritage | npj Heritage Science (https://www.nature.com/articles/s40494-026-02684-4)",
+      "referencia_recuperacion": "turn16search2"
+    },
+    {
+      "encabezado_fuente": "Rubric-conditioned large language model labeling: Agreement, uncertainty, and label consistency in subjective text annotation - ScienceDirect (https://www.sciencedirect.com/science/article/abs/pii/S0747563226000853)",
+      "referencia_recuperacion": "turn16search3"
+    },
+    {
+      "encabezado_fuente": "LLM-Driven Completeness and Consistency Evaluation for Cultural Heritage Data Augmentation in Cross-Modal Retrieval - ACL Anthology (https://aclanthology.org/2025.emnlp-main.980/)",
+      "referencia_recuperacion": "turn16search4"
+    },
+    {
+      "encabezado_fuente": "Andean Weaving Knowledge Base Ontology | PDF | Ontology (Information Science) | Methodology (https://www.scribd.com/document/983725713/2700427-1)",
+      "referencia_recuperacion": "turn16search5"
+    },
+    {
+      "encabezado_fuente": "An Ontological Approach to Creating an Andean Weaving Knowledge Base | Request PDF (https://www.researchgate.net/publication/273897504_An_Ontological_Approach_to_Creating_an_Andean_Weaving_Knowledge_Base)",
+      "referencia_recuperacion": "turn16search6"
+    },
+    {
+      "encabezado_fuente": "Multimodal RAG for cultural heritage: a technical exploration based on Jino traditional knowledge | Digital Scholarship in the Humanities | Oxford Academic (https://doi.org/10.1093/llc/fqag042)",
+      "referencia_recuperacion": "turn16search7"
+    },
+    {
+      "encabezado_fuente": "YuOpera-Omni for multimodal retrieval and constraint aware generation in Henan Opera | npj Heritage Science (https://www.nature.com/articles/s40494-026-02731-0)",
+      "referencia_recuperacion": "turn16search8"
+    },
+    {
+      "encabezado_fuente": "ArtKB: A Multimodal Art Knowledge Base for Cultural Heritage (https://iris.polito.it/handle/11583/3011213)",
+      "referencia_recuperacion": "turn16search9"
+    },
+    {
+      "encabezado_fuente": "REEVALUATE | KU Leuven (https://reevaluate.cs.kuleuven.be/publications)",
+      "referencia_recuperacion": "turn16search10"
+    }
+  ],
+  "nota": "Respuesta reducida a títulos, URL y referencias de recuperación. No incluye extractos de las publicaciones."
+}

@@ -1,6 +1,6 @@
 # Plan de cierre de la tesis: cuatro semanas
 
-Del lunes 26 de octubre al domingo 22 de noviembre de 2026. Plan de actividades para cerrar la segunda parte de la tesis (Seminario de Tesis II). Integra el plan que estaba en curso (hitos F2-H1 a F2-H3) con las observaciones de la auditoría del asesor del 20 de octubre de 2026 (carpeta `RevisionAsesor/auditoria`, en adelante «la auditoría»; los identificadores MET01, DAT01, SW01, etc., son los de su informe 09).
+Del lunes 26 de octubre al domingo 22 de noviembre de 2026. Plan de actividades para cerrar la segunda parte de la tesis (Seminario de Tesis II). Integra el plan que estaba en curso (hitos F2-H1 a F2-H3) con las observaciones de la auditoría del asesor del 20 de octubre de 2026 (versionada en `docs/auditoria_2026-10-20/`, en adelante «la auditoría»; los identificadores MET01, DAT01, SW01, etc., son los de su informe 09).
 
 ## Punto de partida (24 de octubre)
 
@@ -43,7 +43,7 @@ Sin ellas no se puede arrancar. Se registran en el protocolo experimental y en e
 | D4 | Galería del benchmark | El núcleo de 150 piezas, ya estratificado, después de agrupar duplicados | Investigador y asesor |
 | D5 | Umbral práctico y métrica primaria | ΔnDCG@10 = 0,03; bootstrap pareado de 10 000 réplicas con semilla fija | Investigador y asesor |
 | D6 | Nuevas dependencias para M2 (torch, open_clip) | Aprobarlas con versiones exactas y un checkpoint con licencia verificada | Investigador |
-| D7 | Versionar `RevisionAsesor/` e integración continua (SW12) | Versionar la auditoría en `docs/`; CI después de la semana 4 | Investigador |
+| D7 | Versionar la auditoría e integración continua (SW12) | Versionar la auditoría en `docs/`; CI después de la semana 4 | Investigador |
 
 ## Semana 1 (26 de octubre al 1 de noviembre): protocolo, esquema y contratos
 
@@ -211,5 +211,6 @@ La puerta de salida de la semana 1 no se cruzó.
 
 - **Estado de anotación.** El núcleo queda como `anotado_manual`. Se agrega `anotado_asistido` al vocabulario, reservado para uso futuro; no se usa en el núcleo.
 - **Criterios y vocabulario después del retest.** Las observaciones marcan 104 piezas con `DUDA`, `CRITERIO` o `VOCAB`: huecos del vocabulario (colores, motivos vegetales y animales, damero, simetría rotacional, técnica de amarre) y criterios por unificar (esquinas de borde, varias tiras en una foto, listados, paneles a lo largo de una tira). Se deciden después de la re-anotación del lote 1, para no cambiar la guía entre las dos pasadas. Las piezas afectadas se corrigen luego en el workbook.
+- **D7 (auditoría e integración continua, 6 de noviembre).** La auditoría se versiona sin cambios en `docs/auditoria_2026-10-20/`, con una nota sobre la verificación de sus sumas; la integración continua queda para después del 22 de noviembre.
 - **D6 (dependencias y checkpoint de M2).** Se aprueban `torch` 2.15.0 (CPU), `torchvision` 0.29.2 y `open_clip_torch` 3.3.0 como dependencias opcionales (`requirements-modelos.txt`), fuera del flujo. Checkpoint `xlm-roberta-base-ViT-B-32` / `laion5b_s13b_b90k` (licencia MIT, verificada en la ficha del modelo), multilingüe para las consultas T1 en español.
 - **Protocolo experimental (S1.3).** Tarea primaria T3 (estructura por ejemplar) y T1 (texto a imagen) como secundaria exploratoria; 10 consultas de desarrollo y 30 de prueba en T3, más 6 de T1; juicio ciego sobre imágenes, con un doble juicio parcial de 5 consultas de prueba por el asesor u otra persona; D2 y D4–D7 entran como propuestas que el asesor ratifica antes de abrir el test.

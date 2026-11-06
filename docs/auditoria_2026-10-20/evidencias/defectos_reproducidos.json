@@ -1,0 +1,16 @@
+{
+  "decision_invalida_met": {
+    "esperado": "retorno 1 conforme docstring",
+    "obtenido": 0,
+    "pendiente_exportado": true
+  },
+  "cma_duplicado": "aceptado sin excepcion",
+  "descarga_error_retorno": 0,
+  "fecha_invalida_errores": [],
+  "cache_config_alterada": {
+    "retorno": 0,
+    "filas_identicas": false,
+    "llamadas_medicion": 0,
+    "parametro_cambiado": "nitidez_lado_textil: 600 -> 123"
+  }
+}

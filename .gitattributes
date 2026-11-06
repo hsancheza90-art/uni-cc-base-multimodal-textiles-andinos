@@ -8,3 +8,7 @@
 *.jpeg binary
 *.png binary
 *.npy binary
+
+# Auditoria del asesor: se versiona tal como se entrego, byte a byte, para que coincidan las sumas
+# de su SHA256SUMS.txt (algunos CSV usan CRLF).
+docs/auditoria_2026-10-20/** -text

@@ -6,56 +6,63 @@
 | De | Henry Sánchez Alvarado |
 | Tesis | «Estructuras combinatorias y representación multimodal en textiles andinos», Maestría en Ciencias de la Computación, UNI |
 | Fecha | 6 de noviembre de 2026 |
-| Repositorio | https://github.com/hsancheza90-art/uni-cc-base-multimodal-textiles-andinos (rama `main`) |
+| Repositorio | https://github.com/hsancheza90-art/uni-cc-base-multimodal-textiles-andinos, rama `main` |
 | Corpus de referencia | Etiqueta `corpus-met-cma-aic-v2.0` |
-| Responde a | Auditoría del 20 de octubre de 2026 (informes 01 a 12) |
+| Responde a | Auditoría del 20 de octubre de 2026, versionada en [`docs/auditoria_2026-10-20/`](../auditoria_2026-10-20/) |
 
-Profesor:
+Estimado profesor:
 
-Le envío el avance de la segunda parte desde su auditoría. El trabajo siguió el plan de cierre al 22 de noviembre (`docs/plan_cierre_tesis.md`), que organiza sus observaciones en cuatro semanas. El estado de cada observación está en la matriz de respuesta. El corpus v2 quedó cerrado, con sus grupos de piezas relacionadas, y el experimento está preparado hasta el punto en que hacen falta los juicios de relevancia. Ningún sistema se ha ejecutado sobre consultas de prueba.
+Le hago llegar el avance de la segunda parte de la tesis, desarrollado a partir de su auditoría del 20 de octubre. El trabajo se ha organizado según el plan de cierre al 22 de noviembre (`docs/plan_cierre_tesis.md`), que ordena sus observaciones en cuatro semanas. El estado de cada observación figura en la matriz de respuesta adjunta.
 
-## Lo que le pido
+En síntesis, el corpus v2 quedó cerrado y consolidado, con sus grupos de piezas relacionadas, y el experimento está preparado hasta la etapa de los juicios de relevancia. Hasta la fecha no se ha ejecutado ningún sistema sobre las consultas de prueba, de modo que el diseño puede aprobarse o corregirse sin que ningún resultado lo condicione.
 
-1. **Aprobar el protocolo experimental**, o devolverlo con observaciones. Es la versión 0.4, en estado de propuesta (`docs/protocolo_experimental_v2.md`). Al aprobarse se congela, y cualquier cambio posterior queda en su «Historial» antes de abrir el test.
-2. **Ratificar las decisiones del plan que siguen como propuestas** (sección 1 del protocolo):
-   - D2: la aptitud es apoyo exploratorio de la curación, rotulado como validación de desarrollo.
-   - D4: la galería es el núcleo de 150 piezas, agrupado.
-   - D5: ΔnDCG@10 = 0,03, con bootstrap pareado de 10 000 réplicas.
-   - D7: versionar la auditoría en el repositorio y dejar la integración continua para después del 22 de noviembre.
-3. **Aceptar o declinar el doble juicio parcial.** Consiste en juzgar a ciegas los pools de 5 consultas de prueba, unos 200 pares (alrededor de 1,7 h), entre el 16 y el 17 de noviembre. Es la única medida de acuerdo entre personas que admite el estudio piloto (sección 6 del protocolo). Si acepta, le pido que no abra los rankings ni los pools del repositorio, para que su juicio también sea ciego.
-4. **Revisar las decisiones de diseño que tomé desde la auditoría.** Están listadas en la sección 11 del informe de avance; las que más pesan en los resultados son:
-   - M3 no usa el color ni `motivo_principal`.
-   - M0 excluye la descripción de MET, que es una plantilla de metadatos.
-   - Los grupos se forman con la regla «unir ante la duda».
-   - M2 corre en CPU.
-5. **Orientarme sobre la rúbrica de Seminario II.** La estructura del informe sigue su propuesta del informe 11, pero no tengo una rúbrica vigente.
+## Lo que le solicito
 
-## Orden de lectura
+1. **La aprobación del protocolo experimental** (`docs/protocolo_experimental_v2.md`, versión 0.5), o sus observaciones para corregirlo. Una vez aprobado, el protocolo se congela y cualquier cambio posterior queda registrado en su historial antes de abrir el test.
+2. **La ratificación de las decisiones del plan que figuran como propuestas:**
+   - D2: el puntaje de aptitud se presenta como apoyo exploratorio de la curación y se rotula como validación de desarrollo.
+   - D4: la galería del experimento es el núcleo de 150 piezas, agrupadas.
+   - D5: el umbral práctico es ΔnDCG@10 = 0,03, con bootstrap pareado de 10 000 réplicas.
+   - D7: la integración continua se pospone hasta después del 22 de noviembre. La auditoría ya está versionada en el repositorio.
+3. **Su participación en el doble juicio parcial**, si le es posible. Consistiría en juzgar a ciegas los candidatos de 5 consultas de prueba, unos 200 pares (alrededor de una hora y tres cuartos), entre el 16 y el 17 de noviembre. Es la única medida de acuerdo entre dos personas que admite este estudio piloto (sección 6 del protocolo). Si acepta, le pediría no abrir los rankings ni los archivos de candidatos del repositorio, para que su juicio sea también ciego.
+4. **Su opinión sobre las decisiones de diseño tomadas desde la auditoría.** Las enumera la sección 11 del informe de avance. Las que más inciden en los resultados son cuatro:
+   - M3 no utiliza el color ni el motivo principal.
+   - M0 excluye la descripción de MET, que es una plantilla generada a partir de los metadatos.
+   - Los grupos siguen la regla de unir los pares dudosos.
+   - M2 se ejecuta en CPU.
+5. **La confirmación de la versión vigente de su auditoría.** Al versionarla comprobé que nueve de sus informes no coinciden con las sumas de su `SHA256SUMS.txt`. La copia que recibí está intacta, así que es probable que esos informes se editaran después de calcular las sumas ([`NOTA_VERSIONADO.md`](../auditoria_2026-10-20/NOTA_VERSIONADO.md)).
+6. **Su orientación sobre la rúbrica de Seminario II.** El informe seguirá la estructura que usted propuso en el informe 11, pero no dispongo de una rúbrica vigente.
 
-| # | Documento | Contenido | Tiempo |
+## Orden de lectura sugerido
+
+| # | Documento | Contenido | Tiempo aproximado |
 |---:|---|---|---:|
-| 1 | [`informe_avance.md`](informe_avance.md) | Estado del corpus, la anotación, el protocolo y los sistemas; calendario, riesgos y decisiones | 20 min |
-| 2 | [`matriz_respuesta_auditoria.md`](matriz_respuesta_auditoria.md) | Cada observación de la auditoría con su acción, evidencia y estado | 15 min |
-| 3 | [`../protocolo_experimental_v2.md`](../protocolo_experimental_v2.md) | Protocolo para aprobar: hipótesis, galería, tareas, sistemas, particiones, juicios, métricas y criterios de suspensión | 30 min |
-| 4 | [`../especificacion_m3.md`](../especificacion_m3.md) | Descriptor estructural M3: definiciones, propiedades y pruebas | 15 min |
-| 5 | [`../protocolo_anotacion_v2.md`](../protocolo_anotacion_v2.md) | Anotación estructural v2: capas, bandas, estados y acuerdo intra-anotador | 10 min |
-| 6 | [`../plan_cierre_tesis.md`](../plan_cierre_tesis.md) | Plan de cierre y su seguimiento | 10 min |
+| 1 | [Informe de avance](informe_avance.md) | Estado del corpus, la anotación, el protocolo y los sistemas; calendario, riesgos y decisiones | 20 min |
+| 2 | [Matriz de respuesta a la auditoría](matriz_respuesta_auditoria.md) | Cada observación con su acción, su evidencia y su estado | 15 min |
+| 3 | [Protocolo experimental v2](../protocolo_experimental_v2.md) | Documento que se somete a aprobación | 30 min |
+| 4 | [Especificación de M3](../especificacion_m3.md) | Descriptor estructural: definiciones, propiedades y pruebas | 15 min |
+| 5 | [Protocolo de anotación v2](../protocolo_anotacion_v2.md) | Capas, bandas, estados y acuerdo intra-anotador | 10 min |
+| 6 | [Plan de cierre](../plan_cierre_tesis.md) | Plan de las cuatro semanas y su seguimiento | 10 min |
 
 Los informes que genera el flujo, en `outputs/reports/`, sirven de evidencia y están enlazados desde la matriz.
 
-## Cómo reproducirlo
+## Reproducción
+
+El estado del repositorio puede reproducirse con estos comandos:
 
 ```bash
 git clone https://github.com/hsancheza90-art/uni-cc-base-multimodal-textiles-andinos
 cd uni-cc-base-multimodal-textiles-andinos
-python -m venv .venv && .venv/Scripts/activate      # en Linux/macOS: source .venv/bin/activate
+python -m venv .venv && .venv/Scripts/activate      # en Linux o macOS: source .venv/bin/activate
 pip install -r requirements-dev.txt
-python -m src.flujo     # 23 pasos, sin red: regenera las salidas y verifica los conteos
+python -m src.flujo     # 23 pasos, sin acceso a red: regenera las salidas y verifica los conteos
 pytest                  # 350 pruebas: cada salida regenerada coincide con la versionada
 ```
 
-Cada commit desde la auditoría se verificó así en un clon limpio, sin torch. Los embeddings de M2 son un insumo versionado: recalcularlos exige `requirements-modelos.txt` y las copias de evaluación locales.
+Cada commit posterior a la auditoría se verificó de este modo en un clon limpio y sin las dependencias de M2. Los embeddings de M2 se guardan como insumo versionado. Recalcularlos requiere `requirements-modelos.txt` y las copias de evaluación de las imágenes, que no se versionan por su tamaño.
 
 Quedo atento a sus observaciones.
+
+Atentamente,
 
 Henry Sánchez Alvarado

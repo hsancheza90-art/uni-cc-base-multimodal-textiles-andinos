@@ -1,0 +1,32 @@
+{
+  "fecha": "2026-10-20 America/Lima",
+  "request": {
+    "open": [
+      {
+        "ref_id": "https://eprints.bbk.ac.uk/11906/1/finalVersion.pdf"
+      },
+      {
+        "ref_id": "https://www.techscience.com/csse/v44n2/48253/html"
+      },
+      {
+        "ref_id": "https://ijeecs.iaescore.com/index.php/IJEECS/article/view/36675"
+      }
+    ],
+    "response_length": "long"
+  },
+  "resultados_metadatos": [
+    {
+      "encabezado_fuente": "Internal Error ()",
+      "referencia_recuperacion": "turn18view0"
+    },
+    {
+      "encabezado_fuente": "Toward Fine-grained Image Retrieval with Adaptive Deep Learning for Cultural Heritage Image (https://www.techscience.com/csse/v44n2/48253/html)",
+      "referencia_recuperacion": "turn18view1"
+    },
+    {
+      "encabezado_fuente": "Review on integration of ontology and deep learning in cultural heritage image retrieval | Budiman | Indonesian Journal of Electrical Engineering and Computer Science (https://ijeecs.iaescore.com/index.php/IJEECS/article/view/36675)",
+      "referencia_recuperacion": "turn18view2"
+    }
+  ],
+  "nota": "Respuesta reducida a títulos, URL y referencias de recuperación. No incluye extractos de las publicaciones."
+}

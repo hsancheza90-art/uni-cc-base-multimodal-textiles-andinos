@@ -1,18 +1,18 @@
 # Matriz de respuesta a la auditoría del 20 de octubre de 2026
 
-Estado al 6 de noviembre de 2026. Los identificadores son los del informe 09 de la auditoría. La evidencia remite a archivos del repositorio y al commit que los introdujo. Estados posibles:
+Estado al 6 de noviembre de 2026. Los identificadores corresponden al informe 09 de la auditoría, que se encuentra versionada en `docs/auditoria_2026-10-20/`. La columna de evidencia remite a los archivos del repositorio y al commit que los introdujo. Los estados se interpretan así:
 
-- **Hecho:** atendida y verificada.
-- **En curso:** con avance parcial y fecha.
-- **Propuesto:** espera la decisión del asesor.
-- **Diferido:** fuera del alcance de las cuatro semanas, como prevé el plan de cierre.
-- **Sin avance.**
+- **Hecho:** la observación fue atendida y verificada.
+- **En curso:** hay avance parcial, con fecha prevista de término.
+- **Propuesto:** la acción está lista y espera la decisión del asesor.
+- **Diferido:** queda fuera del alcance de las cuatro semanas, como prevé el plan de cierre.
+- **Sin avance:** no se ha trabajado todavía.
 
 ## Observaciones científicas y de datos
 
 | ID | Observación | Acción | Evidencia | Estado |
 |---|---|---|---|---|
-| MET01 | Congelar preguntas, métricas, comparadores y criterios de éxito | Protocolo con H1–H3, reglas de decisión, tareas, M0–M4, particiones, juicios, métricas, ablaciones y criterios de suspensión; valores en configuración, comprobados contra el documento | `docs/protocolo_experimental_v2.md` v0.4; `config/experimento.toml` (`077f89c`, `0143686`, `75a281e`) | Propuesto: falta su aprobación |
+| MET01 | Congelar preguntas, métricas, comparadores y criterios de éxito | Protocolo con H1–H3, reglas de decisión, tareas, M0–M4, particiones, juicios, métricas, ablaciones y criterios de suspensión; valores en configuración, comprobados contra el documento | `docs/protocolo_experimental_v2.md` v0.5; `config/experimento.toml` (`077f89c`, `0143686`, `75a281e`) | Propuesto: falta su aprobación |
 | DAT01 | Snapshot v2 con objetos, registros, fotos y grupos | Complementario v2, consolidado v2 con grupo, licencias, manifiesto y SHA-256; particiones congeladas | `corpus-met-cma-aic-v2.0`; `outputs/reports/corpus_textiles_andinos_met_cma_aic_v2_resumen.md` (`f3b0caf`, `0143686`) | Hecho |
 | DAT02 | Duplicados, vistas y disponibilidad real | Cinco señales de candidatos, 100 pares decididos por el investigador, 577 grupos; ningún grupo partido entre particiones (comprobación automática); imágenes verificadas por SHA-256 antes de cada cálculo | `outputs/reports/grupos_v2.md`; `outputs/reports/experimento_v2_snapshot.md` (`f3b0caf`) | Hecho |
 | ANN01 | Piloto de anotación estructural y guía operacional | Esquema con bandas y estados; núcleo de 150 anotado y validado; re-anotación ciega del lote 1 para el acuerdo intra-anotador (no hay segundo anotador) | `docs/protocolo_anotacion_v2.md`; `outputs/reports/anotacion_v2_validacion.md` (`94e61c7`, `4ee20d3`) | En curso: re-anotación desde el 12 de noviembre |
@@ -43,7 +43,7 @@ Estado al 6 de noviembre de 2026. Los identificadores son los del informe 09 de 
 | SW09 | Reintentos HTTP y POST del colector AIC | Sin cambio: no se recolecta de nuevo | Plan de cierre | Diferido |
 | SW10 | El crédito de MET contaminaba la descripción | M0 no usa la descripción de MET, que además es una plantilla armada con los metadatos; la columna de crédito separada en el colector queda diferida | `config/modelos.toml` [m0] (`75a281e`) | Mitigado |
 | SW11 | Escritura no atómica de los derivados | Sin cambio: todo derivado se regenera con el flujo | Plan de cierre | Diferido |
-| SW12 | Sin integración continua | Verificación manual en un clon limpio en cada commit; CI después del 22 de noviembre (D7) | Plan de cierre | Diferido |
+| SW12 | Sin integración continua | Verificación manual en un clon limpio en cada commit; la integración continua se pospone hasta después del 22 de noviembre (D7) | Plan de cierre | Diferido |
 
 ## Decisiones del plan de cierre
 
@@ -55,4 +55,4 @@ Estado al 6 de noviembre de 2026. Los identificadores son los del informe 09 de 
 | D4 | Galería del benchmark | Propuesta: núcleo de 150, agrupado (146 grupos) |
 | D5 | Umbral práctico y métrica primaria | Propuesta: ΔnDCG@10 = 0,03; bootstrap pareado de 10 000 réplicas |
 | D6 | Dependencias de M2 | Decidida (5 nov): torch 2.15.0 CPU, open_clip 3.3.0, checkpoint con licencia MIT |
-| D7 | Versionar la auditoría y CI | Propuesta: auditoría en `docs/`; CI después del 22 de noviembre |
+| D7 | Versionar la auditoría e integración continua | Decidida (6 nov): auditoría versionada en `docs/auditoria_2026-10-20/`; la integración continua se propone para después del 22 de noviembre |

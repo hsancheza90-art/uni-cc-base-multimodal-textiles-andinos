@@ -1,0 +1,38 @@
+[
+  {
+    "source": "Crossref",
+    "query": "multimodal museum cultural heritage retrieval",
+    "rows_requested": 10,
+    "http_status": 200,
+    "returned": 10,
+    "url": "https://api.crossref.org/works?query=multimodal+museum+cultural+heritage+retrieval&rows=10&filter=until-pub-date%3A2026-10-20",
+    "date": "2026-10-20"
+  },
+  {
+    "source": "Crossref",
+    "query": "textile weaving pattern structural hypergraph",
+    "rows_requested": 10,
+    "http_status": 200,
+    "returned": 10,
+    "url": "https://api.crossref.org/works?query=textile+weaving+pattern+structural+hypergraph&rows=10&filter=until-pub-date%3A2026-10-20",
+    "date": "2026-10-20"
+  },
+  {
+    "source": "Crossref",
+    "query": "Andean weaving ontology",
+    "rows_requested": 10,
+    "http_status": 200,
+    "returned": 10,
+    "url": "https://api.crossref.org/works?query=Andean+weaving+ontology&rows=10&filter=until-pub-date%3A2026-10-20",
+    "date": "2026-10-20"
+  },
+  {
+    "source": "Crossref",
+    "query": "cultural heritage interpretable image retrieval",
+    "rows_requested": 10,
+    "http_status": 200,
+    "returned": 10,
+    "url": "https://api.crossref.org/works?query=cultural+heritage+interpretable+image+retrieval&rows=10&filter=until-pub-date%3A2026-10-20",
+    "date": "2026-10-20"
+  }
+]

@@ -1,0 +1,625 @@
+{
+  "MET": {
+    "filas": 220,
+    "decisiones": {
+      "principal": 130,
+      "descartados": 65,
+      "secundario": 25
+    },
+    "origenes": {
+      "corpus_principal_preliminar": 21,
+      "aptitud_automatica": 46,
+      "revision_criterio_v2": 61,
+      "validacion_ciega_v2": 4,
+      "auditoria_aceptados_no_piloto": 88
+    },
+    "revisores": {
+      "": 109,
+      "auto": 46,
+      "Henry Sánchez": 65
+    },
+    "ids_unicos": 220
+  },
+  "CMA": {
+    "filas": 146,
+    "decisiones": {
+      "principal": 104,
+      "descartados": 38,
+      "secundario": 4
+    },
+    "origenes": {
+      "revision_manual_cma": 95,
+      "revision_criterio_v2": 33,
+      "aptitud_automatica": 5,
+      "validacion_ciega_v2": 5,
+      "descarte_automatico_cma": 8
+    },
+    "revisores": {
+      "": 95,
+      "Henry Sánchez": 38,
+      "auto": 13
+    },
+    "ids_unicos": 146
+  },
+  "AIC": {
+    "filas": 508,
+    "decisiones": {
+      "principal": 228,
+      "descartados": 156,
+      "secundario": 124
+    },
+    "origenes": {
+      "revision_manual_aic": 340,
+      "aptitud_automatica": 107,
+      "descarte_automatico_aic": 61
+    },
+    "revisores": {
+      "": 340,
+      "auto": 168
+    },
+    "ids_unicos": 508
+  },
+  "data/metadata/imagenes_evaluacion_manifiesto_v2.csv": {
+    "n": 874,
+    "columnas": [
+      "id_global",
+      "fuente",
+      "id_fuente",
+      "url_descargada",
+      "estado_descarga",
+      "http_estado",
+      "bytes_original",
+      "sha256_original",
+      "ancho_original",
+      "alto_original",
+      "ruta_copia_evaluacion",
+      "ancho_copia",
+      "alto_copia",
+      "sha256_copia",
+      "fecha_descarga",
+      "error"
+    ],
+    "estado_descarga": {
+      "ok": 873,
+      "error": 1
+    },
+    "fuente": {
+      "MET": 220,
+      "CMA": 146,
+      "AIC": 508
+    },
+    "sha256_original_duplicados": [
+      [
+        "MET:308106",
+        "MET:308036"
+      ],
+      [
+        "MET:307965",
+        "MET:307964"
+      ],
+      [
+        "MET:308131",
+        "MET:308125",
+        "MET:308126",
+        "MET:308127",
+        "MET:308128",
+        "MET:308124",
+        "MET:308130",
+        "MET:308133",
+        "MET:308132",
+        "MET:308134",
+        "MET:308129"
+      ],
+      [
+        "AIC:2097",
+        "AIC:223218",
+        "AIC:223219",
+        "AIC:223220"
+      ],
+      [
+        "AIC:85028",
+        "AIC:195555"
+      ],
+      [
+        "AIC:85141",
+        "AIC:85250"
+      ],
+      [
+        "AIC:85351",
+        "AIC:85352"
+      ],
+      [
+        "AIC:85397",
+        "AIC:90831"
+      ],
+      [
+        "AIC:226220",
+        "AIC:226225",
+        "AIC:226226"
+      ]
+    ],
+    "sha256_copia_duplicados": [
+      [
+        "MET:308106",
+        "MET:308036"
+      ],
+      [
+        "MET:307965",
+        "MET:307964"
+      ],
+      [
+        "MET:308131",
+        "MET:308125",
+        "MET:308126",
+        "MET:308127",
+        "MET:308128",
+        "MET:308124",
+        "MET:308130",
+        "MET:308133",
+        "MET:308132",
+        "MET:308134",
+        "MET:308129"
+      ],
+      [
+        "CMA:164419",
+        "CMA:164420"
+      ],
+      [
+        "CMA:165266",
+        "CMA:165267"
+      ],
+      [
+        "AIC:2097",
+        "AIC:223218",
+        "AIC:223219",
+        "AIC:223220"
+      ],
+      [
+        "AIC:85028",
+        "AIC:195555"
+      ],
+      [
+        "AIC:85141",
+        "AIC:85250"
+      ],
+      [
+        "AIC:85351",
+        "AIC:85352"
+      ],
+      [
+        "AIC:85397",
+        "AIC:90831"
+      ],
+      [
+        "AIC:226220",
+        "AIC:226225",
+        "AIC:226226"
+      ]
+    ],
+    "url_descargada_duplicados": [
+      [
+        "MET:308106",
+        "MET:308036"
+      ],
+      [
+        "MET:307966",
+        "MET:307967"
+      ],
+      [
+        "MET:307965",
+        "MET:307964"
+      ],
+      [
+        "MET:308131",
+        "MET:308125",
+        "MET:308126",
+        "MET:308127",
+        "MET:308128",
+        "MET:308124",
+        "MET:308130",
+        "MET:308133",
+        "MET:308132",
+        "MET:308134",
+        "MET:308129"
+      ],
+      [
+        "AIC:2097",
+        "AIC:223218",
+        "AIC:223219",
+        "AIC:223220"
+      ],
+      [
+        "AIC:85028",
+        "AIC:195555"
+      ],
+      [
+        "AIC:85397",
+        "AIC:90831"
+      ],
+      [
+        "AIC:226220",
+        "AIC:226225",
+        "AIC:226226"
+      ]
+    ]
+  },
+  "data/metadata/imagenes_manifiesto_met_cma_v1.csv": {
+    "n": 288,
+    "columnas": [
+      "id_global",
+      "url_descargada",
+      "ruta_imagen_local",
+      "estado_descarga",
+      "http_estado",
+      "bytes",
+      "imagen_sha256",
+      "imagen_ancho",
+      "imagen_alto",
+      "formato",
+      "imagen_dhash",
+      "imagen_sha256_pixeles",
+      "fecha_descarga",
+      "error"
+    ],
+    "estado_descarga": {
+      "ok": 287,
+      "error": 1
+    },
+    "imagen_sha256_duplicados": [],
+    "imagen_sha256_pixeles_duplicados": [
+      [
+        "MET:307964",
+        "MET:307965"
+      ],
+      [
+        "MET:307966",
+        "MET:307967"
+      ],
+      [
+        "MET:308036",
+        "MET:308106"
+      ],
+      [
+        "CMA:165266",
+        "CMA:165267"
+      ]
+    ],
+    "url_descargada_duplicados": [
+      [
+        "MET:307964",
+        "MET:307965"
+      ],
+      [
+        "MET:307966",
+        "MET:307967"
+      ],
+      [
+        "MET:308036",
+        "MET:308106"
+      ]
+    ],
+    "dhash_candidatos_hasta_5": [
+      [
+        "MET:307964",
+        "MET:307965",
+        0
+      ],
+      [
+        "MET:307966",
+        "MET:307967",
+        0
+      ],
+      [
+        "MET:308036",
+        "MET:308106",
+        0
+      ],
+      [
+        "MET:312674",
+        "MET:312676",
+        3
+      ],
+      [
+        "MET:312674",
+        "MET:312677",
+        5
+      ],
+      [
+        "MET:312674",
+        "MET:312678",
+        4
+      ],
+      [
+        "MET:312674",
+        "MET:312683",
+        5
+      ],
+      [
+        "MET:312676",
+        "MET:312677",
+        4
+      ],
+      [
+        "MET:312676",
+        "MET:312680",
+        5
+      ],
+      [
+        "MET:312676",
+        "MET:312681",
+        3
+      ],
+      [
+        "MET:312676",
+        "MET:312683",
+        4
+      ],
+      [
+        "MET:312677",
+        "MET:312680",
+        3
+      ],
+      [
+        "MET:312677",
+        "MET:312681",
+        5
+      ],
+      [
+        "MET:312677",
+        "MET:312683",
+        2
+      ],
+      [
+        "MET:312680",
+        "MET:312681",
+        4
+      ],
+      [
+        "MET:312680",
+        "MET:312683",
+        1
+      ],
+      [
+        "MET:312681",
+        "MET:312683",
+        3
+      ],
+      [
+        "CMA:157111",
+        "CMA:157112",
+        0
+      ],
+      [
+        "CMA:165266",
+        "CMA:165267",
+        0
+      ]
+    ]
+  },
+  "data/processed/corpus_textiles_andinos_met_cma_v1_consolidado.csv": {
+    "n": 288,
+    "columnas": [
+      "id_global",
+      "fuente",
+      "id_fuente",
+      "numero_acceso",
+      "institucion",
+      "url_objeto",
+      "url_imagen",
+      "url_imagen_miniatura",
+      "ruta_imagen_local",
+      "titulo_original",
+      "titulo_es_sugerido",
+      "descripcion",
+      "cultura",
+      "periodo",
+      "fecha_objeto",
+      "procedencia",
+      "departamento",
+      "clasificacion_original",
+      "nombre_objeto_original",
+      "tipo_objeto",
+      "origen_tipo_objeto",
+      "tipo_superficie",
+      "material",
+      "material_normalizado",
+      "origen_material_normalizado",
+      "tecnica",
+      "tecnica_normalizada",
+      "origen_tecnica_normalizada",
+      "dimensiones",
+      "color_dominante",
+      "colores",
+      "contraste",
+      "densidad_visual",
+      "composicion",
+      "simetria",
+      "repeticion",
+      "borde",
+      "centro",
+      "motivos",
+      "familia_iconografica",
+      "motivo_principal",
+      "decision_curacion_final",
+      "motivo_curacion_final",
+      "decision_auditoria",
+      "motivo_auditoria",
+      "observacion_auditoria",
+      "categoria_revision",
+      "origen_curacion",
+      "estado_licencia",
+      "licencia_fuente",
+      "derechos_reproduccion",
+      "estado_metadatos",
+      "estado_anotacion",
+      "estado_imagen",
+      "observaciones",
+      "anotador",
+      "fecha_anotacion",
+      "observaciones_anotacion",
+      "grupo_imagen_duplicada",
+      "imagen_sha256",
+      "imagen_dhash",
+      "imagen_ancho",
+      "imagen_alto",
+      "terminos_andinos",
+      "terminos_textiles",
+      "consulta_origen",
+      "archivo_origen",
+      "fecha_descarga_metadatos"
+    ],
+    "estado_anotacion": {
+      "sin_anotar": 288
+    },
+    "fuente": {
+      "MET": 181,
+      "CMA": 107
+    },
+    "decision_curacion_final": {
+      "principal": 214,
+      "complementario": 74
+    },
+    "imagen_sha256_duplicados": [],
+    "dhash_candidatos_hasta_5": [
+      [
+        "MET:307964",
+        "MET:307965",
+        0
+      ],
+      [
+        "MET:307966",
+        "MET:307967",
+        0
+      ],
+      [
+        "MET:308036",
+        "MET:308106",
+        0
+      ],
+      [
+        "MET:312674",
+        "MET:312676",
+        3
+      ],
+      [
+        "MET:312674",
+        "MET:312677",
+        5
+      ],
+      [
+        "MET:312674",
+        "MET:312678",
+        4
+      ],
+      [
+        "MET:312674",
+        "MET:312683",
+        5
+      ],
+      [
+        "MET:312676",
+        "MET:312677",
+        4
+      ],
+      [
+        "MET:312676",
+        "MET:312680",
+        5
+      ],
+      [
+        "MET:312676",
+        "MET:312681",
+        3
+      ],
+      [
+        "MET:312676",
+        "MET:312683",
+        4
+      ],
+      [
+        "MET:312677",
+        "MET:312680",
+        3
+      ],
+      [
+        "MET:312677",
+        "MET:312681",
+        5
+      ],
+      [
+        "MET:312677",
+        "MET:312683",
+        2
+      ],
+      [
+        "MET:312680",
+        "MET:312681",
+        4
+      ],
+      [
+        "MET:312680",
+        "MET:312683",
+        1
+      ],
+      [
+        "MET:312681",
+        "MET:312683",
+        3
+      ],
+      [
+        "CMA:157111",
+        "CMA:157112",
+        0
+      ],
+      [
+        "CMA:165266",
+        "CMA:165267",
+        0
+      ]
+    ]
+  },
+  "entradas_congeladas": [
+    {
+      "file": "met_corpus_principal_v2_revisado.csv",
+      "identico_tag": true
+    },
+    {
+      "file": "cma_corpus_secundario_revisado.csv",
+      "identico_tag": true
+    },
+    {
+      "file": "cma_corpus_principal_revisado.csv",
+      "identico_tag": true
+    },
+    {
+      "file": "met_corpus_secundario_v2_revisado.csv",
+      "identico_tag": true
+    }
+  ],
+  "calibracion_n": 402,
+  "validacion_hojas": [
+    "validacion",
+    "instrucciones"
+  ],
+  "validacion_solapamiento": {
+    "n_validacion": 40,
+    "n_en_calibracion": 15,
+    "ids": [
+      "CMA:124412",
+      "CMA:126269",
+      "CMA:165270",
+      "CMA:165273",
+      "CMA:169190",
+      "CMA:294034",
+      "CMA:294068",
+      "MET:307683",
+      "MET:307851",
+      "MET:307970",
+      "MET:308020",
+      "MET:308098",
+      "MET:308106",
+      "MET:310698",
+      "MET:316978"
+    ]
+  }
+}

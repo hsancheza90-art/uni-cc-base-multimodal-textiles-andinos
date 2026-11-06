@@ -27,7 +27,7 @@ def test_la_configuracion_coincide_con_el_protocolo() -> None:
     assert f"**desarrollo ({round(config['particiones']['proporcion_desarrollo'] * 100)} %)**" in texto
     assert f"{c3['desarrollo']} de desarrollo, tomadas de grupos de desarrollo, y {c3['prueba']} de prueba" in texto
     assert f"**Consultas T1:** {config['consultas_t1']['prueba']}, solo de prueba" in texto
-    assert f"los {juicios['profundidad_pool']} primeros de M0" in texto and f"más {juicios['aleatorios_pool']} candidatos al azar" in texto
+    assert f"los {juicios['profundidad_pool']} primeros de M0" in texto and f"se suman {juicios['aleatorios_pool']} candidatos al azar" in texto
     assert f"los pools de {juicios['consultas_doble_juicio']} consultas de prueba" in texto
     assert f"nDCG@{metricas['k']}" in texto and juicios["escala"] == [0, 1, 2, 3]
     assert f"Umbral práctico: Δ = {str(metricas['umbral_practico']).replace('.', ',')}" in texto

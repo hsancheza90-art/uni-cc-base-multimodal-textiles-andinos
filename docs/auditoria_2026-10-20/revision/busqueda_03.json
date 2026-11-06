@@ -1,0 +1,230 @@
+{
+  "query": {
+    "system2_search_query": [
+      {
+        "q": "\"Learning Transferable Visual Models\" \"Reproducible Scaling Laws\""
+      },
+      {
+        "q": "\"SigLIP 2\" \"DINOv3\" paper"
+      },
+      {
+        "q": "\"Concept Bottleneck Models\" Koh 2020 \"Geometric Deep Learning\" Bronstein"
+      },
+      {
+        "q": "\"cross-validation\" \"small sample\" Varoquaux 2018 leakage"
+      }
+    ],
+    "response_length": "long"
+  },
+  "resultados_metadatos": [
+    {
+      "encabezado_fuente": "Cross-validation failure: Small sample sizes lead to large error bars - ScienceDirect (https://doi.org/10.1016/j.neuroimage.2017.06.061)",
+      "referencia_recuperacion": "turn2search0"
+    },
+    {
+      "encabezado_fuente": "Cross-validation failure: Small sample sizes lead to large error bars - ScienceDirect (https://www.sciencedirect.com/science/article/pii/S1053811917305311)",
+      "referencia_recuperacion": "turn2search1"
+    },
+    {
+      "encabezado_fuente": "Cross-validation failure: Small sample sizes lead to large error bars - PubMed (https://pubmed.ncbi.nlm.nih.gov/28655633/)",
+      "referencia_recuperacion": "turn2search2"
+    },
+    {
+      "encabezado_fuente": "Reproducible scaling laws for contrastive language-image learning | alphaXiv (https://www.alphaxiv.org/abs/2212.07143v2)",
+      "referencia_recuperacion": "turn2search3"
+    },
+    {
+      "encabezado_fuente": "Schedule | BIODS 271 (https://web.stanford.edu/class/biods271/winter2024/calendar/)",
+      "referencia_recuperacion": "turn2search4"
+    },
+    {
+      "encabezado_fuente": "GitHub - Nikhel1/Finetune_OpenCLIP · GitHub (https://github.com/Nikhel1/Finetune_OpenCLIP)",
+      "referencia_recuperacion": "turn2search5"
+    },
+    {
+      "encabezado_fuente": "timm/vit_base_patch16_clip_384.openai_ft_in12k_in1k · Hugging Face (https://huggingface.co/timm/vit_base_patch16_clip_384.openai_ft_in12k_in1k)",
+      "referencia_recuperacion": "turn2search6"
+    },
+    {
+      "encabezado_fuente": "timm/vit_base_patch16_clip_224.openai_ft_in1k · Hugging Face (https://huggingface.co/timm/vit_base_patch16_clip_224.openai_ft_in1k)",
+      "referencia_recuperacion": "turn2search7"
+    },
+    {
+      "encabezado_fuente": "Reproducible Scaling Laws for Contrastive Language-Image Learning (https://openaccess.thecvf.com/content/CVPR2023/papers/Cherti_Reproducible_Scaling_Laws_for_Contrastive_Language-Image_Learning_CVPR_2023_paper.pdf)",
+      "referencia_recuperacion": "turn2search48"
+    },
+    {
+      "encabezado_fuente": "timm/vit_large_patch14_clip_224.openai_ft_in12k_in1k · Hugging Face (https://huggingface.co/timm/vit_large_patch14_clip_224.openai_ft_in12k_in1k)",
+      "referencia_recuperacion": "turn2search8"
+    },
+    {
+      "encabezado_fuente": "Cross-validation failure: small sample sizes lead to large error bars (https://arxiv.org/abs/1706.07581)",
+      "referencia_recuperacion": "turn2academia49"
+    },
+    {
+      "encabezado_fuente": "timm/vit_large_patch14_clip_336.openai_ft_in12k_in1k · Hugging Face (https://huggingface.co/timm/vit_large_patch14_clip_336.openai_ft_in12k_in1k)",
+      "referencia_recuperacion": "turn2search9"
+    },
+    {
+      "encabezado_fuente": "Cross-validation failure: Small sample sizes lead to large error bars... (https://bishtref.com/articles/10.1016/j.neuroimage.2017.06.061)",
+      "referencia_recuperacion": "turn2search10"
+    },
+    {
+      "encabezado_fuente": "timm/vit_large_patch14_clip_224.openai_ft_in12k · Hugging Face (https://huggingface.co/timm/vit_large_patch14_clip_224.openai_ft_in12k)",
+      "referencia_recuperacion": "turn2search11"
+    },
+    {
+      "encabezado_fuente": "timm/vit_base_patch16_clip_384.openai_ft_in1k · Hugging Face (https://huggingface.co/timm/vit_base_patch16_clip_384.openai_ft_in1k?library=transformers)",
+      "referencia_recuperacion": "turn2search12"
+    },
+    {
+      "encabezado_fuente": "timm/vit_large_patch14_clip_224.openai_ft_in1k · Hugging Face (https://huggingface.co/timm/vit_large_patch14_clip_224.openai_ft_in1k?library=timm)",
+      "referencia_recuperacion": "turn2search13"
+    },
+    {
+      "encabezado_fuente": "[1706.07581] Cross-validation failure: small sample sizes lead to large error bars (https://doi.org/10.48550/arxiv.1706.07581)",
+      "referencia_recuperacion": "turn2search14"
+    },
+    {
+      "encabezado_fuente": "timm/vit_base_patch16_clip_384.openai_ft_in1k · Hugging Face (https://huggingface.co/timm/vit_base_patch16_clip_384.openai_ft_in1k)",
+      "referencia_recuperacion": "turn2search15"
+    },
+    {
+      "encabezado_fuente": "Vision Language Models - Image Captioning | UT Austin - Advances in Deep Learning (https://ut.philkr.net/advances_in_deeplearning/computer_vision/vision_language_models_-_image_captioning/)",
+      "referencia_recuperacion": "turn2search16"
+    },
+    {
+      "encabezado_fuente": "Cross-validation failure: Small sample sizes lead to large error bars (https://explore.openaire.eu/search/publication?pid=10.1016%2Fj.neuroimage.2017.06.061)",
+      "referencia_recuperacion": "turn2search17"
+    },
+    {
+      "encabezado_fuente": "GitHub - mikkoim/dinotool: Command-line tool for extracting DINO, CLIP, SigLIP2, TIPSv2, RADIO, features for images and videos · GitHub (https://github.com/mikkoim/dinotool)",
+      "referencia_recuperacion": "turn2search18"
+    },
+    {
+      "encabezado_fuente": "(PDF) CoME-VL: Scaling Complementary Multi-Encoder Vision-Language Learning (https://www.researchgate.net/publication/403529951_CoME-VL_Scaling_Complementary_Multi-Encoder_Vision-Language_Learning)",
+      "referencia_recuperacion": "turn2search19"
+    },
+    {
+      "encabezado_fuente": "Reliable and Flexible Inference for (https://dash.harvard.edu/bitstreams/e358e3b9-5178-4e6d-bafc-7ae59034cb19/download)",
+      "referencia_recuperacion": "turn2search50"
+    },
+    {
+      "encabezado_fuente": "SigLino: Eficiente destilación multimaestro para modelos fundacionales de visión aglomerativos | alphaXiv (https://www.alphaxiv.org/es/abs/2512.20157v2)",
+      "referencia_recuperacion": "turn2search20"
+    },
+    {
+      "encabezado_fuente": "Cross-validation failure: Small sample sizes lead to large error bars | CiNii Research (https://cir.nii.ac.jp/crid/1360011143693675264?lang=ja)",
+      "referencia_recuperacion": "turn2search21"
+    },
+    {
+      "encabezado_fuente": "Subsampling bias and the best-discrepancy systematic cross validation | Science China Mathematics | Springer Nature Link (https://doi.org/10.1007/s11425-018-9561-0)",
+      "referencia_recuperacion": "turn2search22"
+    },
+    {
+      "encabezado_fuente": "Cross-validation failure: Small sample sizes lead to large error bars — Lacuna (https://lacuna.tiptreesystems.com/paper/cross-validation-failure-small-sample-sizes-lead-to-large-error-bars/art_5ccbd4f033504295b325d47410a5110f)",
+      "referencia_recuperacion": "turn2search23"
+    },
+    {
+      "encabezado_fuente": "Beyond Spatio-Temporal Priors: A Generalizable Approach for Dense Correspondence Matching · PaperPeel (https://www.paperpeel.com/paper/2610.12421)",
+      "referencia_recuperacion": "turn2search24"
+    },
+    {
+      "encabezado_fuente": "(PDF) Revisiting Model Stitching In the Foundation Model Era (https://www.researchgate.net/publication/402147320_Revisiting_Model_Stitching_In_the_Foundation_Model_Era)",
+      "referencia_recuperacion": "turn2search25"
+    },
+    {
+      "encabezado_fuente": "Cross-validation failure: Small sample sizes lead to large error bars | Request PDF (https://www.researchgate.net/publication/317871441_Cross-validation_failure_Small_sample_sizes_lead_to_large_error_bars)",
+      "referencia_recuperacion": "turn2search26"
+    },
+    {
+      "encabezado_fuente": "SigLino: Efficient Multi-Teacher Distillation for Agglomerative Vision Foundation Models | alphaXiv (https://www.alphaxiv.org/abs/2512.20157)",
+      "referencia_recuperacion": "turn2search27"
+    },
+    {
+      "encabezado_fuente": "Support Operation Factorization: Compositional Readout of Frozen Vision Encoders under Controlled Interventions · Pith (https://www.pith.science/paper/2608.06174)",
+      "referencia_recuperacion": "turn2search28"
+    },
+    {
+      "encabezado_fuente": "Under review as submission to TMLR (https://openreview.net/pdf/7cec38aa40ce97055635e24529f97447641ff97b.pdf)",
+      "referencia_recuperacion": "turn2search51"
+    },
+    {
+      "encabezado_fuente": "Meta’s DINOv3 Gets An Updated Loss Term and Improved Vision Performance (https://www.deeplearning.ai/the-batch/metas-dinov3-gets-an-updated-loss-term-and-improved-vision-performance)",
+      "referencia_recuperacion": "turn2search29"
+    },
+    {
+      "encabezado_fuente": "ICML 2020 Poster Schedule (https://icml.cc/Conferences/2020/PosterSchedule)",
+      "referencia_recuperacion": "turn2search30"
+    },
+    {
+      "encabezado_fuente": "Machine learning algorithm validation with a limited sample size - PMC (https://pmc.ncbi.nlm.nih.gov/articles/PMC6837442/)",
+      "referencia_recuperacion": "turn2search31"
+    },
+    {
+      "encabezado_fuente": "CoME-VL: Scaling Complementary Multi-Encoder Vision-Language Learning (https://mbzuai-oryx.github.io/CoME-VL/)",
+      "referencia_recuperacion": "turn2search32"
+    },
+    {
+      "encabezado_fuente": "<visual_element id=\"e1\"> (https://openreview.net/pdf/52f0b6417df1a42ed2ffc0615675b98ceb157da8.pdf)",
+      "referencia_recuperacion": "turn2search52"
+    },
+    {
+      "encabezado_fuente": "RAEv2/src/encoders/vision_encoder.py at main · nanovisionx/RAEv2 · GitHub (https://github.com/nanovisionx/RAEv2/blob/main/src/encoders/vision_encoder.py)",
+      "referencia_recuperacion": "turn2search33"
+    },
+    {
+      "encabezado_fuente": "narrative_feature_annotations/docs/scoping_review/02_visual.md at main · canlab/narrative_feature_annotations · GitHub (https://github.com/canlab/narrative_feature_annotations/blob/main/docs/scoping_review/02_visual.md)",
+      "referencia_recuperacion": "turn2search34"
+    },
+    {
+      "encabezado_fuente": "Data leakage in machine learning studies creep into meta-analytic estimates of predictive performance (https://pmc.ncbi.nlm.nih.gov/articles/PMC12602356/)",
+      "referencia_recuperacion": "turn2search35"
+    },
+    {
+      "encabezado_fuente": "(PDF) Do Foundation Models Know Geometry? Probing Frozen Features for Continuous Physical Measurement (https://www.researchgate.net/publication/401691472_Do_Foundation_Models_Know_Geometry_Probing_Frozen_Features_for_Continuous_Physical_Measurement)",
+      "referencia_recuperacion": "turn2search36"
+    },
+    {
+      "encabezado_fuente": "Scalable Visual Pre-training: (https://yuxng.github.io/Courses/CS6384Spring2023/UTD_guest_lecture_saining_xie.pdf)",
+      "referencia_recuperacion": "turn2search53"
+    },
+    {
+      "encabezado_fuente": "ijhighschoolresearch.org (https://terra-docs.s3.us-east-2.amazonaws.com/IJHSR/Articles/volume8-issue7/IJHSR_2026_87_281.pdf)",
+      "referencia_recuperacion": "turn2search54"
+    },
+    {
+      "encabezado_fuente": "(PDF) 3D-CBM: A Framework for Concept-Based Interpretability in Generative 3D Modeling (https://www.researchgate.net/publication/406910403_3D-CBM_A_Framework_for_Concept-Based_Interpretability_in_Generative_3D_Modeling)",
+      "referencia_recuperacion": "turn2search37"
+    },
+    {
+      "encabezado_fuente": "GitHub - yangji721/Awesome-Self-Interpretable-Neural-Network · GitHub (https://github.com/yangji721/Awesome-Self-Interpretable-Neural-Network)",
+      "referencia_recuperacion": "turn2search38"
+    },
+    {
+      "encabezado_fuente": "The Standard Interpretable Model: A general theory of interpretable machine learning to deductively design interpretable methods using Lagrangian mechanics — Lacuna (https://lacuna.tiptreesystems.com/work/the-standard-interpretable-model-a-general-theory)",
+      "referencia_recuperacion": "turn2search39"
+    },
+    {
+      "encabezado_fuente": "M2 Mathematics, Vision, Learning | Université Paris-Saclay (https://www.universite-paris-saclay.fr/en/education/masters-degree/mathematics-and-applications/m2-mathematics-vision-learning)",
+      "referencia_recuperacion": "turn2search40"
+    },
+    {
+      "encabezado_fuente": "3D-CBM: A Framework for Concept-Based Interpretability in Generative 3D Modeling | The Latest in AI (https://thelatestinai.com/papers/2606.11446)",
+      "referencia_recuperacion": "turn2search41"
+    },
+    {
+      "encabezado_fuente": "Interpreting the Structure of Multi-object Representations in Vision Encoders | Springer Nature Link (https://link.springer.com/chapter/10.1007/978-3-032-08324-1_16)",
+      "referencia_recuperacion": "turn2search42"
+    },
+    {
+      "encabezado_fuente": "3D-CBM: A Framework for Concept-Based Interpretability in Generative 3D Modeling (pdf) | Paperity (https://paperity.org/p/373659417/3d-cbm-a-framework-for-concept-based-interpretability-in-generative-3d-modeling)",
+      "referencia_recuperacion": "turn2search43"
+    },
+    {
+      "encabezado_fuente": "3D-CBM: A Framework for Concept-Based Interpretability in Generative 3D Modeling | Arxiv - DeepPaper (https://arxiv.deeppaper.ai/papers/2606.11446v1)",
+      "referencia_recuperacion": "turn2search44"
+    }
+  ],
+  "nota": "Respuesta reducida a títulos, URL y referencias de recuperación. No incluye extractos de las publicaciones."
+}

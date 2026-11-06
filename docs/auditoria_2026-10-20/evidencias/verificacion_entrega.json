@@ -1,0 +1,12 @@
+{
+  "doce_entregables": true,
+  "numeracion": true,
+  "matriz_25": true,
+  "cribado_64": true,
+  "sin_ids_repetidos_matriz": true,
+  "lectura_completa_4": true,
+  "tablas_consistentes": true,
+  "issues": [],
+  "original_limpio": true,
+  "copia_limpia": true
+}

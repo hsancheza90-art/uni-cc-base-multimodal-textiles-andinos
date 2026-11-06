@@ -1,0 +1,89 @@
+
+[1/13] MET v2: construir salidas base
+Corpus principal MET v2: 132
+Corpus secundario MET v2: 50
+Descartados MET v2: 29
+
+[2/13] MET v2: auditar salidas base
+Auditoria MET v2 sin hallazgos criticos.
+
+[3/13] MET v2: aplicar revision manual
+Principal revisado: 130
+Secundario revisado: 25
+Descartados revisados: 65
+Pendientes por revisar: 0
+Reporte: /workspace/scratch/05271fdf800f/repo_ejecucion/outputs/reports/met_resumen_revision_manual_v2.md
+
+[4/13] CMA v2: aplicar revision manual
+Revision CMA v2 aplicada.
+/workspace/scratch/05271fdf800f/repo_ejecucion/data/metadata/cma_corpus_principal_revisado.csv
+/workspace/scratch/05271fdf800f/repo_ejecucion/data/metadata/cma_corpus_secundario_revisado.csv
+/workspace/scratch/05271fdf800f/repo_ejecucion/data/metadata/cma_descartados_revisado.csv
+/workspace/scratch/05271fdf800f/repo_ejecucion/data/metadata/cma_pendientes_revision_v2.csv
+/workspace/scratch/05271fdf800f/repo_ejecucion/outputs/reports/cma_resumen_revision_manual_v2.md
+
+[5/13] CMA v2: auditar candidatos
+Archivo auditado: /workspace/scratch/05271fdf800f/repo_ejecucion/data/metadata/cma_andes_textiles_candidates.csv
+Registros auditados: 146
+Estados detectados:
+- candidate: 138
+- excluded_no_andean_evidence: 5
+- excluded_no_textile_evidence: 3
+
+Sin hallazgos criticos.
+
+[6/13] AIC v2: aplicar revision manual
+Principal revisado: 228
+Secundario revisado: 124
+Descartados revisados: 156
+Pendientes por revisar: 0
+Reporte: /workspace/scratch/05271fdf800f/repo_ejecucion/outputs/reports/aic_resumen_revision_manual_v2.md
+
+[7/13] Aptitud: calibrar la ficha con las decisiones del revisor (AIC, MET y CMA)
+Modelo: /workspace/scratch/05271fdf800f/repo_ejecucion/config/aptitud_modelo.json | informe: /workspace/scratch/05271fdf800f/repo_ejecucion/outputs/reports/aptitud_calibracion_v2.md
+Registros por fuente: {'AIC': 316, 'MET': 51, 'CMA': 35} | umbrales: {'referencia': 84.6, 'principal': 69.7, 'descartar': 34.9}
+
+[8/13] Aptitud: puntuar imagenes desde las medidas versionadas
+Aptitud: /workspace/scratch/05271fdf800f/repo_ejecucion/data/metadata/aptitud_imagenes_v2.csv | descartar 168, principal 346, revisar 220, secundario 140 | referencias sugeridas 204
+
+[9/13] Aptitud: informe de calibracion
+Informe: /workspace/scratch/05271fdf800f/repo_ejecucion/outputs/reports/aptitud_imagenes_v2_resumen.md
+
+[10/13] Vocabulario: generar taxonomia de atributos
+Taxonomia: /workspace/scratch/05271fdf800f/repo_ejecucion/docs/corpus/taxonomia_atributos_met_cma_v1.md
+
+[11/13] Anotacion: validar workbook y exportar anotaciones
+Anotaciones validas: 0 de 288 registros -> data/metadata/anotaciones_met_cma_v1.csv
+
+[12/13] Consolidado MET+CMA v1: construir y validar
+Consolidado MET+CMA v1: 288 registros
+Grupos de imagen compartida: 4; posibles duplicados visuales: 11
+Salida: /workspace/scratch/05271fdf800f/repo_ejecucion/data/processed/corpus_textiles_andinos_met_cma_v1_consolidado.csv
+
+[13/13] MET: comparar filtro textil vigente con el inventario
+- Registros con decision distinta: 11
+Reporte: /workspace/scratch/05271fdf800f/repo_ejecucion/outputs/reports/filtros_comparacion_met_inventario.md
+
+Verificacion de conteos (config/corpus.toml)
+  met.base             principal             132 (esperado  132)  ok
+  met.base             secundario             50 (esperado   50)  ok
+  met.base             descartados            29 (esperado   29)  ok
+  met.revisado         principal             130 (esperado  130)  ok
+  met.revisado         secundario             25 (esperado   25)  ok
+  met.revisado         descartados            65 (esperado   65)  ok
+  met.revisado         pendientes              0 (esperado    0)  ok
+  cma.candidatos       candidatos            146 (esperado  146)  ok
+  cma.revisado         principal             104 (esperado  104)  ok
+  cma.revisado         secundario              4 (esperado    4)  ok
+  cma.revisado         descartados            38 (esperado   38)  ok
+  cma.revisado         pendientes              0 (esperado    0)  ok
+  aic.candidatos       candidatos            508 (esperado  508)  ok
+  aic.revisado         principal             228 (esperado  228)  ok
+  aic.revisado         secundario            124 (esperado  124)  ok
+  aic.revisado         descartados           156 (esperado  156)  ok
+  aic.revisado         pendientes              0 (esperado    0)  ok
+  consolidado.salidas  consolidado           288 (esperado  288)  ok
+  consolidado.salidas  fuentes_licencias       2 (esperado    2)  ok
+  consolidado.salidas  manifiesto_imagenes   288 (esperado  288)  ok
+
+Flujo completado sin hallazgos.

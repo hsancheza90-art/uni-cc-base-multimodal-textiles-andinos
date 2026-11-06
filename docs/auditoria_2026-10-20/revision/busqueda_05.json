@@ -1,0 +1,129 @@
+{
+  "query": {
+    "system2_search_query": [
+      {
+        "q": "site.proceedings.mlr.press CLIP Radford 2021"
+      },
+      {
+        "q": "\"expert annotation\" \"cultural heritage\" agreement textiles"
+      },
+      {
+        "q": "\"CARE Principles\" indigenous data governance 2020"
+      },
+      {
+        "q": "\"PRISMA-ScR\" \"Kitchenham\" guidelines systematic review"
+      }
+    ],
+    "open": [
+      {
+        "ref_id": "https://proceedings.mlr.press/v139/radford21a.html"
+      },
+      {
+        "ref_id": "https://arxiv.org/abs/2409.01690"
+      },
+      {
+        "ref_id": "https://posgrado.uni.edu.pe/index.php/list-all-categories/12-maestrias/27-fc/44-maestria-en-ciencias-en-ciencia-de-la-computacion-con-mencion-en-especialidad-computacion-cientifica"
+      }
+    ],
+    "response_length": "long"
+  },
+  "resultados_metadatos": [
+    {
+      "encabezado_fuente": "The CARE Principles for Indigenous Data Governance | Data Science Journal (https://doi.org/10.5334/dsj-2020-043)",
+      "referencia_recuperacion": "turn4search0"
+    },
+    {
+      "encabezado_fuente": "\"The CARE Principles for Indigenous Data Governance\" by Stephanie Russo Carroll, Ibrahim Garba et al. (https://digitalcommons.unl.edu/scholcom/328/)",
+      "referencia_recuperacion": "turn4search1"
+    },
+    {
+      "encabezado_fuente": "The CARE principles for Indigenous data governance - University of Edinburgh Research Explorer (https://www.research.ed.ac.uk/en/publications/the-care-principles-for-indigenous-data-governance/)",
+      "referencia_recuperacion": "turn4search2"
+    },
+    {
+      "encabezado_fuente": "CARE principles for Indigenous data – University of Auckland (https://www.auckland.ac.nz/en/research/research-resources/research-data/research-data-policies-ethics-requirements/care-principles-indigenous-data.html)",
+      "referencia_recuperacion": "turn4search3"
+    },
+    {
+      "encabezado_fuente": "The CARE Principles for Indigenous Data Governance | Data Science Journal (https://datascience.codata.org/en/articles/dsj-2020-043)",
+      "referencia_recuperacion": "turn4search4"
+    },
+    {
+      "encabezado_fuente": "The CARE Principles for Indigenous Data Governance | Native Nations Institute (https://nni.arizona.edu/publications/care-principles-indigenous-data-governance)",
+      "referencia_recuperacion": "turn4search5"
+    },
+    {
+      "encabezado_fuente": "Resources – The Collaboratory for Indigenous Data Governance (https://indigenousdatalab.org/resources/)",
+      "referencia_recuperacion": "turn4search6"
+    },
+    {
+      "encabezado_fuente": "The CARE principles for indigenous data governance - The Australian National University (https://researchportalplus.anu.edu.au/en/publications/the-care-principles-for-indigenous-data-governance/)",
+      "referencia_recuperacion": "turn4search7"
+    },
+    {
+      "encabezado_fuente": "The CARE Principles for Indigenous Data Governance (https://wiredspace.wits.ac.za/items/7850eb56-9ca6-45cd-b98a-c74ac37d4282)",
+      "referencia_recuperacion": "turn4search8"
+    },
+    {
+      "encabezado_fuente": "The CARE Principles for Indigenous Data Governance - Wikisource, the free online library (https://en.wikisource.org/wiki/The_CARE_Principles_for_Indigenous_Data_Governance)",
+      "referencia_recuperacion": "turn4search9"
+    },
+    {
+      "encabezado_fuente": "Working with the CARE principles: operationalising Indigenous data governance | Ada Lovelace Institute (https://www.adalovelaceinstitute.org/blog/care-principles-operationalising-indigenous-data-governance/)",
+      "referencia_recuperacion": "turn4search10"
+    },
+    {
+      "encabezado_fuente": "The CARE Principles for Indigenous Data Governance (https://reference-global.com/article/10.5334/dsj-2020-043)",
+      "referencia_recuperacion": "turn4search11"
+    },
+    {
+      "encabezado_fuente": "Carroll, S, et al. 2020. The CARE Principles for Indigenous (https://www.gida-global.org/s/dsj-1158_carroll.pdf)",
+      "referencia_recuperacion": "turn4search48"
+    },
+    {
+      "encabezado_fuente": "Learning Transferable Visual Models From Natural Language Supervision (https://proceedings.mlr.press/v139/radford21a.html)",
+      "referencia_recuperacion": "turn4search12"
+    },
+    {
+      "encabezado_fuente": "CARE Principles for Indigenous Data Governance (https://en.wikipedia.org/wiki/CARE_Principles_for_Indigenous_Data_Governance)",
+      "referencia_recuperacion": "turn4search49"
+    },
+    {
+      "encabezado_fuente": "Approaches to Digital Humanities Pedagogy: a systematic literature review within educational practice | Digital Scholarship in the Humanities | Oxford Academic (https://academic.oup.com/dsh/article/40/1/121/7863444)",
+      "referencia_recuperacion": "turn4search13"
+    },
+    {
+      "encabezado_fuente": "SEGRESS: Software Engineering Guidelines for REporting Secondary Studies - EBSE (https://ebse.webspace.durham.ac.uk/ebse-bibliography/segress-software-engineering-guidelines-for-reporting-secondary-studies/)",
+      "referencia_recuperacion": "turn4search14"
+    },
+    {
+      "encabezado_fuente": "SEGRESS: Software Engineering Guidelines for REporting Secondary Studies | IEEE Journals & Magazine | IEEE Xplore (https://xplorestaging.ieee.org/document/9772383)",
+      "referencia_recuperacion": "turn4search15"
+    },
+    {
+      "encabezado_fuente": "SEGRESS: Software Engineering Guidelines for REporting Secondary Studies | Lech Madeyski (https://madeyski.e-informatyka.pl/segress-software-engineering-guidelines-for-reporting-secondary-studies/)",
+      "referencia_recuperacion": "turn4search16"
+    },
+    {
+      "encabezado_fuente": "This article has been accepted for publication in a future issue of this journal, but has not been fully edited. Content may change prior to final publication. Citation information: DOI 10.1109/TSE.2022.3174092, IEEE (https://durham-repository.worktribe.com/preview/1208652/35873.pdf)",
+      "referencia_recuperacion": "turn4search50"
+    },
+    {
+      "encabezado_fuente": "CARE Statement for Indigenous Data Sovereignty                                                                 April 2023 (https://www.un.org/digital-emerging-technologies/sites/www.un.org.techenvoy/files/GDC-submission_WAMPUM_Lab_and_the_Collaboratory_for_Indigenous.pdf)",
+      "referencia_recuperacion": "turn4search51"
+    },
+    {
+      "encabezado_fuente": "Learning Transferable Visual Models From Natural Language Supervision (https://proceedings.mlr.press/v139/radford21a.html)",
+      "referencia_recuperacion": "turn4view0"
+    },
+    {
+      "encabezado_fuente": "[2409.01690] Taming CLIP for Fine-grained and Structured Visual Understanding of Museum Exhibits (https://arxiv.org/abs/2409.01690)",
+      "referencia_recuperacion": "turn4view1"
+    },
+    {
+      "encabezado_fuente": "UNI Posgrado - Maestría en Ciencia de la Computación con Mención en Especialidad Computación Científica - 2026 - II - Agosto (https://posgrado.uni.edu.pe/index.php/list-all-categories/12-maestrias/27-fc/44-maestria-en-ciencias-en-ciencia-de-la-computacion-con-mencion-en-especialidad-computacion-cientifica)",
+      "referencia_recuperacion": "turn4view2"
+    }
+  ],
+  "nota": "Respuesta reducida a títulos, URL y referencias de recuperación. No incluye extractos de las publicaciones."
+}

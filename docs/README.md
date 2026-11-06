@@ -2,10 +2,21 @@
 
 Documentación metodológica del corpus multimodal de textiles andinos. Según la §6.6.5 de la tesis, forma parte del corpus: define sus condiciones de uso, interpretación, revisión y reproducibilidad.
 
-## Corpus v2 (en curso)
+## Revisión del asesor (noviembre de 2026)
 
 | Documento | Contenido |
 |---|---|
+| `revision_asesor_2026-11/` | Carta de envío, informe de avance y matriz de respuesta a la auditoría. Es el punto de entrada de la revisión. |
+| `auditoria_2026-10-20/` | Auditoría del asesor del 20 de octubre de 2026, versionada sin cambios, con una nota sobre la verificación de sus sumas. |
+
+## Corpus v2 y experimento (etiqueta `corpus-met-cma-aic-v2.0`)
+
+| Documento | Contenido |
+|---|---|
+| `protocolo_experimental_v2.md` | Protocolo del experimento de recuperación estructural, propuesto para la aprobación del asesor. |
+| `especificacion_m3.md` | Descriptor estructural M3: definiciones, propiedades y pruebas. |
+| `protocolo_anotacion_v2.md` | Anotación estructural v2: capas, bandas, estados, núcleo y acuerdo intra-anotador. |
+| `esquema_consolidado_met_cma_aic_v2.md` | Esquema del consolidado v2, campo por campo (generado por el flujo). |
 | `protocolo_aptitud_v2.md` | Criterio de selección v2, etapas con sus comandos, medidas de imagen, puntaje, validación y cómo incorporar una fuente nueva. |
 | `fuentes.md` | Fuentes incluidas (MET, CMA, AIC), particularidades de cada API y fuentes descartadas. |
 | `met_protocolo_fuente_v2.md` | Protocolo y cadena de curación MET. |

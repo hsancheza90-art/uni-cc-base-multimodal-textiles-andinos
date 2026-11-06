@@ -1,0 +1,1015 @@
+{
+  "status": "ok",
+  "message-type": "work-list",
+  "message-version": "1.0.0",
+  "message": {
+    "facets": {},
+    "total-results": 88928,
+    "items": [
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2025,
+              3,
+              7
+            ]
+          ],
+          "date-time": "2025-03-07T05:21:12Z",
+          "timestamp": 1741324872797,
+          "version": "3.38.0"
+        },
+        "publisher-location": "London",
+        "edition-number": "1",
+        "reference-count": 0,
+        "publisher": "British Academy",
+        "isbn-type": [
+          {
+            "type": "print",
+            "value": "9780197267547"
+          },
+          {
+            "type": "electronic",
+            "value": "9780198909866"
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2023,
+              11,
+              23
+            ]
+          ]
+        },
+        "DOI": "10.5871/bacad/9780197267547.003.0010",
+        "type": "book-chapter",
+        "created": {
+          "date-parts": [
+            [
+              2024,
+              5,
+              23
+            ]
+          ],
+          "date-time": "2024-05-23T19:38:45Z",
+          "timestamp": 1716493125000
+        },
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "Weaving Silver: Brilliance and Sheen in Colonial Andean Textiles"
+        ],
+        "prefix": "10.5871",
+        "author": [
+          {
+            "given": "Elena",
+            "family": "Phipps",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "3895",
+        "published-online": {
+          "date-parts": [
+            [
+              2024,
+              5,
+              23
+            ]
+          ]
+        },
+        "container-title": [
+          "Silver"
+        ],
+        "original-title": [
+          "Weaving Silver: Brilliance and Sheen in Colonial Andean Textiles"
+        ],
+        "language": "en",
+        "link": [
+          {
+            "URL": "https://academic.oup.com/british-academy-scholarship-online/book/57157/chapter/457427293",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2025,
+              3,
+              6
+            ]
+          ],
+          "date-time": "2025-03-06T18:30:57Z",
+          "timestamp": 1741285857000
+        },
+        "score": 27.33456,
+        "resource": {
+          "primary": {
+            "URL": "https://academic.oup.com/book/doi/10.5871/bacad/9780197267547.003.0010"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2023,
+              11,
+              23
+            ]
+          ]
+        },
+        "ISBN": [
+          "9780197267547",
+          "9780198909866"
+        ],
+        "references-count": 0,
+        "URL": "https://doi.org/10.5871/bacad/9780197267547.003.0010",
+        "published": {
+          "date-parts": [
+            [
+              2023,
+              11,
+              23
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2022,
+              4,
+              1
+            ]
+          ],
+          "date-time": "2022-04-01T07:51:10Z",
+          "timestamp": 1648799470034
+        },
+        "reference-count": 0,
+        "publisher": "University of Iowa Press",
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2004,
+              11,
+              1
+            ]
+          ]
+        },
+        "DOI": "10.2307/j.ctt20q1vz9.10",
+        "type": "book-chapter",
+        "created": {
+          "date-parts": [
+            [
+              2018,
+              2,
+              20
+            ]
+          ],
+          "date-time": "2018-02-20T20:23:55Z",
+          "timestamp": 1519158235000
+        },
+        "page": "147-164",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "CONCLUSION:"
+        ],
+        "prefix": "10.2307",
+        "member": "1121",
+        "container-title": [
+          "Weaving a Future"
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2019,
+              3,
+              29
+            ]
+          ],
+          "date-time": "2019-03-29T20:17:17Z",
+          "timestamp": 1553890637000
+        },
+        "score": 27.001839,
+        "resource": {
+          "primary": {
+            "URL": "http://www.jstor.org/stable/10.2307/j.ctt20q1vz9.10"
+          }
+        },
+        "subtitle": [
+          "WEAVING A FUTURE?"
+        ],
+        "issued": {
+          "date-parts": [
+            [
+              2004,
+              11,
+              1
+            ]
+          ]
+        },
+        "references-count": 0,
+        "URL": "https://doi.org/10.2307/j.ctt20q1vz9.10",
+        "published": {
+          "date-parts": [
+            [
+              2004,
+              11,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2022,
+              3,
+              29
+            ]
+          ],
+          "date-time": "2022-03-29T21:07:36Z",
+          "timestamp": 1648588056503
+        },
+        "reference-count": 0,
+        "publisher": "University of Iowa Press",
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2004,
+              11,
+              1
+            ]
+          ]
+        },
+        "DOI": "10.2307/j.ctt20q1vz9.13",
+        "type": "book-chapter",
+        "created": {
+          "date-parts": [
+            [
+              2018,
+              2,
+              20
+            ]
+          ],
+          "date-time": "2018-02-20T20:23:55Z",
+          "timestamp": 1519158235000
+        },
+        "page": "177-182",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "GLOSSARY"
+        ],
+        "prefix": "10.2307",
+        "member": "1121",
+        "container-title": [
+          "Weaving a Future"
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2019,
+              3,
+              29
+            ]
+          ],
+          "date-time": "2019-03-29T20:17:19Z",
+          "timestamp": 1553890639000
+        },
+        "score": 24.861008,
+        "resource": {
+          "primary": {
+            "URL": "http://www.jstor.org/stable/10.2307/j.ctt20q1vz9.13"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2004,
+              11,
+              1
+            ]
+          ]
+        },
+        "references-count": 0,
+        "URL": "https://doi.org/10.2307/j.ctt20q1vz9.13",
+        "published": {
+          "date-parts": [
+            [
+              2004,
+              11,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              6,
+              5
+            ]
+          ],
+          "date-time": "2026-06-05T09:10:49Z",
+          "timestamp": 1780650649407,
+          "version": "3.54.1"
+        },
+        "reference-count": 0,
+        "publisher": "University of Texas Press",
+        "isbn-type": [
+          {
+            "value": "9780292763425",
+            "type": "electronic"
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              1990,
+              12,
+              31
+            ]
+          ]
+        },
+        "DOI": "10.7560/780774-023",
+        "type": "book-chapter",
+        "created": {
+          "date-parts": [
+            [
+              2022,
+              1,
+              22
+            ]
+          ],
+          "date-time": "2022-01-22T13:46:45Z",
+          "timestamp": 1642859205000
+        },
+        "page": "184-188",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "20. Weaving"
+        ],
+        "prefix": "10.7560",
+        "member": "4442",
+        "container-title": [
+          "'Tambo"
+        ],
+        "link": [
+          {
+            "URL": "https://www.degruyterbrill.com/document/doi/10.7560/780774-023/xml",
+            "content-type": "application/xml",
+            "content-version": "vor",
+            "intended-application": "text-mining"
+          },
+          {
+            "URL": "https://www.degruyterbrill.com/document/doi/10.7560/780774-023/pdf",
+            "content-type": "unspecified",
+            "content-version": "vor",
+            "intended-application": "similarity-checking"
+          }
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2026,
+              6,
+              5
+            ]
+          ],
+          "date-time": "2026-06-05T08:49:19Z",
+          "timestamp": 1780649359000
+        },
+        "score": 24.819,
+        "resource": {
+          "primary": {
+            "URL": "https://www.degruyterbrill.com/document/doi/10.7560/780774-023/html"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              1990,
+              12,
+              31
+            ]
+          ]
+        },
+        "ISBN": [
+          "9780292763425"
+        ],
+        "references-count": 0,
+        "alternative-id": [
+          "10.7560/780774-023",
+          "10.7560/780774"
+        ],
+        "URL": "https://doi.org/10.7560/780774-023",
+        "published": {
+          "date-parts": [
+            [
+              1990,
+              12,
+              31
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2022,
+              3,
+              31
+            ]
+          ],
+          "date-time": "2022-03-31T14:25:38Z",
+          "timestamp": 1648736738701
+        },
+        "reference-count": 0,
+        "publisher": "University of Iowa Press",
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2004,
+              11,
+              1
+            ]
+          ]
+        },
+        "DOI": "10.2307/j.ctt20q1vz9.15",
+        "type": "book-chapter",
+        "created": {
+          "date-parts": [
+            [
+              2018,
+              2,
+              20
+            ]
+          ],
+          "date-time": "2018-02-20T20:23:55Z",
+          "timestamp": 1519158235000
+        },
+        "page": "215-226",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "INDEX"
+        ],
+        "prefix": "10.2307",
+        "member": "1121",
+        "container-title": [
+          "Weaving a Future"
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2019,
+              3,
+              29
+            ]
+          ],
+          "date-time": "2019-03-29T20:17:20Z",
+          "timestamp": 1553890640000
+        },
+        "score": 24.778442,
+        "resource": {
+          "primary": {
+            "URL": "http://www.jstor.org/stable/10.2307/j.ctt20q1vz9.15"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2004,
+              11,
+              1
+            ]
+          ]
+        },
+        "references-count": 0,
+        "URL": "https://doi.org/10.2307/j.ctt20q1vz9.15",
+        "published": {
+          "date-parts": [
+            [
+              2004,
+              11,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2022,
+              4,
+              2
+            ]
+          ],
+          "date-time": "2022-04-02T20:57:33Z",
+          "timestamp": 1648933053647
+        },
+        "reference-count": 0,
+        "publisher": "University of Iowa Press",
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2004,
+              11,
+              1
+            ]
+          ]
+        },
+        "DOI": "10.2307/j.ctt20q1vz9.14",
+        "type": "book-chapter",
+        "created": {
+          "date-parts": [
+            [
+              2018,
+              2,
+              20
+            ]
+          ],
+          "date-time": "2018-02-20T20:23:55Z",
+          "timestamp": 1519158235000
+        },
+        "page": "183-214",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "REFERENCES"
+        ],
+        "prefix": "10.2307",
+        "member": "1121",
+        "container-title": [
+          "Weaving a Future"
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2019,
+              3,
+              29
+            ]
+          ],
+          "date-time": "2019-03-29T20:17:19Z",
+          "timestamp": 1553890639000
+        },
+        "score": 24.778225,
+        "resource": {
+          "primary": {
+            "URL": "http://www.jstor.org/stable/10.2307/j.ctt20q1vz9.14"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2004,
+              11,
+              1
+            ]
+          ]
+        },
+        "references-count": 0,
+        "URL": "https://doi.org/10.2307/j.ctt20q1vz9.14",
+        "published": {
+          "date-parts": [
+            [
+              2004,
+              11,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2022,
+              4,
+              2
+            ]
+          ],
+          "date-time": "2022-04-02T23:20:02Z",
+          "timestamp": 1648941602739
+        },
+        "reference-count": 0,
+        "publisher": "University of Iowa Press",
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2004,
+              11,
+              1
+            ]
+          ]
+        },
+        "DOI": "10.2307/j.ctt20q1vz9.12",
+        "type": "book-chapter",
+        "created": {
+          "date-parts": [
+            [
+              2018,
+              2,
+              20
+            ]
+          ],
+          "date-time": "2018-02-20T15:23:55Z",
+          "timestamp": 1519140235000
+        },
+        "page": "167-176",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "NOTES"
+        ],
+        "prefix": "10.2307",
+        "member": "1121",
+        "container-title": [
+          "Weaving a Future"
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2019,
+              3,
+              29
+            ]
+          ],
+          "date-time": "2019-03-29T16:17:18Z",
+          "timestamp": 1553876238000
+        },
+        "score": 24.756327,
+        "resource": {
+          "primary": {
+            "URL": "http://www.jstor.org/stable/10.2307/j.ctt20q1vz9.12"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2004,
+              11,
+              1
+            ]
+          ]
+        },
+        "references-count": 0,
+        "URL": "https://doi.org/10.2307/j.ctt20q1vz9.12",
+        "published": {
+          "date-parts": [
+            [
+              2004,
+              11,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2026,
+              4,
+              4
+            ]
+          ],
+          "date-time": "2026-04-04T16:39:05Z",
+          "timestamp": 1775320745795,
+          "version": "3.50.1"
+        },
+        "reference-count": 0,
+        "publisher": "University of Iowa Press",
+        "isbn-type": [
+          {
+            "value": "9781609380342",
+            "type": "electronic"
+          }
+        ],
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2004
+            ]
+          ]
+        },
+        "DOI": "10.1353/book12498",
+        "type": "monograph",
+        "created": {
+          "date-parts": [
+            [
+              2023,
+              6,
+              22
+            ]
+          ],
+          "date-time": "2023-06-22T13:36:05Z",
+          "timestamp": 1687440965000
+        },
+        "source": "Crossref",
+        "is-referenced-by-count": 3,
+        "title": [
+          "Weaving a Future"
+        ],
+        "prefix": "10.1353",
+        "author": [
+          {
+            "given": "Elayne",
+            "family": "Zorn",
+            "sequence": "first",
+            "affiliation": [],
+            "role": [
+              {
+                "role": "author",
+                "vocabulary": "crossref"
+              }
+            ]
+          }
+        ],
+        "member": "147",
+        "deposited": {
+          "date-parts": [
+            [
+              2023,
+              6,
+              22
+            ]
+          ],
+          "date-time": "2023-06-22T15:26:49Z",
+          "timestamp": 1687447609000
+        },
+        "score": 24.741558,
+        "resource": {
+          "primary": {
+            "URL": "https://muse.jhu.edu/book/12498"
+          }
+        },
+        "subtitle": [
+          "Tourism, Cloth, and Culture on an Andean Island"
+        ],
+        "issued": {
+          "date-parts": [
+            [
+              2004
+            ]
+          ]
+        },
+        "ISBN": [
+          "9781609380342"
+        ],
+        "references-count": 0,
+        "URL": "https://doi.org/10.1353/book12498",
+        "relation": {
+          "is-identical-to": [
+            {
+              "id-type": "doi",
+              "id": "10.2307/j.ctt20q1vz9",
+              "asserted-by": "subject"
+            }
+          ]
+        },
+        "published": {
+          "date-parts": [
+            [
+              2004
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2022,
+              4,
+              5
+            ]
+          ],
+          "date-time": "2022-04-05T08:39:09Z",
+          "timestamp": 1649147949737
+        },
+        "reference-count": 0,
+        "publisher": "University of Iowa Press",
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2004,
+              11,
+              1
+            ]
+          ]
+        },
+        "DOI": "10.2307/j.ctt20q1vz9.3",
+        "type": "book-chapter",
+        "created": {
+          "date-parts": [
+            [
+              2018,
+              2,
+              20
+            ]
+          ],
+          "date-time": "2018-02-20T20:23:55Z",
+          "timestamp": 1519158235000
+        },
+        "page": "ix-xvi",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "PREFACE"
+        ],
+        "prefix": "10.2307",
+        "member": "1121",
+        "container-title": [
+          "Weaving a Future"
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2019,
+              3,
+              29
+            ]
+          ],
+          "date-time": "2019-03-29T20:17:14Z",
+          "timestamp": 1553890634000
+        },
+        "score": 24.713287,
+        "resource": {
+          "primary": {
+            "URL": "http://www.jstor.org/stable/10.2307/j.ctt20q1vz9.3"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2004,
+              11,
+              1
+            ]
+          ]
+        },
+        "references-count": 0,
+        "URL": "https://doi.org/10.2307/j.ctt20q1vz9.3",
+        "published": {
+          "date-parts": [
+            [
+              2004,
+              11,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "indexed": {
+          "date-parts": [
+            [
+              2022,
+              4,
+              1
+            ]
+          ],
+          "date-time": "2022-04-01T20:48:43Z",
+          "timestamp": 1648846123044
+        },
+        "reference-count": 0,
+        "publisher": "University of Iowa Press",
+        "content-domain": {
+          "domain": [],
+          "crossmark-restriction": false
+        },
+        "published-print": {
+          "date-parts": [
+            [
+              2004,
+              11,
+              1
+            ]
+          ]
+        },
+        "DOI": "10.2307/j.ctt20q1vz9.4",
+        "type": "book-chapter",
+        "created": {
+          "date-parts": [
+            [
+              2018,
+              2,
+              20
+            ]
+          ],
+          "date-time": "2018-02-20T20:23:55Z",
+          "timestamp": 1519158235000
+        },
+        "page": "xvii-xxii",
+        "source": "Crossref",
+        "is-referenced-by-count": 0,
+        "title": [
+          "ACKNOWLEDGMENTS"
+        ],
+        "prefix": "10.2307",
+        "member": "1121",
+        "container-title": [
+          "Weaving a Future"
+        ],
+        "deposited": {
+          "date-parts": [
+            [
+              2019,
+              3,
+              29
+            ]
+          ],
+          "date-time": "2019-03-29T20:17:14Z",
+          "timestamp": 1553890634000
+        },
+        "score": 24.706211,
+        "resource": {
+          "primary": {
+            "URL": "http://www.jstor.org/stable/10.2307/j.ctt20q1vz9.4"
+          }
+        },
+        "issued": {
+          "date-parts": [
+            [
+              2004,
+              11,
+              1
+            ]
+          ]
+        },
+        "references-count": 0,
+        "URL": "https://doi.org/10.2307/j.ctt20q1vz9.4",
+        "published": {
+          "date-parts": [
+            [
+              2004,
+              11,
+              1
+            ]
+          ]
+        }
+      }
+    ],
+    "items-per-page": 10,
+    "query": {
+      "start-index": 0,
+      "search-terms": "Andean weaving ontology"
+    }
+  },
+  "nota_exportacion": "Se preservan metadatos bibliográficos; se omiten resúmenes extensos del paquete."
+}

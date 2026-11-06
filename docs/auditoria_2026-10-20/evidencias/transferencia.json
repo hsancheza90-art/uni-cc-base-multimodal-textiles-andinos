@@ -1,0 +1,101 @@
+{
+  "metodo": "LOMO; estandarizacion entrenada solo en museos de entrenamiento; parametros originales fijos; no es validacion externa prospectiva",
+  "fugas_duplicados_cv_original": [
+    [
+      [
+        "AIC:85028",
+        2,
+        "referencia"
+      ],
+      [
+        "AIC:195555",
+        4,
+        "referencia"
+      ]
+    ],
+    [
+      [
+        "AIC:2097",
+        0,
+        "principal"
+      ],
+      [
+        "AIC:223218",
+        0,
+        "principal"
+      ],
+      [
+        "AIC:223219",
+        1,
+        "principal"
+      ],
+      [
+        "AIC:223220",
+        0,
+        "principal"
+      ]
+    ],
+    [
+      [
+        "AIC:85397",
+        1,
+        "referencia"
+      ],
+      [
+        "AIC:90831",
+        0,
+        "referencia"
+      ]
+    ],
+    [
+      [
+        "MET:308106",
+        0,
+        "principal"
+      ],
+      [
+        "MET:308036",
+        4,
+        "principal"
+      ]
+    ]
+  ],
+  "resultados": [
+    {
+      "museo_prueba": "AIC",
+      "n_train": 86,
+      "n_test": 316,
+      "positivos": 225,
+      "negativos": 91,
+      "auc": 0.5627838827838828,
+      "ci95_registros": [
+        0.48991452991452994,
+        0.6297973137973137
+      ]
+    },
+    {
+      "museo_prueba": "MET",
+      "n_train": 351,
+      "n_test": 51,
+      "positivos": 33,
+      "negativos": 18,
+      "auc": 0.5555555555555556,
+      "ci95_registros": [
+        0.3619107744107744,
+        0.7272727272727273
+      ]
+    },
+    {
+      "museo_prueba": "CMA",
+      "n_train": 367,
+      "n_test": 35,
+      "positivos": 16,
+      "negativos": 19,
+      "auc": 0.930921052631579,
+      "ci95_registros": [
+        0.8355263157894737,
+        0.993421052631579
+      ]
+    }
+  ]
+}

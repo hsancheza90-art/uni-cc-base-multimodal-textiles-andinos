@@ -1,0 +1,21 @@
+{
+  "resultados_metadatos": [
+    {
+      "encabezado_fuente": "Taming CLIP for Fine-grained and Structured Visual Understanding of Museum Exhibits (https://arxiv.org/html/2409.01690v1)",
+      "referencia_recuperacion": "turn7view0"
+    },
+    {
+      "encabezado_fuente": "Structural textile pattern recognition and processing based on hypergraphs | Discover Computing | Springer Nature Link (https://link.springer.com/article/10.1007/s10791-020-09384-y)",
+      "referencia_recuperacion": "turn7view1"
+    },
+    {
+      "encabezado_fuente": "Multimodal Metadata Assignment for Cultural Heritage Artifacts (https://arxiv.org/html/2406.00423v1)",
+      "referencia_recuperacion": "turn7view2"
+    },
+    {
+      "encabezado_fuente": "Internal Error ()",
+      "referencia_recuperacion": "turn7view3"
+    }
+  ],
+  "nota": "Respuesta reducida a títulos, URL y referencias de recuperación. No incluye extractos de las publicaciones."
+}

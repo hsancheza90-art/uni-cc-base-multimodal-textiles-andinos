@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/scratch/05271fdf800f/repo_ejecucion/src/flujo.py", line 29, in <module>
+    from src.imagenes import aptitud, calibrar_aptitud, informe_aptitud
+  File "/workspace/scratch/05271fdf800f/repo_ejecucion/src/imagenes/aptitud.py", line 39, in <module>
+    from src.imagenes.descargar_evaluacion import ENTRADA_AIC, ENTRADA_CMA, ENTRADAS_MET
+  File "/workspace/scratch/05271fdf800f/repo_ejecucion/src/imagenes/descargar_evaluacion.py", line 35, in <module>
+    import requests
+ModuleNotFoundError: No module named 'requests'
