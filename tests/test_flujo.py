@@ -53,6 +53,8 @@ INSUMOS = [
     "data/metadata/consultas_t3_v2.csv",
     "data/metadata/m1_caracteristicas_v2.npy",
     "data/metadata/m1_indice_v2.csv",
+    "data/metadata/juicios_desarrollo_v2.xlsx",
+    "data/metadata/consultas_t1_v2.xlsx",
     "data/metadata/v1_congelado/met_corpus_principal_v2_revisado.csv",
     "data/metadata/v1_congelado/met_corpus_secundario_v2_revisado.csv",
     "data/metadata/v1_congelado/cma_corpus_principal_revisado.csv",
@@ -88,6 +90,8 @@ REPORTES = [
     "data/processed/corpus_textiles_andinos_met_cma_aic_v2_sha256.txt",
     "outputs/reports/experimento_v2_snapshot.md",
     "outputs/reports/experimento_v2_rankings_desarrollo.md",
+    "outputs/reports/experimento_v2_juicios_desarrollo.md",
+    "outputs/reports/experimento_v2_consultas_t1.md",
 ]
 
 

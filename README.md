@@ -110,6 +110,8 @@ python -m src.grupos.workbook                    # crea o actualiza data/metadat
 # Snapshot experimental (particiones y consultas T3; el flujo comprueba que no haya fugas)
 python -m src.experimento.snapshot --crear       # una vez: no sobrescribe sin --forzar
 python -m src.experimento.snapshot --reemplazar  # regla de reemplazo de consultas tras corregir la anotacion
+python -m src.experimento.consultas_t1 --crear   # workbook de las consultas T1 (conserva lo escrito)
+python -m src.experimento.juicios --crear        # workbook ciego de juicios de desarrollo y su galeria (conserva los juicios)
 
 # Galerías HTML de revisión (locales, no se versionan)
 python -m src.review.galerias --fuente met     # una galería por decisión del workbook (también cma o aic)

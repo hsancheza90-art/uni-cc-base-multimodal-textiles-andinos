@@ -27,7 +27,7 @@ from pathlib import Path
 
 from src.anotacion import acuerdo, aplicar_anotaciones, aplicar_anotaciones_v2, corpus_v2, documentar_vocabulario, nucleo
 from src.consolidado import consolidado_v2, construir_consolidado
-from src.experimento import rankings, snapshot
+from src.experimento import consultas_t1, juicios, rankings, snapshot
 from src.grupos import grupos
 from src.imagenes import aptitud, calibrar_aptitud, informe_aptitud
 from src.metadata import (
@@ -62,6 +62,8 @@ PASOS: list[tuple[str, Callable[[list[str]], int]]] = [
     ("Anotacion v2: validar los workbooks y exportar la primera anotacion", aplicar_anotaciones_v2.main),
     ("Experimento v2: comprobar particiones y consultas T3 (fugas)", snapshot.main),
     ("Experimento v2: rankings de desarrollo T3 (M0, M1 y M2)", rankings.main),
+    ("Experimento v2: pool y juicios de relevancia de desarrollo", juicios.main),
+    ("Experimento v2: consultas T1 del evaluador", consultas_t1.main),
     ("Anotacion v2: medir el acuerdo intra-anotador (primera anotacion y re-anotacion)", acuerdo.main),
 ]
 

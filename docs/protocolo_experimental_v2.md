@@ -91,6 +91,9 @@ M3 y M4 son **sistemas asistidos por anotación**, y así se declaran. La anotac
 4. **Doble juicio parcial [propuesta]:** el asesor, u otra persona con criterio estructural, juzga a ciegas los pools de 5 consultas de prueba elegidas al azar. Se informa el acuerdo (kappa ponderado lineal sobre la escala 0–3) antes de cualquier adjudicación, y la métrica primaria se recalcula con esos juicios como análisis de sensibilidad. Se conservan ambas versiones.
 
 Los juicios y las consultas de T1 son decisiones humanas: viven en workbooks (`data/metadata/`) y el flujo los exporta a CSV, como el resto del corpus.
+- Consultas T1: `data/metadata/consultas_t1_v2.xlsx` (`python -m src.experimento.consultas_t1 --crear`).
+- Juicios de desarrollo: `data/metadata/juicios_desarrollo_v2.xlsx` (`python -m src.experimento.juicios --crear`). Cada par se presenta en orden barajado y sin sistema ni posición, con una galería local de las imágenes. El origen de cada par queda en `data/processed/experimento_v2_pool_desarrollo.csv`, que el evaluador no abre, igual que los rankings. Al agregar sistemas, el pool crece y los juicios ya hechos se conservan.
+- Los dos workbooks incluyen una hoja de ejemplos hipotéticos como referencia de formato y de escala. No son piezas de la galería ni consultas.
 
 **Consultas sin relevantes.** Una consulta sin ningún candidato de grado ≥ 1 no tiene nDCG definido: se excluye de la media y se informa cuántas hubo y cuáles. No se reemplaza.
 
@@ -172,4 +175,4 @@ Para cada resultado del top 10 de M4 en prueba se registran las contribuciones �
 | 2026-11-05 | 0.1 | Propuesta inicial para la aprobación del asesor |
 | 2026-11-05 | 0.2 | M2: checkpoint, precisión y encuadre fijados (D6) al calcular los embeddings de las imágenes, antes de cualquier consulta, juicio o ranking de la galería. Sección 2: señales, umbrales y regla de duda de los grupos |
 | 2026-11-06 | 0.3 | Sección 2: grupos también sobre el complementario. Sección 5: particiones y consultas T3 congeladas, regla de reemplazo y valores en `config/experimento.toml` |
-| 2026-11-06 | 0.4 | Sección 4: M0 sin la descripción plantilla de MET; M1 sobre el textil segmentado, con sus parámetros; M3 especificado en `docs/especificacion_m3.md`. Rankings de desarrollo de M0, M1 y M2, sin ejecutar ninguna consulta de prueba |
+| 2026-11-06 | 0.4 | Sección 4: M0 sin la descripción plantilla de MET; M1 sobre el textil segmentado, con sus parámetros; M3 especificado en `docs/especificacion_m3.md`. Rankings de desarrollo de M0, M1 y M2, sin ejecutar ninguna consulta de prueba. Sección 6: workbooks de consultas T1 y de juicios de desarrollo, con ejemplos hipotéticos |
