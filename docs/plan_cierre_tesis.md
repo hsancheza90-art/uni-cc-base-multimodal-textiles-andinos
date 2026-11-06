@@ -203,6 +203,7 @@ La puerta de salida de la semana 1 no se cruzó.
 | S2.6 | Hecho (6 de noviembre): M0 (BM25, sin la descripción plantilla de MET) y M1 (color Lab y LBP sobre el textil); rankings de desarrollo de M0, M1 y M2 para las 10 consultas T3 de desarrollo |
 | S2.7 | En curso (6 de noviembre): workbook `data/metadata/consultas_t1_v2.xlsx` con las 6 consultas T1 por redactar y ejemplos hipotéticos |
 | S3.2 | En curso (6 de noviembre): pool de desarrollo de 345 pares (M0, M1 y M2 más azar) en `data/metadata/juicios_desarrollo_v2.xlsx`, con galería local; crece con M3 y M4 |
+| S4.6 (adelantada) | En curso (6 de noviembre): revisión enviada al asesor con informe de avance y matriz de respuesta a la auditoría (`docs/revision_asesor_2026-11/`); se actualiza al cierre |
 | F2-H1b (parte de S2.3) | Hecho (6 de noviembre): complementario v2 (153) y consolidado v2 MET+CMA+AIC (615 registros) con grupos, licencias por fuente, manifiesto de imágenes y SHA-256; la anotación v2 entra en la v2.1 |
 | S3.1 (parte M2, adelantada) | Hecho en desarrollo (5 de noviembre): embeddings OpenCLIP congelados de las 873 copias de evaluación, en CPU (la compilación CUDA para Python 3.15 no carga en el equipo); sin consultas ni rankings de la galería. Sus vecinos más cercanos aportan candidatos a duplicado para S1.7 |
 
