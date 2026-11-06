@@ -48,6 +48,9 @@ INSUMOS = [
     "config/grupos.toml",
     "data/metadata/imagenes_evaluacion_dhash_v2.csv",
     "data/metadata/grupos_revision_v2.xlsx",
+    "config/experimento.toml",
+    "data/metadata/particiones_v2.csv",
+    "data/metadata/consultas_t3_v2.csv",
     "data/metadata/v1_congelado/met_corpus_principal_v2_revisado.csv",
     "data/metadata/v1_congelado/met_corpus_secundario_v2_revisado.csv",
     "data/metadata/v1_congelado/cma_corpus_principal_revisado.csv",
@@ -81,6 +84,7 @@ REPORTES = [
     "outputs/reports/corpus_textiles_andinos_met_cma_aic_v2_resumen.md",
     "docs/esquema_consolidado_met_cma_aic_v2.md",
     "data/processed/corpus_textiles_andinos_met_cma_aic_v2_sha256.txt",
+    "outputs/reports/experimento_v2_snapshot.md",
 ]
 
 

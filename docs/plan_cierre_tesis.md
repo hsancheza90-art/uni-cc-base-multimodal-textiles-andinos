@@ -198,6 +198,7 @@ La puerta de salida de la semana 1 no se cruzó.
 | S1.3 | En curso (5 de noviembre): `docs/protocolo_experimental_v2.md`, versión 0.2 propuesta, pendiente de aprobación del asesor |
 | S1.7 | Hecho (5 de noviembre): candidatos a duplicado por cinco señales (imagen idéntica, inventario, descripción, dHash y M2) en `data/metadata/grupos_revision_v2.xlsx`, con galería local de pares |
 | S2.2 | Hecho (6 de noviembre): 100 pares decididos por el investigador sobre el principal y el complementario (65 unir, 35 separar); 577 grupos para 615 piezas; el núcleo queda en 146 grupos |
+| S2.3 | Hecho (6 de noviembre): particiones congeladas (44 grupos de desarrollo y 102 de prueba, por museo) y sorteo de 10 + 30 consultas T3, sin fugas (`outputs/reports/experimento_v2_snapshot.md`); etiqueta `corpus-met-cma-aic-v2.0` |
 | F2-H1b (parte de S2.3) | Hecho (6 de noviembre): complementario v2 (153) y consolidado v2 MET+CMA+AIC (615 registros) con grupos, licencias por fuente, manifiesto de imágenes y SHA-256; la anotación v2 entra en la v2.1 |
 | S3.1 (parte M2, adelantada) | Hecho en desarrollo (5 de noviembre): embeddings OpenCLIP congelados de las 873 copias de evaluación, en CPU (la compilación CUDA para Python 3.15 no carga en el equipo); sin consultas ni rankings de la galería. Sus vecinos más cercanos aportan candidatos a duplicado para S1.7 |
 

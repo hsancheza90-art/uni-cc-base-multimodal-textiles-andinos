@@ -106,6 +106,10 @@ python -m src.modelos.m2_openclip                # M2: embeddings OpenCLIP de la
 python -m src.imagenes.dhash_evaluacion          # dHash de las copias de evaluacion (insumo versionado)
 python -m src.grupos.workbook                    # crea o actualiza data/metadata/grupos_revision_v2.xlsx y la galeria de pares
 
+# Snapshot experimental (particiones y consultas T3; el flujo comprueba que no haya fugas)
+python -m src.experimento.snapshot --crear       # una vez: no sobrescribe sin --forzar
+python -m src.experimento.snapshot --reemplazar  # regla de reemplazo de consultas tras corregir la anotacion
+
 # Galerías HTML de revisión (locales, no se versionan)
 python -m src.review.galerias --fuente met     # una galería por decisión del workbook (también cma o aic)
 python -m src.imagenes.informe_aptitud         # una galería por banda de aptitud

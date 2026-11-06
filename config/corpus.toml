@@ -113,6 +113,13 @@ consolidado = { ruta = "data/processed/corpus_textiles_andinos_met_cma_aic_v2_co
 fuentes_licencias = { ruta = "data/processed/corpus_textiles_andinos_met_cma_aic_v2_fuentes_licencias.csv", filas = 3 }
 manifiesto_imagenes = { ruta = "data/metadata/imagenes_manifiesto_met_cma_aic_v2.csv", filas = 615 }
 
+[experimento.v2]
+descripcion = "Snapshot experimental v2 (src/experimento/snapshot.py; parametros en config/experimento.toml)"
+# 2026-11-06: particiones congeladas con --crear sobre los 146 grupos del nucleo (44 de desarrollo y 102 de prueba,
+# estratificados por museo) y sorteo de 10 + 30 consultas T3 (protocolo experimental, seccion 5).
+particiones = { ruta = "data/metadata/particiones_v2.csv", filas = 150 }
+consultas_t3 = { ruta = "data/metadata/consultas_t3_v2.csv", filas = 40 }
+
 [consolidado.conteos]
 # Principal y complementario de MET v2 revisado y CMA v2 revisado.
 # MET:312615 paso de principal a complementario (imagen no disponible en el museo, 2026-10-05).

@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Versión | 0.2, **propuesta**, 5 de noviembre de 2026 |
+| Versión | 0.3, **propuesta**, 6 de noviembre de 2026 |
 | Estado | Pendiente de aprobación del asesor. Se congela al aprobarse: la fecha y el commit de aprobación se registran en «Historial» y desde entonces cualquier cambio queda registrado allí con su motivo, antes de abrir el test |
 | Responde a | MET01 de la auditoría del asesor (20 de octubre de 2026), informe 08; actividad S1.3 de `docs/plan_cierre_tesis.md` |
 | Alcance | Estudio **piloto**: un solo anotador y un solo evaluador principal (decisión D1, 3 de noviembre) |
@@ -66,6 +66,7 @@ M3 y M4 son **sistemas asistidos por anotación**, y así se declaran. La anotac
 - **Consultas T1:** 6, solo de prueba, redactadas antes de ejecutar cualquier sistema sobre ellas. Usan los pesos fijados en T3, porque no tienen desarrollo propio.
 - **Galería transductiva.** La galería es fija y contiene piezas de las dos particiones. Las relevancias de desarrollo se usan para ajustar y las de prueba nunca. Se declara como evaluación transductiva de recuperación.
 - Todo lo que tenga un parámetro (normalización, vocabulario, pesos, plantillas, reglas) se fija con desarrollo. El test se ejecuta una sola vez, con los sistemas congelados.
+- **Implementación** (6 de noviembre): `python -m src.experimento.snapshot --crear` fijó las particiones (`data/metadata/particiones_v2.csv`) y el sorteo (`data/metadata/consultas_t3_v2.csv`) con los valores de `config/experimento.toml`, y el flujo comprueba en cada ejecución que no haya fugas. Si una consulta deja de tener composición observable al corregir la anotación, se reemplaza con `--reemplazar` por la siguiente pieza elegible de su estrato, en el orden de la semilla. `consultas_t3_v2.csv` registra la composición de cada consulta: no se abre antes de cerrar la re-anotación del lote 1.
 
 ## 6. Consultas y juicios de relevancia
 
@@ -170,3 +171,4 @@ Para cada resultado del top 10 de M4 en prueba se registran las contribuciones �
 |---|---|---|
 | 2026-11-05 | 0.1 | Propuesta inicial para la aprobación del asesor |
 | 2026-11-05 | 0.2 | M2: checkpoint, precisión y encuadre fijados (D6) al calcular los embeddings de las imágenes, antes de cualquier consulta, juicio o ranking de la galería. Sección 2: señales, umbrales y regla de duda de los grupos |
+| 2026-11-06 | 0.3 | Sección 2: grupos también sobre el complementario. Sección 5: particiones y consultas T3 congeladas, regla de reemplazo y valores en `config/experimento.toml` |

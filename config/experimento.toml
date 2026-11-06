@@ -1,0 +1,47 @@
+# Parametros del experimento de recuperacion estructural (docs/protocolo_experimental_v2.md).
+# Son los valores del protocolo: tests/test_experimento.py comprueba que coinciden con el
+# documento. Cada cambio se registra aqui con su fecha y su motivo y en el «Historial» del
+# protocolo, antes de abrir el test. Las semillas son fechas sin significado; lo que importa es
+# que sean fijas y declaradas.
+
+[particiones]
+# Desarrollo y prueba disjuntas por grupo (data/metadata/grupos_v2.csv), sobre los grupos con
+# alguna pieza de la galeria (el nucleo de anotacion). Estrato: el museo de la pieza que da
+# nombre al grupo (la de menor id_global). Protocolo, seccion 5.
+semilla = 20261106
+proporcion_desarrollo = 0.3
+
+[consultas_t3]
+# Sorteo de consultas de la tarea T3 (estructura por ejemplar), a lo sumo una por grupo, entre
+# las piezas del nucleo con composicion observable. Estratos: museo y composicion, con cuotas por
+# mayores restos. Protocolo, seccion 5.
+semilla = 20261107
+desarrollo = 10
+prueba = 30
+# Valores de composicion que no permiten usar la pieza como consulta.
+excluir_composicion = ["no_observable", "desconocido"]
+# Regla de reemplazo (decision del revisor, 2026-11-06): el sorteo se fija con la anotacion del
+# dia; si una consulta deja de tener composicion observable tras las correcciones posteriores a
+# la re-anotacion, se reemplaza por la siguiente pieza elegible de su estrato original, en el
+# orden de la semilla (python -m src.experimento.snapshot --reemplazar).
+
+[consultas_t1]
+# Consultas de texto a imagen, solo de prueba, redactadas por el evaluador (protocolo, seccion 5).
+prueba = 6
+
+[juicios]
+# Escala de relevancia 0-3 y pooling (protocolo, seccion 6).
+escala = [0, 1, 2, 3]
+profundidad_pool = 10
+aleatorios_pool = 10
+semilla_pool = 20261108
+# Doble juicio parcial: consultas de prueba juzgadas tambien por un segundo evaluador.
+consultas_doble_juicio = 5
+
+[metricas]
+# Metrica primaria nDCG@k y su inferencia (protocolo, seccion 7).
+k = 10
+umbral_practico = 0.03
+confianza = 0.95
+replicas_bootstrap = 10000
+semilla_bootstrap = 20261109
