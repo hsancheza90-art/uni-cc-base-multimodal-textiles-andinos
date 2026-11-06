@@ -119,6 +119,14 @@ descripcion = "Snapshot experimental v2 (src/experimento/snapshot.py; parametros
 # estratificados por museo) y sorteo de 10 + 30 consultas T3 (protocolo experimental, seccion 5).
 particiones = { ruta = "data/metadata/particiones_v2.csv", filas = 150 }
 consultas_t3 = { ruta = "data/metadata/consultas_t3_v2.csv", filas = 40 }
+# 2026-11-06: rankings de desarrollo de M0, M1 y M2 (src/experimento/rankings.py): 10 consultas x 3 sistemas x 149
+# candidatos (la galeria sin el grupo de la consulta). Las consultas de prueba no se ejecutan hasta congelar.
+rankings_desarrollo = { ruta = "data/processed/experimento_v2_rankings_desarrollo.csv", filas = 4470 }
+
+[modelos.m1]
+descripcion = "M1, color Lab y textura LBP del textil (src/modelos/m1_vision.py, fuera del flujo; config/modelos.toml)"
+# 2026-11-06: caracteristicas de las 873 copias de evaluacion; la mascara del textil coincide con la de las medidas.
+indice = { ruta = "data/metadata/m1_indice_v2.csv", filas = 873 }
 
 [consolidado.conteos]
 # Principal y complementario de MET v2 revisado y CMA v2 revisado.

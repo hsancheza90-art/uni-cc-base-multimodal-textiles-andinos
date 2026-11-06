@@ -31,3 +31,47 @@ muestra_determinismo = 32
 tolerancia_determinismo = 1e-5
 tolerancia_dispositivo = 1e-3
 # Los umbrales con que M2 propone candidatos a duplicado estan en config/grupos.toml.
+
+[m0]
+# M0: BM25 sobre el texto de la ficha (protocolo, seccion 4). Valores por defecto de Okapi BM25;
+# solo pueden cambiarse con las consultas de desarrollo.
+k1 = 1.2
+b = 0.75
+# Campos que forman el documento de cada pieza, normalizados (minusculas, sin tildes).
+campos = ["titulo_original", "titulo_es_sugerido", "descripcion", "material", "tecnica"]
+# La descripcion de MET no es un texto del museo: es una plantilla armada con los metadatos
+# («Titulo oficial: ... Cultura registrada: ...»; las 26 piezas MET con descripcion la tienen). Sus
+# palabras fijas harian que las piezas MET se parezcan solo por su museo, asi que no entra (SW10 de
+# la auditoria: el texto de M0 debe ser texto real del museo). Decision del 2026-11-06.
+excluir_descripcion = ["MET"]
+# Longitud minima de un termino; los mas cortos (de, la, of...) no aportan y BM25 no usa lista de
+# palabras vacias, para no elegir una por idioma.
+longitud_minima_termino = 3
+
+[m1]
+# M1: vision convencional (protocolo, seccion 4): color en Lab y textura LBP sobre el textil, no
+# sobre el fondo. El textil se separa con la segmentacion del puntaje de aptitud ([segmentacion]
+# de config/aptitud.toml), con la imagen reducida a este lado mayor.
+lado = 320
+# Histograma conjunto de Lab: cubetas por eje (L de 0 a 100; a y b de -64 a 64, recortados).
+cubetas_l = 4
+cubetas_ab = 8
+# LBP de 8 vecinos y radio 1, invariante a la rotacion y uniforme (10 valores) sobre la luminancia.
+# Disimilitud por bloque: mitad de la distancia L1 entre histogramas normalizados (en [0, 1]).
+# Pesos de los bloques en la disimilitud (se ajustan solo en desarrollo).
+peso_color = 1.0
+peso_textura = 1.0
+
+[m3]
+# M3: descriptor estructural desde la anotacion v2 (docs/especificacion_m3.md). Pesos de cada
+# bloque en la disimilitud mixta D(i, j); valores iniciales iguales, ajustables solo en desarrollo.
+[m3.pesos]
+composicion = 1.0
+bandas = 1.0
+adyacencias = 1.0
+borde = 1.0
+centro = 1.0
+simetria = 1.0
+repeticion = 1.0
+motivos = 1.0
+familia_iconografica = 1.0

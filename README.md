@@ -100,6 +100,7 @@ python -m src.anotacion.acuerdo                  # acuerdo entre la primera anot
 
 # Sistemas de recuperacion (docs/protocolo_experimental_v2.md); dependencias opcionales:
 #   pip install -r requirements-modelos.txt
+python -m src.modelos.m1_vision                  # M1: color Lab y textura LBP del textil (solo numpy y Pillow)
 python -m src.modelos.m2_openclip                # M2: embeddings OpenCLIP de las copias de evaluacion (CPU)
 
 # Grupos de piezas relacionadas (unidad de particion del protocolo)
@@ -150,6 +151,7 @@ python -m src.imagenes.informe_aptitud         # una galería por banda de aptit
 | `docs/fuentes.md` | Fuentes incluidas, extracción y fuentes descartadas |
 | `docs/protocolo_aptitud_v2.md` | Criterio de selección v2, etapas, medidas, puntaje y validación |
 | `docs/protocolo_anotacion_v2.md` | Anotación estructural del principal v2: capas, bandas, estados, regla de los treinta segundos, muestra del núcleo y acuerdo intra-anotador |
+| `docs/especificacion_m3.md` | Descriptor estructural M3: palabra de bandas canónica, adyacencias, máscara de observabilidad, disimilitud mixta y sus propiedades |
 | `docs/protocolo_experimental_v2.md` | Experimento de recuperación estructural (Seminario II): hipótesis, galería, tareas, sistemas M0–M4, particiones, juicios, métricas y criterios de suspensión del test |
 | `docs/met_protocolo_fuente_v2.md`, `docs/cma/cma_source_protocol.md` | Protocolo y cadena de curación por fuente |
 | `docs/corpus/` | Ficha, protocolo, taxonomía, guía de anotación, trazabilidad y uso ético del consolidado v1 |
