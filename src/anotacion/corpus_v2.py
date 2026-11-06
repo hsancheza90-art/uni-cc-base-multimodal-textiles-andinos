@@ -49,6 +49,16 @@ from src.utils.vocabulario import Campo, leer_vocabulario
 
 SALIDA_PRINCIPAL_V2 = "data/processed/corpus_textiles_andinos_v2_principal.csv"
 SALIDA_REPORTE = "outputs/reports/corpus_textiles_andinos_v2_principal_resumen.md"
+# Complementario v2: los secundarios revisados de las tres fuentes, con el mismo esquema
+# (en los workbooks, «secundario»; en el consolidado, «complementario»).
+SALIDA_COMPLEMENTARIO_V2 = "data/processed/corpus_textiles_andinos_v2_complementario.csv"
+SALIDA_REPORTE_COMPLEMENTARIO = "outputs/reports/corpus_textiles_andinos_v2_complementario_resumen.md"
+# subconjunto de los workbooks -> (salida, informe, titulo, prefijo de imagen compartida, decision_curacion_final)
+CONJUNTOS = {
+    "principal": (SALIDA_PRINCIPAL_V2, SALIDA_REPORTE, "Corpus principal v2", "DUP", "principal"),
+    "secundario": (SALIDA_COMPLEMENTARIO_V2, SALIDA_REPORTE_COMPLEMENTARIO, "Corpus complementario v2", "DUPC",
+                   "complementario"),
+}
 
 # Columnas de la ficha de aptitud que acompañan al registro (src/imagenes/aptitud.py).
 COLUMNAS_APTITUD = ["puntaje_aptitud", "banda_sugerida", "referencia_sugerida"]
@@ -183,7 +193,8 @@ def campos_aic(rev: dict[str, str], org: dict[str, str]) -> dict[str, str]:
 CAMPOS_FUENTE = {"MET": campos_met, "CMA": campos_cma, "AIC": campos_aic}
 
 
-def registro(codigo: str, rev: dict[str, str], org: dict[str, str], archivo: str) -> dict[str, str]:
+def registro(codigo: str, rev: dict[str, str], org: dict[str, str], archivo: str, decision: str = "principal"
+             ) -> dict[str, str]:
     fila = {campo: "" for campo in COLUMNAS}
     fila.update({
         "id_global": f"{codigo}:{rev['id_fuente']}",
@@ -194,7 +205,7 @@ def registro(codigo: str, rev: dict[str, str], org: dict[str, str], archivo: str
         "tipo_objeto": rev["tipo_objeto"],
         "tipo_superficie": rev["tipo_superficie"],
         "material_normalizado": rev["material_normalizado"],
-        "decision_curacion_final": "principal",
+        "decision_curacion_final": decision,
         "motivo_curacion_final": primero(rev["motivo_curacion"], rev["motivo_revision"]),
         "decision_auditoria": rev["decision_revision"],
         "motivo_auditoria": rev["motivo_revision"],
@@ -237,8 +248,9 @@ def completar_imagen(fila: dict[str, str], imagen: dict[str, str] | None, lado_m
     fila["imagen_sha256_pixeles"] = ""  # agrupar_duplicados lo consulta; el manifiesto v2 no lo registra
 
 
-def construir_registros(raiz: Path) -> tuple[list[dict[str, str]], list[tuple[str, str, str]], list[str]]:
-    """Registros armonizados del principal v2, valores descartados por vocabulario y problemas de integridad."""
+def construir_registros(raiz: Path, subconjunto: str = "principal"
+                        ) -> tuple[list[dict[str, str]], list[tuple[str, str, str]], list[str]]:
+    """Registros armonizados de un subconjunto v2, valores descartados por vocabulario y problemas de integridad."""
     vocabulario = leer_vocabulario(raiz)
     por_fuente = origenes(raiz)
     lado_minimo = int(leer_config(raiz)["consolidado"]["parametros"]["lado_minimo_imagen"])
@@ -249,13 +261,13 @@ def construir_registros(raiz: Path) -> tuple[list[dict[str, str]], list[tuple[st
     descartados: list[tuple[str, str, str]] = []
     problemas: list[str] = []
     for codigo, fuente in FUENTES.items():
-        archivo = fuente.salidas["principal"]
+        archivo = fuente.salidas[subconjunto]
         for rev in leer_csv(raiz / archivo):
             org = por_fuente[codigo].get(rev["id_fuente"])
             if org is None:
                 problemas.append(f"{codigo}:{rev['id_fuente']}: no esta en el registro de origen de la fuente")
                 continue
-            fila = registro(codigo, rev, org, archivo)
+            fila = registro(codigo, rev, org, archivo, CONJUNTOS[subconjunto][4])
             descartados += descartar_fuera_de_vocabulario(fila, vocabulario)
             normalizar_campos(fila, vocabulario)
             completar_imagen(fila, manifiesto.get(fila["id_global"]), lado_minimo)
@@ -267,7 +279,7 @@ def construir_registros(raiz: Path) -> tuple[list[dict[str, str]], list[tuple[st
             registros.append(fila)
 
     registros.sort(key=clave_orden)
-    marcar_duplicados(registros, clave_orden)
+    marcar_duplicados(registros, clave_orden, CONJUNTOS[subconjunto][3])
     return registros, descartados, problemas + validar(registros, vocabulario)
 
 
@@ -291,20 +303,22 @@ def validar(registros: list[dict[str, str]], vocabulario: dict[str, Campo]) -> l
 # --------------------------------------------------------------------------- informe
 
 
-def lineas_reporte(registros: list[dict[str, str]], descartados: list[tuple[str, str, str]]) -> list[str]:
+def lineas_reporte(registros: list[dict[str, str]], descartados: list[tuple[str, str, str]],
+                   subconjunto: str = "principal") -> list[str]:
     fuentes = list(FUENTES)
+    salida, _, titulo, _, _ = CONJUNTOS[subconjunto]
     de = {codigo: [f for f in registros if f["fuente"] == codigo] for codigo in fuentes}
     lineas = [
-        "# Corpus principal v2 (MET, CMA y AIC)",
+        f"# {titulo} (MET, CMA y AIC)",
         "",
         "Resumen generado por `python -m src.flujo` (`src/anotacion/corpus_v2.py`). Archivo: "
-        f"`{SALIDA_PRINCIPAL_V2}`, con el esquema de `docs/esquema_consolidado_met_cma_v1.md` y tres columnas "
+        f"`{salida}`, con el esquema de `docs/esquema_consolidado_met_cma_v1.md` y tres columnas "
         "de aptitud al final.",
         "",
         "## Registros",
         "",
     ]
-    filas = [[codigo, str(len(de[codigo])), FUENTES[codigo].salidas["principal"]] for codigo in fuentes]
+    filas = [[codigo, str(len(de[codigo])), FUENTES[codigo].salidas[subconjunto]] for codigo in fuentes]
     lineas += tabla(filas + [["Total", str(len(registros)), ""]], ["Fuente", "Registros", "CSV revisado"])
 
     sin_aptitud = [f["id_global"] for f in registros if not f["banda_sugerida"]]
@@ -417,17 +431,18 @@ def lineas_reporte(registros: list[dict[str, str]], descartados: list[tuple[str,
 
 
 def construir(raiz: Path) -> int:
-    registros, descartados, problemas = construir_registros(raiz)
-    if problemas:
-        print("Problemas en el corpus principal v2:")
-        for problema in problemas:
-            print(f"- {problema}")
-        return 1
-    escribir_csv(raiz / SALIDA_PRINCIPAL_V2, COLUMNAS_V2, [{c: f[c] for c in COLUMNAS_V2} for f in registros])
-    escribir_texto(raiz / SALIDA_REPORTE, lineas_reporte(registros, descartados))
-    conteo = Counter(f["fuente"] for f in registros)
-    print(f"Corpus principal v2: {len(registros)} registros ({', '.join(f'{c} {conteo[c]}' for c in FUENTES)})")
-    print(f"Salida: {raiz / SALIDA_PRINCIPAL_V2}")
+    for subconjunto, (salida, reporte, titulo, _, _) in CONJUNTOS.items():
+        registros, descartados, problemas = construir_registros(raiz, subconjunto)
+        if problemas:
+            print(f"Problemas en el {titulo.lower()}:")
+            for problema in problemas:
+                print(f"- {problema}")
+            return 1
+        escribir_csv(raiz / salida, COLUMNAS_V2, [{c: f[c] for c in COLUMNAS_V2} for f in registros])
+        escribir_texto(raiz / reporte, lineas_reporte(registros, descartados, subconjunto))
+        conteo = Counter(f["fuente"] for f in registros)
+        print(f"{titulo}: {len(registros)} registros ({', '.join(f'{c} {conteo[c]}' for c in FUENTES)})")
+        print(f"Salida: {raiz / salida}")
     return 0
 
 

@@ -82,6 +82,30 @@ COLUMNAS_MANIFIESTO_EVALUACION = [
 Image.MAX_IMAGE_PIXELS = 400_000_000
 
 
+def sha256_archivo(ruta: Path) -> str:
+    digest = hashlib.sha256()
+    with ruta.open("rb") as archivo:
+        for bloque in iter(lambda: archivo.read(1 << 20), b""):
+            digest.update(bloque)
+    return digest.hexdigest()
+
+
+def imagenes_verificadas(raiz: Path) -> tuple[list[dict[str, str]], list[str]]:
+    """Filas del manifiesto con descarga ok cuya copia existe y coincide con su SHA-256, y los errores."""
+    filas, errores = [], []
+    for fila in leer_csv(raiz / MANIFIESTO_EVALUACION):
+        if fila["estado_descarga"] != "ok":
+            continue
+        ruta = raiz / fila["ruta_copia_evaluacion"]
+        if not ruta.is_file():
+            errores.append(f"{fila['id_global']}: falta {fila['ruta_copia_evaluacion']}")
+        elif sha256_archivo(ruta) != fila["sha256_copia"]:
+            errores.append(f"{fila['id_global']}: la copia no coincide con sha256_copia del manifiesto")
+        else:
+            filas.append(fila)
+    return filas, errores
+
+
 def candidatos_evaluacion(raiz: Path) -> list[dict]:
     """Todos los candidatos evaluados de las tres fuentes, con sus URL en orden de preferencia."""
     candidatos: list[dict] = []

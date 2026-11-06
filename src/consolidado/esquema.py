@@ -144,3 +144,14 @@ OBLIGATORIOS = [
     "estado_imagen",
     "archivo_origen",
 ]
+
+# Consolidado v2 (src/consolidado/consolidado_v2.py): el esquema de la v1, la ficha de aptitud y
+# el grupo de piezas relacionadas (src/grupos/grupos.py). La fuente puede ser tambien AIC.
+ESQUEMA_V2_EXTRA: list[tuple[str, str, str]] = [
+    ("puntaje_aptitud", "imagen", "Puntaje de aptitud de la imagen (0-100; src/imagenes/aptitud.py). Apoyo exploratorio, rotulado como validacion de desarrollo."),
+    ("banda_sugerida", "imagen", "Banda sugerida por el puntaje de aptitud: principal, revisar, secundario o descartar. Es una sugerencia, no una decision."),
+    ("referencia_sugerida", "imagen", "si si el puntaje sugiere que es una imagen de referencia (completa y verificable en la foto)."),
+    ("grupo", "relaciones", "Grupo de piezas relacionadas (mismo objeto, vistas, partes o fragmentos) decidido por el revisor en data/metadata/grupos_revision_v2.xlsx; unidad de particion del protocolo experimental."),
+    ("tamano_grupo", "relaciones", "Numero de piezas del consolidado v2 en el grupo."),
+]
+COLUMNAS_CONSOLIDADO_V2: list[str] = COLUMNAS + [campo for campo, _, _ in ESQUEMA_V2_EXTRA]

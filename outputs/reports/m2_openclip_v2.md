@@ -22,4 +22,4 @@ Generado por `python -m src.modelos.m2_openclip` (`src/modelos/m2_openclip.py`),
 | Normas de las filas guardadas | 0.999999 a 1.000001 | si |
 | Determinismo: dos pasadas sobre 32 imagenes, diferencia maxima | 0.0e+00 (tolerancia 1e-05) | si |
 
-El informe no muestra rankings ni vecinos: la galeria del protocolo (el nucleo) se juzga a ciegas. Los candidatos a duplicado salen en `outputs/reports/m2_candidatos_duplicado_v2.md`, solo con conteos.
+El informe no muestra rankings ni vecinos: la galeria del protocolo (el nucleo) se juzga a ciegas. Los embeddings tambien proponen candidatos a duplicado para los grupos v2 (`outputs/reports/grupos_v2.md`).

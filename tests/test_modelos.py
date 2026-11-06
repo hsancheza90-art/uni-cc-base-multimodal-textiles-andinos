@@ -11,7 +11,6 @@ from PIL import Image
 
 from src.anotacion.corpus_v2 import SALIDA_PRINCIPAL_V2
 from src.imagenes.descargar_evaluacion import MANIFIESTO_EVALUACION
-from src.modelos import candidatos_duplicado
 from src.modelos.embeddings import (
     EMBEDDINGS_M2,
     INDICE_M2,
@@ -22,10 +21,10 @@ from src.modelos.embeddings import (
     pares_sobre_umbral,
     vecino_mas_cercano,
 )
-from src.modelos.m2_openclip import relleno_cuadrado, sha256_archivo
+from src.imagenes.descargar_evaluacion import sha256_archivo
+from src.modelos.m2_openclip import relleno_cuadrado
 from src.utils.archivos import escribir_csv, leer_csv
 from src.utils.config import RAIZ_REPO, leer_config_modelos
-from tests.insumos import copiar_insumos
 
 
 def test_relleno_cuadrado_centra_la_imagen_sobre_el_color_mediano_del_borde() -> None:
@@ -65,7 +64,7 @@ def test_indice_y_matriz_deben_coincidir(tmp_path: Path) -> None:
 def test_config_de_m2_es_coherente() -> None:
     m2 = leer_config_modelos()["m2"]
     assert m2["encuadre"] in {"relleno_cuadrado", "centro"} and m2["precision"] == "fp32"
-    assert 0 < m2["duplicados"]["umbral_coseno"] <= 1
+    assert m2["licencia_pesos"] and m2["repositorio_pesos"].startswith("laion/")
 
 
 # --------------------------------------------------------------------------- insumos versionados
@@ -96,20 +95,3 @@ def test_manifiesto_m2_registra_el_checkpoint_y_los_hashes_de_sus_salidas() -> N
     assert manifiesto["sha256_indice"] == sha256_archivo(RAIZ_REPO / INDICE_M2)
 
 
-@requiere_m2
-def test_candidatos_m2_se_regeneran_y_no_revelan_pares_en_el_informe(tmp_path: Path) -> None:
-    copiar_insumos(tmp_path, ["config/modelos.toml", SALIDA_PRINCIPAL_V2, EMBEDDINGS_M2.as_posix(), INDICE_M2.as_posix()])
-    assert candidatos_duplicado.main(["--root", str(tmp_path)]) == 0
-    for relativa in (candidatos_duplicado.SALIDA_CANDIDATOS, candidatos_duplicado.REPORTE_CANDIDATOS):
-        assert (tmp_path / relativa).read_bytes() == (RAIZ_REPO / relativa).read_bytes()
-    pares = leer_csv(tmp_path / candidatos_duplicado.SALIDA_CANDIDATOS)
-    umbral = leer_config_modelos()["m2"]["duplicados"]["umbral_coseno"]
-    assert all(float(p["coseno"]) >= umbral - 5e-5 and p["id_a"] < p["id_b"] for p in pares)
-    reporte = (tmp_path / candidatos_duplicado.REPORTE_CANDIDATOS).read_text(encoding="utf-8")
-    assert not any(p["id_a"] in reporte or p["id_b"] in reporte for p in pares)
-
-
-def test_sin_embeddings_los_candidatos_no_hacen_nada(tmp_path: Path) -> None:
-    copiar_insumos(tmp_path, ["config/modelos.toml"])
-    assert candidatos_duplicado.main(["--root", str(tmp_path)]) == 0
-    assert not (tmp_path / candidatos_duplicado.SALIDA_CANDIDATOS).exists()

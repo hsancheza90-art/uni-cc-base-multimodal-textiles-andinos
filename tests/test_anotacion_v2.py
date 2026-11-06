@@ -31,7 +31,7 @@ def insumos_corpus_v2() -> list[str]:
     return [
         "config/corpus.toml",
         "config/vocabulario.toml",
-        *(fuente.salidas["principal"] for fuente in FUENTES.values()),
+        *(fuente.salidas[s] for fuente in FUENTES.values() for s in ("principal", "secundario")),
         *(fuente.candidatos for fuente in FUENTES.values() if fuente.candidatos),
         *base_met,
         MANIFIESTO_EVALUACION,
@@ -55,7 +55,8 @@ def repo_v2(tmp_path: Path) -> Path:
 
 def test_corpus_v2_se_regenera_identico(repo_v2: Path) -> None:
     assert corpus_v2.main(["--root", str(repo_v2)]) == 0
-    for relativa in (corpus_v2.SALIDA_PRINCIPAL_V2, corpus_v2.SALIDA_REPORTE):
+    for relativa in (corpus_v2.SALIDA_PRINCIPAL_V2, corpus_v2.SALIDA_REPORTE, corpus_v2.SALIDA_COMPLEMENTARIO_V2,
+                     corpus_v2.SALIDA_REPORTE_COMPLEMENTARIO):
         assert (repo_v2 / relativa).read_bytes() == (RAIZ_REPO / relativa).read_bytes(), relativa
 
 

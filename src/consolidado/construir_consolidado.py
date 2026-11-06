@@ -395,14 +395,14 @@ def completar(
     marcar_duplicados(registros, clave_orden)
 
 
-def marcar_duplicados(registros: list[dict[str, str]], orden: Callable[[dict[str, str]], tuple]) -> None:
+def marcar_duplicados(registros: list[dict[str, str]], orden: Callable[[dict[str, str]], tuple], prefijo: str = "DUP") -> None:
     """Numera los grupos de imagen compartida (DUP-001...) en el orden de los registros y lo anota en observaciones."""
     por_id = {fila["id_global"]: fila for fila in registros}
     grupos = sorted(agrupar_duplicados(registros).values(), key=lambda ids: orden(por_id[ids[0]]))
     for numero, ids in enumerate(grupos, start=1):
         for id_global in ids:
             fila = por_id[id_global]
-            fila["grupo_imagen_duplicada"] = f"DUP-{numero:03d}"
+            fila["grupo_imagen_duplicada"] = f"{prefijo}-{numero:03d}"
             otros = ", ".join(otro for otro in ids if otro != id_global)
             fila["observaciones"] = f"Comparte imagen con {otros}."
 

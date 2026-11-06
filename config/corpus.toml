@@ -72,6 +72,12 @@ descripcion = "Corpus principal v2 armonizado (src/anotacion/corpus_v2.py): unio
 # coincidir con la suma de met.revisado, cma.revisado y aic.revisado (principal).
 principal = { ruta = "data/processed/corpus_textiles_andinos_v2_principal.csv", filas = 462 }
 
+[corpus_v2.complementario]
+descripcion = "Corpus complementario v2 (src/anotacion/corpus_v2.py): union de los secundarios revisados"
+# 2026-11-06: primera construccion, para el consolidado v2 y los grupos de duplicados. MET 25 + CMA 4 + AIC 124; debe
+# coincidir con la suma de met.revisado, cma.revisado y aic.revisado (secundario).
+complementario = { ruta = "data/processed/corpus_textiles_andinos_v2_complementario.csv", filas = 153 }
+
 [corpus_v2.anotacion]
 descripcion = "Nucleo de anotacion v2 (src/anotacion/nucleo.py, parametros en config/anotacion.toml)"
 # 2026-10-20: muestra estratificada de 150 piezas del principal v2 (MET 42, CMA 34, AIC 74) en 5 lotes de 30,
@@ -86,9 +92,26 @@ anotadas = { ruta = "data/metadata/anotaciones_v2.csv", filas = 150 }
 descripcion = "M2, OpenCLIP congelado (src/modelos/m2_openclip.py, fuera del flujo; parametros en config/modelos.toml)"
 # 2026-11-05: embeddings de las 873 copias de evaluacion descargadas (MET:312615 no tiene imagen), en CPU.
 indice = { ruta = "data/metadata/m2_openclip_indice_v2.csv", filas = 873 }
-# 2026-11-05: pares del principal v2 con coseno >= 0,95 (src/modelos/candidatos_duplicado.py): 12 son los pares de
-# imagen compartida ya conocidos (grupo_imagen_duplicada) y 13 son candidatos nuevos para el workbook de grupos (S1.7).
-candidatos = { ruta = "data/metadata/m2_candidatos_duplicado_v2.csv", filas = 25 }
+
+[grupos.v2]
+descripcion = "Grupos de piezas relacionadas del principal y el complementario v2 (src/grupos/grupos.py; config/grupos.toml)"
+# 2026-11-05: dHash de las 873 copias de evaluacion (src/imagenes/dhash_evaluacion.py, fuera del flujo).
+dhash = { ruta = "data/metadata/imagenes_evaluacion_dhash_v2.csv", filas = 873 }
+# 2026-11-05: 87 pares del principal, propuestos por imagen identica, inventario con sufijo de parte, descripcion
+# identica, dHash y M2 (un par puede tener varias senales); reemplazan los candidatos solo de M2 (25 pares).
+# 2026-11-06: el alcance se extiende al complementario (decision del revisor): 13 pares nuevos, ninguno con piezas del
+# nucleo; los 87 anteriores no cambian.
+candidatos = { ruta = "data/metadata/grupos_candidatos_v2.csv", filas = 100 }
+# Una fila por pieza del principal (462) y del complementario (153). El numero de grupos lo da outputs/reports/grupos_v2.md.
+piezas = { ruta = "data/metadata/grupos_v2.csv", filas = 615 }
+
+[consolidado_v2.salidas]
+descripcion = "Consolidado v2 MET+CMA+AIC (src/consolidado/consolidado_v2.py): principal y complementario v2"
+# 2026-11-06: primera construccion (decision del revisor: grupos tambien en el complementario; anotacion en la v2.1).
+# 462 principal + 153 complementario; la serie v1 no cambia.
+consolidado = { ruta = "data/processed/corpus_textiles_andinos_met_cma_aic_v2_consolidado.csv", filas = 615 }
+fuentes_licencias = { ruta = "data/processed/corpus_textiles_andinos_met_cma_aic_v2_fuentes_licencias.csv", filas = 3 }
+manifiesto_imagenes = { ruta = "data/metadata/imagenes_manifiesto_met_cma_aic_v2.csv", filas = 615 }
 
 [consolidado.conteos]
 # Principal y complementario de MET v2 revisado y CMA v2 revisado.

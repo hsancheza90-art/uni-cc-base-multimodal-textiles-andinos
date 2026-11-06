@@ -26,8 +26,6 @@ de las piezas alargadas. No muestra rankings: la galería del protocolo se juzga
 from __future__ import annotations
 
 import argparse
-import hashlib
-import json
 import platform
 import sys
 import time
@@ -38,7 +36,7 @@ from typing import Any
 import numpy as np
 from PIL import Image
 
-from src.imagenes.descargar_evaluacion import MANIFIESTO_EVALUACION
+from src.imagenes.descargar_evaluacion import imagenes_verificadas, sha256_archivo
 from src.modelos.embeddings import (
     COLUMNAS_INDICE,
     EMBEDDINGS_M2,
@@ -47,19 +45,11 @@ from src.modelos.embeddings import (
     normalizar_l2,
     redondear,
 )
-from src.utils.archivos import escribir_csv, escribir_json, escribir_texto, leer_csv
+from src.utils.archivos import escribir_csv, escribir_json, escribir_texto
 from src.utils.config import CONFIG_MODELOS, leer_config_modelos
 
 REPORTE_M2 = "outputs/reports/m2_openclip_v2.md"
 PAQUETES = ["torch", "torchvision", "open_clip_torch", "transformers", "huggingface_hub", "numpy", "Pillow"]
-
-
-def sha256_archivo(ruta: Path) -> str:
-    digest = hashlib.sha256()
-    with ruta.open("rb") as archivo:
-        for bloque in iter(lambda: archivo.read(1 << 20), b""):
-            digest.update(bloque)
-    return digest.hexdigest()
 
 
 def relleno_cuadrado(imagen: Image.Image) -> Image.Image:
@@ -75,22 +65,6 @@ def relleno_cuadrado(imagen: Image.Image) -> Image.Image:
     cuadrado = Image.new("RGB", (lado, lado), color)
     cuadrado.paste(imagen, ((lado - ancho) // 2, (lado - alto) // 2))
     return cuadrado
-
-
-def imagenes_verificadas(raiz: Path) -> tuple[list[dict[str, str]], list[str]]:
-    """Filas del manifiesto con descarga ok cuya copia existe y coincide con su SHA-256."""
-    filas, errores = [], []
-    for fila in leer_csv(raiz / MANIFIESTO_EVALUACION):
-        if fila["estado_descarga"] != "ok":
-            continue
-        ruta = raiz / fila["ruta_copia_evaluacion"]
-        if not ruta.is_file():
-            errores.append(f"{fila['id_global']}: falta {fila['ruta_copia_evaluacion']}")
-        elif sha256_archivo(ruta) != fila["sha256_copia"]:
-            errores.append(f"{fila['id_global']}: la copia no coincide con sha256_copia del manifiesto")
-        else:
-            filas.append(fila)
-    return filas, errores
 
 
 # --------------------------------------------------------------------------- modelo (torch)
@@ -189,7 +163,7 @@ def lineas_reporte(manifiesto: dict[str, Any], comprobaciones: list[tuple[str, s
     lineas += [
         "",
         "El informe no muestra rankings ni vecinos: la galeria del protocolo (el nucleo) se juzga a ciegas. Los "
-        "candidatos a duplicado salen en `outputs/reports/m2_candidatos_duplicado_v2.md`, solo con conteos.",
+        "embeddings tambien proponen candidatos a duplicado para los grupos v2 (`outputs/reports/grupos_v2.md`).",
     ]
     return lineas
 

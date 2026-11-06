@@ -1,0 +1,38 @@
+# Grupos de piezas relacionadas del principal v2 (src/grupos/grupos.py; S1.7 y S2.2 del plan de
+# cierre). Un grupo reune registros que muestran el mismo objeto o partes de el: es la unidad de
+# particion del protocolo experimental (docs/protocolo_experimental_v2.md, seccion 2). Cada cambio
+# se comenta con su fecha y su motivo, como en config/corpus.toml.
+
+[candidatos]
+# Senales que proponen un par para la decision del revisor. Ninguna une por si sola, salvo la
+# imagen identica (ver [decisiones]). Alcance: el principal v2 (decision del revisor, 2026-11-05)
+# y, desde el 2026-11-06, tambien el complementario v2, para el consolidado v2.
+#
+# dHash de la copia de evaluacion (data/metadata/imagenes_evaluacion_dhash_v2.csv): distancia de
+# Hamming maxima entre los 64 bits. 4 es el umbral del consolidado v1 ([consolidado.parametros]
+# de config/corpus.toml), para que las dos versiones usen el mismo criterio.
+umbral_dhash = 4
+# M2 (embeddings OpenCLIP versionados): coseno minimo. 0,95 lista solo imagenes casi iguales, de
+# modo que el workbook no muestre al evaluador rankings de la galeria (protocolo, seccion 6,
+# salvaguarda 2). Entre museos un mismo textil suele estar fotografiado de otra forma: ahi basta
+# 0,93 (decision del revisor, 2026-11-05).
+umbral_coseno = 0.95
+umbral_coseno_entre_museos = 0.93
+# Descripcion curatorial identica: solo si tiene al menos estos caracteres, para no unir fichas
+# breves y genericas. Los titulos no se usan («Fragment» es generico; informe 08 de la auditoria).
+longitud_minima_descripcion = 40
+
+[decisiones]
+# Codigos de la columna decision del workbook data/metadata/grupos_revision_v2.xlsx.
+#   unir       el revisor confirma que es el mismo objeto (misma foto, vistas, partes o fragmentos).
+#   separar    son objetos distintos.
+#   no_seguro  no se puede decidir: cuenta como unir, para que dos vistas de un mismo objeto no
+#              queden una en desarrollo y otra en prueba (decision del revisor, 2026-11-05).
+unir = ["unir", "no_seguro"]
+separar = ["separar"]
+# Tipo de relacion (opcional) cuando se une.
+relaciones = ["misma_imagen", "vistas_mismo_objeto", "partes_mismo_objeto", "fragmentos_misma_pieza", "otra"]
+# Un par con imagen identica (misma copia de evaluacion o mismo grupo_imagen_duplicada) entra al
+# workbook como unir con revisor = auto: dos registros con la misma foto no pueden quedar en
+# particiones distintas. El revisor puede corregirlo.
+auto_unir_imagen_identica = true

@@ -48,6 +48,24 @@ def leer_config_anotacion(raiz: Path = RAIZ_REPO) -> dict[str, Any]:
         return tomllib.load(archivo)
 
 
+CONFIG_GRUPOS = Path("config/grupos.toml")
+
+
+def leer_config_grupos(raiz: Path = RAIZ_REPO) -> dict[str, Any]:
+    """Parametros de los grupos v2: senales de candidatos y codigos de decision."""
+    with (raiz / CONFIG_GRUPOS).open("rb") as archivo:
+        return tomllib.load(archivo)
+
+
+CONFIG_EXPERIMENTO = Path("config/experimento.toml")
+
+
+def leer_config_experimento(raiz: Path = RAIZ_REPO) -> dict[str, Any]:
+    """Parametros del experimento: particiones, consultas, juicios y metricas (protocolo experimental v2)."""
+    with (raiz / CONFIG_EXPERIMENTO).open("rb") as archivo:
+        return tomllib.load(archivo)
+
+
 CONFIG_MODELOS = Path("config/modelos.toml")
 
 

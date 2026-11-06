@@ -22,6 +22,10 @@ Conteos del corpus v2 en curso al 2026-10-20. La fuente de verdad es `config/cor
 
 Van al corpus principal los textiles cuyos colores y figuras se identifican a primera vista, estén completos o no; si además el textil está completo y se verifica en la fotografía, es una imagen de referencia para el estudio. Secundario: la imagen no permite identificar bien colores o formas. Descarte: no sirve o no es pertinente (plumaria, muñecos, piezas posteriores a 1532, objetos no textiles o no andinos). El procedimiento, las medidas de imagen que lo apoyan y su validación están en `docs/protocolo_aptitud_v2.md`.
 
+### Corpus consolidado v2 (MET, CMA y AIC)
+
+El consolidado v2 (`data/processed/corpus_textiles_andinos_met_cma_aic_v2_consolidado.csv`, etiqueta `corpus-met-cma-aic-v2.0`) une el principal y el complementario v2 de las tres fuentes con el esquema de la v1, la ficha de aptitud y el grupo de piezas relacionadas de cada registro. Resumen en `outputs/reports/corpus_textiles_andinos_met_cma_aic_v2_resumen.md`; esquema en `docs/esquema_consolidado_met_cma_aic_v2.md`. Los conteos están en `config/corpus.toml`.
+
 ### Corpus consolidado MET+CMA v1 (congelado)
 
 El respaldo del primer avance de tesis es el consolidado MET+CMA v1 (etiqueta `corpus-met-cma-v1.2`): 288 registros, 214 en el principal y 74 en el complementario, con el esquema armonizado de los Cuadros 6.1 y 6.8. Se regenera idéntico desde copias congeladas de sus entradas (`data/metadata/v1_congelado/`), de modo que los cambios de la v2 no lo alteran.
@@ -53,7 +57,7 @@ python -m src.flujo     # regenera todas las salidas y verifica los conteos de c
 pytest                  # comprueba que la regeneración coincide con lo versionado (mismo texto, finales LF)
 ```
 
-El flujo aplica la revisión manual de cada fuente (workbooks `data/metadata/*_revision_manual_v2.xlsx`), calibra el puntaje de aptitud con las decisiones del revisor en AIC, MET y CMA, puntúa todas las imágenes, valida la anotación manual, construye el consolidado v1, arma el corpus principal v2 de las tres fuentes (`data/processed/corpus_textiles_andinos_v2_principal.csv`), regenera el núcleo de anotación v2 (`data/metadata/nucleo_anotacion_v2.csv`), valida y exporta la anotación v2 (`data/metadata/anotaciones_v2.csv`, informe `outputs/reports/anotacion_v2_validacion.md`), lista los candidatos a duplicado según los embeddings versionados de M2 (`data/metadata/m2_candidatos_duplicado_v2.csv`) y mide el acuerdo intra-anotador de la anotación v2 (`outputs/reports/anotacion_acuerdo_v2.md`). Termina con código distinto de cero si algún paso o conteo falla; tras un cambio curatorial eso es lo esperado: se actualiza `config/corpus.toml` y se documenta el motivo.
+El flujo aplica la revisión manual de cada fuente (workbooks `data/metadata/*_revision_manual_v2.xlsx`), calibra el puntaje de aptitud con las decisiones del revisor en AIC, MET y CMA, puntúa todas las imágenes, valida la anotación manual, construye el consolidado v1, arma el corpus principal v2 de las tres fuentes (`data/processed/corpus_textiles_andinos_v2_principal.csv`), regenera el núcleo de anotación v2 (`data/metadata/nucleo_anotacion_v2.csv`), valida y exporta la anotación v2 (`data/metadata/anotaciones_v2.csv`, informe `outputs/reports/anotacion_v2_validacion.md`), arma el complementario v2 (`data/processed/corpus_textiles_andinos_v2_complementario.csv`), propone candidatos a duplicado y arma los grupos de piezas relacionadas con las decisiones del revisor (`data/metadata/grupos_v2.csv`, informe `outputs/reports/grupos_v2.md`), construye el consolidado v2 MET+CMA+AIC (`data/processed/corpus_textiles_andinos_met_cma_aic_v2_consolidado.csv`, esquema en `docs/esquema_consolidado_met_cma_aic_v2.md`) y mide el acuerdo intra-anotador de la anotación v2 (`outputs/reports/anotacion_acuerdo_v2.md`). Termina con código distinto de cero si algún paso o conteo falla; tras un cambio curatorial eso es lo esperado: se actualiza `config/corpus.toml` y se documenta el motivo.
 
 ## Trazabilidad del proceso
 
@@ -96,7 +100,11 @@ python -m src.anotacion.acuerdo                  # acuerdo entre la primera anot
 
 # Sistemas de recuperacion (docs/protocolo_experimental_v2.md); dependencias opcionales:
 #   pip install -r requirements-modelos.txt
-python -m src.modelos.m2_openclip                # M2: embeddings OpenCLIP de las copias de evaluacion (GPU; --dispositivo cpu)
+python -m src.modelos.m2_openclip                # M2: embeddings OpenCLIP de las copias de evaluacion (CPU)
+
+# Grupos de piezas relacionadas (unidad de particion del protocolo)
+python -m src.imagenes.dhash_evaluacion          # dHash de las copias de evaluacion (insumo versionado)
+python -m src.grupos.workbook                    # crea o actualiza data/metadata/grupos_revision_v2.xlsx y la galeria de pares
 
 # Galerías HTML de revisión (locales, no se versionan)
 python -m src.review.galerias --fuente met     # una galería por decisión del workbook (también cma o aic)
@@ -159,7 +167,7 @@ No se recomienda usar este corpus para comercializar motivos patrimoniales, repr
 - `corpus-met-cma-v1.0`: primer consolidado MET+CMA (288 registros).
 - `corpus-met-cma-v1.1`: MET:312615 a complementario; tipo de objeto, material y técnica normalizados con origen.
 - `corpus-met-cma-v1.2`: vocabulario controlado, flujo de anotación, documentación del corpus y 9 registros MET pendientes. **Respaldo del primer avance.**
-- En curso: corpus v2 MET+CMA+AIC con el criterio de aptitud analítica; se congelará como `corpus-met-cma-aic-v2.0`.
+- `corpus-met-cma-aic-v2.0`: consolidado v2 MET+CMA+AIC (principal y complementario), curado con el criterio de aptitud analítica, con grupos de piezas relacionadas decididos por el revisor, licencias por fuente, manifiesto de imágenes y SHA-256 (`data/processed/corpus_textiles_andinos_met_cma_aic_v2_*`). Sin anotación estructural: entra en la v2.1. Incluye las particiones y las consultas congeladas del protocolo experimental.
 
 Versiones anteriores: `v1.0-corpus-met-textiles-andinos` (corpus MET v1 con notebooks) y `archivo/cma-v1` (primera curación CMA).
 

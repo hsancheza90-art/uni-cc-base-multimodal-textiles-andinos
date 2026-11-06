@@ -45,6 +45,9 @@ INSUMOS = [
     "config/modelos.toml",
     "data/metadata/m2_openclip_embeddings_v2.npy",
     "data/metadata/m2_openclip_indice_v2.csv",
+    "config/grupos.toml",
+    "data/metadata/imagenes_evaluacion_dhash_v2.csv",
+    "data/metadata/grupos_revision_v2.xlsx",
     "data/metadata/v1_congelado/met_corpus_principal_v2_revisado.csv",
     "data/metadata/v1_congelado/met_corpus_secundario_v2_revisado.csv",
     "data/metadata/v1_congelado/cma_corpus_principal_revisado.csv",
@@ -73,7 +76,11 @@ REPORTES = [
     "outputs/reports/nucleo_anotacion_v2.md",
     "outputs/reports/anotacion_v2_validacion.md",
     "outputs/reports/anotacion_acuerdo_v2.md",
-    "outputs/reports/m2_candidatos_duplicado_v2.md",
+    "outputs/reports/grupos_v2.md",
+    "outputs/reports/corpus_textiles_andinos_v2_complementario_resumen.md",
+    "outputs/reports/corpus_textiles_andinos_met_cma_aic_v2_resumen.md",
+    "docs/esquema_consolidado_met_cma_aic_v2.md",
+    "data/processed/corpus_textiles_andinos_met_cma_aic_v2_sha256.txt",
 ]
 
 

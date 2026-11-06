@@ -30,7 +30,7 @@ H1 es la única comparación confirmatoria primaria. H2 es la única confirmator
 ## 2. Unidad experimental y galería
 
 - **Galería [propuesta, D4].** Las 150 piezas del núcleo de anotación (`data/metadata/nucleo_anotacion_v2.csv`), las únicas con anotación estructural. El resto del principal v2 queda fuera del benchmark.
-- **Unidad de partición: el grupo.** Antes de partir, se construyen grupos de piezas relacionadas (S1.7 y S2.2): misma imagen (hash exacto), duplicado perceptual (dHash, dentro de un museo y entre museos), vistas o fragmentos de un mismo objeto y textos curatoriales casi idénticos. Las uniones las decide el investigador en un workbook de grupos; ninguna se aplica de forma automática. El mapa de grupos se congela antes de partir.
+- **Unidad de partición: el grupo.** Antes de partir, se construyen grupos de piezas relacionadas (S1.7 y S2.2) sobre el principal y el complementario v2, porque una pieza complementaria puede unir por transitividad dos piezas de la galería. Proponen pares cinco señales: imagen idéntica, dHash de la copia (distancia ≤ 4, el umbral del consolidado v1), coseno de M2 (≥ 0,95; ≥ 0,93 entre museos), número de inventario con sufijo de parte y descripción curatorial idéntica. El investigador decide cada par en `data/metadata/grupos_revision_v2.xlsx` (`unir`, `separar` o `no_seguro`, que cuenta como unir para evitar fugas). Solo los pares de imagen idéntica entran propuestos como `unir` con `revisor = auto`, y se pueden corregir. Los grupos se forman por transitividad y se congelan cuando no quedan pares pendientes. Parámetros en `config/grupos.toml`.
 - **Unidad de análisis: la consulta.** Las métricas se calculan por consulta y la inferencia remuestrea consultas.
 - **Imagen.** Se usa la copia de evaluación de cada pieza (1600 px de lado mayor), la misma sobre la que se anotó. Ninguna imagen entra al test sin estar verificada en el manifiesto de evaluación.
 
@@ -169,4 +169,4 @@ Para cada resultado del top 10 de M4 en prueba se registran las contribuciones �
 | Fecha | Versión | Cambio |
 |---|---|---|
 | 2026-11-05 | 0.1 | Propuesta inicial para la aprobación del asesor |
-| 2026-11-05 | 0.2 | M2: checkpoint, precisión y encuadre fijados (D6) al calcular los embeddings de las imágenes, antes de cualquier consulta, juicio o ranking de la galería |
+| 2026-11-05 | 0.2 | M2: checkpoint, precisión y encuadre fijados (D6) al calcular los embeddings de las imágenes, antes de cualquier consulta, juicio o ranking de la galería. Sección 2: señales, umbrales y regla de duda de los grupos |

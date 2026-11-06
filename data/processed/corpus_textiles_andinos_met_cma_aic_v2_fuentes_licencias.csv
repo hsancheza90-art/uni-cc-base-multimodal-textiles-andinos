@@ -1,0 +1,4 @@
+fuente,institucion,pais,tipo_acceso,estado_licencia,campo_licencia_fuente,url_politica,api,licencia_textos,registros_principal,registros_complementario,registros_total
+MET,The Metropolitan Museum of Art,USA,Open Access,dominio_publico,isPublicDomain,https://www.metmuseum.org/hubs/open-access,https://collectionapi.metmuseum.org/public/collection/v1/,CC0,130,25,155
+CMA,Cleveland Museum of Art,USA,Open Access,cc0,share_license_status,https://www.clevelandart.org/open-access,https://openaccess-api.clevelandart.org/api/artworks/,CC0,104,4,108
+AIC,Art Institute of Chicago,USA,Open Access,cc0,is_public_domain,https://www.artic.edu/open-access/open-access-images,https://api.artic.edu/api/v1/,CC BY 4.0 (descripcion); resto de los metadatos CC0,228,124,352
