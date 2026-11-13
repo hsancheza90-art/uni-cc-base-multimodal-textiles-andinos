@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Versión | 0.5, **propuesta**, 6 de noviembre de 2026 |
+| Versión | 0.6, **propuesta**, 12 de noviembre de 2026 |
 | Estado | Pendiente de aprobación del asesor. Al aprobarse, el protocolo se congela: la fecha y el commit de aprobación se registran en el «Historial», y desde entonces todo cambio se anota allí con su motivo antes de abrir el test |
 | Responde a | Observación MET01 de la auditoría del asesor (20 de octubre de 2026), informe 08; actividad S1.3 del plan de cierre (`docs/plan_cierre_tesis.md`) |
 | Alcance | Estudio **piloto**, con un solo anotador y un solo evaluador principal (decisión D1, 3 de noviembre) |
@@ -17,7 +17,7 @@ Este protocolo establece, antes de observar cualquier resultado de prueba, qué 
 
 | | Hipótesis | Contraste | Regla de decisión |
 |---|---|---|---|
-| H1 (primaria) | La fusión que incorpora la estructura recupera mejor que el codificador visual-textual congelado | nDCG@10 de M4 frente a M2, pareado por consulta | Se sostiene si la diferencia media es ≥ 0,03 **y** el límite inferior del IC 95 % es > 0. Si la diferencia es positiva pero el intervalo incluye el cero, se informa como «dirección favorable sin evidencia suficiente». En cualquier otro caso, no se sostiene |
+| H1 (primaria) | La fusión que incorpora la estructura recupera mejor que el codificador visual-textual congelado | nDCG@10 de M4 frente a M2, pareado por consulta | Se sostiene si la diferencia media es ≥ 0,03 **y** la prueba de permutación pareada bilateral da p < 0,05 (sección 7). Si la diferencia es positiva pero p ≥ 0,05, se informa como «dirección favorable sin evidencia suficiente». En cualquier otro caso, no se sostiene. El IC 95 % se informa siempre, como estimación de la magnitud |
 | H2 (mecanismo) | El orden importa: el descriptor con secuencia y adyacencias supera al mismo descriptor sin orden | nDCG@10 de M3 frente a M3-sin-orden | La misma regla que H1 |
 | H3 (interpretabilidad) | El score de M4 se explica exactamente por la suma de sus componentes | Reconstrucción e intervención (sección 8) | Se sostiene si se cumplen las tres comprobaciones de la sección 8 |
 
@@ -86,7 +86,7 @@ Los grupos de la galería se reparten en **desarrollo (30 %)** y **prueba (70 %)
 
 Además existe el estado `no_evaluable`, para imágenes que no permiten juzgar. No equivale a 0: el par se excluye del ideal de la consulta y se informa su frecuencia. Todo juicio de grado 2 o 3 lleva una justificación breve que indique la evidencia visible.
 
-**Selección de los pares a juzgar.** Para cada consulta se juzgan los 10 primeros de M0, M1, M2, M3, M3-sin-orden y M4, sin repetir pares. A ellos se suman 10 candidatos al azar (con semilla fija) y los positivos que proponga el evaluador. Las ablaciones y el control negativo (sección 7) se evalúan sobre ese mismo conjunto: los candidatos no juzgados cuentan como 0 y se informa qué proporción del top 10 quedó juzgada. Si se informan recall o mAP, se calculan respecto de este conjunto.
+**Selección de los pares a juzgar.** Para cada consulta se juzgan los 10 primeros de M0, M1, M2, M3, M3-sin-orden y M4, sin repetir pares. También entran los 10 primeros de la variante de M4 por posiciones recíprocas (sección 7). A ellos se suman 10 candidatos al azar (con semilla fija) y los positivos que proponga el evaluador. Las ablaciones y el control negativo (sección 7) se evalúan sobre ese mismo conjunto: los candidatos no juzgados cuentan como 0 y se informa qué proporción del top 10 quedó juzgada. Si se informan recall o mAP, se calculan respecto de este conjunto.
 
 **Salvaguardas contra la circularidad.** El investigador anotó la estructura que utiliza M3 y es, además, el evaluador principal. Es la amenaza más seria para la validez del estudio (dictamen del asesor, pregunta 9), y se mitiga de cuatro maneras:
 
@@ -106,15 +106,17 @@ Además existe el estado `no_evaluable`, para imágenes que no permiten juzgar. 
 **Inferencia [propuesta, D5]:**
 
 - Se calcula la diferencia pareada por consulta, Δ = nDCG@10(M4) − nDCG@10(M2), y, para H2, Δ = nDCG@10(M3) − nDCG@10(M3-sin-orden).
-- El intervalo IC 95 % se obtiene por bootstrap pareado de consultas, con 10 000 réplicas, semilla fija y el mismo remuestreo para los dos sistemas. Como análisis de sensibilidad se añade una prueba de permutación pareada por cambio de signo, también con 10 000 réplicas.
+- **Contraste.** H1 y H2 se deciden con una prueba de permutación pareada por cambio de signo, bilateral, con 10 000 réplicas, semilla fija y nivel 0,05. Como comprobación se informa la t de Student pareada; si las dos pruebas discrepan, se informa la discrepancia y decide la permutación. Con pocas consultas, estas dos pruebas mantienen el error de tipo I nominal, mientras que el bootstrap usado como prueba tiende a valores p pequeños (Urbano, Lima y Hanjalic, 2019).
+- **Intervalo.** El IC 95 % de Δ se obtiene por bootstrap pareado de consultas (percentiles), con 10 000 réplicas, semilla fija y el mismo remuestreo para los dos sistemas. Describe la magnitud y su incertidumbre; no decide las hipótesis.
 - Umbral práctico: Δ = 0,03.
-- **Potencia.** Con la desviación estándar de Δ observada en las 10 consultas de desarrollo se estima el tamaño necesario, n ≈ [(z₀,₉₇₅ + z₀,₈) · DE(Δ) / 0,03]². Si n supera 30, el estudio se declarará sin potencia suficiente para ese umbral y se informará el intervalo obtenido. El número de consultas de prueba solo puede reducirse antes de abrir el test, nunca después.
+- **Potencia.** Con la desviación estándar de Δ observada en las 10 consultas de desarrollo se estima el tamaño necesario, n ≈ [(z₀,₉₇₅ + z₀,₈) · DE(Δ) / 0,03]². Si n supera 30, el estudio se declarará sin potencia suficiente para ese umbral y se informará el intervalo obtenido. El número de consultas de prueba solo puede reducirse antes de abrir el test, nunca después. De forma equivalente, con 30 consultas el efecto mínimo detectable con potencia de 80 % es (z₀,₉₇₅ + z₀,₈) · DE(Δ) / √30 ≈ 0,51 · DE(Δ). Se calcula antes de abrir el test y se informa con el rango que resulta de estimar DE(Δ) con solo 10 consultas. No se calcula la potencia a posteriori con el efecto observado en prueba (Card et al., 2020).
 
 **Ablaciones.** Se calculan sobre las mismas consultas y candidatos:
 - M4 sin M3, es decir, solo texto e imagen.
 - M4 sin M0.
 - M4 con M3-sin-orden en lugar de M3.
 - M3 solo con bandas frente a M3 solo con motivos y relaciones.
+- M4 por posiciones recíprocas **[propuesta]**: score = Σ_c 1 / (60 + r_c), con r_c la posición del candidato en el ranking de c ∈ {M0, M2, M3} (Cormack, Clarke y Büttcher, 2009). No tiene pesos que ajustar, de modo que muestra cuánto del resultado de M4 depende del ajuste con las 10 consultas de desarrollo. Los pares sin evidencia estructural ocupan las últimas posiciones del ranking de M3, por `id_global`. Es exploratoria y no interviene en H3, porque al usar posiciones no conserva la descomposición del score.
 
 **Control negativo.** M4 con los descriptores de M3 permutados al azar entre piezas del mismo museo, con semilla fija. Si el aporte de la estructura es real, debe desaparecer en esta condición.
 
@@ -154,11 +156,12 @@ Antes de abrir el test se ejecuta una comprobación automática de fugas: que ni
 | Circularidad: un mismo investigador anota, diseña y juzga | Juicio ciego y aleatorizado, consultas fijadas de antemano y doble juicio parcial | Sesgo residual a favor de M3; es la limitación principal |
 | Un solo evaluador | Doble juicio parcial en 5 consultas | Acuerdo estimado con una muestra pequeña |
 | Duplicados y vistas de una misma pieza | Grupos decididos antes de partir y comprobación de fugas | Relaciones que no detecte ninguna señal |
-| Pocas consultas de prueba (30) | Intervalo pareado y potencia estimada en desarrollo | Intervalos amplios; alcance de piloto |
+| Pocas consultas de prueba (30) | Prueba de permutación pareada, intervalo pareado y efecto mínimo detectable estimado en desarrollo | Intervalos amplios; alcance de piloto |
 | Juicio solo de los primeros candidatos (pooling) | Unión de los 10 primeros de seis sistemas más una muestra al azar | Sesgo hacia los sistemas que aportan candidatos; se informa la proporción juzgada |
 | Diferencias de fotografía entre museos | Resultados por museo | Tamaños pequeños por museo |
 | M3 asistido por anotación | Se declara, y M3 excluye el color | No mide la extracción automática de la estructura |
-| Un solo anotador | Acuerdo intra-anotador en el lote 1 | Mide estabilidad, no acuerdo entre personas |
+| Un solo anotador | Acuerdo intra-anotador en el lote 1, informado por atributo; kappa < 0,6 como señal de revisión | Mide estabilidad, no acuerdo entre personas; el criterio queda por debajo del 0,8 que proponen Artstein y Poesio (2008) |
+| Pesos de M4 ajustados con 10 consultas | Rejilla pequeña y ablación sin pesos por posiciones recíprocas | El ajuste puede no ser estable |
 
 ## 11. Calendario restante
 
@@ -206,3 +209,4 @@ Las equivalencias con los nombres del informe 08 son las siguientes: grupos (`gr
 | 2026-11-06 | 0.3 | Sección 2: grupos también sobre el complementario. Sección 5: particiones y consultas T3 congeladas, regla de reemplazo y valores en `config/experimento.toml` |
 | 2026-11-06 | 0.4 | Sección 4: M0 sin la descripción plantilla de MET; M1 sobre el textil segmentado; M3 especificado en `docs/especificacion_m3.md`. Rankings de desarrollo de M0, M1 y M2, sin ejecutar ninguna consulta de prueba. Sección 6: libros de consultas T1 y de juicios de desarrollo, con ejemplos hipotéticos |
 | 2026-11-06 | 0.5 | Revisión de la redacción para la lectura del asesor y calendario actualizado; los detalles de implementación pasan a la sección 12. Sin cambios en el diseño |
+| 2026-11-12 | 0.6 | Secciones 1 y 7: H1 y H2 se deciden con una prueba de permutación pareada y el bootstrap queda para el intervalo; el efecto mínimo detectable se calcula antes del test. Secciones 6 y 7: ablación de M4 por posiciones recíprocas, cuyos candidatos entran al pool. Sección 10: amenazas actualizadas. Son las decisiones R01 a R04 de `docs/registro_decisiones.md`, tomadas a partir de la revisión bibliográfica del 11 de noviembre. No se ha ejecutado ninguna consulta de prueba |

@@ -152,6 +152,7 @@ No hay segundo anotador (plan de cierre, D1). Para estimar la consistencia de la
 - **Correcciones:** se comparan por su valor efectivo, es decir, la corrección o, si está vacía, el valor vigente del workbook.
 - **Atributos no estimables:** si los dos anotadores usan una sola categoría, el acuerdo esperado es 1 y kappa no está definido. Se informa como «no estimable», con su motivo, nunca como 1 ni como 0.
 - **Criterio:** kappa ≥ 0,6, el mismo que exige una fuente nueva en el puntaje de aptitud (acuerdo sustancial según Landis y Koch, 1977). Los kappa se calculan con numpy en `src/utils/metricas.py`.
+- **Uso del criterio** (decisión R02, 2026-11-12): 0,6 es una señal de revisión, no un aprobado. Es un criterio operativo de estudio piloto y queda por debajo del 0,8 que proponen Artstein y Poesio (2008) cuando hay que fijar un umbral. Un atributo por debajo de 0,6 se revisa en la guía antes de congelar la anotación. Si el atributo es `composicion`, se mantiene y se declara como limitación de H2; no se retira después de ver los resultados. Para `secuencia_bandas`, que no tiene kappa, se informan la coincidencia exacta y la similitud de edición, sin umbral. El informe da, por atributo, el acuerdo observado junto al coeficiente.
 - **Con un segundo anotador**, si lo hubiera más adelante: se cambia `modalidad` y `anotador_b` en `[acuerdo]` y el mismo cálculo compara a las dos personas.
 
 ## Pendiente

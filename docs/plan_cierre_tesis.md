@@ -214,3 +214,12 @@ La puerta de salida de la semana 1 no se cruzó.
 - **D7 (auditoría e integración continua, 6 de noviembre).** La auditoría se versiona sin cambios en `docs/auditoria_2026-10-20/`, con una nota sobre la verificación de sus sumas; la integración continua queda para después del 22 de noviembre.
 - **D6 (dependencias y checkpoint de M2).** Se aprueban `torch` 2.15.0 (CPU), `torchvision` 0.29.2 y `open_clip_torch` 3.3.0 como dependencias opcionales (`requirements-modelos.txt`), fuera del flujo. Checkpoint `xlm-roberta-base-ViT-B-32` / `laion5b_s13b_b90k` (licencia MIT, verificada en la ficha del modelo), multilingüe para las consultas T1 en español.
 - **Protocolo experimental (S1.3).** Tarea primaria T3 (estructura por ejemplar) y T1 (texto a imagen) como secundaria exploratoria; 10 consultas de desarrollo y 30 de prueba en T3, más 6 de T1; juicio ciego sobre imágenes, con un doble juicio parcial de 5 consultas de prueba por el asesor u otra persona; D2 y D4–D7 entran como propuestas que el asesor ratifica antes de abrir el test.
+
+### Decisiones del 12 de noviembre
+
+A partir de la revisión bibliográfica del 11 de noviembre (`docs/revision_bibliografica_2026-11/`), el investigador tomó nueve decisiones, registradas con su motivo, su fuente y sus archivos en `docs/registro_decisiones.md` (R01 a R09). Las cuatro que cambian el protocolo experimental (R01 a R04) están en su versión 0.6 y esperan la ratificación del asesor junto con D2, D4 y D5.
+
+| ID | Estado |
+|---|---|
+| S1.9 (búsquedas bibliográficas) | En curso (11 de noviembre): revisión de alcance con OpenAlex y 30 documentos leídos; Scopus y Web of Science siguen sin consultar |
+| S1.3 (protocolo) | En curso (12 de noviembre): versión 0.6 propuesta |

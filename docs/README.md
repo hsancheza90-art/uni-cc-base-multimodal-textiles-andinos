@@ -44,4 +44,6 @@ Los conteos vigentes y el motivo de cada cambio están en `config/corpus.toml`.
 | `MCC701_05-07-2026.pdf` | Primer avance de tesis. |
 | `notas_para_tesis.md` | Diferencias con el capítulo 6 y material para la segunda parte. |
 | `plan_cierre_tesis.md` | Plan de cuatro semanas (26-10 al 22-11-2026) alineado con la auditoría del asesor. |
+| `registro_decisiones.md` | Decisiones del investigador desde el 12-11-2026: motivo, fuente, archivos afectados y estado. |
+| `revision_bibliografica_2026-11/` | Revisión de alcance del 11-11-2026: protocolo de búsqueda, resultados, matriz, síntesis y fichas. Los PDF no se versionan. |
 | `historico.md` | Archivos retirados del repositorio y dónde recuperarlos. |
