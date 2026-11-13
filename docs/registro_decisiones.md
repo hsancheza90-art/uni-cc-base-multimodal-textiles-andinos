@@ -19,6 +19,11 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 | R09 | 2026-11-12 | Este registro es el lugar único de las decisiones nuevas | Decidida |
 | R10 | 2026-11-12 | En la fusión por posiciones, los pares sin evidencia estructural van al final del ranking de M3 | Por ratificar |
 | R11 | 2026-11-12 | Se atienden las observaciones de forma de la auditoría interna del 12 de noviembre y se agrega la observabilidad al informe de acuerdo | Decidida |
+| R12 | 2026-11-12 | Definición operativa de banda: franja completa, sin cenefas, retículas ni paneles | Decidida |
+| R13 | 2026-11-12 | Fusión de `repeticion_modular` en `traslacional` | Descartada; sustituida por R16 |
+| R14 | 2026-11-12 | En el lote re-anotado prevalece la re-anotación | Decidida |
+| R15 | 2026-11-12 | Regla de los treinta segundos: el `desconocido` del atributo basta | Decidida |
+| R16 | 2026-11-12 | Simetría: se mantienen `traslacional` y `repeticion_modular`, separadas por la dimensión de la repetición | Decidida |
 
 ## R01. Prueba inferencial de H1 y H2
 
@@ -100,3 +105,38 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Fuente.** Auditoría interna del 12 de noviembre (`investigacion_local/auditorias/auditoria_2026-11-12.md`, fuera del repositorio).
 - **Archivos.** `src/anotacion/acuerdo.py`, `tests/test_anotacion_v2.py`, `config/anotacion.toml`, `docs/protocolo_experimental_v2.md`, `docs/protocolo_anotacion_v2.md`, `docs/especificacion_m3.md` y dos archivos de `docs/revision_bibliografica_2026-11/`.
 - **Pendiente.** Las observaciones que exigen una decisión curatorial (H1, H3, H5, H6, T1, T4, la adjudicación del lote 1 y el análisis por cultura de T7) y la comunicación al asesor de R05 (D8) quedan para el investigador.
+
+## R12. Qué cuenta como banda
+
+- **Decisión.** Una banda es una franja que atraviesa toda la superficie visible en sentido perpendicular al eje de lectura y está delimitada por un cambio de color o de diseño. No son bandas las cenefas perimetrales (se registran en `borde`), las filas o columnas de una retícula ni los paneles (se registran en `composicion`).
+- **Motivo.** En la re-anotación del lote 1, la decisión más inestable fue si una pieza tiene bandas: cuatro piezas pasaron de `ausente` a una secuencia de dos a seis bandas. La guía definía los tipos de banda, pero no qué cuenta como banda. Es la variable sobre la que descansa H2.
+- **Fuente.** Auditoría interna del 12 de noviembre, hallazgos H3 y T1.
+- **Archivos.** `docs/protocolo_anotacion_v2.md` («Bandas») y la guía de los workbooks (`src/anotacion/workbook.py`).
+- **Pendiente.** Revisar con esta definición `eje_bandas` y `secuencia_bandas` en las piezas de los lotes 2 a 5 cuya palabra incluya cenefas, filas de retícula o paneles, antes de congelar la anotación v2.1. El lote 1 se rige por R14.
+
+## R13. Simetría: `repeticion_modular` y `traslacional`
+
+- **Propuesta.** Recodificar `repeticion_modular` como `traslacional`, porque las dos describen la traslación de un módulo y la repetición ya tiene su propio atributo.
+- **Por qué no se aplicó.** Se presentó con un alcance de tres piezas (las confundidas entre pasadas), pero `repeticion_modular` es el valor más usado: 65 de las 150 piezas de la primera anotación y 6 de las 30 de la re-anotación. Además, es una categoría de la tesis (Cuadro 6.4). Con la fusión, `traslacional` reuniría 98 de 150 piezas y el atributo apenas distinguiría piezas en M3. Queda pendiente de confirmación del investigador.
+- **Fuente.** Auditoría interna del 12 de noviembre, hallazgos H5 y T4.
+
+## R14. Adjudicación del lote re-anotado
+
+- **Decisión.** Cuando la primera anotación y la re-anotación del lote 1 difieren, prevalece la re-anotación, hecha con más experiencia. La primera anotación solo sirve para medir la estabilidad.
+- **Implementación.** `[reanotacion] prevalece = true` en `config/anotacion.toml`. Al exportar `data/metadata/anotaciones_v2.csv`, los valores de cada pieza re-anotada reemplazan a los de la primera pasada; la pieza conserva su lote y su orden. Ninguno de los dos workbooks se modifica y el informe de acuerdo sigue comparando las dos pasadas.
+- **Consecuencia que se declara.** El lote 1 de la versión v2.1 refleja la segunda lectura y los lotes 2 a 5 la primera, con las aclaraciones de R12 aplicadas a los atributos afectados.
+- **Archivos.** `src/anotacion/aplicar_anotaciones_v2.py`, `config/anotacion.toml`, `tests/test_anotacion_v2.py`.
+
+## R15. Regla de los treinta segundos
+
+- **Decisión.** El estado `desconocido` en el atributo basta para registrar una duda; `revisar` queda para las piezas que piden una segunda mirada completa.
+- **Motivo.** La regla anterior exigía marcar `revisar` y no se aplicó así en ninguna de las dos pasadas (38 y 12 piezas). Cambiar la regla no edita ninguna pieza.
+- **Archivos.** `docs/protocolo_anotacion_v2.md`, la guía de los workbooks y `src/anotacion/aplicar_anotaciones_v2.py`, que deja de emitir ese aviso.
+
+## R16. Simetría: traslación frente a repetición modular
+
+- **Decisión.** Se mantienen las dos categorías de la tesis (Cuadro 6.4) y se separan por la dimensión de la repetición. `traslacional`: un motivo se desplaza a lo largo de una sola dirección y forma una franja o friso continuo. `repeticion_modular`: un módulo con contorno propio (celda, cuadro o panel) se repite como unidad, en dos dimensiones o como piezas separadas (retícula, damero, tablero). Si una pieza tiene las dos, se anota la que organiza la mayor parte de la superficie visible.
+- **Sustituye a.** R13, que proponía fusionarlas y se descartó porque `repeticion_modular` reúne 71 valores entre las dos pasadas y la fusión dejaría el atributo casi sin capacidad de distinguir piezas.
+- **Motivo.** La auditoría interna (H5, T4) encontró tres piezas confundidas entre las dos categorías: la guía no las separaba. La distinción entre repetición en una dimensión (friso) y en dos (teselado) es la que usa el análisis de simetría de patrones.
+- **Archivos.** `docs/protocolo_anotacion_v2.md` («Simetría: traslación y repetición modular») y la guía de los workbooks.
+- **Pendiente.** Revisar `simetria` con esta definición en los lotes 2 a 5, en las piezas marcadas `traslacional` o `repeticion_modular`, antes de congelar la anotación v2.1. El lote 1 se rige por R14.

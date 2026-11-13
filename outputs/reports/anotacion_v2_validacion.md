@@ -5,8 +5,10 @@ Generado por `python -m src.anotacion.aplicar_anotaciones_v2` (`src/anotacion/ap
 Este informe da solo conteos, sin valores ni observaciones por pieza: el lote 1 se re-anota a ciegas y el anotador no debe ver su primera anotacion. Los errores, si los hay, se detallan para poder corregirlos.
 
 - Primera anotacion: `data/metadata/anotacion_v2.xlsx`: 462 piezas, 150 anotadas, 0 errores.
-- Re-anotacion: `data/metadata/anotacion_v2_reanotacion.xlsx`: 30 piezas, 0 anotadas, 0 errores.
+- Re-anotacion: `data/metadata/anotacion_v2_reanotacion.xlsx`: 30 piezas, 30 anotadas, 0 errores.
 - Exportadas (si no hay errores): `data/metadata/anotaciones_v2.csv`, 150 piezas de la primera anotacion.
+
+Adjudicacion del lote 1 (decision R14): en 30 piezas el CSV exportado toma los valores de la re-anotacion; la primera anotacion no cambia en su workbook.
 
 ## Primera anotacion por lote
 
@@ -48,12 +50,19 @@ Re-anotacion ciega del lote 1: puede empezar el 2026-11-12 (7 dias despues de la
 
 `Vacias`: sin anotar. Los estados van solos en la celda; `ausente` es una observacion y `no_observable` y `desconocido` dicen que el atributo no se pudo observar o decidir. En las correcciones, vacia significa «acepto el valor vigente».
 
+## Re-anotacion
+
+| Lote | Anotadas | Fechas | estado_anotacion | Con DUDA | Con CRITERIO | Con VOCAB |
+|---|---|---|---|---|---|---|
+| 1 | 30 | 2026-11-12 a 2026-11-12 | anotado_manual 30 | 0 | 0 | 0 |
+
+`Con DUDA`, `Con CRITERIO`, `Con VOCAB`: piezas cuyas observaciones usan esa etiqueta para marcar lo que queda por decidir (una duda sobre un valor, un criterio de la guia o un hueco del vocabulario).
+
 ## Avisos (primera anotacion)
 
 | Aviso | Piezas |
 |---|---|
 | correccion igual al valor vigente | 3 |
-| desconocido en una pieza que no esta en revisar (regla de los treinta segundos) | 38 |
 
 ## Avisos (re-anotacion)
 

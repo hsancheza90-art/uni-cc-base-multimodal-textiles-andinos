@@ -80,7 +80,14 @@ Decisión del revisor, 2026-11-03.
 
 ## Bandas
 
-`eje_bandas` y `secuencia_bandas` forman la palabra de bandas que lee el descriptor estructural (M3 del plan de cierre). Se anotan después de `composicion`:
+`eje_bandas` y `secuencia_bandas` forman la palabra de bandas que lee el descriptor estructural (M3 del plan de cierre). Se anotan después de `composicion`.
+
+**Qué es una banda** (decisión R12, 12 de noviembre). Una banda es una franja que atraviesa toda la superficie visible en sentido perpendicular al eje de lectura y está delimitada por un cambio de color o de diseño. No son bandas, y por tanto no entran en la palabra:
+- las cenefas perimetrales, que se registran en `borde`;
+- las filas o columnas de una retícula, que se registran en `composicion = reticula`;
+- los paneles, que se registran en `composicion = paneles`.
+
+Si la pieza solo tiene estos elementos, `eje_bandas` y `secuencia_bandas` van `ausente`.
 
 1. **`eje_bandas`:** `horizontal` si las bandas cruzan la foto de lado a lado (se leen de arriba abajo) o `vertical` si van de arriba abajo (se leen de izquierda a derecha). El eje es el de la fotografía del museo, no el de uso de la pieza.
 2. **`secuencia_bandas`:** el tipo de cada banda en el orden del eje, separados por ` > `. Por ejemplo, `lisa > geometrica > figurativa > geometrica > lisa`. Los tipos son `lisa` (un color, sin motivos), `geometrica`, `figurativa`, `mixta` y `no_determinada`.
@@ -89,9 +96,20 @@ Decisión del revisor, 2026-11-03.
 
 No se registra el color de cada banda ni su ancho: el color ya está en la capa cromática y el ancho a ojo da una precisión aparente (decisiones del revisor, 2026-11-03). El sentido de lectura es una convención: el descriptor que se especifica en S2.5 del plan de cierre canonizará la palabra bajo inversión, para que leerla al revés no cambie la similitud entre piezas. El acuerdo intra-anotador, en cambio, compara las palabras tal como se escribieron.
 
+## Simetría: traslación y repetición modular
+
+Las dos categorías describen la repetición de un elemento por traslación; se distinguen por la dimensión de la repetición (decisión R16, 12 de noviembre):
+
+- **`traslacional`:** un motivo se desplaza a lo largo de una sola dirección y forma una franja o friso continuo.
+- **`repeticion_modular`:** un módulo con contorno propio (celda, cuadro o panel) se repite como unidad, en dos dimensiones o como piezas separadas: retícula, damero o tablero.
+
+Si una pieza tiene las dos cosas (por ejemplo, un campo en damero entre frisos), se anota la que organiza la mayor parte de la superficie visible. El atributo `repeticion` registra, aparte, si la repetición es completa, parcial o no existe.
+
 ## Regla de los treinta segundos
 
-Si un atributo toma más de treinta segundos de duda, se anota `desconocido` y la pieza se marca `revisar` en `estado_anotacion`. La duda se explica en `observaciones_anotacion`. La regla evita que el anotador fuerce un valor que no observa: un valor forzado entra al descriptor como si fuera un dato.
+Si un atributo toma más de treinta segundos de duda, se anota `desconocido` en ese atributo y la duda se explica en `observaciones_anotacion`. La regla evita que el anotador fuerce un valor que no observa: un valor forzado entra al descriptor como si fuera un dato.
+
+Desde el 12 de noviembre (decisión R15), el `desconocido` del atributo basta para registrar la duda. El estado `revisar` queda para las piezas que piden una segunda mirada completa, no para cada atributo dudoso. La versión anterior de la regla exigía marcar `revisar` y no se aplicó así en ninguna de las dos pasadas (38 y 12 piezas); con este cambio no se edita ninguna pieza.
 
 ## Flujo de trabajo
 

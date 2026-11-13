@@ -180,9 +180,17 @@ def guia_v2(capas: list[dict[str, Any]], reanotacion: dict[str, Any] | None = No
         "secuencia_bandas lista el tipo de cada banda en ese orden, separados por ' > ' (por ejemplo: "
         "lisa > geometrica > figurativa > geometrica > lisa). Un tramo que no se ve es 'laguna'. "
         "Sin bandas: ausente en los dos.",
+        "Una banda es una franja que atraviesa toda la superficie visible, perpendicular al eje, delimitada por un "
+        "cambio de color o de diseno. No son bandas las cenefas perimetrales (van en borde), las filas de una reticula "
+        "ni los paneles (decision R12).",
         "",
-        "Regla de los treinta segundos: si un atributo toma mas de treinta segundos de duda, se anota desconocido y la "
-        "pieza se marca 'revisar' en estado_anotacion; la duda se explica en observaciones_anotacion.",
+        "Simetria (decision R16): traslacional = un motivo se desplaza en una sola direccion y forma una franja o friso; "
+        "repeticion_modular = un modulo con contorno propio (celda, cuadro, panel) se repite como unidad, en dos "
+        "dimensiones o separado (reticula, damero, tablero). Si hay las dos, la que organiza la mayor parte de la pieza.",
+        "",
+        "Regla de los treinta segundos: si un atributo toma mas de treinta segundos de duda, se anota desconocido en ese "
+        "atributo y la duda se explica en observaciones_anotacion. 'revisar' queda para piezas que piden una segunda "
+        "mirada completa (decision R15).",
         "",
         "Campos multiples (colores, motivos, material_corregido, tecnica_corregida): la lista muestra los codigos; "
         "para registrar varios, escribirlos separados por '; ' (por ejemplo: rojo; crema).",

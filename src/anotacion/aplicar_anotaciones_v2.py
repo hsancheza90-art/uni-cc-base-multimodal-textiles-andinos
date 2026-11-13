@@ -16,9 +16,14 @@ Una pieza está anotada si alguna de sus 19 columnas de anotación tiene valor. 
   anotador vacío; fecha_anotacion vacía o que no existe en el calendario; eje_bandas y
   secuencia_bandas que no concuerdan (una dice que hay bandas y la otra no); un id_global
   repetido entre hojas.
-- avisos (no detienen el flujo): atributos sin anotar en una pieza anotada; un desconocido
-  en una pieza que no está en revisar (regla de los treinta segundos); una corrección igual
-  al valor vigente; piezas anotadas que ya no están en el corpus.
+- avisos (no detienen el flujo): atributos sin anotar en una pieza anotada; una corrección
+  igual al valor vigente; piezas anotadas que ya no están en el corpus. Desde la decisión
+  R15, un desconocido sin el estado revisar ya no es aviso: la duda queda en el atributo.
+
+Adjudicación del lote re-anotado (decisión R14, [reanotacion] prevalece en
+config/anotacion.toml): si la re-anotación de una pieza es válida, sus valores reemplazan a
+los de la primera anotación en el CSV exportado; la pieza conserva su lote y su orden. La
+primera anotación no se modifica en su workbook y el acuerdo sigue comparando las dos.
 
 El informe y la consola dan solo conteos, sin valores ni observaciones por pieza: el lote
 de [reanotacion] se re-anota a ciegas y el anotador no debe ver su primera anotación. Los
@@ -110,8 +115,6 @@ def validar_fila(fila: dict[str, str], vocabulario: dict[str, Campo]) -> tuple[d
 
     if any(not salida[columna] for columna in ATRIBUTOS_ANOTACION_V2):
         avisos.append("atributos sin anotar en una pieza anotada")
-    if salida["estado_anotacion"] != "revisar" and any(salida[c] == "desconocido" for c in ATRIBUTOS_ANOTACION_V2):
-        avisos.append("desconocido en una pieza que no esta en revisar (regla de los treinta segundos)")
     if any(salida[correccion] and salida[correccion] == fila.get(base, "") for correccion, base in CORRECCIONES.items()):
         avisos.append("correccion igual al valor vigente")
     return salida, errores, avisos
@@ -245,6 +248,23 @@ def lineas_reporte(a: Validacion, b: Validacion, config: dict[str, Any]) -> list
 # --------------------------------------------------------------------------- principal
 
 
+def adjudicar(primera: list[dict[str, str]], reanotacion: list[dict[str, str]], prevalece: bool
+              ) -> tuple[list[dict[str, str]], int]:
+    """Filas a exportar: con prevalece, la re-anotación reemplaza los valores (no el lote ni el orden)."""
+    if not prevalece:
+        return primera, 0
+    segunda = {f["id_global"]: f for f in reanotacion}
+    salida, n = [], 0
+    for fila in primera:
+        nueva = segunda.get(fila["id_global"])
+        if nueva is None:
+            salida.append(fila)
+            continue
+        salida.append({**nueva, "id_global": fila["id_global"], "lote": fila["lote"], "orden": fila["orden"]})
+        n += 1
+    return salida, n
+
+
 def aplicar(raiz: Path) -> int:
     config = leer_config_anotacion(raiz)
     datos = config["acuerdo"]
@@ -256,15 +276,23 @@ def aplicar(raiz: Path) -> int:
         return 0
     b = validar_workbook(raiz, datos["anotador_b"], hojas, vocabulario)
 
-    escribir_texto(raiz / REPORTE_V2, lineas_reporte(a, b, config))
+    exportadas, prevalecen = adjudicar(a.anotadas, b.anotadas, bool(config["reanotacion"].get("prevalece", False)))
+    lineas = lineas_reporte(a, b, config)
+    if prevalecen:
+        seccion = next((i for i, linea in enumerate(lineas) if linea.startswith("## ")), len(lineas))
+        lineas[seccion:seccion] = [
+            f"Adjudicacion del lote {config['reanotacion']['lote']} (decision R14): en {prevalecen} piezas el CSV exportado "
+            "toma los valores de la re-anotacion; la primera anotacion no cambia en su workbook.", ""]
+    escribir_texto(raiz / REPORTE_V2, lineas)
     errores = a.errores + [f"(re-anotacion) {error}" for error in b.errores]
     if errores:
         print(f"Anotacion v2 con {len(errores)} errores; no se actualizo {SALIDA_ANOTACIONES_V2}. Ver {REPORTE_V2}.")
         for error in errores[:20]:
             print(f"- {error}")
         return 1
-    escribir_csv(raiz / SALIDA_ANOTACIONES_V2, COLUMNAS_ANOTACIONES_V2, a.anotadas)
-    print(f"Anotaciones v2 validas: {len(a.anotadas)} de {a.piezas} piezas -> {SALIDA_ANOTACIONES_V2}")
+    escribir_csv(raiz / SALIDA_ANOTACIONES_V2, COLUMNAS_ANOTACIONES_V2, exportadas)
+    print(f"Anotaciones v2 validas: {len(a.anotadas)} de {a.piezas} piezas -> {SALIDA_ANOTACIONES_V2}"
+          + (f" ({prevalecen} con los valores de la re-anotacion)" if prevalecen else ""))
     print(f"Re-anotacion: {len(b.anotadas)} anotadas | avisos: {sum(a.avisos.values())} y {sum(b.avisos.values())}")
     return 0
 

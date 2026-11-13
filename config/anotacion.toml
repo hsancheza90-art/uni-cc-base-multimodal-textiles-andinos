@@ -103,6 +103,10 @@ semilla = 20261103
 # Dias minimos entre la primera anotacion y la re-anotacion de cada pieza, para que el
 # anotador no recuerde su respuesta. Las piezas con menos dias o sin fecha no se comparan.
 intervalo_minimo_dias = 7
+# 2026-11-12 (decision R14): cuando las dos pasadas difieren, prevalece la re-anotacion del lote, hecha
+# con mas experiencia; la primera anotacion solo mide la estabilidad. Se aplica al exportar
+# data/metadata/anotaciones_v2.csv; ninguno de los dos workbooks se modifica.
+prevalece = true
 
 [acuerdo.campos]
 # Tipo de medida por atributo. Nominales: kappa de Cohen. Ordinales: kappa ponderado lineal,

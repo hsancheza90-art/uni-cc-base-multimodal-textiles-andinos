@@ -532,7 +532,17 @@ def test_validacion_v2_exporta_las_piezas_anotadas_recodificadas_y_sin_revelarla
     assert not any(id_ in reporte for id_ in (dentro[0], dentro[1], fuera[0]))
     assert "| 1 | 2 | 2026-11-05 a 2026-11-05 | anotado_manual 2 | 1 | 0 | 0 |" in reporte
     assert "puede empezar el 2026-11-12" in reporte
-    assert "| desconocido en una pieza que no esta en revisar (regla de los treinta segundos) | 1 |" in reporte
+    assert "regla de los treinta segundos" not in reporte  # R15: la duda queda en el atributo, no es aviso
+
+
+def test_en_el_lote_reanotado_prevalece_la_reanotacion_sin_cambiar_lote_ni_orden() -> None:
+    primera = [{"id_global": "A:1", "lote": "1", "orden": "3", "composicion": "bandas"},
+               {"id_global": "A:2", "lote": "2", "orden": "1", "composicion": "paneles"}]
+    segunda = [{"id_global": "A:1", "lote": "1", "orden": "17", "composicion": "reticula"}]
+    filas, n = aplicar_anotaciones_v2.adjudicar(primera, segunda, prevalece=True)
+    assert n == 1 and filas[0] == {"id_global": "A:1", "lote": "1", "orden": "3", "composicion": "reticula"}
+    assert filas[1] == primera[1]
+    assert aplicar_anotaciones_v2.adjudicar(primera, segunda, prevalece=False) == (primera, 0)
 
 
 def test_validacion_v2_con_errores_termina_en_1_sin_reemplazar_el_csv(repo_workbook: Path) -> None:
