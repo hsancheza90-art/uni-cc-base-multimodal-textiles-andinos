@@ -36,3 +36,8 @@ outputs/samples/
 # Galerias HTML de revision: ayudas visuales que se regeneran desde los CSV y apuntan a
 # imagenes locales (data/images, fuera de git). Las decisiones viven en los workbooks.
 outputs/review/*.html
+
+# Espacio local de investigacion y PDF de la revision bibliografica: no se versionan
+investigacion_local/
+docs/revision_bibliografica_2026-11/pdfs/*.pdf
+Claude\ outputs/

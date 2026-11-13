@@ -1,0 +1,70 @@
+{
+ "A1": {
+  "cadena": "(andean OR inca) AND (textile OR weaving) AND (computational OR algorithm OR ontology)",
+  "url": "https://api.openalex.org/works?search=(andean+OR+inca)+AND+(textile+OR+weaving)+AND+(computational+OR+algorithm+OR+ontology)&per-page=25&select=doi,title,publication_year,cited_by_count,open_access"
+ },
+ "A2": {
+  "cadena": "khipu AND (computational OR database OR algorithm)",
+  "url": "https://api.openalex.org/works?search=khipu+AND+(computational+OR+database+OR+algorithm)&per-page=25&select=doi,title,publication_year,cited_by_count,open_access"
+ },
+ "A3": {
+  "cadena": "(andean OR peruvian) AND textile AND (\"deep learning\" OR \"machine learning\")",
+  "url": "https://api.openalex.org/works?search=(andean+OR+peruvian)+AND+textile+AND+(%22deep+learning%22+OR+%22machine+learning%22)&per-page=25&select=doi,title,publication_year,cited_by_count,open_access"
+ },
+ "B1": {
+  "cadena": "(textile OR fabric) AND \"image retrieval\" AND (heritage OR museum OR traditional)",
+  "url": "https://api.openalex.org/works?search=(textile+OR+fabric)+AND+%22image+retrieval%22+AND+(heritage+OR+museum+OR+traditional)&per-page=25&select=doi,title,publication_year,cited_by_count,open_access"
+ },
+ "B2": {
+  "cadena": "(weaving OR weave) AND pattern AND (hypergraph OR graph) AND retrieval",
+  "url": "https://api.openalex.org/works?search=(weaving+OR+weave)+AND+pattern+AND+(hypergraph+OR+graph)+AND+retrieval&per-page=25&select=doi,title,publication_year,cited_by_count,open_access"
+ },
+ "C1": {
+  "cadena": "(\"cultural heritage\" OR museum) AND (CLIP OR multimodal) AND retrieval",
+  "url": "https://api.openalex.org/works?search=(%22cultural+heritage%22+OR+museum)+AND+(CLIP+OR+multimodal)+AND+retrieval&per-page=25&select=doi,title,publication_year,cited_by_count,open_access"
+ },
+ "C2": {
+  "cadena": "artwork AND (\"vision-language\" OR \"cross-modal\") AND retrieval",
+  "url": "https://api.openalex.org/works?search=artwork+AND+(%22vision-language%22+OR+%22cross-modal%22)+AND+retrieval&per-page=25&select=doi,title,publication_year,cited_by_count,open_access"
+ },
+ "D1": {
+  "cadena": "(\"frieze group\" OR \"wallpaper group\") AND (classification OR detection)",
+  "url": "https://api.openalex.org/works?search=(%22frieze+group%22+OR+%22wallpaper+group%22)+AND+(classification+OR+detection)&per-page=25&select=doi,title,publication_year,cited_by_count,open_access"
+ },
+ "D2": {
+  "cadena": "symmetry AND (andean OR inca OR \"pre-columbian\") AND (textile OR pattern)",
+  "url": "https://api.openalex.org/works?search=symmetry+AND+(andean+OR+inca+OR+%22pre-columbian%22)+AND+(textile+OR+pattern)&per-page=25&select=doi,title,publication_year,cited_by_count,open_access"
+ },
+ "E1": {
+  "cadena": "(CLIP OR \"vision-language\") AND (compositional OR \"word order\") AND benchmark",
+  "url": "https://api.openalex.org/works?search=(CLIP+OR+%22vision-language%22)+AND+(compositional+OR+%22word+order%22)+AND+benchmark&per-page=25&select=doi,title,publication_year,cited_by_count,open_access"
+ },
+ "F1": {
+  "cadena": "(\"knowledge graph\" OR ontology) AND retrieval AND \"cultural heritage\" AND embedding",
+  "url": "https://api.openalex.org/works?search=(%22knowledge+graph%22+OR+ontology)+AND+retrieval+AND+%22cultural+heritage%22+AND+embedding&per-page=25&select=doi,title,publication_year,cited_by_count,open_access"
+ },
+ "G1": {
+  "cadena": "\"relevance judgments\" AND (pooling OR \"number of topics\" OR \"statistical power\")",
+  "url": "https://api.openalex.org/works?search=%22relevance+judgments%22+AND+(pooling+OR+%22number+of+topics%22+OR+%22statistical+power%22)&per-page=25&select=doi,title,publication_year,cited_by_count,open_access"
+ },
+ "G2": {
+  "cadena": "\"test collection\" AND (\"assessor disagreement\" OR \"single assessor\")",
+  "url": "https://api.openalex.org/works?search=%22test+collection%22+AND+(%22assessor+disagreement%22+OR+%22single+assessor%22)&per-page=25&select=doi,title,publication_year,cited_by_count,open_access"
+ },
+ "H1": {
+  "cadena": "(explainable OR interpretable) AND retrieval AND (\"cultural heritage\" OR artwork)",
+  "url": "https://api.openalex.org/works?search=(explainable+OR+interpretable)+AND+retrieval+AND+(%22cultural+heritage%22+OR+artwork)&per-page=25&select=doi,title,publication_year,cited_by_count,open_access"
+ },
+ "I1": {
+  "cadena": "(\"intra-annotator\" OR \"intra-rater\") AND annotation AND image",
+  "url": "https://api.openalex.org/works?search=(%22intra-annotator%22+OR+%22intra-rater%22)+AND+annotation+AND+image&per-page=25&select=doi,title,publication_year,cited_by_count,open_access"
+ },
+ "J1": {
+  "cadena": "(\"rank fusion\" OR \"score fusion\") AND (BM25 OR lexical) AND dense AND retrieval",
+  "url": "https://api.openalex.org/works?search=(%22rank+fusion%22+OR+%22score+fusion%22)+AND+(BM25+OR+lexical)+AND+dense+AND+retrieval&per-page=25&select=doi,title,publication_year,cited_by_count,open_access"
+ },
+ "K1": {
+  "cadena": "(stripe OR band) AND (textile OR warp) AND sequence AND (notation OR grammar)",
+  "url": "https://api.openalex.org/works?search=(stripe+OR+band)+AND+(textile+OR+warp)+AND+sequence+AND+(notation+OR+grammar)&per-page=25&select=doi,title,publication_year,cited_by_count,open_access"
+ }
+}
