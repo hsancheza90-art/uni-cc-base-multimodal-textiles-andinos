@@ -26,6 +26,8 @@
 
 Fundamenta tres decisiones del informe de estabilidad: un mismo acuerdo observado produce coeficientes muy distintos, así que hay que informar el coeficiente y el acuerdo bruto; los ordinales requieren ponderación (ya se hace con kappa lineal); en los campos múltiples el valor depende de la distancia elegida, de modo que el Jaccard debe declararse como elección y no como estándar. Desaconseja fijar 0,6 como umbral único.
 
+Actualización del 12 de noviembre (decisión R02 de `docs/registro_decisiones.md`): en las páginas 22 y 37, los autores proponen 0,8 si es imprescindible fijar un umbral, desaconsejan que un umbral sea requisito y piden informar el método, el coeficiente y la tabla de acuerdos. Por eso el estudio usa 0,6 solo como señal de revisión y declara que queda por debajo de esa propuesta.
+
 ## Cautela al citar
 
 Leer las secciones 3 y 4 en el PDF antes de citar recomendaciones concretas sobre alfa, MASI o umbrales.

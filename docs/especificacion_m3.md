@@ -55,7 +55,7 @@ con pesos λ_b ≥ 0 definidos en `[m3.pesos]`.
 
 **Ausencia de evidencia.** Si el denominador es 0, ningún bloque es observable en ambas piezas y la disimilitud no está definida. El par queda «sin evidencia estructural»: no recibe la similitud máxima y, en el ranking de M3, esos candidatos se ubican al final, ordenados por identificador.
 
-**Cobertura.** Se define como Σ_b λ_b *m_ib* *m_jb* / Σ_b λ_b. Se informa junto con D, y la regla de reparto de pesos de M4 la utiliza.
+**Cobertura.** Se define como Σ_b λ_b *m_ib* *m_jb* / Σ_b λ_b y se informa junto con D. La regla de reparto de pesos de M4 no usa su valor: solo distingue si hay evidencia estructural (cobertura mayor que cero) o no.
 
 **Similitud para el ranking.** *s* = 1 − D.
 
@@ -73,11 +73,17 @@ M3-sin-orden coincide con M3 salvo en dos aspectos:
 
 Usa los mismos pesos, sin reajustarlos. Si M3 supera a M3-sin-orden, la diferencia puede atribuirse al orden de las bandas y no a su composición por tipos.
 
-## 5. Ajuste y congelación
+## 5. Límites del descriptor
+
+- **El eje es fotográfico, no estructural.** `eje_bandas` registra la orientación de las bandas en la fotografía del museo, no la dirección de la urdimbre. En las túnicas de tapiz wari e inca la urdimbre corre en horizontal cuando la prenda está en posición de uso, de modo que una misma organización puede aparecer como horizontal o vertical según cómo se fotografió la pieza. La forma canónica es invariante a la reversión, no a una rotación de 90°: la comparación de palabras no depende del eje, pero el bloque de composición y el propio eje sí reflejan la toma.
+- **La reversión descarta la orientación de la prenda.** Para un fragmento, el sentido de lectura es convencional. Para una túnica con abertura de cuello o un manto con cenefa en un solo extremo, no lo es. Tratar w y rev(w) como equivalentes es una simplificación que se declara entre las limitaciones.
+- **La estructura no es independiente de la técnica ni de la tradición.** Los paños de cara de urdimbre tienden a las listas, la tapicería admite campos figurativos y retículas, y el bordado paracas ordena figuras en cenefas y damero. Una similitud estructural alta puede reflejar en parte la pertenencia a una misma tradición, que un codificador visual también capta. Una ganancia de M3 no se leerá, por sí sola, como evidencia de una gramática estructural independiente del estilo.
+
+## 6. Ajuste y congelación
 
 Los pesos parten de valores iguales (1,0) y solo se ajustan con las consultas de desarrollo. El descriptor se calcula sobre la anotación congelada después de la re-anotación del primer lote y de las decisiones de criterio (versión 2.1). A partir de ese momento se generan los rankings de M3: primero en desarrollo y después, una sola vez, en prueba.
 
-## 6. Pruebas de propiedades
+## 7. Pruebas de propiedades
 
 Las pruebas de `tests/test_sistemas.py` verifican:
 - la invariancia de la forma canónica a la reversión;

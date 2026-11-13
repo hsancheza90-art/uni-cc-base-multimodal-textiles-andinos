@@ -1,6 +1,6 @@
 # Acuerdo intra-anotador (anotacion v2, test-retest)
 
-Generado por `python -m src.anotacion.acuerdo` (`src/anotacion/acuerdo.py`); parametros en `config/anotacion.toml` ([acuerdo] y [reanotacion]). Umbral de acuerdo aceptable: kappa >= 0.6.
+Generado por `python -m src.anotacion.acuerdo` (`src/anotacion/acuerdo.py`); parametros en `config/anotacion.toml` ([acuerdo] y [reanotacion]). Un kappa menor que 0.6 es una senal para revisar el atributo en la guia antes de congelar la anotacion; no es un criterio de aprobacion (decision R02, `docs/registro_decisiones.md`).
 
 Sin segundo anotador (plan de cierre, D1), el mismo anotador re-anota a ciegas el lote 1, en otro orden y al menos 7 dias despues. Mide la estabilidad de la anotacion, no su acuerdo con otra persona: es una limitacion del estudio.
 
@@ -12,7 +12,7 @@ Todavia no hay piezas anotadas en las dos anotaciones: ningun acuerdo es estimab
 
 ## Acuerdo por atributo
 
-| Capa | Atributo | Medida | n | Excluidas | Acuerdo observado | Acuerdo esperado | Kappa | Alcanza 0.6 |
+| Capa | Atributo | Medida | n | Excluidas | Acuerdo observado | Acuerdo esperado | Kappa | Kappa >= 0.6 |
 |---|---|---|---|---|---|---|---|---|
 | Cromatica | `color_dominante` | kappa de Cohen | 0 | 0 |  |  |  | no estimable: sin piezas comparables |
 | Cromatica | `colores` | Jaccard medio y kappa por etiqueta | 0 | 0 |  |  |  | no estimable: sin piezas comparables |
@@ -61,6 +61,27 @@ Todavia no hay piezas anotadas en las dos anotaciones: ningun acuerdo es estimab
 | `estado_imagen_corregido` | 0 | 0 | 0 |
 
 `Vacio en alguno`: celda sin anotar en alguna de las dos. `No observable o desconocido`: alguna de las dos registro el estado `no_observable` o `desconocido` (regla de los treinta segundos) o, en `borde` y `centro`, `no_visible`; el estado `ausente` es una observacion y se compara como un valor mas.
+
+## Observabilidad por atributo
+
+Si el atributo se pudo observar en cada pasada: un valor (incluido `ausente`) frente a un estado de no observacion (`no_observable`, `desconocido` o `no_visible`). El kappa de arriba solo usa los pares observados en las dos; esta tabla muestra si la frontera entre «se ve» y «no se ve» es estable, que es lo que decide que bloques compara M3.
+
+| Atributo | Observable en las dos | Solo en A | Solo en B | En ninguna | Acuerdo observado | Kappa |
+|---|---|---|---|---|---|---|
+| `color_dominante` | 0 | 0 | 0 | 0 |  | no estimable: sin piezas comparables |
+| `colores` | 0 | 0 | 0 | 0 |  | no estimable: sin piezas comparables |
+| `contraste` | 0 | 0 | 0 | 0 |  | no estimable: sin piezas comparables |
+| `densidad_visual` | 0 | 0 | 0 | 0 |  | no estimable: sin piezas comparables |
+| `composicion` | 0 | 0 | 0 | 0 |  | no estimable: sin piezas comparables |
+| `eje_bandas` | 0 | 0 | 0 | 0 |  | no estimable: sin piezas comparables |
+| `secuencia_bandas` | 0 | 0 | 0 | 0 |  | no estimable: sin piezas comparables |
+| `borde` | 0 | 0 | 0 | 0 |  | no estimable: sin piezas comparables |
+| `centro` | 0 | 0 | 0 | 0 |  | no estimable: sin piezas comparables |
+| `repeticion` | 0 | 0 | 0 | 0 |  | no estimable: sin piezas comparables |
+| `simetria` | 0 | 0 | 0 | 0 |  | no estimable: sin piezas comparables |
+| `motivos` | 0 | 0 | 0 | 0 |  | no estimable: sin piezas comparables |
+| `familia_iconografica` | 0 | 0 | 0 | 0 |  | no estimable: sin piezas comparables |
+| `motivo_principal` | 0 | 0 | 0 | 0 |  | no estimable: sin piezas comparables |
 
 ## Piezas fuera de plazo
 

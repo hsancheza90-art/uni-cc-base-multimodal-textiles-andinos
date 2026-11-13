@@ -85,7 +85,8 @@ anotador_a = "data/metadata/anotacion_v2.xlsx"
 anotador_b = "data/metadata/anotacion_v2_reanotacion.xlsx"
 # Hojas con piezas en cada workbook: el nucleo y el resto del principal v2.
 hojas = ["anotacion", "fuera_del_nucleo"]
-# Criterio de acuerdo aceptable, el mismo que exige una fuente nueva en el puntaje de aptitud
+# 2026-11-12 (decision R02): kappa < umbral es una senal para revisar el atributo en la guia antes de
+# congelar la anotacion, no un criterio de aprobacion. Valor de partida: el mismo que exige una fuente nueva en el puntaje de aptitud
 # (kappa >= 0,6: acuerdo sustancial en la escala de Landis y Koch, 1977).
 umbral_kappa = 0.6
 

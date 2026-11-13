@@ -494,6 +494,9 @@ def test_acuerdo_intraanotador_excluye_fuera_de_plazo_y_no_observados(repo_workb
     # ausente es una observacion y entra en el kappa; no_observable saca la pieza y se cuenta.
     assert fila_de(reporte, "eje_bandas").endswith("| 3 | 0 | 1.000 | 0.333 | 1.000 | si |")
     assert "| `motivos` | 0 | 0 | 1 |" in reporte
+    # Observabilidad (auditoria H4): en motivos, A dijo no_observable y B ausente en una pieza.
+    assert "| `motivos` | 2 | 0 | 1 | 0 | 0.667 |" in reporte
+    assert "no es un criterio de aprobacion" in reporte
 
 
 # --------------------------------------------------------------------------- validacion y exportacion v2

@@ -153,7 +153,15 @@ No hay segundo anotador (plan de cierre, D1). Para estimar la consistencia de la
 - **Atributos no estimables:** si los dos anotadores usan una sola categoría, el acuerdo esperado es 1 y kappa no está definido. Se informa como «no estimable», con su motivo, nunca como 1 ni como 0.
 - **Criterio:** kappa ≥ 0,6, el mismo que exige una fuente nueva en el puntaje de aptitud (acuerdo sustancial según Landis y Koch, 1977). Los kappa se calculan con numpy en `src/utils/metricas.py`.
 - **Uso del criterio** (decisión R02, 2026-11-12): 0,6 es una señal de revisión, no un aprobado. Es un criterio operativo de estudio piloto y queda por debajo del 0,8 que proponen Artstein y Poesio (2008) cuando hay que fijar un umbral. Un atributo por debajo de 0,6 se revisa en la guía antes de congelar la anotación. Si el atributo es `composicion`, se mantiene y se declara como limitación de H2; no se retira después de ver los resultados. Para `secuencia_bandas`, que no tiene kappa, se informan la coincidencia exacta y la similitud de edición, sin umbral. El informe da, por atributo, el acuerdo observado junto al coeficiente.
+- **Observabilidad** (desde el 12 de noviembre, auditoría interna H4): el kappa por atributo solo usa los pares observados en las dos pasadas. Por eso el informe agrega, por atributo, si el atributo se pudo observar en cada pasada (un valor, incluido `ausente`, frente a `no_observable`, `desconocido` o `no_visible`), con su acuerdo y su kappa. Esa frontera decide qué bloques compara M3.
 - **Con un segundo anotador**, si lo hubiera más adelante: se cambia `modalidad` y `anotador_b` en `[acuerdo]` y el mismo cálculo compara a las dos personas.
+
+## Limitaciones que se declaran
+
+- **Esfuerzo de anotación sin medir.** El plan pedía registrar el tiempo por pieza y no se registró en ninguna de las dos pasadas. El esfuerzo se informará como estimación, no como medida.
+- **`lana` no implica oveja.** El vocabulario conserva el término de la fuente. En piezas anteriores a 1532, que son las que admite el criterio v2, «wool» en las fichas de museo designa casi siempre fibra de camélido: la lana de oveja llega después de la conquista.
+- **Vocabulario de técnica incompleto.** `tejido` es genérico y faltan técnicas diagnósticas del área andina, como la cara de urdimbre y las urdimbres complementarias, las urdimbres y tramas discontinuas, la gasa, el teñido por amarras y el anillado. No interviene en M3 y no se amplía antes del cierre. `tapiz` figura a la vez como técnica y como tipo de objeto (`tapiz_textil`); en los estudios andinos designa la técnica.
+- **La banda se lee en la fotografía.** La anotación no distingue listas de urdimbre de franjas de trama ni registros bordados, porque trabaja sobre la imagen; las bandas se registran por su aspecto visible.
 
 ## Pendiente
 

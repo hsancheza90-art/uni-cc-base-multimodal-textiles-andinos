@@ -2,12 +2,12 @@
 
 | | |
 |---|---|
-| Versión | 0.6, **propuesta**, 12 de noviembre de 2026 |
+| Versión | 0.6.1, **propuesta**, 12 de noviembre de 2026 |
 | Estado | Pendiente de aprobación del asesor. Al aprobarse, el protocolo se congela: la fecha y el commit de aprobación se registran en el «Historial», y desde entonces todo cambio se anota allí con su motivo antes de abrir el test |
 | Responde a | Observación MET01 de la auditoría del asesor (20 de octubre de 2026), informe 08; actividad S1.3 del plan de cierre (`docs/plan_cierre_tesis.md`) |
 | Alcance | Estudio **piloto**, con un solo anotador y un solo evaluador principal (decisión D1, 3 de noviembre) |
 
-Este protocolo establece, antes de observar cualquier resultado de prueba, qué se compara, con qué datos, cómo se mide y qué se considerará evidencia a favor o en contra de cada hipótesis. A la fecha de esta versión no se ha ejecutado ningún sistema sobre las consultas de prueba. Las decisiones del plan de cierre que el asesor debe ratificar (D2, D4, D5 y D7) aparecen marcadas como **[propuesta]**. La decisión D6, sobre las dependencias y el checkpoint de M2, la tomó el investigador el 5 de noviembre.
+Este protocolo establece, antes de observar cualquier resultado de prueba, qué se compara, con qué datos, cómo se mide y qué se considerará evidencia a favor o en contra de cada hipótesis. A la fecha de esta versión no se ha ejecutado ningún sistema sobre las consultas de prueba. Las decisiones del plan de cierre que el asesor debe ratificar (D2, D4 y D5) aparecen marcadas como **[propuesta]**. Las decisiones D6, sobre las dependencias y el checkpoint de M2, y D7, sobre el versionado de la auditoría, las tomó el investigador el 5 y el 6 de noviembre.
 
 ## 1. Pregunta, hipótesis y población
 
@@ -165,12 +165,12 @@ Antes de abrir el test se ejecuta una comprobación automática de fugas: que ni
 
 ## 11. Calendario restante
 
-| Fechas (2026) | Actividad (plan de cierre) | Estado al 6 de noviembre |
+| Fechas (2026) | Actividad (plan de cierre) | Estado al 12 de noviembre |
 |---|---|---|
 | 5 y 6 nov | Protocolo (S1.3), grupos y particiones (S1.7, S2.2 y S2.3), especificación de M3 (S2.5), M0 y M1 (S2.6), consultas T1 (S2.7) | Hecho, salvo la aprobación del protocolo |
-| 6 a 11 nov | Juicios de desarrollo de los candidatos de M0, M1 y M2 (S3.2) | En curso |
-| 12 y 13 nov | Re-anotación del lote 1 (S2.1), decisión de criterios y vocabulario, congelación de la anotación | Programado |
-| 13 a 15 nov | M3 y M4 (S3.1), sus juicios de desarrollo y la estimación de la potencia | Programado |
+| 6 a 14 nov | Juicios de desarrollo de los candidatos de M0, M1 y M2 (S3.2) | Atrasado: 0 de 345 pares al 12 de noviembre |
+| 12 y 13 nov | Re-anotación del lote 1 (S2.1), aclaración de la guía, adjudicación y congelación de la anotación v2.1 | Re-anotación hecha el 12 de noviembre; aclaración y adjudicación pendientes |
+| 13 a 15 nov | Rankings de M3; M4 conectado a los rankings (sus funciones ya están implementadas y probadas); juicios de sus candidatos y efecto mínimo detectable | Programado |
 | 16 y 17 nov | Congelación de los sistemas (S3.3), juicios de prueba y doble juicio parcial (S3.4) | Programado |
 | 18 y 19 nov | Test, ablaciones e interpretabilidad (S4.1 a S4.3) | Programado |
 | 20 a 22 nov | Informe de Seminario II y paquete reproducible (S4.5 a S4.7) | Programado |
@@ -210,3 +210,4 @@ Las equivalencias con los nombres del informe 08 son las siguientes: grupos (`gr
 | 2026-11-06 | 0.4 | Sección 4: M0 sin la descripción plantilla de MET; M1 sobre el textil segmentado; M3 especificado en `docs/especificacion_m3.md`. Rankings de desarrollo de M0, M1 y M2, sin ejecutar ninguna consulta de prueba. Sección 6: libros de consultas T1 y de juicios de desarrollo, con ejemplos hipotéticos |
 | 2026-11-06 | 0.5 | Revisión de la redacción para la lectura del asesor y calendario actualizado; los detalles de implementación pasan a la sección 12. Sin cambios en el diseño |
 | 2026-11-12 | 0.6 | Secciones 1 y 7: H1 y H2 se deciden con una prueba de permutación pareada y el bootstrap queda para el intervalo; el efecto mínimo detectable se calcula antes del test. Secciones 6 y 7: ablación de M4 por posiciones recíprocas, cuyos candidatos entran al pool. Sección 10: amenazas actualizadas. Son las decisiones R01 a R04 de `docs/registro_decisiones.md`, tomadas a partir de la revisión bibliográfica del 11 de noviembre. No se ha ejecutado ninguna consulta de prueba |
+| 2026-11-12 | 0.6.1 | Correcciones de forma de la auditoría interna (R11): calendario al 12 de noviembre y D7 fuera de las decisiones por ratificar. Sin cambios en el diseño |

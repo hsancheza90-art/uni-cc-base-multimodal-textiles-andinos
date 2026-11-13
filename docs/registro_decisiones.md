@@ -18,6 +18,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 | R08 | 2026-11-12 | Las referencias se completan en el `.bib` y el estilo se fija al final | Decidida |
 | R09 | 2026-11-12 | Este registro es el lugar único de las decisiones nuevas | Decidida |
 | R10 | 2026-11-12 | En la fusión por posiciones, los pares sin evidencia estructural van al final del ranking de M3 | Por ratificar |
+| R11 | 2026-11-12 | Se atienden las observaciones de forma de la auditoría interna del 12 de noviembre y se agrega la observabilidad al informe de acuerdo | Decidida |
 
 ## R01. Prueba inferencial de H1 y H2
 
@@ -85,3 +86,17 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Motivo.** Es la misma regla que usa M3: un par sin evidencia no recibe similitud máxima. No añade un criterio nuevo.
 - **Archivos.** `src/modelos/m4_fusion.py` (funciones de fusión y sus pruebas de propiedades en `tests/test_m4.py`). El protocolo 0.6 ya lo describe en la sección 7.
 - **Pendiente.** Conectar M4 a los rankings y al pool cuando exista la anotación v2.1; constante k = 60 y rejilla de pesos en `config/modelos.toml`.
+
+## R11. Observaciones de forma de la auditoría interna del 12 de noviembre
+
+- **Decisión.** Se aplican las correcciones de forma y de registro de la auditoría interna del 12 de noviembre, sin cambiar el diseño del experimento ni ningún valor de la anotación:
+  - D1 y D2: el calendario del protocolo pasa al 12 de noviembre y D7 sale de las decisiones por ratificar (ya estaba decidida).
+  - D3: el informe de acuerdo y `config/anotacion.toml` presentan kappa < 0,6 como señal de revisión, no como criterio de aprobación (aplica el pendiente de R02).
+  - D4: la especificación de M3 aclara que el reparto de M4 solo usa si hay evidencia estructural, no el valor de la cobertura (coincide con `src/modelos/m4_fusion.py`).
+  - D5 y D6: la ficha F07 registra la propuesta de 0,8 de Artstein y Poesio, y el archivo de pendientes bibliográficos registra R05.
+  - H4: el informe de acuerdo agrega, por atributo, si el atributo se pudo observar en cada pasada, con su acuerdo y su kappa.
+  - H7, T5 y T6: el protocolo de anotación declara que el tiempo por pieza no se midió, que `lana` no implica oveja y que el vocabulario de técnica es incompleto.
+  - T2, T3 y T7: la especificación de M3 declara que el eje es fotográfico, que la reversión descarta la orientación de la prenda y que la estructura no es independiente de la técnica ni de la tradición.
+- **Fuente.** Auditoría interna del 12 de noviembre (`investigacion_local/auditorias/auditoria_2026-11-12.md`, fuera del repositorio).
+- **Archivos.** `src/anotacion/acuerdo.py`, `tests/test_anotacion_v2.py`, `config/anotacion.toml`, `docs/protocolo_experimental_v2.md`, `docs/protocolo_anotacion_v2.md`, `docs/especificacion_m3.md` y dos archivos de `docs/revision_bibliografica_2026-11/`.
+- **Pendiente.** Las observaciones que exigen una decisión curatorial (H1, H3, H5, H6, T1, T4, la adjudicación del lote 1 y el análisis por cultura de T7) y la comunicación al asesor de R05 (D8) quedan para el investigador.

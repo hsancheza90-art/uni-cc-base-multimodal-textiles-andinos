@@ -221,6 +221,50 @@ def separar_por_intervalo(
     return validas, excluidas
 
 
+@dataclass
+class Observabilidad:
+    """Si el atributo se pudo observar en cada pasada (auditoria del 12 de noviembre, H4)."""
+
+    atributo: str
+    ambas: int = 0
+    solo_a: int = 0
+    solo_b: int = 0
+    ninguna: int = 0
+    acuerdo: Acuerdo | None = None
+
+
+def es_observable(valor: str, campo: Campo) -> bool | None:
+    """True si hay un valor observado (ausente incluido), False si es un estado de no observacion; None si falta."""
+    if not valor:
+        return None
+    cod = codigos(valor, campo)
+    if cod is None:
+        return None
+    return not (len(cod) == 1 and (cod[0] in SIN_OBSERVACION or cod[0] == "no_visible"))
+
+
+def comparar_observabilidad(columna: str, piezas: list[str], a: Anotador, b: Anotador,
+                            vocabulario: dict[str, Campo]) -> Observabilidad:
+    campo = vocabulario[CAMPO_DE_COLUMNA[columna]]
+    resultado, pares = Observabilidad(columna), []
+    for id_global in piezas:
+        oa = es_observable(valor_efectivo(a.filas[id_global], columna), campo)
+        ob = es_observable(valor_efectivo(b.filas[id_global], columna), campo)
+        if oa is None or ob is None:
+            continue
+        pares.append(("si" if oa else "no", "si" if ob else "no"))
+        if oa and ob:
+            resultado.ambas += 1
+        elif oa:
+            resultado.solo_a += 1
+        elif ob:
+            resultado.solo_b += 1
+        else:
+            resultado.ninguna += 1
+    resultado.acuerdo = kappa_detalle(pares, ["no", "si"])
+    return resultado
+
+
 def medir(a: Anotador, b: Anotador, config: dict[str, Any], vocabulario: dict[str, Campo]):
     piezas, fuera_de_plazo = separar_por_intervalo(sorted(a.anotadas & b.anotadas), a, b, config)
     tipos = tipos_de_campo(config)
@@ -230,11 +274,23 @@ def medir(a: Anotador, b: Anotador, config: dict[str, Any], vocabulario: dict[st
     return piezas, resultados, invalidos, fuera_de_plazo
 
 
+def medir_observabilidad(a: Anotador, b: Anotador, piezas: list[str], config: dict[str, Any],
+                         vocabulario: dict[str, Campo]) -> list[Observabilidad]:
+    orden = [c for capa in config["capas"] for c in capa["campos"] if c in ATRIBUTOS_ANOTACION_V2]
+    return [comparar_observabilidad(c, piezas, a, b, vocabulario) for c in orden]
+
+
 # --------------------------------------------------------------------------- informe
 
 
 def numero(valor: float | None) -> str:
     return "" if valor is None else f"{valor:.3f}"
+
+
+def senal_revision(umbral: float) -> str:
+    """Uso del umbral segun la decision R02: senal de revision, no criterio de aprobacion."""
+    return (f"Un kappa menor que {umbral} es una senal para revisar el atributo en la guia antes de congelar la "
+            "anotacion; no es un criterio de aprobacion (decision R02, `docs/registro_decisiones.md`).")
 
 
 def alcanza(acuerdo: Acuerdo, umbral: float) -> str:
@@ -264,7 +320,8 @@ def lineas_estado_reservado(a: Anotador) -> list[str]:
 
 def lineas_reporte(a: Anotador, b: Anotador, piezas: list[str], resultados: list[Resultado],
                    invalidos: list[tuple[str, str, str, str]], config: dict[str, Any],
-                   fuera_de_plazo: list[tuple[str, str]] | None = None) -> list[str]:
+                   fuera_de_plazo: list[tuple[str, str]] | None = None,
+                   observabilidad: list[Observabilidad] | None = None) -> list[str]:
     fuera_de_plazo = fuera_de_plazo or []
     umbral = float(config["acuerdo"]["umbral_kappa"])
     capa_de = {campo: capa["titulo"] for capa in config["capas"] for campo in capa["campos"]}
@@ -275,7 +332,7 @@ def lineas_reporte(a: Anotador, b: Anotador, piezas: list[str], resultados: list
             "# Acuerdo intra-anotador (anotacion v2, test-retest)",
             "",
             f"Generado por `python -m src.anotacion.acuerdo` (`src/anotacion/acuerdo.py`); parametros en "
-            f"`{CONFIG_ANOTACION.as_posix()}` ([acuerdo] y [reanotacion]). Umbral de acuerdo aceptable: kappa >= {umbral}.",
+            f"`{CONFIG_ANOTACION.as_posix()}` ([acuerdo] y [reanotacion]). {senal_revision(umbral)}",
             "",
             "Sin segundo anotador (plan de cierre, D1), el mismo anotador re-anota a ciegas el lote "
             f"{reanotacion['lote']}, en otro orden y al menos {reanotacion['intervalo_minimo_dias']} dias despues. "
@@ -293,7 +350,7 @@ def lineas_reporte(a: Anotador, b: Anotador, piezas: list[str], resultados: list
             "# Acuerdo entre anotadores (anotacion v2)",
             "",
             f"Generado por `python -m src.anotacion.acuerdo` (`src/anotacion/acuerdo.py`); parametros en "
-            f"`{CONFIG_ANOTACION.as_posix()}` ([acuerdo]). Umbral de acuerdo aceptable: kappa >= {umbral}.",
+            f"`{CONFIG_ANOTACION.as_posix()}` ([acuerdo]). {senal_revision(umbral)}",
             "",
             describir(a, "A"),
             describir(b, "B"),
@@ -325,7 +382,7 @@ def lineas_reporte(a: Anotador, b: Anotador, piezas: list[str], resultados: list
                       numero(r.acuerdo.observado), numero(r.acuerdo.esperado), numero(r.acuerdo.kappa),
                       alcanza(r.acuerdo, umbral)])
     lineas += tabla(filas, ["Capa", "Atributo", "Medida", "n", "Excluidas", "Acuerdo observado", "Acuerdo esperado",
-                            "Kappa", f"Alcanza {umbral}"])
+                            "Kappa", f"Kappa >= {umbral}"])
     lineas += [
         "",
         "`n`: piezas comparadas en el atributo. `Excluidas`: piezas anotadas en las dos que no entran en el atributo "
@@ -346,6 +403,23 @@ def lineas_reporte(a: Anotador, b: Anotador, piezas: list[str], resultados: list
         "`no_visible`; el estado `ausente` es una observacion y se compara como un valor mas.",
         "",
     ]
+    if observabilidad is not None:
+        lineas += [
+            "## Observabilidad por atributo",
+            "",
+            "Si el atributo se pudo observar en cada pasada: un valor (incluido `ausente`) frente a un estado de no "
+            "observacion (`no_observable`, `desconocido` o `no_visible`). El kappa de arriba solo usa los pares "
+            "observados en las dos; esta tabla muestra si la frontera entre «se ve» y «no se ve» es estable, que es lo "
+            "que decide que bloques compara M3.",
+            "",
+        ]
+        lineas += tabla(
+            [[f"`{o.atributo}`", str(o.ambas), str(o.solo_a), str(o.solo_b), str(o.ninguna),
+              numero(o.acuerdo.observado) if o.acuerdo else "", numero(o.acuerdo.kappa) if o.acuerdo and o.acuerdo.kappa
+              is not None else (f"no estimable: {o.acuerdo.motivo}" if o.acuerdo else "")] for o in observabilidad],
+            ["Atributo", "Observable en las dos", "Solo en A", "Solo en B", "En ninguna", "Acuerdo observado", "Kappa"],
+        )
+        lineas.append("")
     if intra:
         lineas += ["## Piezas fuera de plazo", "",
                    "Anotadas en las dos, pero sin el intervalo minimo entre fechas: no entran en ningun atributo.", ""]
@@ -365,7 +439,7 @@ def lineas_reporte(a: Anotador, b: Anotador, piezas: list[str], resultados: list
         for r in resultados for etiqueta, ac in r.por_etiqueta
     ]
     if filas:
-        lineas += tabla(filas, ["Atributo", "Etiqueta", "n", "Acuerdo observado", "Acuerdo esperado", "Kappa", f"Alcanza {umbral}"])
+        lineas += tabla(filas, ["Atributo", "Etiqueta", "n", "Acuerdo observado", "Acuerdo esperado", "Kappa", f"Kappa >= {umbral}"])
     else:
         lineas.append("Sin piezas comparables.")
     lineas += ["", "## Valores fuera del vocabulario", ""]
@@ -414,8 +488,11 @@ def main(argv: list[str] | None = None) -> int:
     datos = config["acuerdo"]
     a = leer_anotador(raiz, args.a or datos["anotador_a"], [args.hoja_a] if args.hoja_a else list(datos["hojas"]))
     b = leer_anotador(raiz, args.b or datos["anotador_b"], [args.hoja_b] if args.hoja_b else list(datos["hojas"]))
-    piezas, resultados, invalidos, fuera_de_plazo = medir(a, b, config, leer_vocabulario(raiz))
-    escribir_texto(raiz / SALIDA_REPORTE, lineas_reporte(a, b, piezas, resultados, invalidos, config, fuera_de_plazo))
+    vocabulario = leer_vocabulario(raiz)
+    piezas, resultados, invalidos, fuera_de_plazo = medir(a, b, config, vocabulario)
+    observabilidad = medir_observabilidad(a, b, piezas, config, vocabulario)
+    escribir_texto(raiz / SALIDA_REPORTE, lineas_reporte(a, b, piezas, resultados, invalidos, config, fuera_de_plazo,
+                                                         observabilidad))
     print(f"Acuerdo: {len(piezas)} piezas comparadas, {len(fuera_de_plazo)} fuera de plazo")
     print(f"Informe: {raiz / SALIDA_REPORTE}")
     return 0

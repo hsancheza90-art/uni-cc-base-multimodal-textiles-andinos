@@ -2,6 +2,8 @@
 
 Documentos pertinentes que no se pudieron leer el 11 de noviembre de 2026. «Sin acceso» no es evidencia en contra. El orden es de prioridad para la tesis. Con acceso UNI (o préstamo interbibliotecario) la mayoría se resuelve en una tarde.
 
+**Decisión R05 (12 de noviembre).** Por el calendario de cierre, no se espera a Brownlow et al. (2015) ni a Phillips (2018) para redactar la brecha. Este archivo se conserva como registro de lo que no se leyó. El manuscrito dirá que Brownlow et al. se localizó y no se pudo leer, a pesar de que el asesor pidió priorizarlo, y formulará la brecha como «en la búsqueda realizada».
+
 ## Prioridad alta
 
 | Documento | Identificador | Por qué importa | Motivo del fallo |
