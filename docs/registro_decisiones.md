@@ -24,6 +24,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 | R14 | 2026-11-12 | En el lote re-anotado prevalece la re-anotación | Decidida |
 | R15 | 2026-11-12 | Regla de los treinta segundos: el `desconocido` del atributo basta | Decidida |
 | R16 | 2026-11-12 | Simetría: se mantienen `traslacional` y `repeticion_modular`, separadas por la dimensión de la repetición | Decidida |
+| R17 | 2026-11-13 | Los juicios de desarrollo se conservan como se emitieron; la reserva sobre la rúbrica se declara y se somete al asesor | Por ratificar |
 
 ## R01. Prueba inferencial de H1 y H2
 
@@ -140,3 +141,11 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Motivo.** La auditoría interna (H5, T4) encontró tres piezas confundidas entre las dos categorías: la guía no las separaba. La distinción entre repetición en una dimensión (friso) y en dos (teselado) es la que usa el análisis de simetría de patrones.
 - **Archivos.** `docs/protocolo_anotacion_v2.md` («Simetría: traslación y repetición modular») y la guía de los workbooks.
 - **Pendiente.** Revisar `simetria` con esta definición en los lotes 2 a 5, en las piezas marcadas `traslacional` o `repeticion_modular`, antes de congelar la anotación v2.1. El lote 1 se rige por R14.
+
+## R17. Juicios de desarrollo y aplicación de la rúbrica
+
+- **Decisión.** Los 345 juicios de desarrollo se conservan tal como se emitieron el 12 de noviembre. El trabajo continúa con ellos y la reserva sobre la aplicación de la rúbrica se declara y se somete al asesor. No se corrige ningún juicio a la vista de la anotación o de un ranking.
+- **Hallazgo que la motiva.** Los juicios no se alinean con la composición registrada en la anotación: entre los 85 pares con la misma composición, el 14 % recibió grado 2 o 3; entre los 253 de composición distinta, el 11 %. En las tres consultas de bandas, ninguno de los 39 candidatos con bandas alcanzó el grado 2. De los 40 juicios de grado 2 o 3, solo 5 llevan justificación.
+- **Alternativa no adoptada.** Repetir el juicio de desarrollo con la rúbrica aclarada y ejemplos de cada grado. Queda abierta: si el asesor la indica, debe hacerse antes de ajustar los pesos de M4 y de construir el pool de prueba.
+- **Consecuencia que se declara.** Mientras no se resuelva, no puede afirmarse que los juicios de desarrollo midan similitud estructural, y los pesos que se elijan con ellos heredan esa reserva.
+- **Archivos.** `docs/revision_asesor_2026-11/amenazas_validez.md` (A2) y `matriz_respuesta_informe_integrado.md` (punto 6.a). Ningún dato cambia.

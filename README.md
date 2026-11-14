@@ -154,7 +154,8 @@ python -m src.imagenes.informe_aptitud         # una galería por banda de aptit
 | `docs/protocolo_aptitud_v2.md` | Criterio de selección v2, etapas, medidas, puntaje y validación |
 | `docs/protocolo_anotacion_v2.md` | Anotación estructural del principal v2: capas, bandas, estados, regla de los treinta segundos, muestra del núcleo y acuerdo intra-anotador |
 | `docs/auditoria_2026-10-20/` | Auditoría del asesor del 20 de octubre de 2026, versionada sin cambios |
-| `docs/revision_asesor_2026-11/` | Revisión para el asesor (6 de noviembre de 2026): carta de envío, informe de avance y matriz de respuesta a la auditoría |
+| `docs/informe_integrado_2026-11-08/` | Informe integrado del asesor del 8 de noviembre de 2026, versionado sin cambios, con su transcripción |
+| `docs/revision_asesor_2026-11/` | Revisión para el asesor: carta de envío, informe de avance, matrices de respuesta a la auditoría y al informe integrado, inventario, problema e hipótesis, formalización matemática y amenazas a la validez |
 | `docs/especificacion_m3.md` | Descriptor estructural M3: palabra de bandas canónica, adyacencias, máscara de observabilidad, disimilitud mixta y sus propiedades |
 | `docs/protocolo_experimental_v2.md` | Experimento de recuperación estructural (Seminario II): hipótesis, galería, tareas, sistemas M0–M4, particiones, juicios, métricas y criterios de suspensión del test |
 | `docs/met_protocolo_fuente_v2.md`, `docs/cma/cma_source_protocol.md` | Protocolo y cadena de curación por fuente |

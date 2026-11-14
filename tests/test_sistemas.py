@@ -77,6 +77,36 @@ def test_burnside_cuatro_posiciones_dos_simbolos_dan_diez_orbitas() -> None:
     assert len({m3.canonizar(w, ["a", "b"]) for w in palabras}) == 10
 
 
+@pytest.mark.parametrize("simbolos", [2, 3, 5])
+def test_el_numero_de_formas_canonicas_sigue_la_formula_de_burnside(simbolos: int) -> None:
+    # Orbitas de las palabras de longitud l bajo la reversion: (k^l + k^ceil(l/2)) / 2.
+    alfabeto = [str(s) for s in range(simbolos)]
+    for largo in range(1, 6):
+        orbitas = {m3.canonizar(w, alfabeto) for w in product(alfabeto, repeat=largo)}
+        assert len(orbitas) == (simbolos ** largo + simbolos ** ((largo + 1) // 2)) // 2
+
+
+def test_un_mismo_histograma_de_tipos_reune_varias_formas_canonicas() -> None:
+    # Dos bandas de cada tipo: 6 palabras, 2 palindromos, (6 + 2) / 2 = 4 clases que el control sin orden confunde.
+    palabras = [w for w in product("ab", repeat=4) if w.count("a") == 2]
+    assert len({m3.canonizar(w, ["a", "b"]) for w in palabras}) == 4
+    assert len({tuple(sorted(m3.histograma_tipos(w).items())) for w in palabras}) == 1
+
+
+def test_la_disimilitud_no_es_una_metrica() -> None:
+    # Con mascaras variables falla la desigualdad triangular: i y j solo comparten la composicion (igual),
+    # j y k solo el borde (igual), i y k solo la simetria (distinta). Tampoco D = 0 implica igualdad.
+    pesos = CONFIG["m3"]["pesos"]
+    i = m3.Descriptor(composicion="bandas", simetria="traslacional")
+    j = m3.Descriptor(composicion="bandas", borde="si")
+    k = m3.Descriptor(borde="si", simetria="bilateral")
+    assert m3.comparar(i, j, pesos).disimilitud == 0 and m3.comparar(j, k, pesos).disimilitud == 0
+    assert m3.comparar(i, k, pesos).disimilitud == 1
+    # La distancia de palabras normalizada tampoco la cumple, aun sin mascaras: 2/3 > 1/4 + 1/4.
+    x, y, z = tuple("aab"), tuple("aaba"), tuple("aba")
+    assert m3.distancia_palabras(x, z) > m3.distancia_palabras(x, y) + m3.distancia_palabras(y, z)
+
+
 def test_el_control_sin_orden_no_distingue_lo_que_las_adyacencias_si() -> None:
     aabb, abab = tuple("aabb"), tuple("abab")
     assert m3.histograma_tipos(aabb) == m3.histograma_tipos(abab)

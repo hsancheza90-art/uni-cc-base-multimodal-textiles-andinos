@@ -6,8 +6,9 @@ Documentación metodológica del corpus multimodal de textiles andinos. Según l
 
 | Documento | Contenido |
 |---|---|
-| `revision_asesor_2026-11/` | Carta de envío, informe de avance y matriz de respuesta a la auditoría. Es el punto de entrada de la revisión. |
+| `revision_asesor_2026-11/` | Carta de envío, informe de avance y matrices de respuesta a la auditoría y al informe integrado; inventario del estado, propuesta de problema e hipótesis, formalización matemática y amenazas a la validez. Es el punto de entrada de la revisión. |
 | `auditoria_2026-10-20/` | Auditoría del asesor del 20 de octubre de 2026, versionada sin cambios, con una nota sobre la verificación de sus sumas. |
+| `informe_integrado_2026-11-08/` | Informe integrado del asesor del 8 de noviembre de 2026: documento original sin cambios y su transcripción. |
 
 ## Corpus v2 y experimento (etiqueta `corpus-met-cma-aic-v2.0`)
 
@@ -44,6 +45,6 @@ Los conteos vigentes y el motivo de cada cambio están en `config/corpus.toml`.
 | `MCC701_05-07-2026.pdf` | Primer avance de tesis. |
 | `notas_para_tesis.md` | Diferencias con el capítulo 6 y material para la segunda parte. |
 | `plan_cierre_tesis.md` | Plan de cuatro semanas (26-10 al 22-11-2026) alineado con la auditoría del asesor. |
-| `registro_decisiones.md` | Decisiones del investigador desde el 12-11-2026: motivo, fuente, archivos afectados y estado. |
+| `registro_decisiones.md` | Decisiones del investigador desde el 12-11-2026 (R01 a R17): motivo, fuente, archivos afectados y estado. |
 | `revision_bibliografica_2026-11/` | Revisión de alcance del 11-11-2026: protocolo de búsqueda, resultados, matriz, síntesis y fichas. Los PDF no se versionan. |
 | `historico.md` | Archivos retirados del repositorio y dónde recuperarlos. |
