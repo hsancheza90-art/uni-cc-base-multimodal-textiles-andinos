@@ -25,6 +25,8 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 | R15 | 2026-11-12 | Regla de los treinta segundos: el `desconocido` del atributo basta | Decidida |
 | R16 | 2026-11-12 | Simetría: se mantienen `traslacional` y `repeticion_modular`, separadas por la dimensión de la repetición | Decidida |
 | R17 | 2026-11-13 | Los juicios de desarrollo se conservan como se emitieron; la reserva sobre la rúbrica se declara y se somete al asesor | Por ratificar |
+| R18 | 2026-11-16 | Los lotes 2 a 5 se revisan con R12 y R16 en un workbook aparte; las correcciones prevalecen al exportar | Decidida |
+| R19 | 2026-11-16 | `centro` se mantiene en la anotación y en M3 pese a su estabilidad baja | Decidida |
 
 ## R01. Prueba inferencial de H1 y H2
 
@@ -149,3 +151,24 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Alternativa no adoptada.** Repetir el juicio de desarrollo con la rúbrica aclarada y ejemplos de cada grado. Queda abierta: si el asesor la indica, debe hacerse antes de ajustar los pesos de M4 y de construir el pool de prueba.
 - **Consecuencia que se declara.** Mientras no se resuelva, no puede afirmarse que los juicios de desarrollo midan similitud estructural, y los pesos que se elijan con ellos heredan esa reserva.
 - **Archivos.** `docs/revision_asesor_2026-11/amenazas_validez.md` (A2) y `matriz_respuesta_informe_integrado.md` (punto 6.a). Ningún dato cambia.
+
+## R18. Revisión de criterios en los lotes 2 a 5
+
+- **Decisión.** Antes de congelar la anotación v2.1, el anotador vuelve a mirar las piezas de los lotes 2 a 5 afectadas por los criterios escritos después de anotarlas, y confirma o corrige cada una. Entran a la revisión, por reglas automáticas:
+  - las 52 piezas con palabra de bandas, todas y no solo las de composición distinta de bandas (R12);
+  - las 85 con simetría `traslacional` o `repeticion_modular` (R16);
+  - las 32 cuyas observaciones marcan una duda o un criterio sobre un atributo que usa M3;
+  - las 22 cuyas observaciones piden verificar que la imagen corresponde al registro.
+  En total, 108 de las 120 piezas.
+- **Qué queda fuera.** Las dudas que solo tocan atributos que M3 no usa (`motivo_principal`, color, técnica, tipo de objeto o de superficie; 46 piezas) y los huecos de vocabulario (16 piezas). No se resuelven en la versión 2.1 y se declaran como limitación.
+- **Procedimiento.** Las decisiones se registran en `data/metadata/anotacion_v2_revision_criterios.xlsx`, con revisor, fecha y, si hay corrección, su motivo. El workbook de la primera anotación no se modifica. Al exportar `data/metadata/anotaciones_v2.csv`, los valores corregidos reemplazan a los anteriores, y `outputs/reports/anotacion_v2_revision_criterios.md` conserva el registro de adjudicaciones (pieza, atributo, valor anterior, valor nuevo y motivo). La revisión se hace solo sobre las imágenes, sin consultar rankings ni juicios.
+- **Motivo.** El informe integrado del asesor (punto 4, incisos c y d) pide resolver las ambigüedades con criterios escritos, conservar un registro de adjudicaciones y no retocar etiquetas según un ranking. Los rankings de M3 no existen todavía.
+- **Consecuencia que se declara.** La versión 2.1 combina tres lecturas: la re-anotación en el lote 1 (R14), la primera anotación en los lotes 2 a 5 y, sobre esta, las correcciones de esta revisión.
+- **Archivos.** `src/anotacion/revision_criterios.py`, `src/anotacion/aplicar_anotaciones_v2.py`, `config/anotacion.toml` (`[revision_criterios]`), `tests/test_revision_criterios.py`, `docs/protocolo_anotacion_v2.md`.
+- **Pendiente.** La revisión de las 108 piezas. Una pieza cuya imagen no corresponda al registro debe re-anotarse antes de congelar.
+
+## R19. El atributo `centro`
+
+- **Decisión.** `centro` se mantiene en la anotación y en el descriptor M3, aunque su acuerdo intra-anotador en el lote 1 fue κ = 0,49. Su peso se fija, como los demás, solo con datos de desarrollo.
+- **Motivo.** Retirar un bloque del descriptor a la vista de un único lote de 30 piezas sería una decisión tomada con poca evidencia. La estabilidad baja se declara entre las amenazas a la validez.
+- **Archivos.** Ninguno: confirma el estado vigente. `centro` no es corregible en la revisión de R18.

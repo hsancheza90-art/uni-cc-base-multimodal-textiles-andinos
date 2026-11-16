@@ -25,6 +25,11 @@ config/anotacion.toml): si la re-anotación de una pieza es válida, sus valores
 los de la primera anotación en el CSV exportado; la pieza conserva su lote y su orden. La
 primera anotación no se modifica en su workbook y el acuerdo sigue comparando las dos.
 
+Revisión de criterios (decisión R18, [revision_criterios]): después de adjudicar, las
+correcciones del workbook de revisión de los lotes 2 a 5 reemplazan los valores revisados en el
+CSV exportado y quedan registradas en outputs/reports/anotacion_v2_revision_criterios.md
+(src/anotacion/revision_criterios.py). Un error en ese workbook también detiene el paso.
+
 El informe y la consola dan solo conteos, sin valores ni observaciones por pieza: el lote
 de [reanotacion] se re-anota a ciegas y el anotador no debe ver su primera anotación. Los
 errores sí se detallan, porque hay que corregirlos. Sin workbook de primera anotación, no
@@ -41,6 +46,7 @@ from datetime import date, timedelta
 from pathlib import Path
 from typing import Any
 
+from src.anotacion import revision_criterios
 from src.anotacion.aplicar_anotaciones import fecha_valida
 from src.anotacion.workbook import CAMPO_DE_COLUMNA, HOJA_HUERFANAS
 from src.consolidado.esquema import ATRIBUTOS_ANOTACION_V2, COLUMNAS_ANOTACIONES_V2, CORRECCIONES
@@ -265,6 +271,16 @@ def adjudicar(primera: list[dict[str, str]], reanotacion: list[dict[str, str]], 
     return salida, n
 
 
+def base_adjudicada(raiz: Path, config: dict[str, Any], vocabulario: dict[str, Campo]) -> list[dict[str, str]] | None:
+    """Filas adjudicadas (R14) antes de la revisión de criterios; None si la anotación tiene errores o no existe."""
+    datos = config["acuerdo"]
+    a = validar_workbook(raiz, datos["anotador_a"], list(datos["hojas"]), vocabulario)
+    b = validar_workbook(raiz, datos["anotador_b"], list(datos["hojas"]), vocabulario)
+    if not a.existe or a.errores or b.errores:
+        return None
+    return adjudicar(a.anotadas, b.anotadas, bool(config["reanotacion"].get("prevalece", False)))[0]
+
+
 def aplicar(raiz: Path) -> int:
     config = leer_config_anotacion(raiz)
     datos = config["acuerdo"]
@@ -277,6 +293,9 @@ def aplicar(raiz: Path) -> int:
     b = validar_workbook(raiz, datos["anotador_b"], hojas, vocabulario)
 
     exportadas, prevalecen = adjudicar(a.anotadas, b.anotadas, bool(config["reanotacion"].get("prevalece", False)))
+    revision = revision_criterios.aplicar(exportadas, revision_criterios.leer_decisiones(raiz, config), config, vocabulario)
+    escribir_texto(raiz / revision_criterios.REPORTE, revision_criterios.lineas_reporte(revision, config))
+    exportadas = revision.filas
     lineas = lineas_reporte(a, b, config)
     if prevalecen:
         seccion = next((i for i, linea in enumerate(lineas) if linea.startswith("## ")), len(lineas))
@@ -284,7 +303,8 @@ def aplicar(raiz: Path) -> int:
             f"Adjudicacion del lote {config['reanotacion']['lote']} (decision R14): en {prevalecen} piezas el CSV exportado "
             "toma los valores de la re-anotacion; la primera anotacion no cambia en su workbook.", ""]
     escribir_texto(raiz / REPORTE_V2, lineas)
-    errores = a.errores + [f"(re-anotacion) {error}" for error in b.errores]
+    errores = (a.errores + [f"(re-anotacion) {error}" for error in b.errores]
+               + [f"(revision de criterios) {error}" for error in revision.errores])
     if errores:
         print(f"Anotacion v2 con {len(errores)} errores; no se actualizo {SALIDA_ANOTACIONES_V2}. Ver {REPORTE_V2}.")
         for error in errores[:20]:
@@ -294,6 +314,8 @@ def aplicar(raiz: Path) -> int:
     print(f"Anotaciones v2 validas: {len(a.anotadas)} de {a.piezas} piezas -> {SALIDA_ANOTACIONES_V2}"
           + (f" ({prevalecen} con los valores de la re-anotacion)" if prevalecen else ""))
     print(f"Re-anotacion: {len(b.anotadas)} anotadas | avisos: {sum(a.avisos.values())} y {sum(b.avisos.values())}")
+    print(f"Revision de criterios: {revision.seleccionadas} piezas, {revision.decisiones['confirmar']} confirmadas, "
+          f"{revision.decisiones['corregir']} corregidas, {revision.pendientes if revision.existe else revision.seleccionadas} pendientes")
     return 0
 
 

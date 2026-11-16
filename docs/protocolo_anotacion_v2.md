@@ -174,6 +174,32 @@ No hay segundo anotador (plan de cierre, D1). Para estimar la consistencia de la
 - **Observabilidad** (desde el 12 de noviembre, auditoría interna H4): el kappa por atributo solo usa los pares observados en las dos pasadas. Por eso el informe agrega, por atributo, si el atributo se pudo observar en cada pasada (un valor, incluido `ausente`, frente a `no_observable`, `desconocido` o `no_visible`), con su acuerdo y su kappa. Esa frontera decide qué bloques compara M3.
 - **Con un segundo anotador**, si lo hubiera más adelante: se cambia `modalidad` y `anotador_b` en `[acuerdo]` y el mismo cálculo compara a las dos personas.
 
+## Revisión de criterios antes de congelar (lotes 2 a 5)
+
+La definición de banda y la frontera entre simetría traslacional y repetición modular se escribieron después de anotar los lotes 2 a 5 (decisiones R12 y R16). Antes de congelar la versión 2.1, el anotador vuelve a mirar las piezas afectadas (decisión R18).
+
+**Qué piezas entran.** Las selecciona el código, con cuatro reglas que se anotan en la columna `motivos_revision`:
+
+| Motivo | Regla |
+|---|---|
+| R12 | La pieza tiene palabra de bandas |
+| R16 | Su simetría es `traslacional` o `repeticion_modular` |
+| OBS | Sus observaciones marcan una duda o un criterio sobre un atributo que usa M3, o sin nombrar ninguno |
+| ID | Sus observaciones piden verificar que la imagen corresponde al registro |
+
+Las dudas sobre atributos que M3 no usa y los huecos de vocabulario no entran: se cuentan en el informe y se declaran.
+
+**Cómo se decide.** En `data/metadata/anotacion_v2_revision_criterios.xlsx` (se crea con `python -m src.anotacion.revision_criterios --crear`, que conserva lo ya escrito), cada pieza recibe una decisión:
+
+- `confirmar`: la anotación se mantiene;
+- `corregir`: se escriben solo los valores que cambian y el motivo.
+
+Toda decisión lleva revisor y fecha. Pueden corregirse `composicion`, `eje_bandas`, `secuencia_bandas`, `borde`, `simetria`, `motivos` y `familia_iconografica`. La revisión se hace sobre la imagen, sin consultar rankings, juicios de relevancia ni resultados de ningún sistema.
+
+**Cómo se aplica.** El workbook de la primera anotación no se modifica. Al exportar `data/metadata/anotaciones_v2.csv`, el flujo reemplaza los valores corregidos y escribe en `outputs/reports/anotacion_v2_revision_criterios.md` el registro de adjudicaciones: pieza, atributo, valor anterior, valor nuevo y motivo. Una decisión incompleta, un valor fuera del vocabulario o un eje y una secuencia que no concuerdan detienen el flujo.
+
+**Condición para congelar.** Ninguna pieza pendiente y ninguna imagen marcada como `no_coincide`. Una pieza cuya imagen no corresponda al registro se re-anota en el workbook de anotación antes de congelar.
+
 ## Limitaciones que se declaran
 
 - **Esfuerzo de anotación sin medir.** El plan pedía registrar el tiempo por pieza y no se registró en ninguna de las dos pasadas. El esfuerzo se informará como estimación, no como medida.

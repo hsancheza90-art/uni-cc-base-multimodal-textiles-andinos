@@ -108,6 +108,18 @@ intervalo_minimo_dias = 7
 # data/metadata/anotaciones_v2.csv; ninguno de los dos workbooks se modifica.
 prevalece = true
 
+[revision_criterios]
+# 2026-11-16 (decision R18): revision de los lotes anotados antes de escribir la definicion de banda (R12)
+# y la frontera entre simetria traslacional y repeticion modular (R16). El workbook se crea con
+#     python -m src.anotacion.revision_criterios --crear
+# y sus correcciones se aplican al exportar data/metadata/anotaciones_v2.csv; el workbook de la primera
+# anotacion no se modifica. El lote 1 no entra: se rige por la re-anotacion (R14).
+workbook = "data/metadata/anotacion_v2_revision_criterios.xlsx"
+lotes = [2, 3, 4, 5]
+# Atributos que el anotador puede corregir: los que tocan R12 y R16 y los demas bloques de M3 sobre los
+# que hay dudas anotadas. centro no entra (decision R19: se mantiene como esta).
+atributos = ["composicion", "eje_bandas", "secuencia_bandas", "borde", "simetria", "motivos", "familia_iconografica"]
+
 [acuerdo.campos]
 # Tipo de medida por atributo. Nominales: kappa de Cohen. Ordinales: kappa ponderado lineal,
 # con el orden de [acuerdo.orden]. Multiples: Jaccard medio por pieza y kappa por etiqueta.

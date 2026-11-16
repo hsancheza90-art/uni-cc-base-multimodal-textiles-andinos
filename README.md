@@ -96,6 +96,7 @@ python -m src.imagenes.revision_v2 --crear | --trasladar     # revisión de MET 
 python -m src.anotacion.workbook                 # crea o actualiza data/metadata/anotacion_met_cma_v1.xlsx
 python -m src.anotacion.workbook --corpus v2     # crea o actualiza data/metadata/anotacion_v2.xlsx (núcleo y resto del principal v2)
 python -m src.anotacion.workbook --corpus v2 --reanotacion   # re-anotacion ciega del lote 1 (acuerdo intra-anotador)
+python -m src.anotacion.revision_criterios --crear           # revision de bandas y simetria en los lotes 2 a 5 (conserva lo escrito)
 python -m src.anotacion.acuerdo                  # acuerdo entre la primera anotacion y la re-anotacion (rutas en config/anotacion.toml)
 
 # Sistemas de recuperacion (docs/protocolo_experimental_v2.md); dependencias opcionales:
