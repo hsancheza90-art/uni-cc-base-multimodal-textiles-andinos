@@ -93,6 +93,31 @@ def test_errores_de_la_revision() -> None:
     assert not errores(decision="confirmar", observaciones="REC: verificar el id.", identidad_imagen="coincide", **completa)
 
 
+def test_una_propuesta_automatica_se_precarga_firmada_auto_y_no_se_aplica() -> None:
+    fila = pieza()
+    editables, _ = rc.columnas(CONFIG)
+    propuesta = {"id_global": "AIC:1", "decision": "corregir", "simetria_revisado": "traslacional", "motivo": "Friso (R16).",
+                 "identidad_imagen": "", "lo_que_se_ve": "Una fila de aves.", "criterios": "R16", "confianza": "alta",
+                 "nota": "", "fecha_propuesta": "2026-11-16"}
+    vacia = decision(fila) | dict.fromkeys(editables, "")
+    cargada = rc.con_propuesta(vacia, propuesta, editables, ATRIBUTOS)
+    assert cargada["revisor"] == rc.AUTO and cargada["simetria_revisado"] == "traslacional"
+    assert cargada["propuesta"] == "corregir: simetria=traslacional"
+    # Firmada auto: se valida, pero no cambia la anotacion ni cuenta como decidida.
+    revision = rc.aplicar([fila], [cargada], CONFIG, VOCABULARIO)
+    assert revision.filas == [fila] and revision.propuestas == 1 and revision.pendientes == 1 and not revision.errores
+    # Verificada por el revisor: se aplica y se compara con la propuesta.
+    revision = rc.aplicar([fila], [cargada | {"revisor": "hs", "fecha_revision": "2026-11-17"}], CONFIG, VOCABULARIO)
+    assert revision.filas[0]["simetria"] == "traslacional" and revision.pendientes == 0
+    assert revision.frente_a_propuesta == {"igual a la propuesta": 1}
+    # El revisor la cambia: queda registrada como distinta de la propuesta.
+    cambiada = cargada | {"decision": "confirmar", "simetria_revisado": "", "motivo": "", "revisor": "hs", "fecha_revision": "2026-11-17"}
+    assert rc.aplicar([fila], [cambiada], CONFIG, VOCABULARIO).frente_a_propuesta == {"distinta de la propuesta": 1}
+    # Una fila ya decidida no se sobrescribe con la propuesta.
+    decidida = vacia | {"decision": "confirmar", "revisor": "hs", "fecha_revision": "2026-11-17"}
+    assert rc.con_propuesta(decidida, propuesta, editables, ATRIBUTOS)["decision"] == "confirmar"
+
+
 def test_un_workbook_que_no_corresponde_a_la_seleccion_es_un_error() -> None:
     fila = pieza()
     viejo = decision(fila) | {"simetria": "traslacional"}  # la anotacion cambio despues de generar el workbook

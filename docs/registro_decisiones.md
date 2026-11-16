@@ -27,6 +27,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 | R17 | 2026-11-13 | Los juicios de desarrollo se conservan como se emitieron; la reserva sobre la rúbrica se declara y se somete al asesor | Por ratificar |
 | R18 | 2026-11-16 | Los lotes 2 a 5 se revisan con R12 y R16 en un workbook aparte; las correcciones prevalecen al exportar | Decidida |
 | R19 | 2026-11-16 | `centro` se mantiene en la anotación y en M3 pese a su estabilidad baja | Decidida |
+| R20 | 2026-11-16 | La revisión de R18 parte de propuestas automáticas que el anotador verifica una por una | Decidida |
 
 ## R01. Prueba inferencial de H1 y H2
 
@@ -172,3 +173,13 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Decisión.** `centro` se mantiene en la anotación y en el descriptor M3, aunque su acuerdo intra-anotador en el lote 1 fue κ = 0,49. Su peso se fija, como los demás, solo con datos de desarrollo.
 - **Motivo.** Retirar un bloque del descriptor a la vista de un único lote de 30 piezas sería una decisión tomada con poca evidencia. La estabilidad baja se declara entre las amenazas a la validez.
 - **Archivos.** Ninguno: confirma el estado vigente. `centro` no es corregible en la revisión de R18.
+
+## R20. Propuestas automáticas en la revisión de criterios
+
+- **Decisión.** La revisión de R18 es asistida. Para cada una de las 108 piezas se generó una propuesta (confirmar o corregir, con los valores, el motivo, el criterio aplicado y un grado de confianza) a partir de la imagen, la anotación vigente y los criterios escritos. El anotador verifica cada propuesta frente a la imagen, la corrige si hace falta y la firma.
+- **Cómo se generaron.** Con un modelo de visión y lenguaje, en nueve lotes de doce piezas, el 16 de noviembre. Cada lote recibió solo las imágenes, la anotación vigente, las observaciones del anotador y el texto de los criterios. No recibió rankings, juicios de relevancia ni resultados de ningún sistema. Las propuestas se validaron contra el vocabulario antes de versionarse.
+- **Garantías.** Las propuestas se guardan en `data/metadata/anotacion_v2_revision_criterios_propuestas.csv` y se precargan en el workbook firmadas `revisor = auto`. Una fila firmada así no se aplica a la anotación ni cuenta como decidida: la versión 2.1 no puede congelarse mientras quede alguna. El workbook conserva la propuesta en columnas de contexto, y el informe cuenta cuántas decisiones verificadas coinciden con ella y cuántas la modifican.
+- **Criterios provisionales usados en las propuestas.** Además de R12 y R16, cuatro criterios que el investigador debe aprobar o cambiar al verificar: C1, las esquinas y fragmentos con decoración perimetral son `borde`, y `composicion_libre` solo si no se distingue organización; C2, una tira con recuadros sucesivos de contorno propio es `paneles`, sin palabra de bandas; C3, una figura única es `campo_central` si un fondo la enmarca y `composicion_libre` si la pieza es la propia figura; C4, varias piezas sin relación en una foto llevan sus atributos estructurales como `no_observable`.
+- **Consecuencia que se declara.** La versión 2.1 incluirá correcciones propuestas por un procedimiento automático y verificadas por el anotador. El manuscrito debe describirlo así, con el número de propuestas aceptadas y modificadas.
+- **Hallazgo durante la revisión.** En ocho piezas, la anotación guardada describe la imagen de otro registro. Seis forman un ciclo (AIC:85282, AIC:85310, CMA:155505, AIC:223218, AIC:85388 y MET:307933) y dos están intercambiadas entre sí (MET:316978 y MET:316341). Se comprobó con las imágenes y con los números de inventario: las imágenes corresponden a sus registros y son las anotaciones las que están desplazadas. Sus propuestas van como `no_coincide` y sin correcciones. La reasignación es una decisión del investigador y está pendiente.
+- **Archivos.** `src/anotacion/revision_criterios.py`, `config/anotacion.toml` (`[revision_criterios] propuestas`), `tests/test_revision_criterios.py`.

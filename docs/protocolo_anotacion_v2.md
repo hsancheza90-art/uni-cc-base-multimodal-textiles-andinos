@@ -196,6 +196,8 @@ Las dudas sobre atributos que M3 no usa y los huecos de vocabulario no entran: s
 
 Toda decisión lleva revisor y fecha. Pueden corregirse `composicion`, `eje_bandas`, `secuencia_bandas`, `borde`, `simetria`, `motivos` y `familia_iconografica`. La revisión se hace sobre la imagen, sin consultar rankings, juicios de relevancia ni resultados de ningún sistema.
 
+**Propuestas automáticas** (decisión R20). Cada fila llega con una propuesta precargada y firmada `revisor = auto`, generada a partir de la imagen, la anotación vigente y los criterios escritos, sin acceso a rankings ni a juicios. Una fila firmada así no se aplica ni cuenta como decidida. El anotador la verifica frente a la imagen, la corrige si hace falta y pone su nombre y la fecha. Las columnas `propuesta*` conservan lo propuesto, y el informe cuenta cuántas decisiones verificadas coinciden con la propuesta y cuántas la modifican.
+
 **Cómo se aplica.** El workbook de la primera anotación no se modifica. Al exportar `data/metadata/anotaciones_v2.csv`, el flujo reemplaza los valores corregidos y escribe en `outputs/reports/anotacion_v2_revision_criterios.md` el registro de adjudicaciones: pieza, atributo, valor anterior, valor nuevo y motivo. Una decisión incompleta, un valor fuera del vocabulario o un eje y una secuencia que no concuerdan detienen el flujo.
 
 **Condición para congelar.** Ninguna pieza pendiente y ninguna imagen marcada como `no_coincide`. Una pieza cuya imagen no corresponda al registro se re-anota en el workbook de anotación antes de congelar.

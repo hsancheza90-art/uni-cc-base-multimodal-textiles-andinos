@@ -7,6 +7,7 @@ Los lotes 2, 3, 4, 5 se anotaron antes de escribir la definicion de banda (R12) 
 - Piezas en revision: 108.
 - Confirmadas: 0; corregidas: 0; pendientes: 108.
 - Valores corregidos: 0.
+- Propuestas automaticas sin verificar (`revisor = auto`): 108. No se aplican: cuentan como pendientes hasta que el revisor las verifica y firma.
 
 ## Piezas por motivo de revision
 

@@ -24,6 +24,12 @@ Las dudas que solo tocan atributos ajenos a M3 (motivo_principal, color, técnic
 objeto o de superficie) y los huecos de vocabulario (VOCAB) no entran: se cuentan en el informe
 y se declaran.
 
+Propuestas automáticas (decisión R20): si existe data/metadata/
+anotacion_v2_revision_criterios_propuestas.csv, `--crear` precarga cada fila sin decidir con la
+propuesta y la firma `revisor = auto`. Una fila firmada así no se aplica ni cuenta como decidida:
+el revisor la verifica frente a la imagen, la corrige si hace falta y pone su nombre. Las columnas
+`propuesta*` conservan lo propuesto, para que el informe compare propuesta y decisión.
+
 Decisión por pieza: `confirmar` (la anotación se mantiene) o `corregir` (al menos un valor
 revisado y su motivo). Toda decisión lleva revisor y fecha. Una pieza marcada ID exige además
 `identidad_imagen`. Sin decisión, la pieza queda pendiente y la versión 2.1 no puede congelarse.
@@ -40,6 +46,7 @@ from typing import Any
 
 from src.anotacion.aplicar_anotaciones import fecha_valida
 from src.experimento.libro import escribir_libro
+from src.utils.archivos import leer_csv
 from src.utils.config import CONFIG_ANOTACION, leer_config_anotacion
 from src.utils.libros import leer_hoja
 from src.utils.metricas import tabla
@@ -51,6 +58,9 @@ DECISIONES = ("confirmar", "corregir")
 IDENTIDAD = ("coincide", "no_coincide")
 CONTROL = ["decision", "motivo", "revisor", "fecha_revision", "identidad_imagen"]
 CONTEXTO_FIJO = ["id_global", "lote", "orden", "archivo_imagen", "motivos_revision"]
+# Propuesta automatica (decision R20): se muestra como contexto y no cambia al editar la decision.
+PROPUESTA = ["propuesta", "propuesta_vista", "propuesta_criterios", "propuesta_confianza", "propuesta_nota"]
+AUTO = "auto"
 
 # Atributos que usa M3 (docs/especificacion_m3.md) y palabras con que las observaciones los nombran.
 PATRON_M3 = re.compile(
@@ -141,7 +151,36 @@ def columnas(config: dict[str, Any]) -> tuple[list[str], list[str]]:
     """Columnas editables (a la izquierda) y todas las columnas de la hoja."""
     atributos = list(config["revision_criterios"]["atributos"])
     editables = ["decision", *(revisado(a) for a in atributos), "identidad_imagen", "motivo", "revisor", "fecha_revision"]
-    return editables, editables + CONTEXTO_FIJO + atributos + ["observaciones_anotacion"]
+    return editables, editables + CONTEXTO_FIJO + PROPUESTA + atributos + ["observaciones_anotacion"]
+
+
+def resumen_decision(decision: str, valores: dict[str, str], identidad: str) -> str:
+    """Forma canónica de una decisión, para comparar la propuesta automática con la decisión verificada."""
+    if not decision:
+        return ""
+    texto = decision + (": " + "; ".join(f"{a}={v}" for a, v in sorted(valores.items())) if valores else "")
+    return texto + (f" | identidad: {identidad}" if identidad else "")
+
+
+def leer_propuestas(raiz: Path, config: dict[str, Any]) -> dict[str, dict[str, str]]:
+    """Propuestas automáticas por pieza (insumo versionado, calculado fuera del flujo); vacío si no existen."""
+    ruta = raiz / config["revision_criterios"]["propuestas"]
+    return {f["id_global"]: f for f in leer_csv(ruta)} if ruta.exists() else {}
+
+
+def con_propuesta(fila: dict[str, str], propuesta: dict[str, str] | None, editables: list[str], atributos: list[str]
+                  ) -> dict[str, str]:
+    """Añade la propuesta como contexto y, si la fila no tiene nada escrito, la precarga firmada como auto."""
+    if propuesta is None:
+        return {**fila, **dict.fromkeys(PROPUESTA, "")}
+    valores = {a: propuesta[revisado(a)] for a in atributos if propuesta.get(revisado(a))}
+    salida = {**fila, "propuesta": resumen_decision(propuesta["decision"], valores, propuesta.get("identidad_imagen", "")),
+              "propuesta_vista": propuesta.get("lo_que_se_ve", ""), "propuesta_criterios": propuesta.get("criterios", ""),
+              "propuesta_confianza": propuesta.get("confianza", ""), "propuesta_nota": propuesta.get("nota", "")}
+    if not any(fila.get(c) for c in editables):
+        salida |= {c: propuesta.get(c, "") for c in editables}
+        salida |= {"revisor": AUTO, "fecha_revision": propuesta.get("fecha_propuesta", "")}
+    return salida
 
 
 GUIA = [
@@ -163,6 +202,11 @@ GUIA = [
     "  confirmar  la anotacion se mantiene. No llene ninguna columna *_revisado.",
     "  corregir   llene solo las columnas *_revisado que cambian (codigos del vocabulario o un estado) y el 'motivo'.",
     "  Toda decision lleva 'revisor' y 'fecha_revision' (AAAA-MM-DD). Una fila sin decision queda pendiente.",
+    "",
+    "Propuestas automaticas: las filas con revisor = auto traen una propuesta precargada. NO cuentan como decididas.",
+    "  Mire la imagen, lea 'propuesta_vista' y 'propuesta_nota', y verifique la decision y los valores *_revisado.",
+    "  Si esta de acuerdo, cambie 'revisor' por su nombre y ponga la fecha. Si no, corrija lo que haga falta y firme.",
+    "  Las columnas 'propuesta*' son de contexto: no las edite.",
     "",
     "Mire solo la imagen. No consulte rankings, juicios de relevancia ni resultados de ningun sistema.",
     "secuencia_bandas_revisado: tipos en orden separados por ' > ' (lisa, geometrica, figurativa, mixta, no_determinada, laguna).",
@@ -205,7 +249,10 @@ def crear(raiz: Path) -> int:
     ruta = raiz / config["revision_criterios"]["workbook"]
     editables, encabezados = columnas(config)
     previas = {f["id_global"]: f for f in leer_hoja(ruta, HOJA, clave="id_global")} if ruta.exists() else {}
-    filas = [{**fila, **{c: previas.get(fila["id_global"], {}).get(c, "") for c in editables}}
+    propuestas = leer_propuestas(raiz, config)
+    atributos = list(config["revision_criterios"]["atributos"])
+    filas = [con_propuesta({**fila, **{c: previas.get(fila["id_global"], {}).get(c, "") for c in editables}},
+                           propuestas.get(fila["id_global"]), editables, atributos)
              for fila in seleccionar(base, config, vocabulario)]
     perdidas = sorted(i for i, f in previas.items() if any(f.get(c) for c in editables) and i not in {x["id_global"] for x in filas})
     if perdidas:
@@ -216,7 +263,7 @@ def crear(raiz: Path) -> int:
         campo = vocabulario[atributo]
         if not campo.multiple and not campo.secuencia:
             listas[revisado(atributo)] = list(campo.admitidos)
-    anchos = {"secuencia_bandas": 40, revisado("secuencia_bandas"): 40, "motivo": 45, "observaciones_anotacion": 90,
+    anchos = {"propuesta": 45, "propuesta_vista": 60, "propuesta_nota": 60, "secuencia_bandas": 40, revisado("secuencia_bandas"): 40, "motivo": 45, "observaciones_anotacion": 90,
               "archivo_imagen": 26, "motivos": 26, revisado("motivos"): 26}
     try:
         escribir_libro(ruta, GUIA, HOJA, encabezados, filas, editables, anchos, listas, EJEMPLOS)
@@ -224,7 +271,8 @@ def crear(raiz: Path) -> int:
         print(f"No se pudo escribir {ruta}: cierre el archivo en Excel.")
         return 1
     print(f"Workbook de revision de criterios: {ruta} ({len(filas)} piezas, "
-          f"{sum(bool(f['decision']) for f in filas)} decididas)")
+          f"{sum(bool(f['decision']) and f['revisor'] != AUTO for f in filas)} verificadas, "
+          f"{sum(f['revisor'] == AUTO for f in filas)} propuestas sin verificar)")
     return 0
 
 
@@ -242,6 +290,8 @@ class Revision:
     decisiones: Counter = field(default_factory=Counter)
     cambios: list[list[str]] = field(default_factory=list)  # id, atributo, antes, despues, motivo
     no_coinciden: list[str] = field(default_factory=list)
+    propuestas: int = 0  # filas con la propuesta automatica sin verificar (revisor = auto): no se aplican
+    frente_a_propuesta: Counter = field(default_factory=Counter)  # decisiones verificadas: igual o distinta
     errores: list[str] = field(default_factory=list)
     fuera: Counter = field(default_factory=Counter)
 
@@ -298,7 +348,13 @@ def aplicar(anotadas: list[dict[str, str]], decisiones: list[dict[str, str]] | N
         if decision not in DECISIONES:
             resultado.errores.append(f"{id_global}: decision debe ser {' o '.join(DECISIONES)}")
             continue
+        if fila.get("revisor") == AUTO:
+            resultado.propuestas += 1  # se valida arriba, pero no cuenta ni se aplica hasta que un revisor la verifique
+            continue
         resultado.decisiones[decision] += 1
+        if fila.get("propuesta"):
+            igual = resumen_decision(decision, nuevos, fila.get("identidad_imagen", "")) == fila["propuesta"]
+            resultado.frente_a_propuesta["igual a la propuesta" if igual else "distinta de la propuesta"] += 1
         if not fila.get("revisor"):
             resultado.errores.append(f"{id_global}: revisor vacio")
         if not fecha_valida(fila.get("fecha_revision", "")):
@@ -350,7 +406,12 @@ def lineas_reporte(revision: Revision, config: dict[str, Any]) -> list[str]:
         f"- Confirmadas: {revision.decisiones['confirmar']}; corregidas: {revision.decisiones['corregir']}; "
         f"pendientes: {revision.pendientes if revision.existe else revision.seleccionadas}.",
         f"- Valores corregidos: {len(revision.cambios)}.",
+        f"- Propuestas automaticas sin verificar (`revisor = {AUTO}`): {revision.propuestas}. No se aplican: cuentan como "
+        "pendientes hasta que el revisor las verifica y firma.",
     ]
+    if revision.frente_a_propuesta:
+        lineas.append("- Decisiones verificadas frente a la propuesta automatica: "
+                      + "; ".join(f"{k}, {v}" for k, v in sorted(revision.frente_a_propuesta.items())) + ".")
     if not revision.existe:
         lineas.append("- El workbook no existe todavia: se crea con `python -m src.anotacion.revision_criterios --crear`.")
     lineas += ["", "## Piezas por motivo de revision", "",
