@@ -25,7 +25,15 @@ import sys
 from collections.abc import Callable
 from pathlib import Path
 
-from src.anotacion import acuerdo, aplicar_anotaciones, aplicar_anotaciones_v2, corpus_v2, documentar_vocabulario, nucleo
+from src.anotacion import (
+    acuerdo,
+    aplicar_anotaciones,
+    aplicar_anotaciones_v2,
+    congelacion_v21,
+    corpus_v2,
+    documentar_vocabulario,
+    nucleo,
+)
 from src.consolidado import consolidado_v2, construir_consolidado
 from src.experimento import consultas_t1, juicios, rankings, snapshot
 from src.grupos import grupos
@@ -60,6 +68,7 @@ PASOS: list[tuple[str, Callable[[list[str]], int]]] = [
     ("Grupos v2: candidatos a duplicado y grupos decididos por el revisor", grupos.main),
     ("Consolidado v2 (MET, CMA y AIC): construir y validar", consolidado_v2.main),
     ("Anotacion v2: validar los workbooks y exportar la primera anotacion", aplicar_anotaciones_v2.main),
+    ("Anotacion v2.1: comprobar la copia congelada", congelacion_v21.main),
     ("Experimento v2: comprobar particiones y consultas T3 (fugas)", snapshot.main),
     ("Experimento v2: rankings de desarrollo T3 (M0, M1 y M2)", rankings.main),
     ("Experimento v2: pool y juicios de relevancia de desarrollo", juicios.main),

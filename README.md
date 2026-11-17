@@ -97,6 +97,7 @@ python -m src.anotacion.workbook                 # crea o actualiza data/metadat
 python -m src.anotacion.workbook --corpus v2     # crea o actualiza data/metadata/anotacion_v2.xlsx (núcleo y resto del principal v2)
 python -m src.anotacion.workbook --corpus v2 --reanotacion   # re-anotacion ciega del lote 1 (acuerdo intra-anotador)
 python -m src.anotacion.revision_criterios --crear           # revision de bandas y simetria en los lotes 2 a 5 (conserva lo escrito)
+python -m src.anotacion.congelacion_v21 --congelar           # congela la anotacion v2.1 (una sola vez; hecho el 2026-11-17)
 python -m src.anotacion.acuerdo                  # acuerdo entre la primera anotacion y la re-anotacion (rutas en config/anotacion.toml)
 
 # Sistemas de recuperacion (docs/protocolo_experimental_v2.md); dependencias opcionales:
@@ -180,6 +181,7 @@ No se recomienda usar este corpus para comercializar motivos patrimoniales, repr
 - `corpus-met-cma-v1.1`: MET:312615 a complementario; tipo de objeto, material y técnica normalizados con origen.
 - `corpus-met-cma-v1.2`: vocabulario controlado, flujo de anotación, documentación del corpus y 9 registros MET pendientes. **Respaldo del primer avance.**
 - `corpus-met-cma-aic-v2.0`: consolidado v2 MET+CMA+AIC (principal y complementario), curado con el criterio de aptitud analítica, con grupos de piezas relacionadas decididos por el revisor, licencias por fuente, manifiesto de imágenes y SHA-256 (`data/processed/corpus_textiles_andinos_met_cma_aic_v2_*`). Sin anotación estructural: entra en la v2.1. Incluye las particiones y las consultas congeladas del protocolo experimental.
+- `anotacion-v2.1`: anotación estructural del núcleo (150 piezas) congelada en `data/metadata/v2_1_congelado/`, con sus sumas SHA-256: re-anotación del lote 1, revisión de criterios de los lotes 2 a 5 y anotaciones trasladadas (decisiones R14 y R18 a R23). Es la base de M3 y de la fusión.
 
 Versiones anteriores: `v1.0-corpus-met-textiles-andinos` (corpus MET v1 con notebooks) y `archivo/cma-v1` (primera curación CMA).
 

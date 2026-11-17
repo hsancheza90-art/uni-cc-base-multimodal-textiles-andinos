@@ -128,6 +128,15 @@ seleccion = "data/metadata/anotacion_v2_revision_criterios_seleccion.csv"
 # que hay dudas anotadas. centro no entra (decision R19: se mantiene como esta).
 atributos = ["composicion", "eje_bandas", "secuencia_bandas", "borde", "simetria", "motivos", "familia_iconografica"]
 
+[congelacion]
+# 2026-11-17 (decision R23): anotacion estructural v2.1 congelada con
+#     python -m src.anotacion.congelacion_v21 --congelar
+# despues de cerrar la revision de criterios sin pendientes. El flujo comprueba que la exportacion coincide
+# con la copia congelada; los sistemas (M3 y la fusion) leen la copia.
+version = "2.1"
+fecha = "2026-11-17"
+carpeta = "data/metadata/v2_1_congelado"
+
 [acuerdo.campos]
 # Tipo de medida por atributo. Nominales: kappa de Cohen. Ordinales: kappa ponderado lineal,
 # con el orden de [acuerdo.orden]. Multiples: Jaccard medio por pieza y kappa por etiqueta.

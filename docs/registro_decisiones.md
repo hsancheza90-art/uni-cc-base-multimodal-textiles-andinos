@@ -30,6 +30,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 | R20 | 2026-11-16 | La revisión de R18 parte de propuestas automáticas que el anotador verifica una por una | Decidida |
 | R21 | 2026-11-17 | Cierre de la revisión de criterios: 108 piezas verificadas, aclaraciones de R12 y del eje, C1 a C4 vigentes | Decidida |
 | R22 | 2026-11-17 | Reubicación de las ocho anotaciones desplazadas, observaciones en prosa y selección de la revisión congelada | Decidida |
+| R23 | 2026-11-17 | La anotación estructural v2.1 queda congelada; los sistemas leen la copia congelada | Decidida |
 
 ## R01. Prueba inferencial de H1 y H2
 
@@ -217,3 +218,13 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Segunda pasada de textos.** También se pasaron a prosa, con el mismo criterio, las 30 observaciones de la re-anotación (correcciones de redacción y de erratas; se retiró la nota sobre la técnica corregida) y los 42 motivos de las correcciones del workbook de revisión, que ya no citan los códigos de las reglas. La regla aplicada a cada pieza sigue en `motivos_revision` de la selección congelada. Las columnas `propuesta*` no se modifican: registran lo que dijo la propuesta automática (R20).
 - **Firma.** El investigador verificó y firmó las ocho filas el 17 de noviembre. La revisión queda sin pendientes y la anotación v2.1 puede congelarse.
 - **Archivos.** `data/metadata/anotacion_v2.xlsx`, `data/metadata/anotacion_v2_revision_criterios.xlsx`, `data/metadata/anotacion_v2_revision_criterios_seleccion.csv`, `data/metadata/consultas_t3_v2.csv`, `config/anotacion.toml`, `src/anotacion/revision_criterios.py`, `src/anotacion/aplicar_anotaciones_v2.py`, `tests/test_revision_criterios.py`, `tests/test_flujo.py`.
+
+## R23. Congelación de la anotación estructural v2.1
+
+- **Decisión.** La anotación del núcleo (150 piezas) queda congelada como versión 2.1 el 17 de noviembre. Reúne la primera anotación, la re-anotación del lote 1 (R14), las correcciones de la revisión de criterios de los lotes 2 a 5 (R18 a R21) y las ocho anotaciones trasladadas (R22).
+- **Condiciones verificadas.** La revisión de criterios no tiene pendientes, imágenes que no coinciden ni errores; el comando de congelación se niega en caso contrario. Los workbooks validan sin errores y el flujo termina sin hallazgos.
+- **Cómo queda.** La copia está en `data/metadata/v2_1_congelado/anotaciones_v2_1.csv`, con su suma SHA-256 y las de sus insumos (los tres workbooks, la selección congelada y la configuración) en `sha256.txt`. Se escribió con `python -m src.anotacion.congelacion_v21 --congelar`, que no sobrescribe una copia existente.
+- **Garantía.** Un paso del flujo compara en cada ejecución la anotación exportada con la copia congelada y comprueba la suma de la copia. Si un workbook cambia después de congelar, el flujo termina con código 1. Una nueva versión de la anotación requiere una decisión registrada y una carpeta nueva.
+- **Uso.** M3, su control sin orden y la fusión M4 se calculan sobre la copia congelada. Su composición en el núcleo: 35 piezas de bandas, 41 de paneles, 31 de retícula, 22 de campo central, 10 de composición libre, 6 de borde, 4 desconocidas y 1 no observable (`outputs/reports/anotacion_v2_1_congelada.md`).
+- **Archivos.** `src/anotacion/congelacion_v21.py`, `src/flujo.py`, `config/anotacion.toml` (`[congelacion]`), `config/corpus.toml`, `tests/test_congelacion_v21.py`, `tests/test_flujo.py`.
+- **Siguiente.** Rankings de desarrollo de M3 y de M3 sin orden, ampliación del pool de juicios de desarrollo y conexión de M4.

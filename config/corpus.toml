@@ -87,6 +87,9 @@ nucleo = { ruta = "data/metadata/nucleo_anotacion_v2.csv", filas = 150 }
 # src/anotacion/aplicar_anotaciones_v2.py. Cuenta las piezas anotadas de data/metadata/anotacion_v2.xlsx; el
 # resto del principal v2 (hoja fuera_del_nucleo) sigue sin anotar.
 anotadas = { ruta = "data/metadata/anotaciones_v2.csv", filas = 150 }
+# 2026-11-17 (decision R23): anotacion v2.1 congelada (src/anotacion/congelacion_v21.py) tras la re-anotacion del
+# lote 1, la revision de criterios de los lotes 2 a 5 y el traslado de las anotaciones desplazadas.
+congelada = { ruta = "data/metadata/v2_1_congelado/anotaciones_v2_1.csv", filas = 150 }
 
 [modelos.m2]
 descripcion = "M2, OpenCLIP congelado (src/modelos/m2_openclip.py, fuera del flujo; parametros en config/modelos.toml)"
