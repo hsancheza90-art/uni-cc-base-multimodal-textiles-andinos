@@ -131,7 +131,8 @@ valores = [["si", "sí"], ["no", "no"], ["no_visible", "no visible"]]
 # Bandas (anotación v2): la palabra de bandas que lee el descriptor estructural. No figuran en
 # la tesis; se agregan por la auditoría del asesor (informe 05) y el plan de cierre (D3).
 # Decisiones del revisor del 2026-11-03: el símbolo de cada banda es su tipo, sin color, y no
-# se registran anchos. Si composicion no tiene bandas, eje y secuencia van ausente.
+# se registran anchos. Si la pieza no tiene bandas, eje y secuencia van ausente; una pieza de campo,
+# paneles o reticula puede tener bandas que la cruzan (aclaracion R21, 2026-11-17).
 [campos.eje_bandas]
 familia = "composicional"
 cuadro = ""

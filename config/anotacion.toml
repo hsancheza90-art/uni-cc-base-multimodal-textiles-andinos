@@ -119,6 +119,11 @@ lotes = [2, 3, 4, 5]
 # 2026-11-16 (decision R20): propuestas automaticas de la revision, calculadas fuera del flujo a partir de
 # las imagenes locales. --crear las precarga firmadas revisor = auto; no se aplican sin verificacion humana.
 propuestas = "data/metadata/anotacion_v2_revision_criterios_propuestas.csv"
+# 2026-11-17 (decision R22): seleccion congelada al cerrar la revision, con
+#     python -m src.anotacion.revision_criterios --congelar
+# Las piezas en revision, sus motivos y las marcas de duda se leen de este archivo y no de las
+# observaciones vigentes, que se reescribieron en prosa despues de cerrar la revision.
+seleccion = "data/metadata/anotacion_v2_revision_criterios_seleccion.csv"
 # Atributos que el anotador puede corregir: los que tocan R12 y R16 y los demas bloques de M3 sobre los
 # que hay dudas anotadas. centro no entra (decision R19: se mantiene como esta).
 atributos = ["composicion", "eje_bandas", "secuencia_bandas", "borde", "simetria", "motivos", "familia_iconografica"]

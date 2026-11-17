@@ -43,6 +43,7 @@ INSUMOS = [
     "data/metadata/anotacion_v2.xlsx",
     "data/metadata/anotacion_v2_reanotacion.xlsx",
     "data/metadata/anotacion_v2_revision_criterios.xlsx",
+    "data/metadata/anotacion_v2_revision_criterios_seleccion.csv",
     "config/modelos.toml",
     "data/metadata/m2_openclip_embeddings_v2.npy",
     "data/metadata/m2_openclip_indice_v2.csv",

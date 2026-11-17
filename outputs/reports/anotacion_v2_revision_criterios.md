@@ -5,10 +5,10 @@ Generado por `python -m src.anotacion.aplicar_anotaciones_v2`, paso del flujo, c
 Los lotes 2, 3, 4, 5 se anotaron antes de escribir la definicion de banda (R12) y la frontera entre simetria traslacional y repeticion modular (R16). El anotador vuelve a mirar las piezas afectadas y confirma o corrige. La primera anotacion no se modifica en su workbook: las correcciones se aplican al exportar `data/metadata/anotaciones_v2.csv` y quedan registradas abajo.
 
 - Piezas en revision: 108.
-- Confirmadas: 66; corregidas: 42; pendientes: 0.
+- Confirmadas: 58; corregidas: 42; pendientes: 8.
 - Valores corregidos: 173.
-- Propuestas automaticas sin verificar (`revisor = auto`): 0. No se aplican: cuentan como pendientes hasta que el revisor las verifica y firma.
-- Decisiones verificadas frente a la propuesta automatica: distinta de la propuesta, 42; igual a la propuesta, 66.
+- Propuestas automaticas sin verificar (`revisor = auto`): 8. No se aplican: cuentan como pendientes hasta que el revisor las verifica y firma.
+- Decisiones verificadas frente a la propuesta automatica: distinta de la propuesta, 42; igual a la propuesta, 58.
 
 ## Piezas por motivo de revision
 
@@ -210,14 +210,7 @@ No tocan ningun atributo de M3 (`motivo_principal`, color, tecnica, tipo de obje
 
 ## Imagenes que no corresponden al registro
 
-- MET:316978
-- MET:316341
-- MET:307933
-- AIC:85310
-- AIC:223218
-- AIC:85282
-- CMA:155505
-- AIC:85388
+Ninguna.
 
 ## Errores
 

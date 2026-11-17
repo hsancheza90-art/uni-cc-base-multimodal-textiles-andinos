@@ -293,7 +293,8 @@ def aplicar(raiz: Path) -> int:
     b = validar_workbook(raiz, datos["anotador_b"], hojas, vocabulario)
 
     exportadas, prevalecen = adjudicar(a.anotadas, b.anotadas, bool(config["reanotacion"].get("prevalece", False)))
-    revision = revision_criterios.aplicar(exportadas, revision_criterios.leer_decisiones(raiz, config), config, vocabulario)
+    revision = revision_criterios.aplicar(exportadas, revision_criterios.leer_decisiones(raiz, config), config, vocabulario,
+                                          revision_criterios.leer_seleccion(raiz, config))
     escribir_texto(raiz / revision_criterios.REPORTE, revision_criterios.lineas_reporte(revision, config))
     exportadas = revision.filas
     lineas = lineas_reporte(a, b, config)

@@ -118,6 +118,29 @@ def test_una_propuesta_automatica_se_precarga_firmada_auto_y_no_se_aplica() -> N
     assert rc.con_propuesta(decidida, propuesta, editables, ATRIBUTOS)["decision"] == "confirmar"
 
 
+def test_la_seleccion_congelada_no_depende_de_las_observaciones() -> None:
+    con_duda = pieza("AIC:1", eje_bandas="ausente", secuencia_bandas="ausente",
+                     observaciones_anotacion="DUDA composicion: campo o reticula. VOCAB: falta monos.")
+    congelada = {f["id_global"]: f for f in rc.filas_seleccion([con_duda], CONFIG, VOCABULARIO)}
+    assert congelada["AIC:1"]["motivos_revision"] == "OBS" and congelada["AIC:1"]["fuera"] == "vocab"
+    # La observacion se reescribe en prosa: sin la seleccion congelada, la pieza saldria de la revision.
+    prosa = con_duda | {"observaciones_anotacion": "Campo con figuras, posiblemente monos."}
+    assert rc.seleccionar([prosa], CONFIG, VOCABULARIO) == []
+    assert [f["id_global"] for f in rc.seleccionar([prosa], CONFIG, VOCABULARIO, congelada)] == ["AIC:1"]
+    assert rc.observaciones_fuera([prosa], CONFIG, congelada) == {"huecos de vocabulario (VOCAB)": 1}
+    # Una pieza de los lotes revisados que no esta en la seleccion congelada es un error.
+    assert any("seleccion congelada" in e for e in rc.aplicar([prosa, pieza("AIC:2")], None, CONFIG, VOCABULARIO, congelada).errores)
+
+
+def test_la_seleccion_versionada_cubre_los_lotes_revisados() -> None:
+    congelada = rc.leer_seleccion(RAIZ_REPO, CONFIG)
+    if congelada is None:
+        return
+    lotes = {str(lote) for lote in CONFIG["revision_criterios"]["lotes"]}
+    assert {f["lote"] for f in congelada.values()} == lotes
+    assert sum(bool(f["motivos_revision"]) for f in congelada.values()) == 108
+
+
 def test_un_workbook_que_no_corresponde_a_la_seleccion_es_un_error() -> None:
     fila = pieza()
     viejo = decision(fila) | {"simetria": "traslacional"}  # la anotacion cambio despues de generar el workbook

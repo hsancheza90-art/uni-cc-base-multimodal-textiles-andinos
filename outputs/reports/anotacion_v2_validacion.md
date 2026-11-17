@@ -14,11 +14,11 @@ Adjudicacion del lote 1 (decision R14): en 30 piezas el CSV exportado toma los v
 
 | Lote | Anotadas | Fechas | estado_anotacion | Con DUDA | Con CRITERIO | Con VOCAB |
 |---|---|---|---|---|---|---|
-| 1 | 30 | 2026-11-05 a 2026-11-05 | anotado_manual 30 | 19 | 10 | 6 |
-| 2 | 30 | 2026-11-05 a 2026-11-05 | anotado_manual 30 | 16 | 2 | 3 |
-| 3 | 30 | 2026-11-05 a 2026-11-05 | anotado_manual 30 | 13 | 2 | 4 |
-| 4 | 30 | 2026-11-05 a 2026-11-05 | anotado_manual 30 | 15 | 4 | 5 |
-| 5 | 30 | 2026-11-05 a 2026-11-05 | anotado_manual 30 | 14 | 6 | 4 |
+| 1 | 30 | 2026-11-05 a 2026-11-05 | anotado_manual 30 | 0 | 0 | 0 |
+| 2 | 30 | 2026-11-05 a 2026-11-17 | anotado_manual 28, corregido 2 | 0 | 0 | 0 |
+| 3 | 30 | 2026-11-05 a 2026-11-17 | anotado_manual 26, corregido 4 | 0 | 0 | 0 |
+| 4 | 30 | 2026-11-05 a 2026-11-17 | anotado_manual 28, corregido 2 | 0 | 0 | 0 |
+| 5 | 30 | 2026-11-05 a 2026-11-05 | anotado_manual 30 | 0 | 0 | 0 |
 
 Re-anotacion ciega del lote 1: puede empezar el 2026-11-12 (7 dias despues de la ultima fecha del lote, 2026-11-05).
 
@@ -32,16 +32,16 @@ Re-anotacion ciega del lote 1: puede empezar el 2026-11-12 (7 dias despues de la
 | `colores` | 150 | 0 | 0 | 0 | 0 |
 | `contraste` | 150 | 0 | 0 | 0 | 0 |
 | `densidad_visual` | 150 | 0 | 0 | 0 | 0 |
-| `composicion` | 150 | 0 | 0 | 2 | 0 |
+| `composicion` | 150 | 0 | 0 | 3 | 0 |
 | `simetria` | 150 | 0 | 0 | 5 | 1 |
 | `repeticion` | 150 | 0 | 0 | 5 | 0 |
 | `borde` | 150 | 0 | 0 | 0 | 0 |
 | `centro` | 150 | 0 | 0 | 0 | 0 |
 | `motivos` | 150 | 0 | 1 | 0 | 0 |
 | `familia_iconografica` | 150 | 0 | 1 | 0 | 0 |
-| `motivo_principal` | 150 | 0 | 1 | 0 | 36 |
-| `eje_bandas` | 150 | 0 | 72 | 15 | 0 |
-| `secuencia_bandas` | 150 | 0 | 72 | 15 | 0 |
+| `motivo_principal` | 150 | 0 | 1 | 0 | 35 |
+| `eje_bandas` | 150 | 0 | 73 | 14 | 0 |
+| `secuencia_bandas` | 150 | 0 | 73 | 14 | 0 |
 | `tipo_objeto_corregido` | 4 | 146 | 0 | 0 | 0 |
 | `tipo_superficie_corregido` | 76 | 74 | 0 | 0 | 0 |
 | `material_corregido` | 0 | 150 | 0 | 0 | 0 |
@@ -62,7 +62,7 @@ Re-anotacion ciega del lote 1: puede empezar el 2026-11-12 (7 dias despues de la
 
 | Aviso | Piezas |
 |---|---|
-| correccion igual al valor vigente | 3 |
+| correccion igual al valor vigente | 5 |
 
 ## Avisos (re-anotacion)
 

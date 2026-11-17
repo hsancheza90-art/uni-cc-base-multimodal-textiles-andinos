@@ -46,7 +46,7 @@ from typing import Any
 
 from src.anotacion.aplicar_anotaciones import fecha_valida
 from src.experimento.libro import escribir_libro
-from src.utils.archivos import leer_csv
+from src.utils.archivos import escribir_csv, leer_csv
 from src.utils.config import CONFIG_ANOTACION, leer_config_anotacion
 from src.utils.libros import leer_hoja
 from src.utils.metricas import tabla
@@ -110,16 +110,23 @@ def motivos_revision(fila: dict[str, str], vocabulario: dict[str, Campo]) -> lis
     return motivos
 
 
-def seleccionar(anotadas: list[dict[str, str]], config: dict[str, Any], vocabulario: dict[str, Campo]
-                ) -> list[dict[str, str]]:
-    """Piezas de los lotes de [revision_criterios] que entran a la revisión, con sus motivos."""
+def seleccionar(anotadas: list[dict[str, str]], config: dict[str, Any], vocabulario: dict[str, Campo],
+                congelada: dict[str, dict[str, str]] | None = None) -> list[dict[str, str]]:
+    """Piezas de los lotes de [revision_criterios] que entran a la revisión, con sus motivos.
+
+    Con `congelada` (decisión R22), la pertenencia y los motivos salen de la selección congelada y no de
+    las observaciones vigentes: reescribir una observación no cambia una revisión ya cerrada.
+    """
     lotes = {str(lote) for lote in config["revision_criterios"]["lotes"]}
     atributos = list(config["revision_criterios"]["atributos"])
     salida = []
     for fila in anotadas:
         if fila.get("lote", "") not in lotes:
             continue
-        motivos = motivos_revision(fila, vocabulario)
+        if congelada is None:
+            motivos = motivos_revision(fila, vocabulario)
+        else:
+            motivos = [m for m in congelada.get(fila["id_global"], {}).get("motivos_revision", "").split("; ") if m]
         if not motivos:
             continue
         salida.append({"id_global": fila["id_global"], "lote": fila["lote"], "orden": fila["orden"],
@@ -129,19 +136,50 @@ def seleccionar(anotadas: list[dict[str, str]], config: dict[str, Any], vocabula
     return salida
 
 
-def observaciones_fuera(anotadas: list[dict[str, str]], config: dict[str, Any]) -> Counter:
+FUERA = {"duda_ajena": "dudas sobre atributos que M3 no usa", "vocab": "huecos de vocabulario (VOCAB)"}
+COLUMNAS_SELECCION = ["id_global", "lote", "motivos_revision", "fuera"]
+
+
+def marcas_fuera(fila: dict[str, str]) -> list[str]:
+    """Claves de FUERA que marcan las observaciones de una pieza: dudas ajenas a M3 y huecos de vocabulario."""
+    partes = segmentos(fila.get("observaciones_anotacion", ""))
+    marcas = []
+    if any(e in ("DUDA", "CRITERIO") and not toca_m3(t) for e, t in partes):
+        marcas.append("duda_ajena")
+    if any(e == "VOCAB" for e, _ in partes):
+        marcas.append("vocab")
+    return marcas
+
+
+def observaciones_fuera(anotadas: list[dict[str, str]], config: dict[str, Any],
+                        congelada: dict[str, dict[str, str]] | None = None) -> Counter:
     """Piezas de los lotes revisados con DUDA o VOCAB que no tocan a M3 (solo conteos, para el informe)."""
     lotes = {str(lote) for lote in config["revision_criterios"]["lotes"]}
     conteo: Counter = Counter()
     for fila in anotadas:
         if fila.get("lote", "") not in lotes:
             continue
-        partes = segmentos(fila.get("observaciones_anotacion", ""))
-        if any(e in ("DUDA", "CRITERIO") and not toca_m3(t) for e, t in partes):
-            conteo["dudas sobre atributos que M3 no usa"] += 1
-        if any(e == "VOCAB" for e, _ in partes):
-            conteo["huecos de vocabulario (VOCAB)"] += 1
+        if congelada is None:
+            marcas = marcas_fuera(fila)
+        else:
+            marcas = [m for m in congelada.get(fila["id_global"], {}).get("fuera", "").split("; ") if m]
+        conteo.update(FUERA[m] for m in marcas)
     return conteo
+
+
+def leer_seleccion(raiz: Path, config: dict[str, Any]) -> dict[str, dict[str, str]] | None:
+    """Selección congelada (decisión R22), o None si no se ha congelado."""
+    relativa = config["revision_criterios"].get("seleccion", "")
+    ruta = raiz / relativa if relativa else None
+    return {f["id_global"]: f for f in leer_csv(ruta)} if ruta and ruta.exists() else None
+
+
+def filas_seleccion(anotadas: list[dict[str, str]], config: dict[str, Any], vocabulario: dict[str, Campo]
+                    ) -> list[dict[str, str]]:
+    """Selección calculada desde las observaciones vigentes, en la forma del archivo congelado."""
+    lotes = {str(lote) for lote in config["revision_criterios"]["lotes"]}
+    return [{"id_global": f["id_global"], "lote": f["lote"], "motivos_revision": "; ".join(motivos_revision(f, vocabulario)),
+             "fuera": "; ".join(marcas_fuera(f))} for f in anotadas if f.get("lote", "") in lotes]
 
 
 # --------------------------------------------------------------------------- workbook
@@ -251,9 +289,10 @@ def crear(raiz: Path) -> int:
     previas = {f["id_global"]: f for f in leer_hoja(ruta, HOJA, clave="id_global")} if ruta.exists() else {}
     propuestas = leer_propuestas(raiz, config)
     atributos = list(config["revision_criterios"]["atributos"])
+    congelada = leer_seleccion(raiz, config)
     filas = [con_propuesta({**fila, **{c: previas.get(fila["id_global"], {}).get(c, "") for c in editables}},
                            propuestas.get(fila["id_global"]), editables, atributos)
-             for fila in seleccionar(base, config, vocabulario)]
+             for fila in seleccionar(base, config, vocabulario, congelada)]
     perdidas = sorted(i for i, f in previas.items() if any(f.get(c) for c in editables) and i not in {x["id_global"] for x in filas})
     if perdidas:
         print(f"No se actualizo el workbook: hay decisiones de piezas que ya no entran a la revision: {perdidas}")
@@ -301,11 +340,16 @@ class Revision:
 
 
 def aplicar(anotadas: list[dict[str, str]], decisiones: list[dict[str, str]] | None, config: dict[str, Any],
-            vocabulario: dict[str, Campo]) -> Revision:
+            vocabulario: dict[str, Campo], congelada: dict[str, dict[str, str]] | None = None) -> Revision:
     """Aplica las decisiones a las filas adjudicadas; `decisiones` es None si no hay workbook."""
-    seleccion = {f["id_global"]: f for f in seleccionar(anotadas, config, vocabulario)}
+    seleccion = {f["id_global"]: f for f in seleccionar(anotadas, config, vocabulario, congelada)}
     resultado = Revision(existe=decisiones is not None, filas=anotadas, seleccionadas=len(seleccion),
-                         fuera=observaciones_fuera(anotadas, config))
+                         fuera=observaciones_fuera(anotadas, config, congelada))
+    if congelada is not None:
+        lotes = {str(lote) for lote in config["revision_criterios"]["lotes"]}
+        faltan = sorted(f["id_global"] for f in anotadas if f.get("lote", "") in lotes and f["id_global"] not in congelada)
+        if faltan:
+            resultado.errores.append(f"Piezas de los lotes revisados que no estan en la seleccion congelada: {faltan[:5]}")
     for fila in seleccion.values():
         resultado.por_motivo.update(fila["motivos_revision"].split("; "))
     if decisiones is None:
@@ -438,11 +482,39 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Revision de criterios de la anotacion v2: workbook del anotador.")
     parser.add_argument("--root", default=".", help="Raiz del repositorio.")
     parser.add_argument("--crear", action="store_true", help="Crea o actualiza el workbook conservando lo escrito.")
+    parser.add_argument("--congelar", action="store_true",
+                        help="Congela la seleccion vigente en el archivo [revision_criterios] seleccion (R22).")
     args = parser.parse_args(argv)
+    if args.congelar:
+        return congelar(Path(args.root).resolve())
     if not args.crear:
         print("Las decisiones se aplican con el flujo (src.anotacion.aplicar_anotaciones_v2). Use --crear para el workbook.")
         return 0
     return crear(Path(args.root).resolve())
+
+
+def congelar(raiz: Path) -> int:
+    """Escribe la selección calculada desde las observaciones vigentes; no sobrescribe una selección congelada."""
+    from src.anotacion import aplicar_anotaciones_v2 as exportacion  # evita la importacion circular
+
+    config = leer_config_anotacion(raiz)
+    vocabulario = leer_vocabulario(raiz)
+    relativa = config["revision_criterios"].get("seleccion", "")
+    if not relativa:
+        print("Falta [revision_criterios] seleccion en la configuracion.")
+        return 1
+    ruta = raiz / relativa
+    if ruta.exists():
+        print(f"La seleccion ya esta congelada en {ruta}: no se sobrescribe.")
+        return 1
+    base = exportacion.base_adjudicada(raiz, config, vocabulario)
+    if base is None:
+        print("No hay anotacion v2 valida: corrija primero los errores del workbook de anotacion.")
+        return 1
+    filas = filas_seleccion(base, config, vocabulario)
+    escribir_csv(ruta, COLUMNAS_SELECCION, filas)
+    print(f"Seleccion congelada: {ruta} ({sum(bool(f['motivos_revision']) for f in filas)} de {len(filas)} piezas en revision)")
+    return 0
 
 
 if __name__ == "__main__":
