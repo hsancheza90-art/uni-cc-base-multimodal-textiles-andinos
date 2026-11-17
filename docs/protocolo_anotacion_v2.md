@@ -204,7 +204,7 @@ Toda decisión lleva revisor y fecha. Pueden corregirse `composicion`, `eje_band
 
 **Condición para congelar.** Ninguna pieza pendiente y ninguna imagen marcada como `no_coincide`. Una pieza cuya imagen no corresponda al registro se re-anota en el workbook de anotación antes de congelar.
 
-**Estado al 17 de noviembre** (decisión R21). Las 108 piezas están verificadas y firmadas: 66 confirmadas y 42 corregidas, con 173 valores corregidos. Los criterios C1 a C4 de R20 quedan vigentes. Las ocho piezas cuya anotación describía la imagen de otro registro se trasladaron a su fila y se revisaron (R22); sus filas de revisión esperan la firma del investigador. La selección de la revisión quedó congelada en `data/metadata/anotacion_v2_revision_criterios_seleccion.csv`, de modo que reescribir una observación no la cambia.
+**Estado al 17 de noviembre** (decisión R21). Las 108 piezas están verificadas y firmadas: 66 confirmadas y 42 corregidas, con 173 valores corregidos. Los criterios C1 a C4 de R20 quedan vigentes. Las ocho piezas cuya anotación describía la imagen de otro registro se trasladaron a su fila, se revisaron y el investigador las firmó (R22). La revisión no tiene pendientes. La selección de la revisión quedó congelada en `data/metadata/anotacion_v2_revision_criterios_seleccion.csv`, de modo que reescribir una observación no la cambia.
 
 **Cómo se escriben las observaciones** (desde R22). Describen lo que se ve en la imagen, en prosa breve. Una duda se escribe como posibilidad («posiblemente sea un felino»). No se usan etiquetas, ni referencias a otras piezas, ni comentarios sobre cómo se llenaron los metadatos.
 

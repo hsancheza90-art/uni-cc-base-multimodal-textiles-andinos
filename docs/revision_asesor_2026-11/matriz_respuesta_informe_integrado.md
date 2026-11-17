@@ -18,7 +18,7 @@ Una advertencia general, en el sentido del punto 1 del informe: los estados «At
 | 1 | Estado real e inventario | Atendido | Mantenerlo al día en cada entrega |
 | 2 | Pregunta, contribución y alcance | Por ratificar | Conformidad con la redacción propuesta y conciliación con los objetivos del primer avance |
 | 3 | Protocolo experimental | Por ratificar | Aprobación de la versión 0.6.1 y de las decisiones R01 a R04 y R10 |
-| 4 | Estabilidad de la anotación y v2.1 | Parcial | Revisión de los lotes 2 a 5 cerrada y anotaciones desplazadas trasladadas (R21, R22). Faltan la firma de ocho filas y la congelación |
+| 4 | Estabilidad de la anotación y v2.1 | Parcial | Revisión de los lotes 2 a 5 cerrada y anotaciones desplazadas trasladadas (R21, R22). Falta congelar |
 | 5 | Modelos y ajuste de desarrollo | Parcial | Rankings de M3 y de su control, M4 conectado, selección de pesos |
 | 6 | Juicios de relevancia | Parcial, con una reserva de validez | Decisión sobre la rúbrica; ampliación del pool; juicios de prueba |
 | 7 | Congelación y ejecución confirmatoria | Pendiente | Depende de los puntos 3 a 6 |
@@ -70,7 +70,7 @@ Una advertencia general, en el sentido del punto 1 del informe: los estados «At
 | c) Observaciones de duda, criterio o vocabulario y registro de adjudicaciones | Criterios escritos: qué cuenta como banda (R12, con la aclaración de R21), la frontera entre simetría traslacional y repetición modular (R16) y los criterios C1 a C4. Las observaciones se clasificaron: 108 piezas de los lotes 2 a 5 entraron a revisión y quedan fuera 46 dudas sobre atributos que M3 no usa y 16 huecos de vocabulario, que se declaran. Las 108 se verificaron (66 confirmadas, 42 corregidas) y el registro de adjudicaciones lista 173 valores corregidos con su motivo. La revisión partió de propuestas automáticas verificadas por el anotador (R20) | `outputs/reports/anotacion_v2_revision_criterios.md`; `docs/registro_decisiones.md`, R18 a R21 | Atendido |
 | d) Atributos demasiado ambiguos para sostener la hipótesis | `composicion` (κ = 0,84) y `secuencia_bandas` (17 de 24 palabras idénticas; similitud media 0,80) sostienen H2 en el lote medido. La reserva es la observabilidad: el bloque que M3 compara depende de una frontera que no fue estable. `centro` se mantiene y su estabilidad baja se declara (R19) | Informe de acuerdo; `docs/especificacion_m3.md`, sección 5; R19 | Atendido, con la reserva declarada |
 | d) No retocar etiquetas según un ranking | En el lote 1 prevalece la re-anotación completa, por regla general y sin selección por pieza (R14). Ninguna etiqueta se modificó tras calcular un ranking de M3: esos rankings no existen todavía | `config/anotacion.toml`, `[reanotacion]`; `src/anotacion/aplicar_anotaciones_v2.py` | Atendido |
-| e) Congelar las 150 anotaciones como v2.1 | No se ha congelado. La revisión de los lotes 2 a 5 está cerrada. Las ocho anotaciones que describían la imagen de otro registro se trasladaron a su fila y se revisaron; falta que el investigador firme esas ocho filas | R20 a R22 | Pendiente |
+| e) Congelar las 150 anotaciones como v2.1 | No se ha congelado. La revisión de los lotes 2 a 5 está cerrada. Las ocho anotaciones que describían la imagen de otro registro se trasladaron a su fila, se revisaron y el investigador las firmó. La revisión no tiene pendientes; falta generar el manifiesto de la v2.1 | R20 a R22 | Pendiente |
 
 ## 5. Modelos, control sin orden y ajuste de desarrollo
 
