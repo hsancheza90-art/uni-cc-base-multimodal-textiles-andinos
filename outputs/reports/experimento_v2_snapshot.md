@@ -19,11 +19,11 @@ Solo conteos: la galeria se juzga a ciegas y el lote 1 se re-anota a ciegas.
 
 | Composicion | Consultas |
 |---|---|
-| `bandas` | 13 |
+| `bandas` | 10 |
 | `borde` | 3 |
-| `campo_central` | 7 |
+| `campo_central` | 6 |
 | `composicion_libre` | 3 |
-| `paneles` | 7 |
+| `paneles` | 11 |
 | `reticula` | 7 |
 
 ## Comprobacion de fugas

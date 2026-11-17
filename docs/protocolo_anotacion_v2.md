@@ -89,6 +89,8 @@ Decisión del revisor, 2026-11-03.
 
 Si la pieza solo tiene estos elementos, `eje_bandas` y `secuencia_bandas` van `ausente`.
 
+La composición dominante no decide si hay bandas (aclaración R21, 17 de noviembre). Una pieza de campo, paneles o retícula puede tener franjas que la cruzan de lado a lado: esas franjas forman su palabra, y el eje se registra. En cambio, una tira que se lee como paneles o retícula, sin franjas aparte, no tiene palabra de bandas.
+
 1. **`eje_bandas`:** `horizontal` si las bandas cruzan la foto de lado a lado (se leen de arriba abajo) o `vertical` si van de arriba abajo (se leen de izquierda a derecha). El eje es el de la fotografía del museo, no el de uso de la pieza.
 2. **`secuencia_bandas`:** el tipo de cada banda en el orden del eje, separados por ` > `. Por ejemplo, `lisa > geometrica > figurativa > geometrica > lisa`. Los tipos son `lisa` (un color, sin motivos), `geometrica`, `figurativa`, `mixta` y `no_determinada`.
 3. **Lagunas:** un tramo que no se ve (rotura, pliegue, recorte) se escribe `laguna` en su lugar. El descriptor lo enmascara; no cuenta como una banda que se repite.
@@ -201,6 +203,8 @@ Toda decisión lleva revisor y fecha. Pueden corregirse `composicion`, `eje_band
 **Cómo se aplica.** El workbook de la primera anotación no se modifica. Al exportar `data/metadata/anotaciones_v2.csv`, el flujo reemplaza los valores corregidos y escribe en `outputs/reports/anotacion_v2_revision_criterios.md` el registro de adjudicaciones: pieza, atributo, valor anterior, valor nuevo y motivo. Una decisión incompleta, un valor fuera del vocabulario o un eje y una secuencia que no concuerdan detienen el flujo.
 
 **Condición para congelar.** Ninguna pieza pendiente y ninguna imagen marcada como `no_coincide`. Una pieza cuya imagen no corresponda al registro se re-anota en el workbook de anotación antes de congelar.
+
+**Estado al 17 de noviembre** (decisión R21). Las 108 piezas están verificadas y firmadas: 66 confirmadas y 42 corregidas, con 173 valores corregidos. Los criterios C1 a C4 de R20 quedan vigentes. Siguen marcadas `no_coincide` las ocho piezas cuya anotación describe la imagen de otro registro; la versión 2.1 no se congela hasta reasignarlas.
 
 ## Limitaciones que se declaran
 

@@ -28,6 +28,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 | R18 | 2026-11-16 | Los lotes 2 a 5 se revisan con R12 y R16 en un workbook aparte; las correcciones prevalecen al exportar | Decidida |
 | R19 | 2026-11-16 | `centro` se mantiene en la anotación y en M3 pese a su estabilidad baja | Decidida |
 | R20 | 2026-11-16 | La revisión de R18 parte de propuestas automáticas que el anotador verifica una por una | Decidida |
+| R21 | 2026-11-17 | Cierre de la revisión de criterios: 108 piezas verificadas, aclaraciones de R12 y del eje, C1 a C4 vigentes | Decidida |
 
 ## R01. Prueba inferencial de H1 y H2
 
@@ -166,7 +167,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Motivo.** El informe integrado del asesor (punto 4, incisos c y d) pide resolver las ambigüedades con criterios escritos, conservar un registro de adjudicaciones y no retocar etiquetas según un ranking. Los rankings de M3 no existen todavía.
 - **Consecuencia que se declara.** La versión 2.1 combina tres lecturas: la re-anotación en el lote 1 (R14), la primera anotación en los lotes 2 a 5 y, sobre esta, las correcciones de esta revisión.
 - **Archivos.** `src/anotacion/revision_criterios.py`, `src/anotacion/aplicar_anotaciones_v2.py`, `config/anotacion.toml` (`[revision_criterios]`), `tests/test_revision_criterios.py`, `docs/protocolo_anotacion_v2.md`.
-- **Pendiente.** La revisión de las 108 piezas. Una pieza cuya imagen no corresponda al registro debe re-anotarse antes de congelar.
+- **Pendiente.** La revisión de las 108 piezas. Una pieza cuya imagen no corresponda al registro debe re-anotarse antes de congelar. *(17 de noviembre: la revisión se cerró en R21; quedan las ocho anotaciones desplazadas.)*
 
 ## R19. El atributo `centro`
 
@@ -183,3 +184,17 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Consecuencia que se declara.** La versión 2.1 incluirá correcciones propuestas por un procedimiento automático y verificadas por el anotador. El manuscrito debe describirlo así, con el número de propuestas aceptadas y modificadas.
 - **Hallazgo durante la revisión.** En ocho piezas, la anotación guardada describe la imagen de otro registro. Seis forman un ciclo (AIC:85282, AIC:85310, CMA:155505, AIC:223218, AIC:85388 y MET:307933) y dos están intercambiadas entre sí (MET:316978 y MET:316341). Se comprobó con las imágenes y con los números de inventario: las imágenes corresponden a sus registros y son las anotaciones las que están desplazadas. Sus propuestas van como `no_coincide` y sin correcciones. La reasignación es una decisión del investigador y está pendiente.
 - **Archivos.** `src/anotacion/revision_criterios.py`, `config/anotacion.toml` (`[revision_criterios] propuestas`), `tests/test_revision_criterios.py`.
+
+## R21. Cierre de la revisión de criterios
+
+- **Decisión.** El anotador verificó y firmó las 108 piezas de R18 el 16 de noviembre: confirmó 66 y corrigió 42. Las 66 confirmaciones coinciden con la propuesta automática. Las 42 correcciones la modifican: el anotador revisó los siete atributos de cada pieza, no solo los que la propuesta tocaba. Al exportar se aplican 173 valores corregidos.
+- **Aclaraciones de criterio (17 de noviembre).** Al revisar la coherencia del workbook aparecieron tres lecturas distintas de la guía. El investigador las resolvió así:
+  - *Alcance de R12.* Una franja que cruza toda la pieza es banda aunque la composición dominante sea campo, paneles o retícula. El eje se registra siempre que haya palabra de bandas. Siete piezas tenían secuencia y eje `ausente`; recuperan el eje `horizontal`.
+  - *Convención del eje.* El eje es el de la fotografía: `horizontal` si las franjas cruzan la foto de lado a lado. Tres piezas marcadas `vertical` con franjas horizontales pasan a `horizontal`, y en AIC:6114 vuelven eje y secuencia `ausente`.
+  - *Tiras únicas.* Una tira que el anotador lee como paneles o retícula, sin franjas aparte, no tiene palabra de bandas: eje y secuencia `ausente` (ocho piezas).
+- **Correcciones de forma (17 de noviembre).** Las hizo el investigador al cerrar la revisión, sin cambiar ninguna decisión. Se normalizaron los códigos mal escritos (`geometrica` en motivos, `antropoformo`, separadores) y se restauró el motivo vigente en tres piezas en que la columna se había arrastrado en Excel (MET:308024, AIC:3016 y MET:316973). Cinco secuencias escritas en la columna equivocada se leyeron de nuevo sobre la foto (AIC:85520, MET:307941, CMA:163708, MET:308068 y AIC:152928). Los textos de `motivo` se redactaron de nuevo, con la misma asistencia de R20, para que describan el valor final firmado: en las 42 correcciones repetían el texto de la propuesta, y varios contradecían la decisión.
+- **C1 a C4.** Los criterios provisionales de R20 quedan vigentes: el investigador firmó las decisiones que los aplican.
+- **Efectos que se declaran.** En el núcleo, la composición `bandas` pasa de 48 a 35 piezas y `paneles` de 24 a 40, y la palabra de bandas queda en 53 piezas (antes 66). `borde` pasa de `no` a `si` en 21 piezas. De las 40 consultas T3, cuatro cambian de estrato: `bandas` 13 → 10, `campo_central` 7 → 6, `paneles` 7 → 11. Todas siguen teniendo composición observable, así que la regla de reemplazo del protocolo no se aplica y el sorteo no se repite.
+- **Prueba.** `tests/test_flujo.py` incluye ahora el workbook de revisión entre los insumos y compara su informe. Hasta este cierre, todas las filas estaban firmadas `auto` y la omisión no tenía efecto.
+- **Pendiente antes de congelar la v2.1.** Reasignar las ocho anotaciones desplazadas (R20): sus filas quedan `confirmar` con `identidad_imagen = no_coincide`, y la anotación exportada sigue describiendo la imagen de otro registro. Comprobar la identidad de las 12 piezas de los lotes 2 a 5 que no entraron a la revisión.
+- **Archivos.** `data/metadata/anotacion_v2_revision_criterios.xlsx`, `data/metadata/anotaciones_v2.csv`, `outputs/reports/anotacion_v2_revision_criterios.md`, `outputs/reports/experimento_v2_snapshot.md`, `tests/test_flujo.py`, `docs/protocolo_anotacion_v2.md`.

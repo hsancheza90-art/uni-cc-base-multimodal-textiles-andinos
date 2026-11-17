@@ -1,6 +1,6 @@
 # Matriz de respuesta al informe integrado del 8 de noviembre de 2026
 
-Estado al 13 de noviembre de 2026. Los puntos y los incisos siguen la numeración del informe integrado del asesor, versionado en [`docs/informe_integrado_2026-11-08/`](../informe_integrado_2026-11-08/). El informe tomó como referencia el commit `c313224` (6 de noviembre); esta matriz registra lo ocurrido desde entonces. La columna de evidencia remite a archivos del repositorio y, entre paréntesis, al commit que los introdujo.
+Estado al 13 de noviembre de 2026; el punto 4 se actualizó el 17 de noviembre. Los puntos y los incisos siguen la numeración del informe integrado del asesor, versionado en [`docs/informe_integrado_2026-11-08/`](../informe_integrado_2026-11-08/). El informe tomó como referencia el commit `c313224` (6 de noviembre); esta matriz registra lo ocurrido desde entonces. La columna de evidencia remite a archivos del repositorio y, entre paréntesis, al commit que los introdujo.
 
 Los estados se interpretan así:
 
@@ -18,7 +18,7 @@ Una advertencia general, en el sentido del punto 1 del informe: los estados «At
 | 1 | Estado real e inventario | Atendido | Mantenerlo al día en cada entrega |
 | 2 | Pregunta, contribución y alcance | Por ratificar | Conformidad con la redacción propuesta y conciliación con los objetivos del primer avance |
 | 3 | Protocolo experimental | Por ratificar | Aprobación de la versión 0.6.1 y de las decisiones R01 a R04 y R10 |
-| 4 | Estabilidad de la anotación y v2.1 | Parcial | Revisión de bandas y simetría en los lotes 2 a 5, decisión sobre `centro`, registro de adjudicaciones y congelación |
+| 4 | Estabilidad de la anotación y v2.1 | Parcial | Revisión de los lotes 2 a 5 cerrada el 17 de noviembre (R21). Faltan reasignar ocho anotaciones desplazadas y congelar |
 | 5 | Modelos y ajuste de desarrollo | Parcial | Rankings de M3 y de su control, M4 conectado, selección de pesos |
 | 6 | Juicios de relevancia | Parcial, con una reserva de validez | Decisión sobre la rúbrica; ampliación del pool; juicios de prueba |
 | 7 | Congelación y ejecución confirmatoria | Pendiente | Depende de los puntos 3 a 6 |
@@ -67,10 +67,10 @@ Una advertencia general, en el sentido del punto 1 del informe: los estados «At
 | b) Informe de estabilidad | Kappa por atributo cuando es estimable, Jaccard y kappa por etiqueta en los campos múltiples, similitud de edición de la palabra de bandas, n y exclusiones por atributo. Se añadió una tabla de observabilidad. Se denomina acuerdo intra-anotador | `outputs/reports/anotacion_acuerdo_v2.md` (`ba18dc3`, `d0bce67`) | Atendido |
 | b) Atributos con estabilidad baja | `centro` (κ = 0,49) y las etiquetas `amarillo`, `ocre` y `abstracto`. La observabilidad es inestable: en `composicion` y `simetria`, seis de las treinta piezas cambiaron entre «se observa» y «no se observa» | Mismo informe, tablas «Acuerdo por atributo» y «Observabilidad por atributo» | Atendido (hallazgo informado) |
 | c) Avisos por `desconocido` sin marca de revisión | Se cambió la regla en lugar de editar las piezas: el estado `desconocido` del atributo basta para registrar la duda (R15) | `docs/protocolo_anotacion_v2.md` («Regla de los treinta segundos») | Atendido |
-| c) Observaciones de duda, criterio o vocabulario y registro de adjudicaciones | Dos criterios quedaron escritos: qué cuenta como banda (R12) y la frontera entre simetría traslacional y repetición modular (R16). Falta clasificar las observaciones de las 104 piezas y el registro de adjudicaciones | `docs/registro_decisiones.md`, R12 y R16 | Parcial |
-| d) Atributos demasiado ambiguos para sostener la hipótesis | `composicion` (κ = 0,84) y `secuencia_bandas` (17 de 24 palabras idénticas; similitud media 0,80) sostienen H2 en el lote medido. La reserva es la observabilidad: el bloque que M3 compara depende de una frontera que no fue estable. Queda por decidir el tratamiento de `centro` | Informe de acuerdo; `docs/especificacion_m3.md`, sección 5 | Parcial |
+| c) Observaciones de duda, criterio o vocabulario y registro de adjudicaciones | Criterios escritos: qué cuenta como banda (R12, con la aclaración de R21), la frontera entre simetría traslacional y repetición modular (R16) y los criterios C1 a C4. Las observaciones se clasificaron: 108 piezas de los lotes 2 a 5 entraron a revisión y quedan fuera 46 dudas sobre atributos que M3 no usa y 16 huecos de vocabulario, que se declaran. Las 108 se verificaron (66 confirmadas, 42 corregidas) y el registro de adjudicaciones lista 173 valores corregidos con su motivo. La revisión partió de propuestas automáticas verificadas por el anotador (R20) | `outputs/reports/anotacion_v2_revision_criterios.md`; `docs/registro_decisiones.md`, R18 a R21 | Atendido |
+| d) Atributos demasiado ambiguos para sostener la hipótesis | `composicion` (κ = 0,84) y `secuencia_bandas` (17 de 24 palabras idénticas; similitud media 0,80) sostienen H2 en el lote medido. La reserva es la observabilidad: el bloque que M3 compara depende de una frontera que no fue estable. `centro` se mantiene y su estabilidad baja se declara (R19) | Informe de acuerdo; `docs/especificacion_m3.md`, sección 5; R19 | Atendido, con la reserva declarada |
 | d) No retocar etiquetas según un ranking | En el lote 1 prevalece la re-anotación completa, por regla general y sin selección por pieza (R14). Ninguna etiqueta se modificó tras calcular un ranking de M3: esos rankings no existen todavía | `config/anotacion.toml`, `[reanotacion]`; `src/anotacion/aplicar_anotaciones_v2.py` | Atendido |
-| e) Congelar las 150 anotaciones como v2.1 | No se ha congelado. Depende de la revisión de los lotes 2 a 5 con R12 y R16 | — | Pendiente |
+| e) Congelar las 150 anotaciones como v2.1 | No se ha congelado. La revisión de los lotes 2 a 5 está cerrada; durante ella se encontró que ocho anotaciones describen la imagen de otro registro, y deben reasignarse antes de congelar | R20, R21 | Pendiente |
 
 ## 5. Modelos, control sin orden y ajuste de desarrollo
 
