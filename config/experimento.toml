@@ -35,6 +35,9 @@ escala = [0, 1, 2, 3]
 profundidad_pool = 10
 aleatorios_pool = 10
 semilla_pool = 20261108
+# 2026-11-17 (decision R24): la muestra al azar se elige entre los candidatos que no proponen estos sistemas,
+# los del pool inicial. Asi no cambia cuando se agregan M3, M3-sin-orden o M4: el pool solo crece.
+sistemas_muestra_azar = ["M0", "M1", "M2"]
 # Doble juicio parcial: consultas de prueba juzgadas tambien por un segundo evaluador.
 consultas_doble_juicio = 5
 

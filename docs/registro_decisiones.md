@@ -31,6 +31,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 | R21 | 2026-11-17 | Cierre de la revisión de criterios: 108 piezas verificadas, aclaraciones de R12 y del eje, C1 a C4 vigentes | Decidida |
 | R22 | 2026-11-17 | Reubicación de las ocho anotaciones desplazadas, observaciones en prosa y selección de la revisión congelada | Decidida |
 | R23 | 2026-11-17 | La anotación estructural v2.1 queda congelada; los sistemas leen la copia congelada | Decidida |
+| R24 | 2026-11-17 | Rankings de desarrollo de M3 y M3-sin-orden; el pool crece con sus candidatos y la muestra al azar queda fija | Decidida |
 
 ## R01. Prueba inferencial de H1 y H2
 
@@ -228,3 +229,13 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Uso.** M3, su control sin orden y la fusión M4 se calculan sobre la copia congelada. Su composición en el núcleo: 35 piezas de bandas, 41 de paneles, 31 de retícula, 22 de campo central, 10 de composición libre, 6 de borde, 4 desconocidas y 1 no observable (`outputs/reports/anotacion_v2_1_congelada.md`).
 - **Archivos.** `src/anotacion/congelacion_v21.py`, `src/flujo.py`, `config/anotacion.toml` (`[congelacion]`), `config/corpus.toml`, `tests/test_congelacion_v21.py`, `tests/test_flujo.py`.
 - **Siguiente.** Rankings de desarrollo de M3 y de M3 sin orden, ampliación del pool de juicios de desarrollo y conexión de M4.
+
+## R24. Rankings de desarrollo de M3 y ampliación del pool
+
+- **Decisión.** M3 y M3-sin-orden se ejecutan sobre las diez consultas T3 de desarrollo, con la anotación v2.1 congelada y los pesos iniciales de `[m3.pesos]` (todos iguales a 1; no se ajustan antes de la respuesta del asesor sobre R17). El score es 1 − D; un candidato sin ningún bloque observable en común con la consulta no tiene score y va al final, por identificador (especificación de M3, sección 3). Las consultas de prueba no se ejecutan.
+- **Pool.** Los diez primeros de M3 y de M3-sin-orden entran al pool de juicios de desarrollo, que pasa de 345 a 411 pares (66 nuevos, de 4 a 8 por consulta). Los 345 pares juzgados se conservan, y 36 de ellos ganan como origen M3 o M3-sin-orden sin volver a juzgarse.
+- **Muestra al azar fija.** Hasta ahora, los diez candidatos al azar de cada consulta se elegían entre los que ningún sistema proponía, de modo que agregar un sistema podía cambiar la muestra. Desde esta decisión se eligen entre los que no proponen M0, M1 y M2 (`sistemas_muestra_azar` en `config/experimento.toml`), los sistemas del pool inicial. La muestra resultante es la misma de antes: los mismos 100 pares.
+- **Hallazgo para H2.** En desarrollo, M3 y M3-sin-orden producen el mismo ranking completo en 8 de las 10 consultas y el mismo top 10 en 9 (intersección media de 9,8 de 10). Solo 53 de las 150 piezas tienen palabra de bandas, y el orden solo puede pesar cuando la consulta y el candidato la tienen. Si la proporción se repite en prueba, la diferencia pareada de H2 será cero en la mayoría de las consultas y la prueba tendrá poca potencia: el veredicto más probable sería «evidencia insuficiente» por construcción.
+- **Decisión pendiente, del investigador y del asesor, antes del test.** Mantener H2 sobre las 30 consultas de prueba, declarando esta limitación, o definirla sobre el subconjunto de consultas con palabra de bandas, lo que cambia el protocolo. No se toma a la vista de ningún resultado de prueba; los rankings de desarrollo no se han mostrado al evaluador.
+- **Pendiente del evaluador.** Juzgar los 66 pares nuevos en `data/metadata/juicios_desarrollo_v2.xlsx`, con la misma rúbrica y sin abrir rankings ni el pool.
+- **Archivos.** `src/experimento/rankings.py`, `src/experimento/juicios.py`, `config/experimento.toml`, `config/corpus.toml`, `data/processed/experimento_v2_rankings_desarrollo.csv`, `data/processed/experimento_v2_pool_desarrollo.csv`, `data/metadata/juicios_desarrollo_v2.xlsx`, `data/metadata/juicios_desarrollo_v2.csv`, `tests/test_experimento.py`.

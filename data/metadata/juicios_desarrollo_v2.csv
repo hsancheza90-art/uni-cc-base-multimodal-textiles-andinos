@@ -1,5 +1,6 @@
 consulta,id_global,relevancia,justificacion,evaluador,fecha_juicio
 T3-D01,MET:308026,1,Textiles diferentes,Henry Sanchez,2026-11-12
+T3-D01,AIC:85134,,,,
 T3-D01,CMA:104251,0,Textiles diferentes,Henry Sanchez,2026-11-12
 T3-D01,AIC:85408,0,,Henry Sanchez,2026-11-12
 T3-D01,AIC:85497,0,,Henry Sanchez,2026-11-12
@@ -16,6 +17,7 @@ T3-D01,AIC:85443,1,,Henry Sanchez,2026-11-12
 T3-D01,MET:307933,1,,Henry Sanchez,2026-11-12
 T3-D01,AIC:85276,2,Fragmentos textiles con bordes,Henry Sanchez,2026-11-12
 T3-D01,CMA:104242,0,,Henry Sanchez,2026-11-12
+T3-D01,AIC:85039,,,,
 T3-D01,CMA:134604,2,Textiles con bordes,Henry Sanchez,2026-11-12
 T3-D01,AIC:85269,1,,Henry Sanchez,2026-11-12
 T3-D01,MET:312669,0,,Henry Sanchez,2026-11-12
@@ -25,10 +27,12 @@ T3-D01,AIC:85273,2,Textiles con bordes,Henry Sanchez,2026-11-12
 T3-D01,MET:317736,1,,Henry Sanchez,2026-11-12
 T3-D01,AIC:85438,1,,Henry Sanchez,2026-11-12
 T3-D01,AIC:85581,1,,Henry Sanchez,2026-11-12
+T3-D01,CMA:114132,,,,
 T3-D01,AIC:85253,1,,Henry Sanchez,2026-11-12
 T3-D01,AIC:85388,0,,Henry Sanchez,2026-11-12
 T3-D01,AIC:85642,1,,Henry Sanchez,2026-11-12
 T3-D01,AIC:85520,1,,Henry Sanchez,2026-11-12
+T3-D01,CMA:104245,,,,
 T3-D01,AIC:152928,1,,Henry Sanchez,2026-11-12
 T3-D01,AIC:182605,0,,Henry Sanchez,2026-11-12
 T3-D01,MET:308076,0,,Henry Sanchez,2026-11-12
@@ -37,12 +41,16 @@ T3-D01,CMA:132125,0,,Henry Sanchez,2026-11-12
 T3-D01,AIC:85566,1,,Henry Sanchez,2026-11-12
 T3-D01,AIC:152936,1,,Henry Sanchez,2026-11-12
 T3-D01,AIC:85049,0,,Henry Sanchez,2026-11-12
+T3-D02,CMA:294068,,,,
 T3-D02,AIC:6102,1,,Henry Sanchez,2026-11-12
 T3-D02,AIC:85438,1,,Henry Sanchez,2026-11-12
 T3-D02,AIC:85131,2,figuras geometricas al centro,Henry Sanchez,2026-11-12
 T3-D02,AIC:85039,2,figuras geometricas al centro,Henry Sanchez,2026-11-12
 T3-D02,CMA:119689,2,figuras geometricas al centro,Henry Sanchez,2026-11-12
+T3-D02,AIC:136993,,,,
+T3-D02,AIC:152936,,,,
 T3-D02,AIC:85271,0,,Henry Sanchez,2026-11-12
+T3-D02,CMA:164421,,,,
 T3-D02,CMA:165184,2,figuras geometricas al centro,Henry Sanchez,2026-11-12
 T3-D02,MET:751900,0,,Henry Sanchez,2026-11-12
 T3-D02,MET:307972,2,figuras geometricas al centro,Henry Sanchez,2026-11-12
@@ -55,6 +63,7 @@ T3-D02,AIC:68602,1,,Henry Sanchez,2026-11-12
 T3-D02,AIC:85584,2,figuras geometricas al centro,Henry Sanchez,2026-11-12
 T3-D02,AIC:223217,2,figuras geometricas al centro,Henry Sanchez,2026-11-12
 T3-D02,MET:308026,2,figuras geometricas al centro,Henry Sanchez,2026-11-12
+T3-D02,MET:307933,,,,
 T3-D02,MET:308076,2,figuras geometricas al centro,Henry Sanchez,2026-11-12
 T3-D02,AIC:6114,2,figuras geometricas al centro,Henry Sanchez,2026-11-12
 T3-D02,AIC:3016,2,figuras geometricas al centro,Henry Sanchez,2026-11-12
@@ -65,7 +74,9 @@ T3-D02,AIC:85310,1,,Henry Sanchez,2026-11-12
 T3-D02,CMA:159633,0,,Henry Sanchez,2026-11-12
 T3-D02,MET:307853,2,figuras geometricas al centro,Henry Sanchez,2026-11-12
 T3-D02,AIC:85126,2,figuras geometricas al centro,Henry Sanchez,2026-11-12
+T3-D02,MET:308120,,,,
 T3-D02,AIC:68598,1,,Henry Sanchez,2026-11-12
+T3-D02,AIC:85335,,,,
 T3-D02,MET:308024,2,figuras geometricas al centro,Henry Sanchez,2026-11-12
 T3-D02,AIC:85397,0,,Henry Sanchez,2026-11-12
 T3-D02,AIC:85388,2,figuras geometricas al centro,Henry Sanchez,2026-11-12
@@ -81,27 +92,35 @@ T3-D03,AIC:85126,2,figuras geometricas al centro,Henry Sanchez,2026-11-12
 T3-D03,MET:316341,1,,Henry Sanchez,2026-11-12
 T3-D03,AIC:158409,1,,Henry Sanchez,2026-11-12
 T3-D03,AIC:85006,0,,Henry Sanchez,2026-11-12
+T3-D03,MET:316973,,,,
 T3-D03,AIC:3016,1,,Henry Sanchez,2026-11-12
 T3-D03,AIC:182605,1,,Henry Sanchez,2026-11-12
 T3-D03,AIC:2090,1,,Henry Sanchez,2026-11-12
 T3-D03,AIC:85627,0,,Henry Sanchez,2026-11-12
 T3-D03,MET:308024,1,,Henry Sanchez,2026-11-12
+T3-D03,AIC:223217,,,,
 T3-D03,AIC:85539,1,,Henry Sanchez,2026-11-12
 T3-D03,AIC:181384,1,,Henry Sanchez,2026-11-12
 T3-D03,AIC:181388,1,,Henry Sanchez,2026-11-12
 T3-D03,CMA:134604,0,,Henry Sanchez,2026-11-12
+T3-D03,CMA:152258,,,,
+T3-D03,AIC:85388,,,,
 T3-D03,AIC:85370,1,,Henry Sanchez,2026-11-12
 T3-D03,AIC:85253,1,,Henry Sanchez,2026-11-12
+T3-D03,AIC:85375,,,,
 T3-D03,AIC:85124,1,,Henry Sanchez,2026-11-12
 T3-D03,AIC:85269,0,,Henry Sanchez,2026-11-12
 T3-D03,AIC:85447,0,,Henry Sanchez,2026-11-12
 T3-D03,AIC:85566,1,,Henry Sanchez,2026-11-12
 T3-D03,CMA:124741,1,,Henry Sanchez,2026-11-12
 T3-D03,AIC:85039,2,figuras geometricas al centro,Henry Sanchez,2026-11-12
+T3-D03,AIC:85484,,,,
+T3-D03,CMA:119689,,,,
 T3-D03,MET:316978,1,,Henry Sanchez,2026-11-12
 T3-D03,MET:307953,2,figuras geometricas al centro,Henry Sanchez,2026-11-12
 T3-D03,AIC:181387,2,figuras geometricas al centro,Henry Sanchez,2026-11-12
 T3-D03,AIC:85333,0,,Henry Sanchez,2026-11-12
+T3-D03,AIC:85012,,,,
 T3-D03,MET:307972,1,figuras geometricas al centro,Henry Sanchez,2026-11-12
 T3-D03,MET:316894,0,,Henry Sanchez,2026-11-12
 T3-D03,CMA:165266,0,,Henry Sanchez,2026-11-12
@@ -111,10 +130,13 @@ T3-D04,AIC:85278,1,,Henry Sanchez,2026-11-12
 T3-D04,CMA:119677,1,,Henry Sanchez,2026-11-12
 T3-D04,AIC:85639,1,,Henry Sanchez,2026-11-12
 T3-D04,CMA:114132,0,,Henry Sanchez,2026-11-12
+T3-D04,CMA:119689,,,,
 T3-D04,AIC:85438,1,,Henry Sanchez,2026-11-12
+T3-D04,MET:308076,,,,
 T3-D04,AIC:85335,1,,Henry Sanchez,2026-11-12
 T3-D04,AIC:85310,1,,Henry Sanchez,2026-11-12
 T3-D04,CMA:134604,1,,Henry Sanchez,2026-11-12
+T3-D04,AIC:237551,,,,
 T3-D04,AIC:152929,1,,Henry Sanchez,2026-11-12
 T3-D04,MET:313153,1,,Henry Sanchez,2026-11-12
 T3-D04,MET:316916,1,,Henry Sanchez,2026-11-12
@@ -130,17 +152,23 @@ T3-D04,AIC:85497,0,,Henry Sanchez,2026-11-12
 T3-D04,CMA:164421,0,,Henry Sanchez,2026-11-12
 T3-D04,AIC:85273,1,,Henry Sanchez,2026-11-12
 T3-D04,MET:308098,0,,Henry Sanchez,2026-11-12
+T3-D04,CMA:124740,,,,
 T3-D04,AIC:85447,1,,Henry Sanchez,2026-11-12
+T3-D04,CMA:165266,,,,
 T3-D04,AIC:85370,1,,Henry Sanchez,2026-11-12
 T3-D04,AIC:85269,1,,Henry Sanchez,2026-11-12
 T3-D04,AIC:2067,0,,Henry Sanchez,2026-11-12
+T3-D04,AIC:5066,,,,
 T3-D04,CMA:165184,1,,Henry Sanchez,2026-11-12
 T3-D04,AIC:181388,1,,Henry Sanchez,2026-11-12
 T3-D04,AIC:85552,0,,Henry Sanchez,2026-11-12
+T3-D04,AIC:22338,,,,
 T3-D05,AIC:85278,1,,Henry Sanchez,2026-11-12
 T3-D05,AIC:6102,1,,Henry Sanchez,2026-11-12
 T3-D05,AIC:51309,1,,Henry Sanchez,2026-11-12
+T3-D05,AIC:9386,,,,
 T3-D05,CMA:134604,1,,Henry Sanchez,2026-11-12
+T3-D05,AIC:85639,,,,
 T3-D05,MET:307953,0,,Henry Sanchez,2026-11-12
 T3-D05,AIC:6114,1,,Henry Sanchez,2026-11-12
 T3-D05,AIC:85269,1,,Henry Sanchez,2026-11-12
@@ -150,12 +178,15 @@ T3-D05,CMA:104246,1,,Henry Sanchez,2026-11-12
 T3-D05,AIC:158409,1,,Henry Sanchez,2026-11-12
 T3-D05,AIC:85408,0,,Henry Sanchez,2026-11-12
 T3-D05,AIC:85584,0,,Henry Sanchez,2026-11-12
+T3-D05,AIC:85443,,,,
 T3-D05,AIC:152934,0,,Henry Sanchez,2026-11-12
 T3-D05,AIC:85447,1,,Henry Sanchez,2026-11-12
 T3-D05,MET:308068,1,,Henry Sanchez,2026-11-12
 T3-D05,AIC:152929,1,,Henry Sanchez,2026-11-12
 T3-D05,AIC:237551,1,,Henry Sanchez,2026-11-12
 T3-D05,CMA:104245,1,,Henry Sanchez,2026-11-12
+T3-D05,CMA:119676,,,,
+T3-D05,MET:308024,,,,
 T3-D05,AIC:85126,0,,Henry Sanchez,2026-11-12
 T3-D05,CMA:165184,0,,Henry Sanchez,2026-11-12
 T3-D05,MET:751900,0,,Henry Sanchez,2026-11-12
@@ -170,17 +201,23 @@ T3-D05,AIC:152935,1,,Henry Sanchez,2026-11-12
 T3-D05,AIC:85484,1,,Henry Sanchez,2026-11-12
 T3-D05,AIC:85273,1,,Henry Sanchez,2026-11-12
 T3-D05,CMA:119689,0,,Henry Sanchez,2026-11-12
+T3-D05,MET:316973,,,,
 T3-D05,MET:308053,0,,Henry Sanchez,2026-11-12
 T3-D05,AIC:2067,0,,Henry Sanchez,2026-11-12
+T3-D06,AIC:85187,,,,
 T3-D06,AIC:85447,0,,Henry Sanchez,2026-11-12
+T3-D06,AIC:84976,,,,
 T3-D06,CMA:132125,0,,Henry Sanchez,2026-11-12
+T3-D06,AIC:85627,,,,
 T3-D06,AIC:85126,0,,Henry Sanchez,2026-11-12
 T3-D06,AIC:5066,0,,Henry Sanchez,2026-11-12
+T3-D06,AIC:68598,,,,
 T3-D06,CMA:294068,0,,Henry Sanchez,2026-11-12
 T3-D06,CMA:134604,1,,Henry Sanchez,2026-11-12
 T3-D06,CMA:165184,1,,Henry Sanchez,2026-11-12
 T3-D06,MET:313153,1,,Henry Sanchez,2026-11-12
 T3-D06,AIC:85310,1,,Henry Sanchez,2026-11-12
+T3-D06,AIC:85333,,,,
 T3-D06,AIC:237551,0,,Henry Sanchez,2026-11-12
 T3-D06,AIC:152929,0,,Henry Sanchez,2026-11-12
 T3-D06,MET:307933,0,,Henry Sanchez,2026-11-12
@@ -200,12 +237,15 @@ T3-D06,CMA:163708,1,,Henry Sanchez,2026-11-12
 T3-D06,AIC:85497,0,,Henry Sanchez,2026-11-12
 T3-D06,AIC:2090,0,,Henry Sanchez,2026-11-12
 T3-D06,AIC:85273,1,,Henry Sanchez,2026-11-12
+T3-D06,CMA:104249,,,,
 T3-D06,CMA:152258,0,,Henry Sanchez,2026-11-12
 T3-D06,AIC:5370,0,,Henry Sanchez,2026-11-12
 T3-D06,MET:751900,1,,Henry Sanchez,2026-11-12
+T3-D06,AIC:85131,,,,
 T3-D06,AIC:158409,1,,Henry Sanchez,2026-11-12
 T3-D06,AIC:223217,0,,Henry Sanchez,2026-11-12
 T3-D06,CMA:119679,0,,Henry Sanchez,2026-11-12
+T3-D06,CMA:104242,,,,
 T3-D06,AIC:85467,1,,Henry Sanchez,2026-11-12
 T3-D07,MET:308053,0,,Henry Sanchez,2026-11-12
 T3-D07,MET:316978,1,,Henry Sanchez,2026-11-12
@@ -218,12 +258,16 @@ T3-D07,AIC:2090,0,,Henry Sanchez,2026-11-12
 T3-D07,AIC:85126,1,,Henry Sanchez,2026-11-12
 T3-D07,CMA:104245,0,,Henry Sanchez,2026-11-12
 T3-D07,AIC:223218,0,,Henry Sanchez,2026-11-12
+T3-D07,MET:307959,,,,
+T3-D07,AIC:85642,,,,
 T3-D07,CMA:294068,0,,Henry Sanchez,2026-11-12
 T3-D07,AIC:158409,0,,Henry Sanchez,2026-11-12
+T3-D07,MET:307964,,,,
 T3-D07,AIC:9386,0,,Henry Sanchez,2026-11-12
 T3-D07,AIC:152929,1,,Henry Sanchez,2026-11-12
 T3-D07,AIC:68598,0,,Henry Sanchez,2026-11-12
 T3-D07,AIC:85006,0,,Henry Sanchez,2026-11-12
+T3-D07,AIC:84976,,,,
 T3-D07,CMA:159633,0,,Henry Sanchez,2026-11-12
 T3-D07,MET:308068,1,,Henry Sanchez,2026-11-12
 T3-D07,AIC:152935,0,,Henry Sanchez,2026-11-12
@@ -240,6 +284,7 @@ T3-D07,MET:316894,0,,Henry Sanchez,2026-11-12
 T3-D07,AIC:85253,1,,Henry Sanchez,2026-11-12
 T3-D07,AIC:85443,1,,Henry Sanchez,2026-11-12
 T3-D07,AIC:85134,1,,Henry Sanchez,2026-11-12
+T3-D07,AIC:6114,,,,
 T3-D07,AIC:85269,0,,Henry Sanchez,2026-11-12
 T3-D07,AIC:85335,0,,Henry Sanchez,2026-11-12
 T3-D07,CMA:134765,0,,Henry Sanchez,2026-11-12
@@ -254,14 +299,17 @@ T3-D08,AIC:85006,0,,Henry Sanchez,2026-11-12
 T3-D08,AIC:9386,3,fragmento textil con misma iconografia,Henry Sanchez,2026-11-12
 T3-D08,MET:316894,0,,Henry Sanchez,2026-11-12
 T3-D08,CMA:165184,1,,Henry Sanchez,2026-11-12
+T3-D08,AIC:5066,,,,
 T3-D08,AIC:6102,0,,Henry Sanchez,2026-11-12
 T3-D08,CMA:119689,0,,Henry Sanchez,2026-11-12
+T3-D08,AIC:5371,,,,
 T3-D08,AIC:85273,1,,Henry Sanchez,2026-11-12
 T3-D08,CMA:119680,0,,Henry Sanchez,2026-11-12
 T3-D08,AIC:5370,1,,Henry Sanchez,2026-11-12
 T3-D08,AIC:85447,1,,Henry Sanchez,2026-11-12
 T3-D08,AIC:85467,1,,Henry Sanchez,2026-11-12
 T3-D08,AIC:85134,0,,Henry Sanchez,2026-11-12
+T3-D08,AIC:22338,,,,
 T3-D08,CMA:108034,1,,Henry Sanchez,2026-11-12
 T3-D08,CMA:157111,1,,Henry Sanchez,2026-11-12
 T3-D08,CMA:163708,0,,Henry Sanchez,2026-11-12
@@ -270,12 +318,15 @@ T3-D08,MET:307941,0,,Henry Sanchez,2026-11-12
 T3-D08,AIC:85049,1,,Henry Sanchez,2026-11-12
 T3-D08,CMA:134604,1,,Henry Sanchez,2026-11-12
 T3-D08,AIC:85335,1,,Henry Sanchez,2026-11-12
+T3-D08,CMA:119677,,,,
 T3-D08,MET:316983,0,,Henry Sanchez,2026-11-12
 T3-D08,CMA:124741,1,,Henry Sanchez,2026-11-12
 T3-D08,AIC:85375,0,,Henry Sanchez,2026-11-12
 T3-D08,AIC:85443,1,,Henry Sanchez,2026-11-12
+T3-D08,AIC:85497,,,,
 T3-D08,MET:308026,1,,Henry Sanchez,2026-11-12
 T3-D08,AIC:3016,1,,Henry Sanchez,2026-11-12
+T3-D08,MET:308076,,,,
 T3-D08,AIC:158409,1,,Henry Sanchez,2026-11-12
 T3-D08,AIC:85245,1,,Henry Sanchez,2026-11-12
 T3-D08,AIC:181388,1,,Henry Sanchez,2026-11-12
@@ -283,6 +334,7 @@ T3-D08,AIC:85126,1,,Henry Sanchez,2026-11-12
 T3-D08,CMA:164421,0,,Henry Sanchez,2026-11-12
 T3-D08,AIC:181387,1,,Henry Sanchez,2026-11-12
 T3-D08,CMA:160691,0,,Henry Sanchez,2026-11-12
+T3-D08,MET:313153,,,,
 T3-D08,AIC:152934,1,,Henry Sanchez,2026-11-12
 T3-D09,MET:308017,1,,Henry Sanchez,2026-11-12
 T3-D09,MET:308057,1,,Henry Sanchez,2026-11-12
@@ -294,6 +346,8 @@ T3-D09,CMA:104245,0,,Henry Sanchez,2026-11-12
 T3-D09,MET:308048,1,,Henry Sanchez,2026-11-12
 T3-D09,CMA:124741,1,,Henry Sanchez,2026-11-12
 T3-D09,CMA:152258,1,,Henry Sanchez,2026-11-12
+T3-D09,AIC:85187,,,,
+T3-D09,AIC:84976,,,,
 T3-D09,AIC:85253,0,,Henry Sanchez,2026-11-12
 T3-D09,CMA:114132,0,,Henry Sanchez,2026-11-12
 T3-D09,MET:307964,0,,Henry Sanchez,2026-11-12
@@ -314,33 +368,45 @@ T3-D09,AIC:227479,0,,Henry Sanchez,2026-11-12
 T3-D09,AIC:85310,1,,Henry Sanchez,2026-11-12
 T3-D09,AIC:181387,1,,Henry Sanchez,2026-11-12
 T3-D09,MET:308042,1,,Henry Sanchez,2026-11-12
+T3-D09,AIC:85627,,,,
 T3-D09,AIC:85134,0,,Henry Sanchez,2026-11-12
+T3-D09,CMA:160691,,,,
 T3-D09,AIC:68602,0,,Henry Sanchez,2026-11-12
 T3-D09,CMA:104241,0,,Henry Sanchez,2026-11-12
+T3-D09,CMA:104251,,,,
 T3-D09,AIC:2067,1,,Henry Sanchez,2026-11-12
 T3-D09,MET:307968,1,,Henry Sanchez,2026-11-12
 T3-D09,MET:308053,1,,Henry Sanchez,2026-11-12
+T3-D09,AIC:68598,,,,
 T3-D09,CMA:104242,0,,Henry Sanchez,2026-11-12
 T3-D09,AIC:152929,1,,Henry Sanchez,2026-11-12
+T3-D09,CMA:104249,,,,
 T3-D10,MET:316973,3,"Mismo textil, gorro wari con diferente tema",Henry Sanchez,2026-11-12
+T3-D10,CMA:294068,,,,
 T3-D10,MET:308282,1,,Henry Sanchez,2026-11-12
 T3-D10,MET:316983,1,,Henry Sanchez,2026-11-12
 T3-D10,CMA:125339,3,"Mismo textil, gorro wari con diferente tema",Henry Sanchez,2026-11-12
 T3-D10,MET:316962,3,"Mismo textil, gorro wari con diferente tema",Henry Sanchez,2026-11-12
 T3-D10,MET:316969,3,"Mismo textil, gorro wari con diferente tema",Henry Sanchez,2026-11-12
 T3-D10,MET:316975,3,"Mismo textil, gorro wari con diferente tema",Henry Sanchez,2026-11-12
+T3-D10,AIC:136993,,,,
 T3-D10,MET:316978,3,"Mismo textil, gorro wari con diferente tema",Henry Sanchez,2026-11-12
+T3-D10,MET:307959,,,,
 T3-D10,MET:314623,3,"Mismo textil, gorro wari con diferente tema",Henry Sanchez,2026-11-12
 T3-D10,CMA:164421,0,,Henry Sanchez,2026-11-12
 T3-D10,CMA:124412,3,"Mismo textil, gorro wari con diferente tema",Henry Sanchez,2026-11-12
 T3-D10,MET:316340,3,"Mismo textil, gorro wari con diferente tema",Henry Sanchez,2026-11-12
 T3-D10,AIC:85269,0,,Henry Sanchez,2026-11-12
 T3-D10,CMA:165266,0,,Henry Sanchez,2026-11-12
+T3-D10,AIC:85335,,,,
 T3-D10,MET:308098,1,,Henry Sanchez,2026-11-12
 T3-D10,MET:316341,3,"Mismo textil, gorro wari con diferente tema",Henry Sanchez,2026-11-12
 T3-D10,MET:307853,1,,Henry Sanchez,2026-11-12
+T3-D10,MET:307964,,,,
 T3-D10,MET:316916,1,,Henry Sanchez,2026-11-12
 T3-D10,AIC:85581,1,,Henry Sanchez,2026-11-12
 T3-D10,AIC:5066,1,,Henry Sanchez,2026-11-12
 T3-D10,CMA:126795,3,"Mismo textil, gorro wari con diferente tema",Henry Sanchez,2026-11-12
+T3-D10,AIC:152936,,,,
+T3-D10,MET:308120,,,,
 T3-D10,CMA:165184,1,,Henry Sanchez,2026-11-12

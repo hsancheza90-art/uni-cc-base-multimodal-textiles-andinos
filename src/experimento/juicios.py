@@ -99,6 +99,8 @@ def construir_pool(raiz: Path, config: dict[str, Any]) -> list[dict[str, str]]:
     """Pares del pool de cada consulta de desarrollo, con los sistemas que los propusieron."""
     profundidad, aleatorios = int(config["juicios"]["profundidad_pool"]), int(config["juicios"]["aleatorios_pool"])
     semilla = int(config["juicios"]["semilla_pool"])
+    # La muestra al azar no depende de los sistemas que se agregan despues (decision R24).
+    base = set(config["juicios"]["sistemas_muestra_azar"])
     origen: dict[tuple[str, str], set[str]] = defaultdict(set)
     candidatos: dict[str, set[str]] = defaultdict(set)
     for fila in leer_csv(raiz / SALIDA_RANKINGS):
@@ -107,7 +109,7 @@ def construir_pool(raiz: Path, config: dict[str, Any]) -> list[dict[str, str]]:
             origen[(fila["consulta"], fila["id_global"])].add(fila["sistema"])
     pool = []
     for consulta in sorted(candidatos):
-        propuestos = {i for (c, i) in origen if c == consulta}
+        propuestos = {i for (c, i), sistemas in origen.items() if c == consulta and sistemas & base}
         resto = sorted(candidatos[consulta] - propuestos, key=lambda i: huella(semilla, f"pool:{consulta}", i))
         for id_global in resto[:aleatorios]:
             origen[(consulta, id_global)].add("azar")

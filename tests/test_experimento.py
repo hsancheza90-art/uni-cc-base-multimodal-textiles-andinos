@@ -134,6 +134,7 @@ escala = [0, 1, 2, 3]
 profundidad_pool = 2
 aleatorios_pool = 1
 semilla_pool = 3
+sistemas_muestra_azar = ["M0", "M1", "M2"]
 [consultas_t1]
 prueba = 2
 """
@@ -170,6 +171,27 @@ def test_el_pool_une_los_primeros_de_cada_sistema_y_una_muestra_al_azar(repo_jui
     d02 = {f["id_global"]: f["origen"] for f in pool if f["consulta"] == "T3-D02"}
     assert d02["MET:1"] == "M0; M1" and len(d02) == 3  # sin repetir pares
     assert len(leer_csv(repo_juicios / juicios.SALIDA_JUICIOS)) == len(pool)  # una fila por par
+
+
+def test_los_pares_sin_evidencia_estructural_van_al_final_por_id() -> None:
+    from src.experimento.rankings import ordenar
+
+    orden = ordenar({"MET:9": None, "MET:2": 0.4, "MET:1": None, "MET:3": 0.4, "MET:4": 0.0})
+    assert [i for i, _ in orden] == ["MET:2", "MET:3", "MET:4", "MET:1", "MET:9"]
+
+
+def test_agregar_un_sistema_no_cambia_la_muestra_al_azar(repo_juicios: Path) -> None:
+    config = leer_config_experimento(repo_juicios)
+    antes = juicios.construir_pool(repo_juicios, config)
+    azar = {(f["consulta"], f["id_global"]) for f in antes if "azar" in f["origen"]}
+    # M3 propone en primer lugar justo el candidato que salio al azar en cada consulta.
+    rankings = leer_csv(repo_juicios / SALIDA_RANKINGS)
+    rankings += [{"sistema": "M3", "consulta": c, "rango": "1", "id_global": i, "score": "0.9"} for c, i in sorted(azar)]
+    escribir_csv(repo_juicios / SALIDA_RANKINGS, ["sistema", "consulta", "rango", "id_global", "score"], rankings)
+    despues = {(f["consulta"], f["id_global"]): f["origen"] for f in juicios.construir_pool(repo_juicios, config)}
+    assert {k for k, o in despues.items() if "azar" in o} == azar  # la muestra no cambia
+    assert all(despues[k] == "M3; azar" for k in azar)  # el par gana un origen, no sale del pool
+    assert {(f["consulta"], f["id_global"]) for f in antes} <= set(despues)
 
 
 def juzgar(ruta: Path, valores: dict[int, dict[str, object]]) -> None:
