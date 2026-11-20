@@ -17,7 +17,7 @@ Una advertencia general, en el sentido del punto 1 del informe: los estados «At
 |---|---|---|---|
 | 1 | Estado real e inventario | Atendido | Mantenerlo al día en cada entrega |
 | 2 | Pregunta, contribución y alcance | Por ratificar | Conformidad con la redacción propuesta y conciliación con los objetivos del primer avance |
-| 3 | Protocolo experimental | Por ratificar | Aprobación de la versión 0.6.1 y de las decisiones R01 a R04 y R10 |
+| 3 | Protocolo experimental | Por ratificar | Aprobación de la versión 0.6.2 y de las decisiones R01 a R04 y R10 |
 | 4 | Estabilidad de la anotación y v2.1 | Atendido | Anotación v2.1 congelada el 17 de noviembre (R21 a R23) |
 | 5 | Modelos y ajuste de desarrollo | Parcial | Rankings de M3 y de su control, M4 conectado, selección de pesos |
 | 6 | Juicios de relevancia | Parcial, con una reserva de validez | Decisión sobre la rúbrica; ampliación del pool; juicios de prueba |
@@ -50,7 +50,7 @@ Una advertencia general, en el sentido del punto 1 del informe: los estados «At
 
 | Inciso | Acción | Evidencia | Estado |
 |---|---|---|---|
-| a) Completar, aprobar y registrar el protocolo | El protocolo está en la versión 0.6.1, propuesta. Su historial registra cada cambio con fecha y motivo. No tiene todavía fecha ni commit de aprobación | `docs/protocolo_experimental_v2.md` («Historial»); `docs/registro_decisiones.md` (`14c0887`, `ba18dc3`) | Por ratificar |
+| a) Completar, aprobar y registrar el protocolo | El protocolo está en la versión 0.6.2, propuesta. Su historial registra cada cambio con fecha y motivo. No tiene todavía fecha ni commit de aprobación | `docs/protocolo_experimental_v2.md` («Historial»); `docs/registro_decisiones.md` (`14c0887`, `ba18dc3`) | Por ratificar |
 | a) Decisiones propuestas: aptitud, galería, umbral y verificación | D2, D4 y D5 siguen como propuestas; D7 quedó decidida | `docs/plan_cierre_tesis.md` («Decisiones del 12 de noviembre») | Por ratificar |
 | b) T3 primaria, T1 exploratoria, seis sistemas | Sin cambios. M1 no participa en T1 y M3 se declara asistido por anotación | Protocolo, secciones 3 y 4 | Atendido |
 | c) Métrica primaria, umbral, intervalo y reglas para casos límite | nDCG@10, Δ = 0,03, IC 95 % por bootstrap pareado de 10 000 réplicas, regla para consultas sin relevantes y para pares `no_evaluable` | Protocolo, secciones 6 y 7; `src/experimento/evaluacion.py` (`4dff235`) | Atendido |
@@ -88,11 +88,12 @@ Una advertencia general, en el sentido del punto 1 del informe: los estados «At
 | Inciso | Acción | Evidencia | Estado |
 |---|---|---|---|
 | a) Los 345 pares de desarrollo | Juzgados los 345 el 12 de noviembre, con evaluador y fecha. Ninguno `no_evaluable`. Distribución: 131 de grado 0, 174 de grado 1, 28 de grado 2 y 12 de grado 3 | `data/metadata/juicios_desarrollo_v2.csv`; `outputs/reports/experimento_v2_juicios_desarrollo.md` (`408362c`) | Atendido, con la reserva que sigue |
-| a) Justificación visible en los grados 2 y 3 | **Incumplido en parte:** de los 40 juicios de grado 2 o 3, solo 5 llevan justificación | Workbook de juicios | Parcial |
+| a) Revisión con segunda opinión ciega (2026-11-19) | El evaluador revisó los 411 pares, incluidos los 345 de la reserva R17, con la segunda opinión de un modelo de visión que solo vio las dos imágenes y la rúbrica, y firmó cada grado. Acuerdo antes de revisar: kappa ponderado lineal 0,16. Distribución final: 180 de grado 0, 150 de grado 1, 66 de grado 2 y 15 de grado 3. Los juicios vigentes son humanos asistidos | `data/metadata/juicios_desarrollo_v2.csv`; R25 | Por ratificar |
+| a) Justificación visible en los grados 2 y 3 | Desde R25, los 411 juicios llevan una justificación corta sobre la organización visible | Workbook de juicios | Atendido |
 | a) Juicios basados en criterios estructurales | **Reserva de validez.** Los juicios no se alinean con la composición registrada en la anotación: entre los 85 pares cuya consulta y candidato tienen la misma composición, el 14 % recibió grado 2 o 3; entre los 253 de composición distinta, el 11 %. En las tres consultas de bandas, ninguno de los 39 candidatos con bandas alcanzó el grado 2. Caben dos lecturas, no excluyentes: que la rúbrica se aplicó con un criterio más global que el estructural, o que la composición anotada no capta lo que el ojo reconoce como «misma organización». El investigador decidió conservar estos juicios y someter la cuestión al asesor (R17). Se detalla en [`amenazas_validez.md`](amenazas_validez.md), sección 2 | Cálculo exploratorio con `src/experimento/evaluacion.py` sobre los archivos versionados | Por ratificar |
-| b) Ampliar el pool con M3, su control y M4 | Ampliado con M3 y M3-sin-orden: 66 pares nuevos (411 en total), con los 345 juzgados y la muestra al azar intactos. Falta juzgar los 66 y, después, sumar M4 | `src/experimento/juicios.py`; R24 | Parcial |
+| b) Ampliar el pool con M3, su control y M4 | Ampliado con M3 y M3-sin-orden: 66 pares nuevos (411 en total), con los 345 juzgados y la muestra al azar intactos. Los 411 están juzgados; falta sumar M4 | `src/experimento/juicios.py`; R24 y R25 | Parcial |
 | b) Origen de los candidatos fuera de la vista de quien juzga | El origen está en un archivo aparte, que el evaluador no abre; el workbook no lo contiene | `data/processed/experimento_v2_pool_desarrollo.csv` | Atendido |
-| c) Juicio ciego | Orden aleatorio con semilla; sin sistema, posición, score ni anotación en el workbook. Ningún juicio se deriva de un modelo | Protocolo, sección 6; `src/experimento/juicios.py` (`1eeb9c4`) | Atendido |
+| c) Juicio ciego | Orden aleatorio con semilla; sin sistema, posición, score ni anotación en el workbook. Ningún juicio se deriva del descriptor ni de CLIP. Desde R25, los de desarrollo están asistidos por una segunda opinión ciega, también sin acceso a sistemas ni rankings | Protocolo, sección 6; `src/experimento/juicios.py` (`1eeb9c4`); R25 | Atendido, con la salvedad de R25 |
 | d) Pool ciego de prueba | No iniciado | — | Pendiente (depende del punto 7.a) |
 | e) Segundo juicio parcial | Propuesto al asesor en la carta del 6 de noviembre (5 consultas de prueba). Si no se dispone de otra persona, el manuscrito declarará evaluador único | [`README.md`](README.md), solicitud 3 | Por ratificar |
 | f) Cobertura, no evaluables y consultas sin relevantes | En desarrollo, el top 10 de M0, M1 y M2 está juzgado por completo; no hay pares no evaluables ni consultas sin candidatos de grado 1. En cinco de las diez consultas ningún candidato alcanzó el grado 2, lo que afecta a las métricas binarizadas. La convención para no juzgados y la sensibilidad sin aportes únicos están implementadas | `proporcion_juzgada` y `sin_aportes_unicos` en `src/experimento/evaluacion.py` | Atendido en desarrollo |
@@ -172,9 +173,10 @@ Las condiciones mínimas que el informe fija antes del test no se cumplen todav�
 
 ## Lo que se solicita al asesor
 
-1. La aprobación del protocolo 0.6.1 o sus observaciones, y en particular su conformidad con R01 (permutación para decidir, bootstrap para el intervalo).
-2. Su criterio sobre la reserva de validez de los juicios de desarrollo (punto 6.a): aceptarlos como están, declarando la limitación, o repetir el juicio con la rúbrica aclarada antes de ajustar los pesos.
+1. La aprobación del protocolo 0.6.2 o sus observaciones, y en particular su conformidad con R01 (permutación para decidir, bootstrap para el intervalo).
+2. Su criterio sobre los juicios de desarrollo (punto 6.a). La reserva de validez se abordó con una revisión asistida por una segunda opinión ciega (R25): ¿acepta usar los juicios revisados para ajustar los pesos, declarando la asistencia?
 3. Su conformidad con la redacción de la pregunta, las hipótesis y el alcance (punto 2) y con la formalización propuesta (punto 9).
 4. Su indicación sobre Brownlow et al. (2015): si dispone del texto o si acepta que la brecha se formule con la salvedad declarada.
 5. Su decisión sobre el segundo juicio parcial (punto 6.e).
 6. Su decisión sobre el alcance de H2 (punto 5.c): mantenerla sobre las 30 consultas de prueba, declarando su baja potencia, o restringirla a las consultas con palabra de bandas (R24).
+7. Su decisión sobre los juicios de prueba (R25): sin asistencia, o con la misma segunda opinión ciega.

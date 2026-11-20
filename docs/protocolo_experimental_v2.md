@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Versión | 0.6.1, **propuesta**, 12 de noviembre de 2026 |
+| Versión | 0.6.2, **propuesta**, 19 de noviembre de 2026 |
 | Estado | Pendiente de aprobación del asesor. Al aprobarse, el protocolo se congela: la fecha y el commit de aprobación se registran en el «Historial», y desde entonces todo cambio se anota allí con su motivo antes de abrir el test |
 | Responde a | Observación MET01 de la auditoría del asesor (20 de octubre de 2026), informe 08; actividad S1.3 del plan de cierre (`docs/plan_cierre_tesis.md`) |
 | Alcance | Estudio **piloto**, con un solo anotador y un solo evaluador principal (decisión D1, 3 de noviembre) |
@@ -92,7 +92,7 @@ Además existe el estado `no_evaluable`, para imágenes que no permiten juzgar. 
 
 1. Las consultas se fijan antes de ejecutar cualquier sistema sobre ellas: las de T3 por sorteo y las de T1 por redacción.
 2. Los juicios se hacen solo sobre las imágenes, sin consultar la anotación ni ver los rankings, los scores o el sistema que propuso cada candidato. Los candidatos de cada consulta se presentan en orden aleatorio.
-3. La escala y estos criterios se fijan antes de juzgar. Ningún juicio se deriva de la anotación, del descriptor ni de CLIP.
+3. La escala y estos criterios se fijan antes de juzgar. Ningún juicio se deriva de la anotación, del descriptor ni de CLIP. Los juicios de desarrollo se revisaron con la segunda opinión ciega de un modelo de visión general, y el evaluador firmó cada grado (R25). Antes de los juicios de prueba, el asesor y el investigador decidirán si se repite esa asistencia.
 4. **Doble juicio parcial [propuesta]:** el asesor, u otra persona con criterio estructural, juzga a ciegas los pools de 5 consultas de prueba elegidas al azar. Se informa el acuerdo entre ambos evaluadores (kappa ponderado lineal sobre la escala 0–3) antes de cualquier adjudicación, y la métrica primaria se recalcula con esos juicios como análisis de sensibilidad. Se conservan las dos versiones.
 
 **Consultas sin relevantes.** Si ningún candidato de una consulta alcanza el grado 1, su nDCG no está definido. Esa consulta se excluye de la media, se informa cuántas hubo y cuáles fueron, y no se reemplaza.
@@ -211,3 +211,4 @@ Las equivalencias con los nombres del informe 08 son las siguientes: grupos (`gr
 | 2026-11-06 | 0.5 | Revisión de la redacción para la lectura del asesor y calendario actualizado; los detalles de implementación pasan a la sección 12. Sin cambios en el diseño |
 | 2026-11-12 | 0.6 | Secciones 1 y 7: H1 y H2 se deciden con una prueba de permutación pareada y el bootstrap queda para el intervalo; el efecto mínimo detectable se calcula antes del test. Secciones 6 y 7: ablación de M4 por posiciones recíprocas, cuyos candidatos entran al pool. Sección 10: amenazas actualizadas. Son las decisiones R01 a R04 de `docs/registro_decisiones.md`, tomadas a partir de la revisión bibliográfica del 11 de noviembre. No se ha ejecutado ninguna consulta de prueba |
 | 2026-11-12 | 0.6.1 | Correcciones de forma de la auditoría interna (R11): calendario al 12 de noviembre y D7 fuera de las decisiones por ratificar. Sin cambios en el diseño |
+| 2026-11-19 | 0.6.2 | Sección 6, salvaguarda 3: los juicios de desarrollo se revisaron con una segunda opinión ciega y el evaluador firmó cada grado; queda pendiente decidir si los juicios de prueba se hacen igual (R25). No se ha ejecutado ninguna consulta de prueba |
