@@ -2,8 +2,8 @@
 
 | | |
 |---|---|
-| Versión | 0.6.3, **propuesta**, 21 de noviembre de 2026 |
-| Estado | Pendiente de aprobación del asesor. Al aprobarse, el protocolo se congela: la fecha y el commit de aprobación se registran en el «Historial», y desde entonces todo cambio se anota allí con su motivo antes de abrir el test |
+| Versión | 0.6.4, **propuesta**, 21 de noviembre de 2026 |
+| Estado | Pendiente de aprobación del asesor. El test no se abre antes de esa aprobación (decisión R30). Al aprobarse, el protocolo se congela: la fecha y el commit de aprobación se registran en el «Historial», y desde entonces todo cambio se anota allí con su motivo antes de abrir el test |
 | Responde a | Observación MET01 de la auditoría del asesor (20 de octubre de 2026), informe 08; actividad S1.3 del plan de cierre (`docs/plan_cierre_tesis.md`) |
 | Alcance | Estudio **piloto**, con un solo anotador y un solo evaluador principal (decisión D1, 3 de noviembre) |
 
@@ -18,8 +18,8 @@ Este protocolo establece, antes de observar cualquier resultado de prueba, qué 
 | | Hipótesis | Contraste | Regla de decisión |
 |---|---|---|---|
 | H1 (primaria) | La fusión que incorpora la estructura recupera mejor que el codificador visual-textual congelado | nDCG@10 de M4 frente a M2, pareado por consulta | Se sostiene si la diferencia media es ≥ 0,03 **y** la prueba de permutación pareada bilateral da p < 0,05 (sección 7). Si la diferencia es positiva pero p ≥ 0,05, se informa como «dirección favorable sin evidencia suficiente». En cualquier otro caso, no se sostiene. El IC 95 % se informa siempre, como estimación de la magnitud |
-| H2 (mecanismo) | El orden importa: el descriptor con secuencia y adyacencias supera al mismo descriptor sin orden | nDCG@10 de M3 frente a M3-sin-orden, sobre las 30 consultas de prueba | La misma regla que H1. Además, como análisis secundario fijado antes del test, la misma comparación restringida a las consultas cuya pieza tiene palabra de bandas (9 de 30): en las demás, M3 y su control asignan el mismo score a todos los candidatos y la diferencia es cero por construcción (R27) |
-| H3 (interpretabilidad) | El score de M4 se explica exactamente por la suma de sus componentes | Reconstrucción e intervención (sección 8) | Se sostiene si se cumplen las tres comprobaciones de la sección 8 |
+| H2 (mecanismo) | El orden importa: el descriptor con secuencia y adyacencias supera al mismo descriptor sin orden | nDCG@10 de M3 frente a M3-sin-orden, sobre las 30 consultas de prueba | La misma regla que H1. Además, como análisis secundario fijado antes del test, la misma comparación restringida a las consultas cuya pieza tiene palabra de bandas (9 de 30): en las demás, M3 y su control asignan la misma puntuación a todos los candidatos y la diferencia es cero por construcción (R27) |
+| H3 (interpretabilidad) | La puntuación de M4 se explica exactamente por la suma de sus componentes | Reconstrucción e intervención (sección 8) | Se sostiene si se cumplen las tres comprobaciones de la sección 8 |
 
 H1 es la única comparación confirmatoria primaria y H2 la única confirmatoria secundaria; al ser una sola, no requiere corrección por comparaciones múltiples. Cualquier otra comparación (M4 frente a M0, M1 o M3, las ablaciones o el análisis por museo) es **exploratoria** y se presentará como tal.
 
@@ -50,18 +50,21 @@ En T3, M0 recibe los metadatos de la pieza consultada en lugar de su imagen; se 
 
 ## 4. Sistemas
 
-Todos los sistemas son deterministas y ninguno se entrena. Los empates en el score se resuelven por `id_global` en orden ascendente.
+Todos los sistemas son deterministas y ninguno se entrena. Los empates en la puntuación se resuelven por `id_global` en orden ascendente.
 
-| Sistema | Entrada y score | Ajuste permitido (solo en desarrollo) |
+| Sistema | Entrada y puntuación | Ajuste permitido (solo en desarrollo) |
 |---|---|---|
 | **M0** | BM25 sobre el texto de la ficha: título original, título sugerido en español, descripción del museo, material y técnica. No se incluye el texto de crédito de MET (SW10) ni su campo de descripción: en MET ese campo no es un texto del museo, sino una plantilla armada con los propios metadatos, y sus palabras fijas aproximarían las piezas MET entre sí solo por proceder del mismo museo. El texto se normaliza a minúsculas y sin tildes, se toman términos de tres caracteres o más y no se usa lista de palabras vacías. La mezcla de inglés y español se declara como característica del corpus | k1 y b en una rejilla pequeña; por defecto, 1,2 y 0,75 |
 | **M1** | Visión convencional sobre el textil, separado del fondo con la misma segmentación que usa el puntaje de aptitud. Combina un histograma conjunto de CIELAB (4 × 8 × 8 cubetas) y un histograma de LBP de 8 vecinos invariante a la rotación (10 valores), calculados a 320 px de lado mayor. La disimilitud es la media ponderada de la mitad de la distancia L1 en cada bloque | Resolución y peso de cada bloque |
 | **M2** | OpenCLIP congelado: embeddings de imagen (y de texto en T1) normalizados L2, comparados por coseno. El checkpoint quedó fijado el 5 de noviembre (D6): `xlm-roberta-base-ViT-B-32` con pesos `laion5b_s13b_b90k`. Es multilingüe, de modo que las consultas T1 no requieren traducción. El cálculo es en fp32, y antes del recorte central del modelo cada imagen se lleva a un cuadrado rellenado con el color de su borde, para no cortar los extremos de las piezas alargadas | Plantilla de texto (T1) y encuadre |
 | **M3** | Descriptor estructural derivado de la anotación v2 (especificación completa en `docs/especificacion_m3.md`, conforme al informe 05). Considera la composición; la palabra de bandas en su forma canónica bajo reversión, c(w) = mínimo lexicográfico de {w, rev(w)}; el histograma de pares de bandas contiguas; borde, centro, simetría y repetición; los motivos y la familia iconográfica, y una máscara de observabilidad. La disimilitud mixta es D(i,j) = Σ λ_b m_ib m_jb d_b(i,j) / Σ λ_b m_ib m_jb. Si el denominador es cero, el par queda «sin evidencia estructural» y no recibe similitud máxima. **M3 no incluye el color**, para que una eventual ganancia no sea de origen cromático | Pesos λ_b y vocabulario |
 | **M3-sin-orden** | Igual que M3, pero la palabra de bandas se sustituye por el histograma de sus tipos y se omiten las adyacencias | Los mismos pesos que M3, sin reajustar |
-| **M4** | Fusión tardía y aditiva de scores: s = Σ_c α_c ŝ_c, con c ∈ {M0, M2, M3} y cada ŝ_c normalizado por consulta (mínimo y máximo sobre los candidatos). Cuando M3 no tiene evidencia para un par, su peso se reparte entre los demás componentes en proporción a sus pesos, según una regla fija, y se informa la cobertura | Pesos α_c en la rejilla {0; 0,25; 0,5; 0,75; 1}, normalizados a suma 1 y elegidos por el nDCG@10 medio en desarrollo |
+| **M4** | Fusión tardía y aditiva de puntuaciones: s = Σ_c α_c ŝ_c, con c ∈ {M0, M2, M3} y cada ŝ_c normalizado por consulta (mínimo y máximo sobre los candidatos). Cuando M3 no tiene evidencia para un par, su peso se reparte entre los demás componentes en proporción a sus pesos, según una regla fija, y se informa la cobertura | Pesos α_c en la rejilla {0; 0,25; 0,5; 0,75; 1}, normalizados a suma 1 (91 combinaciones) y elegidos por el nDCG@10 medio en desarrollo. En empate, la combinación más cercana a pesos iguales y, si persiste, la primera en orden lexicográfico descendente |
+| **M4-RRF** | Variante de M4 por posiciones recíprocas (sección 7): Σ_c 1 / (60 + r_c) sobre los rankings de M0, M2 y M3 | Ninguno: k = 60 fijo |
 
 M3 y M4 se declaran **sistemas asistidos por anotación**. La anotación que utilizan es la versión congelada en la fecha de congelación de los sistemas (sección 9).
+
+**Parámetros fijados en desarrollo (decisiones R28 y R30).** Los pesos de M4 se eligieron una sola vez con la regla de esta sección y los 411 juicios de desarrollo vigentes el 21 de noviembre: M0 = 1/7, M2 = 4/7 y M3 = 2/7. No se vuelven a elegir, porque los candidatos de M4 dependen de los pesos y repetir la selección tras juzgarlos crearía un ciclo. M0, M1 y M3 conservan sus valores de partida (k₁ = 1,2 y b = 0,75; pesos iguales de color y textura; pesos de bloque iguales a 1): ajustar M3 cambiaría los candidatos de M4 y obligaría a repetir la selección de pesos.
 
 ## 5. Particiones
 
@@ -91,7 +94,7 @@ Además existe el estado `no_evaluable`, para imágenes que no permiten juzgar. 
 **Salvaguardas contra la circularidad.** El investigador anotó la estructura que utiliza M3 y es, además, el evaluador principal. Es la amenaza más seria para la validez del estudio (dictamen del asesor, pregunta 9), y se mitiga de cuatro maneras:
 
 1. Las consultas se fijan antes de ejecutar cualquier sistema sobre ellas: las de T3 por sorteo y las de T1 por redacción.
-2. Los juicios se hacen solo sobre las imágenes, sin consultar la anotación ni ver los rankings, los scores o el sistema que propuso cada candidato. Los candidatos de cada consulta se presentan en orden aleatorio.
+2. Los juicios se hacen solo sobre las imágenes, sin consultar la anotación ni ver los rankings, las puntuaciones o el sistema que propuso cada candidato. Los candidatos de cada consulta se presentan en orden aleatorio.
 3. La escala y estos criterios se fijan antes de juzgar. Ningún juicio se deriva de la anotación, del descriptor ni de CLIP. Los juicios de desarrollo se revisaron con la segunda opinión ciega de un modelo de visión general, y el evaluador firmó cada grado (R25). Los juicios de prueba se hacen sin ninguna asistencia: el evaluador juzga solo, a ciegas, y su grado es el único que se usa (R27).
 4. **Doble juicio parcial [sin segundo evaluador disponible a la fecha]:** el asesor, u otra persona con criterio estructural, juzga a ciegas los pools de 5 consultas de prueba elegidas al azar. Se informa el acuerdo entre ambos evaluadores (kappa ponderado lineal sobre la escala 0–3) antes de cualquier adjudicación, y la métrica primaria se recalcula con esos juicios como análisis de sensibilidad. Se conservan las dos versiones.
 
@@ -106,17 +109,17 @@ Además existe el estado `no_evaluable`, para imágenes que no permiten juzgar. 
 **Inferencia [propuesta, D5]:**
 
 - Se calcula la diferencia pareada por consulta, Δ = nDCG@10(M4) − nDCG@10(M2), y, para H2, Δ = nDCG@10(M3) − nDCG@10(M3-sin-orden).
-- **Contraste.** H1 y H2 se deciden con una prueba de permutación pareada por cambio de signo, bilateral, con 10 000 réplicas, semilla fija y nivel 0,05. Como comprobación se informa la t de Student pareada; si las dos pruebas discrepan, se informa la discrepancia y decide la permutación. Con pocas consultas, estas dos pruebas mantienen el error de tipo I nominal, mientras que el bootstrap usado como prueba tiende a valores p pequeños (Urbano, Lima y Hanjalic, 2019).
+- **Contraste.** H1 y H2 se deciden con una prueba de permutación pareada por cambio de signo, bilateral, con 10 000 réplicas, semilla fija y nivel 0,05. Como comprobación se informa la t de Student pareada; si las dos pruebas discrepan, se informa la discrepancia y decide la permutación. En las simulaciones de Urbano, Lima y Hanjalic (2019), con 25 a 100 temas, estas dos pruebas se mantienen cerca del error de tipo I nominal, mientras que el bootstrap usado como prueba tiende a valores p pequeños. Su respaldo cubre las 30 consultas de prueba, pero no menos de 25.
 - **Intervalo.** El IC 95 % de Δ se obtiene por bootstrap pareado de consultas (percentiles), con 10 000 réplicas, semilla fija y el mismo remuestreo para los dos sistemas. Describe la magnitud y su incertidumbre; no decide las hipótesis.
 - Umbral práctico: Δ = 0,03.
-- **Potencia.** Con la desviación estándar de Δ observada en las 10 consultas de desarrollo se estima el tamaño necesario, n ≈ [(z₀,₉₇₅ + z₀,₈) · DE(Δ) / 0,03]². Si n supera 30, el estudio se declarará sin potencia suficiente para ese umbral y se informará el intervalo obtenido. El número de consultas de prueba solo puede reducirse antes de abrir el test, nunca después. De forma equivalente, con 30 consultas el efecto mínimo detectable con potencia de 80 % es (z₀,₉₇₅ + z₀,₈) · DE(Δ) / √30 ≈ 0,51 · DE(Δ). Se calcula antes de abrir el test y se informa con el rango que resulta de estimar DE(Δ) con solo 10 consultas. No se calcula la potencia a posteriori con el efecto observado en prueba (Card et al., 2020).
+- **Potencia.** Con la desviación estándar de Δ observada en las 10 consultas de desarrollo se estima el tamaño necesario, n ≈ [(z₀,₉₇₅ + z₀,₈) · DE(Δ) / 0,03]². Si n supera 30, el estudio se declarará sin potencia suficiente para ese umbral y se informará el intervalo obtenido. El número de consultas de prueba solo puede reducirse antes de abrir el test, nunca después. De forma equivalente, con 30 consultas el efecto mínimo detectable con potencia de 80 % es (z₀,₉₇₅ + z₀,₈) · DE(Δ) / √30 ≈ 0,51 · DE(Δ). Se calcula antes de abrir el test y se informa con el rango que resulta de estimar DE(Δ) con solo 10 consultas. No se calcula la potencia a posteriori con el efecto observado en prueba (Card et al., 2020). El cálculo se hizo el 21 de noviembre (R29): el efecto mínimo detectable es de 0,087 en H1 (rango de 0,060 a 0,159) y de 0,026 en H2, diluido por las consultas sin palabra de bandas.
 
 **Ablaciones.** Se calculan sobre las mismas consultas y candidatos:
 - M4 sin M3, es decir, solo texto e imagen.
 - M4 sin M0.
 - M4 con M3-sin-orden en lugar de M3.
 - M3 solo con bandas frente a M3 solo con motivos y relaciones.
-- M4 por posiciones recíprocas **[propuesta]**: score = Σ_c 1 / (60 + r_c), con r_c la posición del candidato en el ranking de c ∈ {M0, M2, M3} (Cormack, Clarke y Büttcher, 2009). No tiene pesos que ajustar, de modo que muestra cuánto del resultado de M4 depende del ajuste con las 10 consultas de desarrollo. Los pares sin evidencia estructural ocupan las últimas posiciones del ranking de M3, por `id_global`. Es exploratoria y no interviene en H3, porque al usar posiciones no conserva la descomposición del score.
+- M4 por posiciones recíprocas (M4-RRF) **[propuesta]**: puntuación = Σ_c 1 / (60 + r_c), con r_c la posición del candidato en el ranking de c ∈ {M0, M2, M3} (Cormack, Clarke y Büttcher, 2009). No tiene pesos que ajustar, de modo que muestra cuánto del resultado de M4 depende del ajuste con las 10 consultas de desarrollo. Los pares sin evidencia estructural ocupan las últimas posiciones del ranking de M3, por `id_global`. Es exploratoria y no interviene en H3, porque al usar posiciones no conserva la descomposición de la puntuación.
 
 **Control negativo.** M4 con los descriptores de M3 permutados al azar entre piezas del mismo museo, con semilla fija. Si el aporte de la estructura es real, debe desaparecer en esta condición.
 
@@ -126,8 +129,8 @@ Además existe el estado `no_evaluable`, para imágenes que no permiten juzgar. 
 
 Para cada resultado del top 10 de M4 en prueba se registran las contribuciones α_c ŝ_c de cada componente, la máscara de observabilidad y la procedencia de cada valor. H3 se sostiene si se cumplen tres comprobaciones:
 
-1. **Reconstrucción:** la suma de las contribuciones coincide con el score, con un error ≤ 1e-9, en todos los resultados.
-2. **Intervención:** retirar un componente modifica el score exactamente como predice la fórmula, incluida la regla de reparto de pesos. Se verifica con pruebas de propiedades y sobre todos los resultados de prueba.
+1. **Reconstrucción:** la suma de las contribuciones coincide con la puntuación, con un error ≤ 1e-9, en todos los resultados.
+2. **Intervención:** retirar un componente modifica la puntuación exactamente como predice la fórmula, incluida la regla de reparto de pesos. Se verifica con pruebas de propiedades y sobre todos los resultados de prueba.
 3. **Revisión humana:** en 10 resultados de prueba elegidos al azar (5 aciertos y 5 errores), el evaluador juzga si la explicación es correcta y no especulativa. Se informan los desacuerdos.
 
 ## 9. Congelación y criterios de suspensión
@@ -136,7 +139,7 @@ El experimento sigue un orden obligatorio:
 
 1. Se congelan los grupos, las particiones y la anotación. Las correcciones de criterios y de vocabulario que resulten de la re-anotación del lote 1 se aplican y se registran **antes** de este punto.
 2. Desarrollo: rankings, juicios de desarrollo, ajuste de pesos y estimación de la potencia.
-3. Congelación de los sistemas, con un manifiesto de ejecución que registra el commit, las sumas SHA-256 de todos los insumos, el checkpoint, los parámetros, el hardware y las semillas.
+3. Aprobación del protocolo por el asesor (R30) y congelación de los sistemas, con un manifiesto de ejecución que registra el commit, las sumas SHA-256 de todos los insumos, el checkpoint, los parámetros, el hardware y las semillas.
 4. Selección de los pares de prueba y juicios de prueba, incluido el doble juicio parcial.
 5. Una única ejecución del test.
 
@@ -153,35 +156,37 @@ Antes de abrir el test se ejecuta una comprobación automática de fugas: que ni
 
 | Amenaza | Mitigación | Limitación que se declara |
 |---|---|---|
-| Circularidad: un mismo investigador anota, diseña y juzga | Juicio ciego y aleatorizado, consultas fijadas de antemano y doble juicio parcial | Sesgo residual a favor de M3; es la limitación principal |
-| Un solo evaluador | Doble juicio parcial en 5 consultas | Acuerdo estimado con una muestra pequeña |
+| Circularidad: un mismo investigador anota, diseña y juzga | Juicio ciego y aleatorizado, consultas fijadas de antemano y doble juicio parcial preparado | Sesgo residual a favor de M3; es la limitación principal |
+| Un solo evaluador | Doble juicio parcial en 5 consultas, preparado para cuando haya un segundo evaluador (no disponible a la fecha, R27) | Sin segundo evaluador, no se mide el acuerdo entre evaluadores; con él, se estimaría con una muestra pequeña |
+| Juicios de desarrollo asistidos (R25) | Uso limitado a los pesos de M4 y a la potencia; juicios de prueba sin asistencia | Los pesos y la potencia heredan la reserva |
 | Duplicados y vistas de una misma pieza | Grupos decididos antes de partir y comprobación de fugas | Relaciones que no detecte ninguna señal |
 | Pocas consultas de prueba (30) | Prueba de permutación pareada, intervalo pareado y efecto mínimo detectable estimado en desarrollo | Intervalos amplios; alcance de piloto |
-| Juicio solo de los primeros candidatos (pooling) | Unión de los 10 primeros de seis sistemas más una muestra al azar | Sesgo hacia los sistemas que aportan candidatos; se informa la proporción juzgada |
+| Juicio solo de los primeros candidatos (pooling) | Unión de los 10 primeros de siete sistemas (M0, M1, M2, M3, M3-sin-orden, M4 y M4-RRF) más una muestra al azar | Sesgo hacia los sistemas que aportan candidatos; se informa la proporción juzgada |
 | Diferencias de fotografía entre museos | Resultados por museo | Tamaños pequeños por museo |
 | M3 asistido por anotación | Se declara, y M3 excluye el color | No mide la extracción automática de la estructura |
 | Un solo anotador | Acuerdo intra-anotador en el lote 1, informado por atributo; kappa < 0,6 como señal de revisión | Mide estabilidad, no acuerdo entre personas; el criterio queda por debajo del 0,8 que proponen Artstein y Poesio (2008) |
-| Pesos de M4 ajustados con 10 consultas | Rejilla pequeña y ablación sin pesos por posiciones recíprocas | El ajuste puede no ser estable |
+| Pesos de M4 ajustados con 10 consultas | Rejilla pequeña, selección única (R28) y ablación sin pesos por posiciones recíprocas | El ajuste puede no ser estable |
 
-## 11. Calendario restante
+## 11. Estado y calendario restante
 
-| Fechas (2026) | Actividad (plan de cierre) | Estado al 12 de noviembre |
-|---|---|---|
-| 5 y 6 nov | Protocolo (S1.3), grupos y particiones (S1.7, S2.2 y S2.3), especificación de M3 (S2.5), M0 y M1 (S2.6), consultas T1 (S2.7) | Hecho, salvo la aprobación del protocolo |
-| 6 a 14 nov | Juicios de desarrollo de los candidatos de M0, M1 y M2 (S3.2) | Atrasado: 0 de 345 pares al 12 de noviembre |
-| 12 y 13 nov | Re-anotación del lote 1 (S2.1), aclaración de la guía, adjudicación y congelación de la anotación v2.1 | Re-anotación hecha el 12 de noviembre; aclaración y adjudicación pendientes |
-| 13 a 15 nov | Rankings de M3; M4 conectado a los rankings (sus funciones ya están implementadas y probadas); juicios de sus candidatos y efecto mínimo detectable | Programado |
-| 16 y 17 nov | Congelación de los sistemas (S3.3), juicios de prueba y doble juicio parcial (S3.4) | Programado |
-| 18 y 19 nov | Test, ablaciones e interpretabilidad (S4.1 a S4.3) | Programado |
-| 20 a 22 nov | Informe de Seminario II y paquete reproducible (S4.5 a S4.7) | Programado |
+| Etapa (plan de cierre) | Estado al 21 de noviembre |
+|---|---|
+| Protocolo (S1.3), grupos y particiones (S1.7, S2.2 y S2.3), especificación de M3 (S2.5), M0 y M1 (S2.6), consultas T1 (S2.7) | Hecho el 5 y el 6 de noviembre, salvo la aprobación del protocolo |
+| Re-anotación del lote 1 (S2.1), aclaración de la guía, revisión de criterios y congelación de la anotación v2.1 | Hecho entre el 12 y el 17 de noviembre (R12 a R23) |
+| Juicios de desarrollo (S3.2) | 419 pares juzgados (R24, R25 y R28) |
+| Rankings de M3 y M4, pesos de M4 y efecto mínimo detectable | Hecho el 21 de noviembre (R28 y R29) |
+| Aprobación del protocolo | Pendiente del asesor; el test no se abre antes (R30) |
+| Congelación de los sistemas (S3.3), juicios de prueba y doble juicio parcial (S3.4) | Después de la aprobación; el código del test se prepara con datos de desarrollo |
+| Test, ablaciones e interpretabilidad (S4.1 a S4.3) | Después de los juicios de prueba |
+
+El calendario original del plan de cierre preveía el test entre el 18 y el 19 de noviembre. Se desplazó por el atraso de los juicios de desarrollo y por la revisión de criterios de la anotación, y se fija ahora en función de la aprobación del asesor.
 
 **Carga estimada de juicios**, con un supuesto de 30 s por juicio:
-- Desarrollo: 345 pares con los candidatos de M0, M1 y M2, a los que se sumarán los de M3 y M4.
 - Prueba en T3: unos 1600 pares, alrededor de 13 h.
 - T1: unos 240 pares, alrededor de 2 h.
 - Doble juicio parcial: unos 200 pares, alrededor de 1,7 h para el segundo evaluador.
 
-El tiempo real se medirá en los juicios de desarrollo. Si la carga no cabe en el calendario, se reducirá el número de consultas de prueba antes de abrir el test.
+El número de consultas de prueba se mantiene en 30 (R27). Solo podría reducirse antes de abrir el test.
 
 ## 12. Implementación en el repositorio
 
@@ -196,7 +201,7 @@ Todos los parámetros numéricos de este protocolo están en `config/experimento
 | Rankings de desarrollo | `data/processed/experimento_v2_rankings_desarrollo.csv` |
 | Checkpoint de M2 | `data/metadata/m2_openclip_manifiesto_v2.json` (sumas de los pesos y versiones) |
 
-El evaluador no abre los rankings ni el archivo que registra qué sistema propuso cada par (`data/processed/experimento_v2_pool_desarrollo.csv`). Hasta cerrar la re-anotación del lote 1, tampoco abre `consultas_t3_v2.csv` ni `anotaciones_v2.csv`, porque contienen datos de la primera anotación. Los libros de consultas T1 y de juicios incluyen una hoja de ejemplos hipotéticos que ilustran el formato y la escala; no son piezas de la galería ni consultas.
+El evaluador no abre los rankings, el archivo que registra qué sistema propuso cada par (`data/processed/experimento_v2_pool_desarrollo.csv`) ni los informes con el rendimiento de los sistemas en desarrollo (selección de pesos de M4). Hasta cerrar la re-anotación del lote 1, el 12 de noviembre, tampoco abrió `consultas_t3_v2.csv` ni `anotaciones_v2.csv`, porque contenían datos de la primera anotación. Los libros de consultas T1 y de juicios incluyen una hoja de ejemplos hipotéticos que ilustran el formato y la escala; no son piezas de la galería ni consultas.
 
 Las equivalencias con los nombres del informe 08 son las siguientes: grupos (`groups.csv`), particiones (`splits.csv`), consultas (`queries.csv`), juicios (`qrels.csv`), métricas por consulta (`metrics_by_query.csv`), modelos (`models.toml`) y manifiesto de ejecución (`run_manifest.json`).
 
@@ -211,5 +216,6 @@ Las equivalencias con los nombres del informe 08 son las siguientes: grupos (`gr
 | 2026-11-06 | 0.5 | Revisión de la redacción para la lectura del asesor y calendario actualizado; los detalles de implementación pasan a la sección 12. Sin cambios en el diseño |
 | 2026-11-12 | 0.6 | Secciones 1 y 7: H1 y H2 se deciden con una prueba de permutación pareada y el bootstrap queda para el intervalo; el efecto mínimo detectable se calcula antes del test. Secciones 6 y 7: ablación de M4 por posiciones recíprocas, cuyos candidatos entran al pool. Sección 10: amenazas actualizadas. Son las decisiones R01 a R04 de `docs/registro_decisiones.md`, tomadas a partir de la revisión bibliográfica del 11 de noviembre. No se ha ejecutado ninguna consulta de prueba |
 | 2026-11-12 | 0.6.1 | Correcciones de forma de la auditoría interna (R11): calendario al 12 de noviembre y D7 fuera de las decisiones por ratificar. Sin cambios en el diseño |
-| 2026-11-21 | 0.6.3 | Sección 1: H2 se decide sobre las 30 consultas de prueba y se añade un análisis secundario en las consultas con palabra de bandas, donde la diferencia puede ser distinta de cero. Sección 6: los juicios de prueba se hacen sin asistencia; no hay segundo evaluador disponible y el doble juicio queda preparado para cuando lo haya. Decisión R27 del investigador, tomada sin ejecutar ninguna consulta de prueba |
 | 2026-11-19 | 0.6.2 | Sección 6, salvaguarda 3: los juicios de desarrollo se revisaron con una segunda opinión ciega y el evaluador firmó cada grado; queda pendiente decidir si los juicios de prueba se hacen igual (R25). No se ha ejecutado ninguna consulta de prueba |
+| 2026-11-21 | 0.6.3 | Sección 1: H2 se decide sobre las 30 consultas de prueba y se añade un análisis secundario en las consultas con palabra de bandas, donde la diferencia puede ser distinta de cero. Sección 6: los juicios de prueba se hacen sin asistencia; no hay segundo evaluador disponible y el doble juicio queda preparado para cuando lo haya. Decisión R27 del investigador, tomada sin ejecutar ninguna consulta de prueba |
+| 2026-11-21 | 0.6.4 | Estado y sección 9: el test espera la aprobación del asesor. Sección 4: regla de desempate de los pesos de M4, M4-RRF en la tabla de sistemas, pesos elegidos y parámetros de M0, M1 y M3 fijos en sus valores de partida. Sección 7: resultado del efecto mínimo detectable y alcance de la referencia sobre el error de tipo I. Sección 10: juicios de desarrollo asistidos y salvedad del doble juicio; siete sistemas en el pool. Sección 11: estado al 21 de noviembre. «Score» pasa a «puntuación». Decisiones R28 a R30; no se ha ejecutado ninguna consulta de prueba |

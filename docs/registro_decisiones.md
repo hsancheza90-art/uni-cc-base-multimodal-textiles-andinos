@@ -2,7 +2,9 @@
 
 Decisiones del investigador sobre el diseño, la evaluación y la redacción de la tesis, a partir del 12 de noviembre de 2026. Las anteriores están en `docs/plan_cierre_tesis.md` (D1 a D7 y «Seguimiento») y en el «Historial» de `docs/protocolo_experimental_v2.md`. Cada entrada indica qué se decidió, por qué, con qué respaldo, qué archivos cambia y qué queda por hacer. Una decisión no se edita: si cambia, se añade una entrada nueva que la sustituye y se anota en la anterior.
 
-Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador, espera al asesor porque cambia el protocolo); **Sustituida por Rnn**.
+Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador, espera al asesor porque cambia el protocolo); **Sustituida por Rnn**. Cuando una decisión posterior resuelve un pendiente o modifica una entrada, se añade al final de esa entrada una nota en cursiva con la fecha y la decisión que la resuelve.
+
+**Códigos de la auditoría interna.** R11 a R13 y R16 citan hallazgos de la auditoría interna del 12 de noviembre (documento fuera del repositorio) con sus códigos originales: H1 a H7 (hallazgos sobre la anotación), T1 a T7 (hallazgos sobre la tesis) y D1 a D8 (observaciones de forma). No deben confundirse con las hipótesis H1 a H3 del protocolo ni con las decisiones D1 a D7 del plan de cierre. Cada entrada describe el hallazgo en su propio texto, de modo que puede leerse sin el documento de la auditoría.
 
 ## Resumen
 
@@ -24,7 +26,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 | R14 | 2026-11-12 | En el lote re-anotado prevalece la re-anotación | Decidida |
 | R15 | 2026-11-12 | Regla de los treinta segundos: el `desconocido` del atributo basta | Decidida |
 | R16 | 2026-11-12 | Simetría: se mantienen `traslacional` y `repeticion_modular`, separadas por la dimensión de la repetición | Decidida |
-| R17 | 2026-11-13 | Los juicios de desarrollo se conservan como se emitieron; la reserva sobre la rúbrica se declara y se somete al asesor | Por ratificar |
+| R17 | 2026-11-13 | Los juicios de desarrollo se conservan como se emitieron; la reserva sobre la rúbrica se declara y se somete al asesor | Por ratificar; modificada por R25 |
 | R18 | 2026-11-16 | Los lotes 2 a 5 se revisan con R12 y R16 en un workbook aparte; las correcciones prevalecen al exportar | Decidida |
 | R19 | 2026-11-16 | `centro` se mantiene en la anotación y en M3 pese a su estabilidad baja | Decidida |
 | R20 | 2026-11-16 | La revisión de R18 parte de propuestas automáticas que el anotador verifica una por una | Decidida |
@@ -32,6 +34,12 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 | R22 | 2026-11-17 | Reubicación de las ocho anotaciones desplazadas, observaciones en prosa y selección de la revisión congelada | Decidida |
 | R23 | 2026-11-17 | La anotación estructural v2.1 queda congelada; los sistemas leen la copia congelada | Decidida |
 | R24 | 2026-11-17 | Rankings de desarrollo de M3 y M3-sin-orden; el pool crece con sus candidatos y la muestra al azar queda fija | Decidida |
+| R25 | 2026-11-19 | Los juicios de desarrollo se revisan con la segunda opinión ciega de un modelo de visión general; el evaluador firma cada grado | Decidida |
+| R26 | 2026-11-19 | Se mide la sensibilidad de M3 a la revisión asistida de la anotación, solo en desarrollo | Decidida |
+| R27 | 2026-11-21 | H2 sobre 30 consultas con análisis secundario en las 9 con bandas; juicios de prueba sin asistencia; 30 consultas; evaluador único | Decidida; contexto modificado por R30 |
+| R28 | 2026-11-21 | Pesos de M4 elegidos una sola vez (1/7, 4/7, 2/7); M4 y M4-RRF en los rankings de desarrollo | Decidida |
+| R29 | 2026-11-21 | Efecto mínimo detectable fijado antes del test: H1 0,087; H2 0,026 | Decidida |
+| R30 | 2026-11-21 | El test espera la aprobación del asesor; se corrigen las cifras de R21; M0, M1 y M3 quedan con sus parámetros de partida | Decidida |
 
 ## R01. Prueba inferencial de H1 y H2
 
@@ -57,7 +65,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Fuente.** Cormack, Clarke y Büttcher (2009), ficha F22; Bruch, Gai e Ingber (2023), ficha F04.
 - **Archivos.** `docs/protocolo_experimental_v2.md`, secciones 6, 7 y 10.
 - **Abierto.** El trato de los pares sin evidencia estructural (últimas posiciones del ranking de M3, por `id_global`) figura en el protocolo como propuesta: confirmarlo antes de implementar. No interviene en H3. *Resuelto en R10.*
-- **Pendiente.** Constante k = 60 en `config/modelos.toml`; implementación junto con M4; inclusión en el pool. Si sus candidatos añaden demasiados pares para el calendario, se descarta antes de cerrar el pool de prueba y se registra aquí.
+- **Pendiente.** Constante k = 60 en `config/modelos.toml`; implementación junto con M4; inclusión en el pool. Si sus candidatos añaden demasiados pares para el calendario, se descarta antes de cerrar el pool de prueba y se registra aquí. *(21 de noviembre: implementada e incluida en el pool de desarrollo en R28.)*
 
 ## R04. Efecto mínimo detectable
 
@@ -65,7 +73,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Motivo.** La potencia se planifica antes del experimento; calcularla después con el efecto observado no se recomienda.
 - **Fuente.** Card et al. (2020), sección 3 y nota 2. Ficha F21.
 - **Archivos.** `docs/protocolo_experimental_v2.md`, sección 7.
-- **Pendiente.** El cálculo, cuando existan los juicios de desarrollo.
+- **Pendiente.** El cálculo, cuando existan los juicios de desarrollo. *(21 de noviembre: calculado en R29.)*
 
 ## R05. Textos sin acceso
 
@@ -98,7 +106,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Decisión.** En la variante de M4 por posiciones recíprocas, los candidatos sin evidencia estructural ocupan las últimas posiciones del ranking de M3, ordenados por `id_global`, como ya establece la especificación de M3 para su propio ranking. Confirma lo que R03 dejó abierto.
 - **Motivo.** Es la misma regla que usa M3: un par sin evidencia no recibe similitud máxima. No añade un criterio nuevo.
 - **Archivos.** `src/modelos/m4_fusion.py` (funciones de fusión y sus pruebas de propiedades en `tests/test_m4.py`). El protocolo 0.6 ya lo describe en la sección 7.
-- **Pendiente.** Conectar M4 a los rankings y al pool cuando exista la anotación v2.1; constante k = 60 y rejilla de pesos en `config/modelos.toml`.
+- **Pendiente.** Conectar M4 a los rankings y al pool cuando exista la anotación v2.1; constante k = 60 y rejilla de pesos en `config/modelos.toml`. *(21 de noviembre: hecho en R28.)*
 
 ## R11. Observaciones de forma de la auditoría interna del 12 de noviembre
 
@@ -156,6 +164,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Alternativa no adoptada.** Repetir el juicio de desarrollo con la rúbrica aclarada y ejemplos de cada grado. Queda abierta: si el asesor la indica, debe hacerse antes de ajustar los pesos de M4 y de construir el pool de prueba.
 - **Consecuencia que se declara.** Mientras no se resuelva, no puede afirmarse que los juicios de desarrollo midan similitud estructural, y los pesos que se elijan con ellos heredan esa reserva.
 - **Archivos.** `docs/revision_asesor_2026-11/amenazas_validez.md` (A2) y `matriz_respuesta_informe_integrado.md` (punto 6.a). Ningún dato cambia.
+- *(19 de noviembre: modificada por R25. Los juicios no se conservaron como se emitieron: se revisaron con una segunda opinión ciega y el evaluador firmó cada grado. Los grados iniciales se conservan fuera del repositorio.)*
 
 ## R18. Revisión de criterios en los lotes 2 a 5
 
@@ -202,6 +211,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Identidad de las piezas no revisadas.** Las 12 piezas de los lotes 2 a 5 que no entraron a la revisión se compararon con sus imágenes el 17 de noviembre: en las doce, la observación del anotador describe la imagen del registro, y en las dos que muestran etiqueta de inventario (MET:307852 y MET:307679) el número coincide.
 - **Pendiente antes de congelar la v2.1.** Las ocho anotaciones desplazadas (R20) se re-anotan en el workbook de anotación, decisión del investigador del 17 de noviembre. Hasta entonces, sus filas quedan `confirmar` con `identidad_imagen = no_coincide`, y la anotación exportada sigue describiendo la imagen de otro registro. *(Atendido en R22: se trasladaron y revisaron.)*
 - **Archivos.** `data/metadata/anotacion_v2_revision_criterios.xlsx`, `data/metadata/anotaciones_v2.csv`, `outputs/reports/anotacion_v2_revision_criterios.md`, `outputs/reports/experimento_v2_snapshot.md`, `tests/test_flujo.py`, `docs/protocolo_anotacion_v2.md`.
+- *(21 de noviembre: las cifras de coincidencia con la propuesta se corrigen en R30. De las 108 decisiones, 58 coinciden con la propuesta y 50 la modifican; de las 66 confirmaciones, 8 son las anotaciones desplazadas, cuya propuesta no confirmaba la imagen.)*
 
 ## R22. Anotaciones desplazadas, observaciones en prosa y selección congelada
 
@@ -236,7 +246,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Pool.** Los diez primeros de M3 y de M3-sin-orden entran al pool de juicios de desarrollo, que pasa de 345 a 411 pares (66 nuevos, de 4 a 8 por consulta). Los 345 pares juzgados se conservan, y 36 de ellos ganan como origen M3 o M3-sin-orden sin volver a juzgarse.
 - **Muestra al azar fija.** Hasta ahora, los diez candidatos al azar de cada consulta se elegían entre los que ningún sistema proponía, de modo que agregar un sistema podía cambiar la muestra. Desde esta decisión se eligen entre los que no proponen M0, M1 y M2 (`sistemas_muestra_azar` en `config/experimento.toml`), los sistemas del pool inicial. La muestra resultante es la misma de antes: los mismos 100 pares.
 - **Hallazgo para H2.** En desarrollo, M3 y M3-sin-orden producen el mismo ranking completo en 8 de las 10 consultas y el mismo top 10 en 9 (intersección media de 9,8 de 10). Solo 53 de las 150 piezas tienen palabra de bandas, y el orden solo puede pesar cuando la consulta y el candidato la tienen. Si la proporción se repite en prueba, la diferencia pareada de H2 será cero en la mayoría de las consultas y la prueba tendrá poca potencia: el veredicto más probable sería «evidencia insuficiente» por construcción.
-- **Decisión pendiente, del investigador y del asesor, antes del test.** Mantener H2 sobre las 30 consultas de prueba, declarando esta limitación, o definirla sobre el subconjunto de consultas con palabra de bandas, lo que cambia el protocolo. No se toma a la vista de ningún resultado de prueba; los rankings de desarrollo no se han mostrado al evaluador.
+- **Decisión pendiente, del investigador y del asesor, antes del test.** Mantener H2 sobre las 30 consultas de prueba, declarando esta limitación, o definirla sobre el subconjunto de consultas con palabra de bandas, lo que cambia el protocolo. No se toma a la vista de ningún resultado de prueba; los rankings de desarrollo no se han mostrado al evaluador. *(21 de noviembre: resuelta en R27.)*
 - **Pendiente del evaluador.** Juzgar los 66 pares nuevos en `data/metadata/juicios_desarrollo_v2.xlsx`, con la misma rúbrica y sin abrir rankings ni el pool.
 - **Archivos.** `src/experimento/rankings.py`, `src/experimento/juicios.py`, `config/experimento.toml`, `config/corpus.toml`, `data/processed/experimento_v2_rankings_desarrollo.csv`, `data/processed/experimento_v2_pool_desarrollo.csv`, `data/metadata/juicios_desarrollo_v2.xlsx`, `data/metadata/juicios_desarrollo_v2.csv`, `tests/test_experimento.py`.
 
@@ -263,6 +273,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Número de consultas.** Se mantienen las 30 consultas de prueba (unos 1600 pares, unas 13 horas de juicio).
 - **Evaluador único.** No hay segundo evaluador disponible. El doble juicio parcial se prepara para cuando lo haya; mientras tanto, el evaluador único se declara como limitación principal.
 - **Archivos.** `docs/protocolo_experimental_v2.md` (versión 0.6.3).
+- *(21 de noviembre: el contexto cambia en R30. El investigador decidió esperar la aprobación del protocolo antes de abrir el test. Las decisiones de fondo de esta entrada se mantienen.)*
 
 ## R28. Pesos de M4 y conexión de M4 a los rankings de desarrollo
 
@@ -281,3 +292,10 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Análisis secundario de H2.** Con solo 2 consultas de desarrollo con palabra de bandas, su desviación no es estimable; se informará de forma descriptiva junto a su intervalo.
 - **Ceguera.** El informe no muestra el nDCG medio de ningún sistema ni el signo de las diferencias.
 - **Archivos.** `src/experimento/potencia.py`, `src/flujo.py`, `outputs/reports/experimento_v2_potencia.md`, `tests/test_potencia.py`, `tests/test_flujo.py`.
+
+## R30. Apertura del test, corrección de R21 y parámetros de M0, M1 y M3
+
+- **Apertura del test.** El 21 de noviembre el investigador decidió esperar la aprobación del protocolo por el asesor antes de abrir el test. Cambia el contexto de R27, que partía de ejecutar el test antes de entregar el informe al asesor; las decisiones de fondo de R27 (alcance de H2, juicios de prueba sin asistencia, 30 consultas y evaluador único) se mantienen. Mientras tanto se prepara, con datos de desarrollo, el código que ejecutará el test.
+- **Corrección de R21.** R21 dice que «las 66 confirmaciones coinciden con la propuesta automática» y que «las 42 correcciones la modifican». El informe generado `outputs/reports/anotacion_v2_revision_criterios.md` da otra cifra: 58 de las 108 decisiones coinciden con la propuesta y 50 la modifican. La diferencia está en las ocho anotaciones desplazadas (R20 y R22): se confirmaron, pero su propuesta indicaba que la imagen no correspondía al registro. Valen las cifras del informe, que son las que usan los capítulos 4 y 5 del manuscrito.
+- **Parámetros de M0, M1 y M3.** Quedan fijos en sus valores de partida: k₁ = 1,2 y b = 0,75 en M0, pesos iguales de color y textura en M1 y pesos de bloque iguales a 1 en M3. No se ajustaron mientras el asesor no se pronunciara sobre R17 (R24). Después de R28, ajustar M3 cambiaría los candidatos de M4 y obligaría a repetir la selección de pesos, que se hizo una sola vez para evitar un ciclo. El único ajuste con datos de desarrollo es el de los pesos de M4.
+- **Archivos.** `docs/protocolo_experimental_v2.md` (versión 0.6.4, secciones 4 y 9), `docs/manuscrito/capitulo_7_diseno_experimental.md` (secciones 7.4 y 7.12). Ningún dato cambia.
