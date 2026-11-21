@@ -1,6 +1,6 @@
 # Protocolo de anotación estructural (corpus v2)
 
-Procedimiento para anotar los atributos estructurales del corpus principal v2 (MET, CMA y AIC) y medir la consistencia de la anotación. La anotación es la entrada del descriptor combinatorio de la tesis (§7.3). La v1 (consolidado MET+CMA, etiqueta `corpus-met-cma-v1.2`) sigue con su guía: `docs/corpus/guia_anotacion_met_cma_v1.md`.
+Procedimiento para anotar los atributos estructurales del corpus principal v2 (MET, CMA y AIC) y medir la consistencia de la anotación. La anotación es la entrada del descriptor estructural M3 (`docs/especificacion_m3.md`; en el primer avance, «descriptor combinatorio», §7.3). La v1 (consolidado MET+CMA, etiqueta `corpus-met-cma-v1.2`) sigue con su guía: `docs/corpus/guia_anotacion_met_cma_v1.md`.
 
 ## Alcance
 
@@ -30,19 +30,13 @@ Algunos registros comparten fotografía (`grupo_imagen_duplicada`). Se anotan de
 | `corregido` | La pieza solo corrige valores vigentes. |
 | `anotado_asistido` | Reservado para uso futuro (extensión del vocabulario). No se usa en el núcleo. Si se usa, el informe de acuerdo lo declara. |
 
-La guía y el vocabulario no cambian hasta cerrar la re-anotación del lote 1, para que las dos pasadas usen los mismos criterios. Decisiones del revisor, 2026-11-05.
+La guía y el vocabulario no cambiaron hasta cerrar la re-anotación del lote 1 (12 de noviembre), para que las dos pasadas usaran los mismos criterios (decisiones del revisor, 2026-11-05). Los cambios posteriores están en las decisiones R12 a R23.
 
 ## Observaciones
 
-`observaciones_anotacion` es texto libre. Lo que queda por decidir se marca con una etiqueta en mayúsculas, para poder contarlo sin leer cada nota:
+`observaciones_anotacion` es texto libre. Describe lo que se ve en la imagen, en prosa breve; una duda se escribe como posibilidad («posiblemente sea un felino»). No se usan etiquetas, ni referencias a otras piezas, ni comentarios sobre cómo se llenaron los metadatos (decisión R22).
 
-| Etiqueta | Uso |
-|---|---|
-| `DUDA <atributo>` | Duda entre valores de un atributo (por ejemplo, `DUDA motivo_principal: ave o felino`). |
-| `CRITERIO` | Un caso que la guía no resuelve y que conviene unificar (esquinas de borde, varias tiras en una foto, listados...). |
-| `VOCAB` | Un hueco del vocabulario: el valor observado no tiene código. |
-
-El informe de validación cuenta por lote las piezas con cada etiqueta. Las decisiones que piden se toman después de la re-anotación del lote 1 (ver «Estado de anotación»).
+En la primera anotación, lo que quedaba por decidir se marcaba con etiquetas en mayúsculas (`DUDA <atributo>`, `CRITERIO` y `VOCAB`), que el informe de validación contaba por lote. Esas etiquetas sirvieron para seleccionar las piezas de la revisión de criterios (sección «Revisión de criterios antes de congelar»). La selección quedó congelada antes de reescribir las observaciones en prosa, de modo que retirarlas no cambia la revisión.
 
 ## Capas
 
@@ -96,7 +90,7 @@ La composición dominante no decide si hay bandas (aclaración R21, 17 de noviem
 3. **Lagunas:** un tramo que no se ve (rotura, pliegue, recorte) se escribe `laguna` en su lugar. El descriptor lo enmascara; no cuenta como una banda que se repite.
 4. **Sin bandas:** si la pieza no tiene bandas, `eje_bandas` y `secuencia_bandas` van `ausente`.
 
-No se registra el color de cada banda ni su ancho: el color ya está en la capa cromática y el ancho a ojo da una precisión aparente (decisiones del revisor, 2026-11-03). El sentido de lectura es una convención: el descriptor que se especifica en S2.5 del plan de cierre canonizará la palabra bajo inversión, para que leerla al revés no cambie la similitud entre piezas. El acuerdo intra-anotador, en cambio, compara las palabras tal como se escribieron.
+No se registra el color de cada banda ni su ancho: el color ya está en la capa cromática y el ancho a ojo da una precisión aparente (decisiones del revisor, 2026-11-03). El sentido de lectura es una convención: el descriptor M3 compara cada palabra con la otra y con su reverso (`docs/especificacion_m3.md`), de modo que leerla al revés no cambia la similitud entre piezas. El acuerdo intra-anotador, en cambio, compara las palabras tal como se escribieron.
 
 ## Simetría: traslación y repetición modular
 
@@ -144,7 +138,7 @@ Implementado en `src/anotacion/nucleo.py`, con los parámetros de `config/anotac
 
 La banda de aptitud es una sugerencia del modelo, no una decisión: todas las piezas están en el principal por decisión del revisor. La banda solo sirve para que el núcleo cubra imágenes de calidad distinta.
 
-## Medición del acuerdo intra-anotador (test-retest)
+## Medición del acuerdo intra-anotador (re-anotación)
 
 No hay segundo anotador (plan de cierre, D1). Para estimar la consistencia de la anotación (§6.5.7 de la tesis), el mismo anotador vuelve a anotar a ciegas el lote 1 y se compara con su primera anotación. Mide la estabilidad de la anotación, no el acuerdo con otra persona: el informe lo declara como limitación. Decisión del revisor, 2026-11-03; parámetros en `config/anotacion.toml` (`[reanotacion]` y `[acuerdo]`).
 
@@ -155,7 +149,7 @@ No hay segundo anotador (plan de cierre, D1). Para estimar la consistencia de la
    python -m src.anotacion.workbook --corpus v2 --reanotacion
    ```
 
-3. `python -m src.flujo` (o `python -m src.anotacion.acuerdo`) escribe `outputs/reports/anotacion_acuerdo_v2.md`, con una fila por atributo: n, acuerdo observado, acuerdo esperado, kappa y si alcanza el umbral de 0,6.
+3. `python -m src.flujo` (o `python -m src.anotacion.acuerdo`) escribe `outputs/reports/anotacion_acuerdo_v2.md`, con una fila por atributo: n, acuerdo observado, acuerdo esperado, kappa y si queda por debajo de la señal de revisión de 0,6 (ver «Uso del criterio»).
 
 - **Plazo:** solo se comparan las piezas con al menos 7 días entre las dos fechas de anotación. Las que tienen menos o no tienen fecha se listan en «Piezas fuera de plazo» y no entran en ningún atributo.
 - **Emparejamiento:** las piezas se emparejan por `id_global`, y solo se comparan las anotadas en las dos (al menos una de las 19 columnas con valor). Dentro de cada atributo, una pieza que alguna dejó vacía, con un valor fuera del vocabulario o con el estado `no_observable` o `desconocido` sale de ese atributo y se cuenta. `ausente` es una observación y se compara como un valor más.
@@ -171,7 +165,7 @@ No hay segundo anotador (plan de cierre, D1). Para estimar la consistencia de la
 
 - **Correcciones:** se comparan por su valor efectivo, es decir, la corrección o, si está vacía, el valor vigente del workbook.
 - **Atributos no estimables:** si los dos anotadores usan una sola categoría, el acuerdo esperado es 1 y kappa no está definido. Se informa como «no estimable», con su motivo, nunca como 1 ni como 0.
-- **Criterio:** kappa ≥ 0,6, el mismo que exige una fuente nueva en el puntaje de aptitud (acuerdo sustancial según Landis y Koch, 1977). Los kappa se calculan con numpy en `src/utils/metricas.py`.
+- **Valor de referencia:** kappa de 0,6, el mismo que se usa al validar una fuente nueva en el puntaje de aptitud. La escala de Landis y Koch (1977), que sus autores reconocen como arbitraria, llama sustancial al acuerdo entre 0,61 y 0,80; el valor es una decisión operativa de este estudio. Los kappa se calculan con numpy en `src/utils/metricas.py`.
 - **Uso del criterio** (decisión R02, 2026-11-12): 0,6 es una señal de revisión, no un aprobado. Es un criterio operativo de estudio piloto y queda por debajo del 0,8 que proponen Artstein y Poesio (2008) cuando hay que fijar un umbral. Un atributo por debajo de 0,6 se revisa en la guía antes de congelar la anotación. Si el atributo es `composicion`, se mantiene y se declara como limitación de H2; no se retira después de ver los resultados. Para `secuencia_bandas`, que no tiene kappa, se informan la coincidencia exacta y la similitud de edición, sin umbral. El informe da, por atributo, el acuerdo observado junto al coeficiente.
 - **Observabilidad** (desde el 12 de noviembre, auditoría interna H4): el kappa por atributo solo usa los pares observados en las dos pasadas. Por eso el informe agrega, por atributo, si el atributo se pudo observar en cada pasada (un valor, incluido `ausente`, frente a `no_observable`, `desconocido` o `no_visible`), con su acuerdo y su kappa. Esa frontera decide qué bloques compara M3.
 - **Con un segundo anotador**, si lo hubiera más adelante: se cambia `modalidad` y `anotador_b` en `[acuerdo]` y el mismo cálculo compara a las dos personas.
@@ -204,17 +198,17 @@ Toda decisión lleva revisor y fecha. Pueden corregirse `composicion`, `eje_band
 
 **Condición para congelar.** Ninguna pieza pendiente y ninguna imagen marcada como `no_coincide`. Una pieza cuya imagen no corresponda al registro se re-anota en el workbook de anotación antes de congelar.
 
-**Estado al 17 de noviembre** (decisión R21). Las 108 piezas están verificadas y firmadas: 66 confirmadas y 42 corregidas, con 173 valores corregidos. Los criterios C1 a C4 de R20 quedan vigentes. Las ocho piezas cuya anotación describía la imagen de otro registro se trasladaron a su fila, se revisaron y el investigador las firmó (R22). La revisión no tiene pendientes y la anotación quedó congelada como versión 2.1 en `data/metadata/v2_1_congelado/` (R23): desde entonces, un cambio en los workbooks detiene el flujo. La selección de la revisión quedó congelada en `data/metadata/anotacion_v2_revision_criterios_seleccion.csv`, de modo que reescribir una observación no la cambia.
+**Estado al 17 de noviembre** (decisión R21). Las 108 piezas están verificadas y firmadas: 66 confirmadas y 42 corregidas, con 173 valores corregidos. De las 108 decisiones, 58 coinciden con la propuesta automática y 50 la modifican (cifras corregidas en R30). Los criterios C1 a C4 de R20 quedan vigentes. Las ocho piezas cuya anotación describía la imagen de otro registro se trasladaron a su fila, se revisaron y el investigador las firmó (R22). La revisión no tiene pendientes y la anotación quedó congelada como versión 2.1 en `data/metadata/v2_1_congelado/` (R23): desde entonces, un cambio en los workbooks detiene el flujo. La selección de la revisión quedó congelada en `data/metadata/anotacion_v2_revision_criterios_seleccion.csv`, de modo que reescribir una observación no la cambia.
 
 **Cómo se escriben las observaciones** (desde R22). Describen lo que se ve en la imagen, en prosa breve. Una duda se escribe como posibilidad («posiblemente sea un felino»). No se usan etiquetas, ni referencias a otras piezas, ni comentarios sobre cómo se llenaron los metadatos.
 
 ## Limitaciones que se declaran
 
 - **Esfuerzo de anotación sin medir.** El plan pedía registrar el tiempo por pieza y no se registró en ninguna de las dos pasadas. El esfuerzo se informará como estimación, no como medida.
-- **`lana` no implica oveja.** El vocabulario conserva el término de la fuente. En piezas anteriores a 1532, que son las que admite el criterio v2, «wool» en las fichas de museo designa casi siempre fibra de camélido: la lana de oveja llega después de la conquista.
+- **`lana` no distingue la especie.** El vocabulario conserva el término de la fuente (*wool*) y no distingue la especie animal. En la literatura andina se habla de lana de camélido (Desrosiers, 2013, p. 499), de modo que el término de la ficha no debe leerse como lana de oveja.
 - **Vocabulario de técnica incompleto.** `tejido` es genérico y faltan técnicas diagnósticas del área andina, como la cara de urdimbre y las urdimbres complementarias, las urdimbres y tramas discontinuas, la gasa, el teñido por amarras y el anillado. No interviene en M3 y no se amplía antes del cierre. `tapiz` figura a la vez como técnica y como tipo de objeto (`tapiz_textil`); en los estudios andinos designa la técnica.
 - **La banda se lee en la fotografía.** La anotación no distingue listas de urdimbre de franjas de trama ni registros bordados, porque trabaja sobre la imagen; las bandas se registran por su aspecto visible.
 
-## Pendiente
+## Estado
 
-- La anotación v2 se valida y se exporta (desde el 2026-11-05), pero no se incorpora aún al corpus: se hará cuando el acuerdo del lote 1 esté medido y se hayan decidido los criterios y el vocabulario que piden las observaciones.
+La anotación del núcleo quedó congelada como versión 2.1 el 17 de noviembre de 2026 (decisión R23), con el acuerdo del lote 1 medido y los criterios de R12, R16 y C1 a C4 aplicados. No se incorpora al consolidado v2.0, que conserva su etiqueta: se publica aparte, en `data/metadata/v2_1_congelado/`, con sus sumas SHA-256, y es la entrada de M3 y de la fusión M4. Las piezas del principal fuera del núcleo quedan sin anotar.

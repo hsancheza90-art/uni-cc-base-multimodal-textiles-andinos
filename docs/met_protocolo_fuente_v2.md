@@ -8,14 +8,14 @@ La finalidad no es realizar una descarga masiva de objetos, sino construir una b
 
 La versión MET v2 reorganiza el trabajo curatorial previo, preserva los resultados ya obtenidos y explicita los criterios usados para distinguir entre corpus principal, corpus secundario y registros descartados.
 
-## Fuente Institucional
+## Fuente institucional
 
 - Institución: The Metropolitan Museum of Art.
 - Acceso: API pública del MET y fichas institucionales de colección.
 - Tipo de fuente: colección museográfica con metadatos curatoriales, imágenes asociadas y enlaces institucionales.
 - Uso dentro del proyecto: fuente del corpus, junto con Cleveland Museum of Art (CMA) y Art Institute of Chicago (AIC).
 
-## Enfoque Metodológico
+## Enfoque metodológico
 
 El trabajo con MET se entiende como una curación documental y visual. Cada registro se evalúa considerando tres niveles:
 
@@ -25,7 +25,7 @@ El trabajo con MET se entiende como una curación documental y visual. Cada regi
 
 Por esta razón, la fuente no se trata como una tabla neutral de datos, sino como un conjunto museográfico que requiere interpretación, control de ruido, revisión visual y criterios consistentes.
 
-## Estrategia De Búsqueda Y Consolidación
+## Estrategia de búsqueda y consolidación
 
 Las consultas exploratorias combinan términos culturales, geográficos y textiles. Entre los términos considerados se incluyen:
 
@@ -54,7 +54,7 @@ Las consultas exploratorias combinan términos culturales, geográficos y textil
 
 Los resultados se deduplican por identificador institucional del MET. En MET v2, la base final no se reconstruye desde cero a partir de la API, sino que se consolida a partir de los archivos curatoriales MET v1 ya versionados y revisados.
 
-## Criterios De Inclusión
+## Criterios de inclusión
 
 Un registro puede ingresar como candidato si cumple las siguientes condiciones:
 
@@ -64,11 +64,11 @@ Un registro puede ingresar como candidato si cumple las siguientes condiciones:
 4. Presenta evidencia textil en clasificación, técnica, material, título o descripción.
 5. Presenta evidencia andina, prehispánica o sudamericana pertinente en cultura, procedencia, título o descripción.
 
-## Criterio Vigente En La v2
+## Criterio vigente en la v2
 
 Desde el 2026-10-19 la decisión entre principal, secundario y descarte sigue el criterio de aptitud analítica de `docs/protocolo_aptitud_v2.md`: principal si los colores y las figuras se identifican a primera vista, aunque la pieza esté incompleta. Ese criterio reemplaza a los de las secciones siguientes, que se conservan porque explican las decisiones de la v1 y de la revisión de julio de 2026. En particular, la plumaria ya no va al secundario: se descarta.
 
-## Criterios Para El Corpus Principal
+## Criterios para el corpus principal
 
 Un registro se considera parte del corpus principal cuando:
 
@@ -78,7 +78,7 @@ Un registro se considera parte del corpus principal cuando:
 4. La información curatorial respalda una adscripción andina o prehispánica relacionada.
 5. No corresponde principalmente a cerámica, metal, madera, piedra u otro soporte no textil.
 
-## Criterios Para El Corpus Secundario
+## Criterios para el corpus complementario (secundario en el libro de revisión)
 
 Un registro puede mantenerse como corpus secundario cuando tiene valor documental, pero no cumple plenamente el criterio del corpus principal. Por ejemplo:
 
@@ -87,7 +87,7 @@ Un registro puede mantenerse como corpus secundario cuando tiene valor documenta
 3. Objetos relacionados con indumentaria o materialidad textil, aunque no sean ideales para el primer corpus principal.
 4. Casos que requieren revisión posterior por ambigüedad curatorial o visual.
 
-## Criterios De Descarte
+## Criterios de descarte
 
 Un registro se descarta cuando:
 
@@ -98,7 +98,7 @@ Un registro se descarta cuando:
 5. La imagen o los metadatos no permiten sostener su inclusión de manera defendible.
 6. Es un duplicado de otro registro ya incorporado.
 
-## Estados De Curación
+## Estados de curación
 
 La versión MET v2 usa estados en español para facilitar lectura y revisión:
 
@@ -117,7 +117,7 @@ Durante etapas exploratorias también pueden aparecer estados auxiliares:
 - `duplicado`
 - `pendiente_revision_visual`
 
-## Salidas Base MET v2
+## Salidas base MET v2
 
 La versión v2 no sobrescribe los archivos históricos. Las salidas base se guardan con nombres versionados:
 
@@ -127,7 +127,7 @@ La versión v2 no sobrescribe los archivos históricos. Las salidas base se guar
 - `outputs/reports/met_resumen_curacion_v2.md`
 - `outputs/reports/met_auditoria_tecnica_v2.md`
 
-## Control Contra La Curación Previa
+## Control contra la curación previa
 
 La versión MET v2 se construye a partir de los archivos curatoriales ya versionados de MET v1. Por ello, el objetivo no es volver a inferir el corpus desde cero, sino reorganizar la curación previa en salidas más claras, auditables y consistentes con el protocolo metodológico.
 
@@ -141,7 +141,7 @@ Los conteos consolidados de la base auditada son:
 
 Estos conteos fueron validados comparando los identificadores institucionales de los archivos fuente v1 contra las nuevas salidas MET v2. La auditoría técnica no detectó pérdida de identificadores ni duplicados en el corpus principal.
 
-## Revisión Manual Final
+## Revisión manual final
 
 Luego de construir la base auditada MET v2, se incorpora una capa de revisión manual mediante el archivo:
 
@@ -160,7 +160,7 @@ python -m src.metadata.apply_met_review_v2
 
 Esta capa conserva trazabilidad entre la clasificación original y la decisión final, permitiendo documentar ajustes curatoriales como duplicados visuales, imágenes caídas, piezas ambiguas o registros mejor ubicados en corpus secundario.
 
-## Comparación Entre Base Auditada Y Revisión Manual
+## Comparación entre la base auditada y la revisión manual
 
 La revisión manual no reemplaza la base auditada. Introduce una capa curatorial final que permite corregir duplicados visuales, imágenes caídas, registros ambiguos o piezas mejor ubicadas en otro subconjunto.
 
@@ -173,7 +173,7 @@ En julio, los movimientos redujeron el corpus principal en 5 registros: cuatro p
 
 Esta comparación permite conservar la trazabilidad entre el corpus base y el corpus revisado, evitando que la curación manual borre la historia de decisiones del proceso.
 
-## Salidas Revisadas MET v2
+## Salidas revisadas MET v2
 
 La revisión manual genera los siguientes archivos:
 
@@ -186,7 +186,7 @@ La revisión manual genera los siguientes archivos:
 
 Las galerías HTML de revisión (`outputs/review/met_*_v2_revisado_galeria.html`) se regeneran localmente y no se versionan.
 
-## Salida Recomendada
+## Salida recomendada
 
 Para efectos de la investigación, se recomienda usar las salidas revisadas:
 
@@ -196,7 +196,7 @@ Para efectos de la investigación, se recomienda usar las salidas revisadas:
 
 Las salidas base se conservan como respaldo auditado y punto de comparación.
 
-## Principio De Trazabilidad
+## Principio de trazabilidad
 
 Ningún registro debe incorporarse sin conservar:
 
@@ -208,7 +208,7 @@ Ningún registro debe incorporarse sin conservar:
 6. Clasificación base y clasificación final.
 7. Nota breve que justifique inclusión, separación secundaria, descarte o movimiento manual.
 
-## Comandos Reproducibles
+## Comandos reproducibles
 
 Todos los pasos sin red los ejecuta, en orden, `python -m src.flujo`. Individualmente:
 

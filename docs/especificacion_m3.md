@@ -2,12 +2,12 @@
 
 | | |
 |---|---|
-| Versión | 0.1, 6 de noviembre de 2026 (actividad S2.5 del plan de cierre) |
+| Versión | 0.2, 21 de noviembre de 2026. La 0.1 es del 6 de noviembre (actividad S2.5 del plan de cierre); la sección 5 y la regla de reparto de la sección 3 se añadieron el 12 de noviembre (R11); la 0.2 retira el periodo, precisa el papel de la forma canónica y fija los pesos (R30) |
 | Implementación | `src/modelos/m3_estructura.py`; pruebas de propiedades en `tests/test_sistemas.py` |
 | Parámetros | `config/modelos.toml`, sección `[m3.pesos]` |
 | Referencias | Protocolo experimental v2, sección 4; auditoría del asesor, informe 05 («Descriptor mínimo implementable») |
 
-M3 compara dos piezas a partir de su organización visible, tal como la registra la anotación estructural v2. Es un sistema **asistido por anotación**: dispone de información humana a la que M2 no tiene acceso. Por eso, la comparación entre ambos mide la utilidad de cada sistema para la recuperación y no la superioridad de un método de extracción automática. M3 no interpreta el significado de los motivos ni atribuye una cultura de origen.
+M3 compara dos piezas a partir de su organización visible, tal como la registra la anotación estructural congelada v2.1 (`data/metadata/v2_1_congelado/`). La formalización completa, con las demostraciones, está en el capítulo 5 del manuscrito (`docs/manuscrito/capitulo_5_metodo_formal.md`). Es un sistema **asistido por anotación**: dispone de información humana a la que M2 no tiene acceso. Por eso, la comparación entre ambos mide la utilidad de cada sistema para la recuperación y no la superioridad de un método de extracción automática. M3 no interpreta el significado de los motivos ni atribuye una cultura de origen.
 
 ## 1. Bloques del descriptor
 
@@ -33,13 +33,13 @@ Tres elementos quedan fuera del descriptor de forma deliberada:
 
 **Alfabeto y eje.** El alfabeto está formado por los tipos de banda del vocabulario controlado, en este orden: lisa, geométrica, figurativa, mixta y no determinada. La laguna no es un símbolo, sino la marca de un tramo que no puede observarse. El eje de lectura es el de la fotografía (`eje_bandas`). Como el sentido de lectura es una convención, el descriptor trabaja con el grupo C₂ = {identidad, reversión}.
 
-**Forma canónica.** Se define *c(w)* = mín_lex {*w*, rev(*w*)}. Puesto que {*w*, rev(*w*)} = {rev(*w*), rev(rev(*w*))}, se cumple *c*(rev(*w*)) = *c*(*w*); es decir, leer la pieza en el sentido opuesto no cambia su forma canónica. El cálculo tiene un costo O(*l*) en la longitud de la palabra.
+**Forma canónica.** Se define *c(w)* = mín_lex {*w*, rev(*w*)}. Puesto que {*w*, rev(*w*)} = {rev(*w*), rev(rev(*w*))}, se cumple *c*(rev(*w*)) = *c*(*w*); es decir, leer la pieza en el sentido opuesto no cambia su forma canónica. El cálculo tiene un costo O(*l*) en la longitud de la palabra. La forma canónica sirve para contar las órbitas y para decidir si dos palabras son equivalentes; la disimilitud no la necesita, porque la distancia entre palabras ya toma el mínimo sobre la órbita.
 
 **Distancia entre palabras.** La distancia es *d*(*w*, *v*) = mín{lev(*w*, *v*), lev(*w*, rev *v*)} / máx(\|*w*\|, \|*v*\|), donde lev es la distancia de Levenshtein y las lagunas se eliminan antes de comparar. Como la reversión preserva la distancia de Levenshtein, se cumple *d*(*w*, *v*) = *d*(rev *w*, *v*) = *d*(*w*, rev *v*). Dos piezas sin bandas (dos palabras vacías) están a distancia 0, y una palabra vacía frente a una no vacía está a distancia 1. El costo es O(*l* · *l*′).
 
 **Adyacencias.** Se construye el histograma normalizado de los pares **no dirigidos** de bandas contiguas dentro de cada tramo observado. Una laguna interrumpe el tramo y no forma pares. Al no considerar la dirección, el histograma es invariante a la reversión sin necesidad de elegir un sentido de lectura. Si alguna de las dos piezas no tiene ningún par (porque tiene una sola banda o ninguna), el bloque se considera no observable para ese par de piezas.
 
-**Periodo, solo informativo.** El periodo es *p*(*w*) = mín{*p* ∈ 1..*l* : *w_j* = *w_(j+p)* para todo *j* ≤ *l* − *p*}. Un periodo igual a la longitud de la palabra no indica repetición. El periodo se calcula, pero no interviene en la disimilitud.
+**Periodo, retirado.** La versión 0.1 calculaba el periodo de la palabra como dato informativo, sin intervenir en la disimilitud. Se retiró en la 0.2: la repetición entra en el descriptor como atributo anotado, y el capítulo 5 del manuscrito no usa el periodo (sección 5.16).
 
 Dos ejemplos ilustran estas definiciones:
 - Las palabras `aabb` y `abab` tienen el mismo histograma de tipos y distintas adyacencias. Por eso es indispensable un control sin orden para atribuir una ganancia al orden de las bandas.
@@ -57,7 +57,7 @@ con pesos λ_b ≥ 0 definidos en `[m3.pesos]`.
 
 **Cobertura.** Se define como Σ_b λ_b *m_ib* *m_jb* / Σ_b λ_b y se informa junto con D. La regla de reparto de pesos de M4 no usa su valor: solo distingue si hay evidencia estructural (cobertura mayor que cero) o no.
 
-**Similitud para el ranking.** *s* = 1 − D.
+**Puntuación para el ranking.** *s* = 1 − D.
 
 **Propiedades.**
 - D(*i*, *i*) = 0, D es simétrica y toma valores en [0, 1].
@@ -81,7 +81,7 @@ Usa los mismos pesos, sin reajustarlos. Si M3 supera a M3-sin-orden, la diferenc
 
 ## 6. Ajuste y congelación
 
-Los pesos parten de valores iguales (1,0) y solo se ajustan con las consultas de desarrollo. El descriptor se calcula sobre la anotación congelada después de la re-anotación del primer lote y de las decisiones de criterio (versión 2.1). A partir de ese momento se generan los rankings de M3: primero en desarrollo y después, una sola vez, en prueba.
+Los pesos parten de valores iguales (1,0) y el protocolo solo permite ajustarlos con las consultas de desarrollo. No se ajustaron: primero, a la espera de la respuesta del asesor sobre los juicios de desarrollo (R24); después, porque los pesos de M4 se eligieron con M3 en sus valores de partida y ajustar M3 obligaría a repetir esa selección (R28). Quedan fijos en 1,0 (R30). El descriptor se calcula sobre la anotación congelada v2.1. Los rankings de M3 se generaron en desarrollo el 17 de noviembre; en prueba se generarán una sola vez, con los sistemas congelados.
 
 ## 7. Pruebas de propiedades
 
@@ -91,7 +91,6 @@ Las pruebas de `tests/test_sistemas.py` verifican:
 - que `aabb` y `abab` tienen el mismo histograma de tipos y distintas adyacencias;
 - la invariancia del histograma de adyacencias a la reversión;
 - la simetría y la invariancia a la reversión de la distancia entre palabras, con las lagunas enmascaradas;
-- el cálculo exacto del periodo;
 - que D es simétrica, nula consigo misma, acotada en [0, 1] y no definida cuando no hay bloques comunes;
 - que la suma de las contribuciones reconstruye D y que la intervención sobre un bloque coincide con la fórmula;
 - que M3-sin-orden no distingue el orden de las bandas y M3 sí.

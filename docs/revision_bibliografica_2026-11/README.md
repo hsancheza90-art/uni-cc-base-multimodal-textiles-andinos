@@ -18,7 +18,7 @@ No es una revisión sistemática. Se consultó una base de forma nativa (OpenAle
 | `fichas/` | Un informe `.md` por documento (F01 a F48) con su aporte a la tesis |
 | `pdfs/` | Manifiesto de los PDF y sus enlaces de acceso abierto. Los archivos se bajan con `descargar.py` |
 | `busquedas/consultas_openalex.json` | Cadenas literales y URL de cada consulta |
-| `referencias.bib` | Entradas provisionales; faltan campos que no se vieron en los documentos |
+| `referencias.bib` | Entradas provisionales; faltan campos que no se vieron en los documentos. Al final, las obras citadas en el manuscrito sin ficha de lectura (resultados clásicos y obras localizadas y no leídas), marcadas como tales |
 | `descargar.py` | Baja los PDF del manifiesto; con `--busquedas` exporta los JSON de OpenAlex |
 
 ## Cómo leer las fichas

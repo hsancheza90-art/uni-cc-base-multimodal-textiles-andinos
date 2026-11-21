@@ -1,5 +1,7 @@
 # Plan de cierre de la tesis: cuatro semanas
 
+> **Documento histórico.** El plan terminó el 22 de noviembre de 2026; su estado final está en la sección «Cierre». Desde el 12 de noviembre, las decisiones se registran en `docs/registro_decisiones.md`. Algunas propuestas de este plan fueron sustituidas después: por ejemplo, la decisión de H1 por bootstrap (D5) la sustituyó la prueba de permutación (R01).
+
 Del lunes 26 de octubre al domingo 22 de noviembre de 2026. Plan de actividades para cerrar la segunda parte de la tesis (Seminario de Tesis II). Integra el plan que estaba en curso (hitos F2-H1 a F2-H3) con las observaciones de la auditoría del asesor del 20 de octubre de 2026 (versionada en `docs/auditoria_2026-10-20/`, en adelante «la auditoría»; los identificadores MET01, DAT01, SW01, etc., son los de su informe 09).
 
 ## Punto de partida (24 de octubre)
@@ -223,3 +225,21 @@ A partir de la revisión bibliográfica del 11 de noviembre (`docs/revision_bibl
 |---|---|
 | S1.9 (búsquedas bibliográficas) | En curso (11 de noviembre): revisión de alcance con OpenAlex y 30 documentos leídos; Scopus y Web of Science siguen sin consultar |
 | S1.3 (protocolo) | En curso (12 de noviembre): versión 0.6 propuesta |
+
+## Cierre (21 de noviembre)
+
+El plan no se cumplió en su calendario: el test, previsto para el 18 y el 19 de noviembre, no se ha ejecutado. Se priorizó la validez sobre la fecha, como pedía la auditoría. Estado de cada bloque:
+
+| Bloque | Estado al 21 de noviembre | Dónde consta |
+|---|---|---|
+| Corpus v2, grupos y particiones (S1.7, S2.2, S2.3) | Hecho | Etiqueta `corpus-met-cma-aic-v2.0` |
+| Anotación del núcleo, re-anotación, revisión de criterios y congelación (S1.8, S2.1, S2.4) | Hecho; la anotación v2.1 quedó congelada el 17 de noviembre | R12 a R23; etiqueta `anotacion-v2.1` |
+| Sistemas M0 a M4 y rankings de desarrollo (S2.5, S2.6, S3.1) | Hecho en desarrollo; pesos de M4 elegidos | R24, R28 |
+| Juicios de desarrollo (S3.2) | 419 pares juzgados, con revisión asistida declarada | R17, R25, R28 |
+| Potencia | Efecto mínimo detectable fijado antes del test | R29 |
+| Protocolo (S1.3) | Versión 0.6.4, pendiente de aprobación del asesor | `docs/protocolo_experimental_v2.md` |
+| Revisión bibliográfica (S1.9) | 48 documentos leídos; Scopus y Web of Science sin consultar | `docs/revision_bibliografica_2026-11/` |
+| Congelación de sistemas, juicios de prueba y test (S3.3, S3.4, S4.1 a S4.3) | Pendiente: el test espera la aprobación del protocolo | R27, R30 |
+| Manuscrito (S4.5) | Capítulos 1 a 7 y 11 en borrador; 8 a 10 dependen del test | `docs/manuscrito/` |
+
+Desde esta fecha el trabajo pendiente se sigue en el registro de decisiones y en la matriz de respuesta al informe integrado (`docs/revision_asesor_2026-11/matriz_respuesta_informe_integrado.md`).
