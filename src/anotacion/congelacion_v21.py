@@ -15,6 +15,10 @@ copia ya existe.
 En el flujo, este paso compara la anotación recién exportada con la copia congelada. Si difieren,
 termina con código 1: después de congelar, ningún cambio en los workbooks pasa en silencio. Los
 sistemas (M3 y la fusión) leen la copia congelada, no la exportación.
+
+Tanto al congelar como en el flujo se comprueban las condiciones de buena formación B3 a B7
+(src/anotacion/buena_formacion.py; capítulo 5, sección 5.4.1): una copia que las incumpla no se
+escribe, y una copia congelada que las incumpla detiene el flujo.
 """
 
 from __future__ import annotations
@@ -26,7 +30,7 @@ from pathlib import Path
 from typing import Any
 
 from src.anotacion import aplicar_anotaciones_v2 as exportacion
-from src.anotacion import revision_criterios
+from src.anotacion import buena_formacion, revision_criterios
 from src.utils.archivos import escribir_csv, escribir_texto, leer_csv
 from src.utils.config import CONFIG_ANOTACION, leer_config_anotacion
 from src.utils.metricas import tabla
@@ -69,7 +73,9 @@ def congelar(raiz: Path) -> int:
                                           revision_criterios.leer_seleccion(raiz, config))
     impedimentos = ([f"{revision.pendientes} piezas pendientes en la revision de criterios"] if revision.pendientes else []) \
         + ([f"imagenes que no corresponden al registro: {revision.no_coinciden}"] if revision.no_coinciden else []) \
-        + revision.errores
+        + revision.errores \
+        + [f"{codigo} ({buena_formacion.CONDICIONES[codigo]}): {', '.join(ids)}"
+           for codigo, ids in buena_formacion.revisar(revision.filas, vocabulario).items() if ids]
     if not revision.existe or impedimentos:
         print("No se congela la anotacion:")
         for problema in impedimentos or ["no existe el workbook de revision de criterios"]:
@@ -83,7 +89,7 @@ def congelar(raiz: Path) -> int:
 
 
 def lineas_reporte(config: dict[str, Any], congelada: list[dict[str, str]] | None, coincide: bool,
-                   sumas: list[str]) -> list[str]:
+                   sumas: list[str], incumplimientos: dict[str, list[str]] | None = None) -> list[str]:
     datos = config["congelacion"]
     lineas = [
         f"# Anotacion estructural v{datos['version']} congelada",
@@ -113,6 +119,13 @@ def lineas_reporte(config: dict[str, Any], congelada: list[dict[str, str]] | Non
         lineas += ["", f"## `{atributo}`", ""]
         conteo = Counter(f[atributo] for f in congelada)
         lineas += tabla([[v, str(n)] for v, n in sorted(conteo.items())], ["Valor", "Piezas"])
+    if incumplimientos is not None:
+        lineas += ["", "## Condiciones de buena formacion B3 a B7", "",
+                   "Capitulo 5, seccion 5.4.1 (`src/anotacion/buena_formacion.py`). Una copia que incumpla alguna detiene "
+                   "el flujo.", ""]
+        lineas += tabla([[codigo, texto, str(len(incumplimientos[codigo])), ", ".join(incumplimientos[codigo]) or "—"]
+                         for codigo, texto in buena_formacion.CONDICIONES.items()],
+                        ["Condicion", "Enunciado", "Piezas que la incumplen", "id_global"])
     lineas += ["", "## Sumas SHA-256 registradas al congelar", "", "```", *sumas, "```"]
     return lineas
 
@@ -129,9 +142,15 @@ def comprobar(raiz: Path) -> int:
     sumas = (destino / SUMAS).read_text(encoding="utf-8").splitlines() if (destino / SUMAS).exists() else []
     registrada = sumas[0].split()[0] if sumas else ""
     integra = registrada == sha256(destino / ARCHIVO)
-    escribir_texto(raiz / REPORTE, lineas_reporte(config, leer_csv(destino / ARCHIVO), coincide, sumas))
+    congelada = leer_csv(destino / ARCHIVO)
+    incumplimientos = buena_formacion.revisar(congelada, leer_vocabulario(raiz))
+    escribir_texto(raiz / REPORTE, lineas_reporte(config, congelada, coincide, sumas, incumplimientos))
     if not integra:
         print(f"La copia congelada no coincide con su suma registrada en {destino / SUMAS}.")
+        return 1
+    if any(incumplimientos.values()):
+        print("La anotacion congelada incumple condiciones de buena formacion: "
+              + "; ".join(f"{c}: {', '.join(ids)}" for c, ids in incumplimientos.items() if ids))
         return 1
     if not coincide:
         print(f"La anotacion exportada ({exportacion.SALIDA_ANOTACIONES_V2}) cambio despues de congelar la "

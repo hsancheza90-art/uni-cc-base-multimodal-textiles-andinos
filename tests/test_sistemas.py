@@ -123,6 +123,23 @@ def test_distancia_de_palabras_simetrica_invariante_y_con_lagunas_enmascaradas()
     assert m3.histograma_adyacencias(("lisa", "laguna", "geometrica")) == {}  # la laguna corta el par
 
 
+def test_el_control_sin_orden_acota_inferiormente_la_distancia_con_orden() -> None:
+    """Proposición 5.6: d_t <= d_w, por enumeración exhaustiva (tres tipos, longitudes 0 a 5: 132 496 pares)."""
+    tipos = ["lisa", "geometrica", "figurativa"]
+    descriptores = [m3.Descriptor(bandas=p) for largo in range(6) for p in product(tipos, repeat=largo)]
+    violaciones = 0
+    for a in descriptores:
+        for b in descriptores:
+            d_t = m3.distancias_por_bloque(a, b, sin_orden=True)["bandas"]
+            d_w = m3.distancias_por_bloque(a, b)["bandas"]
+            violaciones += d_t > d_w + 1e-12  # tolerancia de coma flotante
+    assert len(descriptores) ** 2 == 132_496 and violaciones == 0
+    # El reciproco es falso: mismo inventario de tipos, distinto orden.
+    aabb, abab = m3.Descriptor(bandas=("lisa", "lisa", "geometrica", "geometrica")), m3.Descriptor(bandas=("lisa", "geometrica") * 2)
+    assert m3.distancias_por_bloque(aabb, abab, sin_orden=True)["bandas"] == 0
+    assert m3.distancias_por_bloque(aabb, abab)["bandas"] == pytest.approx(0.5)
+
+
 def test_orden_de_repeticion_y_alfabeto_coinciden_con_la_configuracion() -> None:
     assert m3.ORDEN_REPETICION == leer_config_anotacion()["acuerdo"]["orden"]["repeticion"]
     assert ALFABETO == [c for c in leer_vocabulario()["secuencia_bandas"].codigos if c != m3.LAGUNA]

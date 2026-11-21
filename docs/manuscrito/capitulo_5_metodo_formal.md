@@ -111,16 +111,16 @@ Las definiciones de este capítulo presuponen que la anotación cumple ciertas c
 |---|---|---|---|---|
 | B1 | Todo valor pertenece al vocabulario del atributo o es un estado admitido, y un estado ocupa la celda completa | Definición 5.4 | Regla de validación | 0 |
 | B2 | `eje_bandas` y `secuencia_bandas` concuerdan: las dos registran bandas o las dos un estado | Definición 5.9 | Regla de validación | 0 |
-| B3 | Si las dos son un estado, es el mismo | Evita que una pieza sea `ausente` en una y `no_observable` en la otra | Verificación al congelar | 0 |
-| B4 | Una palabra contiene al menos un símbolo de $\Sigma$: no está formada solo por lagunas | Si no, $\tilde{w} = \varepsilon$ y «no se ve ninguna banda» se compararía como «no tiene bandas» ($d_w = 0$ frente a `ausente`), contra la sección 5.4 | Verificación al congelar | 0 |
-| B5 | No hay dos lagunas contiguas | Un tramo perdido es una sola laguna; así los tramos de la definición 5.10 son únicos | Verificación al congelar | 0 |
-| B6 | Si `composicion` es `bandas`, la secuencia no es `ausente` | Los dos atributos no pueden afirmar y negar las bandas a la vez | Verificación al congelar | 0 |
-| B7 | `motivos` es `ausente` si y solo si `familia_iconografica` lo es | Coherencia entre los dos bloques iconográficos | Verificación al congelar | 0 |
+| B3 | Si las dos son un estado, es el mismo | Evita que una pieza sea `ausente` en una y `no_observable` en la otra | Regla de la congelación y del flujo | 0 |
+| B4 | Una palabra contiene al menos un símbolo de $\Sigma$: no está formada solo por lagunas | Si no, $\tilde{w} = \varepsilon$ y «no se ve ninguna banda» se compararía como «no tiene bandas» ($d_w = 0$ frente a `ausente`), contra la sección 5.4 | Regla de la congelación y del flujo | 0 |
+| B5 | No hay dos lagunas contiguas | Un tramo perdido es una sola laguna; así los tramos de la definición 5.10 son únicos | Regla de la congelación y del flujo | 0 |
+| B6 | Si `composicion` es `bandas`, la secuencia no es `ausente` | Los dos atributos no pueden afirmar y negar las bandas a la vez | Regla de la congelación y del flujo | 0 |
+| B7 | `motivos` es `ausente` si y solo si `familia_iconografica` lo es | Coherencia entre los dos bloques iconográficos | Regla de la congelación y del flujo | 0 |
 | B8 | Ningún atributo del descriptor está vacío | Una celda vacía apaga el bloque sin que conste un juicio de no observación | Aviso de validación | 0 |
 | B9 | Ninguna corrección de la revisión de criterios se aplica sin la firma del anotador | Una propuesta automática sin verificar no es anotación (capítulo 4, sección 4.10) | Condición de la congelación | 0 pendientes |
 | B10 | La anotación describe la imagen de su registro | Definición 5.1: $a(r)$ es lo observado en $f(r)$ | Revisión manual de la identidad de las imágenes | 0 (ocho anotaciones desplazadas se trasladaron a su registro antes de congelar) |
 
-Las condiciones B3 a B7 se cumplen en la versión congelada, pero no las protege una regla automática: una versión posterior de la anotación debería convertirlas en errores de validación antes de modificar valores.
+Las condiciones B3 a B7 se comprueban sobre la anotación final, después de las correcciones de la revisión de criterios, y no sobre los libros: la primera anotación podía incumplirlas antes de corregirse. La congelación se niega a escribir una copia que las incumpla, y el flujo se detiene si la copia congelada las incumple; el informe de la congelación da, para cada condición, las piezas que la incumplen.
 
 **Casos admitidos, que no son errores.** Cuatro situaciones son legítimas con las definiciones adoptadas y se declaran para que no se confundan con incoherencias. En la versión 2.1, 53 piezas tienen palabra de bandas, 83 la tienen `ausente` y 14 no la tienen observada (11 `no_observable` y 3 `desconocido`):
 
@@ -310,7 +310,7 @@ En particular, $d_w(w, v) = 0$ implica $d_t(w, v) = 0$, y el recíproco es falso
 
 *Interpretación.* M3 **refina** a su control: todo lo que el control distingue, M3 lo distingue al menos en la misma medida, y M3 separa además pares que el control confunde. Esto es lo que autoriza a leer una diferencia entre M3 y M3-sin-orden como efecto del orden (junto con las adyacencias) y no del inventario de tipos. Que ese refinamiento mejore la recuperación es H2 **[E]**.
 
-*Estado de la verificación.* La proposición se demuestra aquí y se comprobó por enumeración exhaustiva con la implementación (alfabeto de tres símbolos, longitudes 0 a 5: 132 496 pares, ninguna violación), pero todavía no está fijada en una prueba automática, a diferencia de las demás propiedades **[P]**.
+*Verificación.* Una prueba automática recorre por enumeración exhaustiva, con la implementación, todas las palabras de longitud 0 a 5 sobre un alfabeto de tres símbolos (132 496 pares) y no encuentra ninguna violación, salvo diferencias de redondeo del orden de $10^{-16}$; comprueba además el contraejemplo del recíproco.
 
 ### 5.8.4 Bloques nominales, ordinal y de conjunto
 
@@ -320,7 +320,7 @@ En particular, $d_w(w, v) = 0$ implica $d_t(w, v) = 0$, y el recíproco es falso
 
 Todas toman valores en $[0, 1]$, son simétricas y se anulan cuando los valores coinciden.
 
-**Simetría y repetición como atributos anotados [D].** La simetría se registra con las categorías de la tesis (Cuadro 6.4 del primer avance), separadas por la dimensión de la repetición (capítulo 4, sección 4.7.4): `traslacional` cuando un motivo se desplaza en una sola dirección y forma un friso; `repeticion_modular` cuando un módulo con contorno propio se repite como unidad en dos dimensiones. No se calcula ningún grupo de simetría a partir de la imagen. La repetición es un atributo ordinal anotado. El periodo fundamental $p^{*}$ del primer avance (ecuaciones 5.35–5.39) se retira del capítulo: el descriptor no lo usa. La implementación conserva una función informativa de periodo que no interviene en la disimilitud; calcular un periodo sobre la palabra de bandas, con soporte mínimo y tratamiento de lagunas, queda como extensión.
+**Simetría y repetición como atributos anotados [D].** La simetría se registra con las categorías de la tesis (Cuadro 6.4 del primer avance), separadas por la dimensión de la repetición (capítulo 4, sección 4.7.4): `traslacional` cuando un motivo se desplaza en una sola dirección y forma un friso; `repeticion_modular` cuando un módulo con contorno propio se repite como unidad en dos dimensiones. No se calcula ningún grupo de simetría a partir de la imagen. La repetición es un atributo ordinal anotado. El periodo fundamental $p^{*}$ del primer avance (ecuaciones 5.35–5.39) se retira del capítulo y de la implementación: el descriptor no lo usa. Calcular un periodo sobre la palabra de bandas, con soporte mínimo y tratamiento de lagunas, queda como extensión.
 
 ## 5.9 Disimilitud mixta
 
@@ -418,7 +418,7 @@ Con una galería de unos cientos de piezas y palabras de pocas decenas de símbo
 |---|---|
 | **[T]** Resultados conocidos | Lema de conteo de órbitas y enumeración de Pólya; distancia de Levenshtein y su cálculo; distancia de Jaccard; coeficiente de Gower; variación total entre histogramas |
 | **[D]** Decisiones de diseño | Codificación de presencia, ausencia y no observación por atributo; categorías residuales; condiciones de buena formación; definición de banda; alfabeto de cinco tipos; el grupo $C_2$ y ninguna otra transformación; tratamiento de las lagunas; pares no ordenados en las adyacencias; normalización por la longitud mayor; exclusión del color, del motivo principal y del eje; simetría y repetición como atributos anotados; pesos iguales de partida; tratamiento del par sin evidencia; fusión tardía con normalización por consulta |
-| **[P]** Propiedades demostradas | Invariancia y completitud de la forma canónica (5.1); isometría de la reversión (lema 5.1); métrica entre órbitas sin normalizar (5.2); rango, simetría, invariancia e identidad de $d_w$ (5.3) y su carácter no métrico (5.4); invariancia de $h$ (5.5); cota del control (5.6); propiedades de $D$ (5.7) y contraejemplos (5.8); propiedades de la fusión (5.9) |
+| **[P]** Propiedades demostradas | Invariancia y completitud de la forma canónica (5.1); isometría de la reversión (lema 5.1); métrica entre órbitas sin normalizar (5.2); rango, simetría, invariancia e identidad de $d_w$ (5.3) y su carácter no métrico (5.4); invariancia de $h$ (5.5); cota del control (5.6); propiedades de $D$ (5.7) y contraejemplos (5.8); propiedades de la fusión (5.9). Todas fijadas en pruebas automáticas |
 | **[E]** Afirmaciones empíricas, sin contrastar | H1, H2 y H3 (sección 5.13); que la anotación y la máscara son estables más allá del lote medido; cuánto distingue el orden en este corpus |
 
 ## 5.13 De la formalización a las hipótesis
@@ -458,7 +458,7 @@ Cada definición y propiedad del capítulo tiene su contraparte en el código de
 |---|---|---|---|---|
 | Grupos | Def. 5.2 | `src/grupos/grupos.py` | `grupos_revision_v2.xlsx`; columna `grupo` | `tests/test_grupos.py` |
 | Máscara | (5.3) | `valor`, `palabra_de_bandas`, `descriptor` | `[estados]` de `config/vocabulario.toml` | `test_disimilitud_mixta_simetrica_acotada_y_sin_evidencia` |
-| Estados y buena formación | (5.2), sec. 5.4.1 | `validar_fila` en `src/anotacion/aplicar_anotaciones_v2.py`; `Campo.invalidos` en `src/utils/vocabulario.py` | `config/vocabulario.toml` | `tests/test_anotacion_v2.py` (B1, B2); B3–B8 verificadas al congelar, sin regla automática |
+| Estados y buena formación | (5.2), sec. 5.4.1 | `validar_fila` en `src/anotacion/aplicar_anotaciones_v2.py`; `Campo.invalidos` en `src/utils/vocabulario.py` | `config/vocabulario.toml` | `tests/test_anotacion_v2.py` (B1, B2); `tests/test_buena_formacion.py` (B3 a B7, en `src/anotacion/buena_formacion.py`); B8, aviso de validación |
 | Palabra, tramos y lagunas | (5.5), def. 5.10 | `palabra_de_bandas`, `tramos`, `sin_lagunas` | `secuencia_bandas`; símbolo `laguna` | `test_distancia_de_palabras_simetrica_invariante_y_con_lagunas_enmascaradas` |
 | Reversión | $\rho$ | `reverso` | `secuencia_bandas` | `test_la_forma_canonica_es_invariante_a_la_reversion` |
 | Forma canónica | (5.7) | `canonizar` | `secuencia_bandas` | La anterior |
@@ -467,7 +467,7 @@ Cada definición y propiedad del capítulo tiene su contraparte en el código de
 | Distancia entre palabras | (5.12)–(5.13) | `distancia_edicion`, `distancia_palabras` | `secuencia_bandas` | `test_distancia_de_palabras_…`; `test_la_disimilitud_no_es_una_metrica` |
 | Adyacencias | (5.14) | `histograma_adyacencias`, `distancia_l1_media` | `secuencia_bandas` | `test_el_control_sin_orden_no_distingue_lo_que_las_adyacencias_si` |
 | Control sin orden | (5.15) | `histograma_tipos`; `comparar(..., sin_orden=True)` | `secuencia_bandas` | `test_m3_sin_orden_ignora_el_orden_de_las_bandas` |
-| Cota del control | (5.16) | — | — | Sin prueba automática; comprobada por enumeración (sección 5.8.3) |
+| Cota del control | (5.16) | `distancias_por_bloque` | `secuencia_bandas` | `test_el_control_sin_orden_acota_inferiormente_la_distancia_con_orden` (enumeración exhaustiva) |
 | Distancias por bloque | Sec. 5.8.4 | `nominal`, `distancias_por_bloque` | Atributos de la tabla de 5.8 | Las de $D$ |
 | Disimilitud, cobertura y contribuciones | (5.17)–(5.19) | `comparar` | `[m3.pesos]` de `config/modelos.toml` | `test_disimilitud_mixta_…`; `test_la_suma_de_contribuciones_…` |
 | Normalización por consulta | (5.20) | `normalizar` | — | `tests/test_m4.py` |

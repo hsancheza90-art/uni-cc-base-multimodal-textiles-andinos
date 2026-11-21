@@ -93,4 +93,5 @@ Las pruebas de `tests/test_sistemas.py` verifican:
 - la simetría y la invariancia a la reversión de la distancia entre palabras, con las lagunas enmascaradas;
 - que D es simétrica, nula consigo misma, acotada en [0, 1] y no definida cuando no hay bloques comunes;
 - que la suma de las contribuciones reconstruye D y que la intervención sobre un bloque coincide con la fórmula;
+- que la distancia del control sin orden nunca supera a la distancia entre palabras (proposición 5.6 del capítulo 5), por enumeración exhaustiva;
 - que M3-sin-orden no distingue el orden de las bandas y M3 sí.

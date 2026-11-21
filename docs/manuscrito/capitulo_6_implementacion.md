@@ -36,7 +36,7 @@ El código está escrito en Python, en módulos ejecutables que exponen una func
 | `metadata` | Construcción de las salidas de MET, auditorías y aplicación de la revisión manual de cada fuente |
 | `imagenes` | Descarga de copias de evaluación, medidas de imagen, calibración y aplicación del puntaje de aptitud |
 | `consolidado` | Esquema armonizado y construcción de los consolidados v1 y v2 |
-| `anotacion` | Corpus principal v2, núcleo de anotación, libros de anotación, validación, acuerdo intra-anotador, revisión de criterios y congelación |
+| `anotacion` | Corpus principal v2, núcleo de anotación, libros de anotación, validación, acuerdo intra-anotador, revisión de criterios, condiciones de buena formación y congelación |
 | `grupos` | Candidatos a duplicado y grupos de piezas relacionadas |
 | `modelos` | Sistemas M0 a M4 y lectura de los vectores del codificador visual |
 | `experimento` | Particiones, consultas, rankings, pool de juicios, selección de pesos, efecto mínimo detectable, sensibilidad y métricas |
@@ -133,7 +133,7 @@ Los generadores de libros conservan lo ya escrito: al regenerar un libro para a�
 
 ## 6.9 Verificación
 
-La batería de pruebas reúne 460 casos en 19 archivos. Se agrupan en cinco clases.
+La batería de pruebas reúne 470 casos en 20 archivos. Se agrupan en cinco clases.
 
 **Cuadro 6.5.** Pruebas automáticas por clase.
 
@@ -141,11 +141,11 @@ La batería de pruebas reúne 460 casos en 19 archivos. Se agrupan en cinco clas
 |---|---|---:|
 | Regeneración | Que cada salida versionada se regenera idéntica, con finales LF, y que los conteos coinciden con la configuración; que una revisión con errores termina con código 1 sin reemplazar salidas; que los generadores no sobrescriben decisiones | 120 |
 | Curación, aptitud y consolidados | Filtros de evidencia textil y andina, reglas y calibración del puntaje, esquema y construcción de los consolidados, colectores | 144 |
-| Anotación | Validación de la anotación v1 y v2, estados de observación, revisión de criterios, congelación y grupos | 78 |
-| Sistemas | Propiedades del descriptor y de la fusión: invariancia de la forma canónica, conteo de órbitas, simetría y cotas de la disimilitud, contraejemplos de la desigualdad triangular, descomposición exacta, intervención, renormalización, posiciones recíprocas | 86 |
+| Anotación | Validación de la anotación v1 y v2, estados de observación, condiciones de buena formación, revisión de criterios, congelación y grupos | 87 |
+| Sistemas | Propiedades del descriptor y de la fusión: invariancia de la forma canónica, conteo de órbitas, simetría y cotas de la disimilitud, cota del control sin orden, contraejemplos de la desigualdad triangular, descomposición exacta, intervención, renormalización, posiciones recíprocas | 87 |
 | Experimento y evaluación | Particiones y consultas sin fugas, coherencia del protocolo con la configuración, métricas con ejemplos calculados a mano, pruebas estadísticas, selección de pesos, efecto mínimo detectable y sensibilidad | 32 |
 
-Las pruebas de propiedades de M3 y M4 cumplen una función adicional: fijan los enunciados **[P]** del capítulo 5 y los contraejemplos de la proposición 5.8, de modo que una afirmación contraria no puede introducirse en el código sin que una prueba falle. Dos enunciados no tienen prueba automática: la cota del control sin orden (proposición 5.6), comprobada por enumeración, y las condiciones de buena formación B3 a B7 de la anotación (capítulo 5, sección 5.4.1), verificadas al congelar la anotación pero no convertidas en reglas de validación.
+Las pruebas de propiedades de M3 y M4 cumplen una función adicional: fijan los enunciados **[P]** del capítulo 5 y los contraejemplos de la proposición 5.8, de modo que una afirmación contraria no puede introducirse en el código sin que una prueba falle. La cota del control sin orden (proposición 5.6) se comprueba por enumeración exhaustiva de 132 496 pares de palabras. Las condiciones de buena formación B3 a B7 de la anotación (capítulo 5, sección 5.4.1) son reglas que la congelación y el flujo aplican sobre la anotación final.
 
 Antes de cada entrega se ejecuta una verificación en una copia limpia del repositorio: se clona, se instalan las dependencias fijadas, se ejecutan el flujo y las pruebas, y se comprueba que el árbol de trabajo queda sin cambios. Esa verificación detectó, por ejemplo, un informe que había quedado desactualizado tras incorporar juicios nuevos.
 
@@ -163,7 +163,6 @@ A la fecha de este borrador, la implementación cubre todo lo necesario hasta el
 2. La **comprobación previa** de las condiciones de suspensión del capítulo 7 (sección 7.12).
 3. La **generación del pool y del libro de juicios de prueba**, con la misma estructura ciega que los de desarrollo.
 4. El **cálculo final** de H1, H2 (con su análisis secundario) y H3, de las ablaciones, del control negativo y de los análisis por museo, a partir de los juicios de prueba.
-5. La **prueba automática de la proposición 5.6** y las **reglas de validación B3 a B7**.
 
 El objetivo es que el día en que se abra la prueba no haya que escribir código nuevo: el test se ejecuta con un solo comando, sobre un código ya verificado, cuando ya no puede corregirse nada.
 

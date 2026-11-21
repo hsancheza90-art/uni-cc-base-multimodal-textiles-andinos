@@ -50,6 +50,18 @@ Generado por `python -m src.anotacion.congelacion_v21`, paso del flujo. Parametr
 | no_observable | 11 |
 | vertical | 21 |
 
+## Condiciones de buena formacion B3 a B7
+
+Capitulo 5, seccion 5.4.1 (`src/anotacion/buena_formacion.py`). Una copia que incumpla alguna detiene el flujo.
+
+| Condicion | Enunciado | Piezas que la incumplen | id_global |
+|---|---|---|---|
+| B3 | si eje_bandas y secuencia_bandas son estados, son el mismo | 0 | — |
+| B4 | una palabra de bandas no esta formada solo por lagunas | 0 | — |
+| B5 | una palabra de bandas no tiene dos lagunas contiguas | 0 | — |
+| B6 | si composicion es bandas, secuencia_bandas no es ausente | 0 | — |
+| B7 | motivos es ausente si y solo si familia_iconografica lo es | 0 | — |
+
 ## Sumas SHA-256 registradas al congelar
 
 ```

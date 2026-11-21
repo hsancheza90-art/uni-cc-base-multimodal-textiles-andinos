@@ -40,6 +40,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 | R28 | 2026-11-21 | Pesos de M4 elegidos una sola vez (1/7, 4/7, 2/7); M4 y M4-RRF en los rankings de desarrollo | Decidida |
 | R29 | 2026-11-21 | Efecto mínimo detectable fijado antes del test: H1 0,087; H2 0,026 | Decidida |
 | R30 | 2026-11-21 | El test espera la aprobación del asesor; se corrigen las cifras de R21; M0, M1 y M3 quedan con sus parámetros de partida | Decidida |
+| R31 | 2026-11-21 | Las condiciones B3 a B7 pasan a ser reglas de la congelación y del flujo; la proposición 5.6 se fija en una prueba automática | Decidida |
 
 ## R01. Prueba inferencial de H1 y H2
 
@@ -299,3 +300,10 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Corrección de R21.** R21 dice que «las 66 confirmaciones coinciden con la propuesta automática» y que «las 42 correcciones la modifican». El informe generado `outputs/reports/anotacion_v2_revision_criterios.md` da otra cifra: 58 de las 108 decisiones coinciden con la propuesta y 50 la modifican. La diferencia está en las ocho anotaciones desplazadas (R20 y R22): se confirmaron, pero su propuesta indicaba que la imagen no correspondía al registro. Valen las cifras del informe, que son las que usan los capítulos 4 y 5 del manuscrito.
 - **Parámetros de M0, M1 y M3.** Quedan fijos en sus valores de partida: k₁ = 1,2 y b = 0,75 en M0, pesos iguales de color y textura en M1 y pesos de bloque iguales a 1 en M3. No se ajustaron mientras el asesor no se pronunciara sobre R17 (R24). Después de R28, ajustar M3 cambiaría los candidatos de M4 y obligaría a repetir la selección de pesos, que se hizo una sola vez para evitar un ciclo. El único ajuste con datos de desarrollo es el de los pesos de M4.
 - **Archivos.** `docs/protocolo_experimental_v2.md` (versión 0.6.4, secciones 4 y 9), `docs/manuscrito/capitulo_7_diseno_experimental.md` (secciones 7.4 y 7.12). Ningún dato cambia.
+
+## R31. Condiciones de buena formación y cota del control en pruebas automáticas
+
+- **Decisión.** Las condiciones de buena formación B3 a B7 de la anotación (capítulo 5, sección 5.4.1) dejan de ser una verificación manual hecha al congelar y pasan a ser reglas: la congelación se niega a escribir una copia que las incumpla, y el paso del flujo que comprueba la copia congelada termina con código 1 si la copia las incumple. La proposición 5.6 (la distancia del control sin orden no supera a la distancia entre palabras) queda fijada en una prueba automática por enumeración exhaustiva (132 496 pares).
+- **Por qué sobre la anotación final y no sobre los libros.** La primera anotación de los lotes 2 a 5 podía incumplirlas antes de las correcciones de la revisión de criterios. Convertirlas en errores de los libros detendría el flujo por filas ya corregidas.
+- **Resultado.** La anotación congelada v2.1 cumple las cinco condiciones (0 piezas las incumplen) y la proposición 5.6 no tiene violaciones. Ningún valor de la anotación cambia.
+- **Archivos.** `src/anotacion/buena_formacion.py`, `src/anotacion/congelacion_v21.py`, `outputs/reports/anotacion_v2_1_congelada.md`, `tests/test_buena_formacion.py`, `tests/test_sistemas.py`, `docs/manuscrito/capitulo_5_metodo_formal.md`, `docs/manuscrito/capitulo_6_implementacion.md`, `docs/especificacion_m3.md`.
