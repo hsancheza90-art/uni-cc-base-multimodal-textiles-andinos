@@ -125,13 +125,15 @@ consultas_t3 = { ruta = "data/metadata/consultas_t3_v2.csv", filas = 40 }
 # 2026-11-06: rankings de desarrollo de M0, M1 y M2 (src/experimento/rankings.py): 10 consultas x 3 sistemas x 149
 # candidatos (la galeria sin el grupo de la consulta). Las consultas de prueba no se ejecutan hasta congelar.
 # 2026-11-17 (decision R24): se agregan M3 y M3-sin-orden sobre la anotacion v2.1 congelada: 10 x 5 x 149 = 7450.
-rankings_desarrollo = { ruta = "data/processed/experimento_v2_rankings_desarrollo.csv", filas = 7450 }
+# 2026-11-21 (decision R28): se agregan M4 (pesos fijados en [m4.pesos]) y M4-RRF: 10 x 7 x 149 = 10430.
+rankings_desarrollo = { ruta = "data/processed/experimento_v2_rankings_desarrollo.csv", filas = 10430 }
 # 2026-11-06: pool de desarrollo (src/experimento/juicios.py): los 10 primeros de M0, M1 y M2 sin repetir y 10 al azar
 # por consulta; los juicios exportados tienen una fila por par del pool, juzgado o no. Crece al agregar M3 y M4.
 # 2026-11-17 (decision R24): +66 pares propuestos por M3 o M3-sin-orden (345 -> 411); la muestra al azar y los
 # 345 pares ya juzgados no cambian.
-pool_desarrollo = { ruta = "data/processed/experimento_v2_pool_desarrollo.csv", filas = 411 }
-juicios_desarrollo = { ruta = "data/metadata/juicios_desarrollo_v2.csv", filas = 411 }
+# 2026-11-21 (decision R28): +8 pares propuestos por M4 o M4-RRF (411 -> 419); la muestra al azar no cambia.
+pool_desarrollo = { ruta = "data/processed/experimento_v2_pool_desarrollo.csv", filas = 419 }
+juicios_desarrollo = { ruta = "data/metadata/juicios_desarrollo_v2.csv", filas = 419 }
 # 2026-11-06: consultas T1 del evaluador (src/experimento/consultas_t1.py): una fila por consulta, redactada o no.
 consultas_t1 = { ruta = "data/metadata/consultas_t1_v2.csv", filas = 6 }
 

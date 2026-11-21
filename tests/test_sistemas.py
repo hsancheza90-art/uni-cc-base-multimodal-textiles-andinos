@@ -186,8 +186,22 @@ def test_rankings_solo_de_desarrollo_sin_el_grupo_de_la_consulta_y_ordenados() -
     por_ranking: dict[tuple[str, str], list[dict[str, str]]] = {}
     for f in filas:
         por_ranking.setdefault((f["sistema"], f["consulta"]), []).append(f)
-    assert Counter(s for s, _ in por_ranking) == {s: 10 for s in rankings.SISTEMAS}
+    assert Counter(s for s, _ in por_ranking) == {s: 10 for s in rankings.SISTEMAS + rankings.FUSIONES}
     for lista in por_ranking.values():
         assert [int(f["rango"]) for f in lista] == list(range(1, len(lista) + 1))
-        puntajes = [float(f["score"]) for f in lista]
+        puntajes = [float(f["score"]) for f in lista if f["score"] != ""]
         assert puntajes == sorted(puntajes, reverse=True)
+
+
+@requiere_snapshot
+def test_m4_se_reproduce_desde_los_scores_versionados_y_los_pesos_fijados() -> None:
+    from src.experimento import pesos_m4
+    from src.utils.config import leer_config_modelos
+
+    pesos = {c: float(p) for c, p in leer_config_modelos(RAIZ_REPO)["m4"]["pesos"].items()}
+    scores = pesos_m4.leer_scores(RAIZ_REPO)
+    filas = leer_csv(RAIZ_REPO / rankings.SALIDA_RANKINGS)
+    for consulta, por_componente in scores.items():
+        versionado = [f["id_global"] for f in sorted((f for f in filas if f["sistema"] == "M4" and f["consulta"] == consulta),
+                                                     key=lambda f: int(f["rango"]))]
+        assert pesos_m4.ranking_m4(por_componente, pesos) == versionado

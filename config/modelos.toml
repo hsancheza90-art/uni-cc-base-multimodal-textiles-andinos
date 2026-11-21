@@ -75,3 +75,18 @@ simetria = 1.0
 repeticion = 1.0
 motivos = 1.0
 familia_iconografica = 1.0
+
+[m4]
+# M4: fusion tardia de M0, M2 y M3 (protocolo, seccion 4; src/modelos/m4_fusion.py). Rejilla de pesos
+# del protocolo; la combinacion se elige por el nDCG@10 medio en desarrollo (src/experimento/pesos_m4.py).
+rejilla = [0.0, 0.25, 0.5, 0.75, 1.0]
+# Variante por posiciones reciprocas (decision R03): sin pesos, k fijo de Cormack et al. (2009).
+k_rrf = 60
+
+[m4.pesos]
+# 2026-11-21 (decision R28): elegidos una sola vez por la regla del protocolo con los 411 juicios de
+# desarrollo vigentes (combinacion (0,25; 1; 0,5) normalizada: 1/7, 4/7 y 2/7). Fijos: los juicios
+# posteriores de los candidatos de M4 sirven para estimar la potencia, no para volver a elegirlos.
+M0 = 0.14285714285714285
+M2 = 0.5714285714285714
+M3 = 0.2857142857142857

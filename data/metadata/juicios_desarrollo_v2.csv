@@ -19,6 +19,7 @@ T3-D01,AIC:85276,2,"Campo liso entre dos bandas labradas, una banda de más",Hen
 T3-D01,CMA:104242,1,Solo una banda geométrica con orilla lisa y flecos,Henry Sanchez,2026-11-19
 T3-D01,AIC:85039,1,"Banda angosta con paneles alternados, sin campo liso",Henry Sanchez,2026-11-19
 T3-D01,CMA:134604,1,"Mitad superior ajedrezada y franjas lisas abajo, orden distinto",Henry Sanchez,2026-11-19
+T3-D01,AIC:85335,1,,Henry Sanchez,2026-11-21
 T3-D01,AIC:85269,1,Campo con motivos repetidos y una orilla al pie con flecos,Henry Sanchez,2026-11-19
 T3-D01,MET:312669,1,"Paño pintado en bandas figurativas, sin campo liso",Henry Sanchez,2026-11-19
 T3-D01,CMA:119676,2,"Campo liso grande con borde decorado en todo el contorno, no solo abajo",Henry Sanchez,2026-11-19
@@ -73,6 +74,7 @@ T3-D02,AIC:152935,1,"Aves grandes aisladas sobre fondo liso, en una sola hilera"
 T3-D02,AIC:85310,0,Tela lisa con banda figurativa al pie,Henry Sanchez,2026-11-19
 T3-D02,CMA:159633,1,"Banda larga con figuras entrelazadas, posiblemente parecidas",Henry Sanchez,2026-11-19
 T3-D02,MET:307853,1,"Fragmento de una figura grande, posiblemente sobre fondo liso",Henry Sanchez,2026-11-19
+T3-D02,MET:308017,2,"Fragmento de una figura grande, con fondo rojo y tematica geometrica",Henry Sanchez,2026-11-21
 T3-D02,AIC:85126,0,"Banda con paneles alternados, sin figura grande sobre fondo",Henry Sanchez,2026-11-19
 T3-D02,MET:308120,1,Túnica en retícula de cuadros pequeños,Henry Sanchez,2026-11-19
 T3-D02,AIC:68598,0,Columna central labrada entre franjas lisas,Henry Sanchez,2026-11-19
@@ -84,6 +86,8 @@ T3-D02,AIC:152929,0,Bandas horizontales con figuras chicas y franjas,Henry Sanch
 T3-D02,MET:307962,0,Bandas arriba y paneles con estrellas en damero,Henry Sanchez,2026-11-19
 T3-D02,CMA:134765,3,"Una figura grande escalonada sobre fondo liso, igual que la consulta",Henry Sanchez,2026-11-19
 T3-D02,AIC:85134,1,"Banda con motivos escalonados entrelazados, sin fondo liso",Henry Sanchez,2026-11-19
+T3-D03,AIC:85310,1,fragmento textil con motivos zoomorfos con franjas horizontales,Henry Sanchez,2026-11-21
+T3-D03,MET:308068,1,fragmento textil con fondo rojo y figuras geometricas,Henry Sanchez,2026-11-21
 T3-D03,MET:316975,0,"Gorro de cuatro puntas con figuras por cara, otra organización",Henry Sanchez,2026-11-19
 T3-D03,AIC:9386,2,"Figuras apiladas en cartuchos a lo largo de una tira, sin bandas lisas entre ellas",Henry Sanchez,2026-11-19
 T3-D03,CMA:134765,0,Fragmento con una sola figura aislada sobre fondo liso,Henry Sanchez,2026-11-19
@@ -161,6 +165,7 @@ T3-D04,AIC:2067,0,Acercamiento de un detalle que no deja ver la organización de
 T3-D04,AIC:5066,1,Figura grande central con una banda de motivos al pie,Henry Sanchez,2026-11-19
 T3-D04,CMA:165184,0,Franjas verticales decoradas alternadas con franjas lisas,Henry Sanchez,2026-11-19
 T3-D04,AIC:181388,2,"Campo de figuras en paneles con bandas figurativas al pie, solo en un extremo",Henry Sanchez,2026-11-19
+T3-D04,AIC:158409,1,manto textil con franja en la parte inferior y tematica geometrica,Henry Sanchez,2026-11-21
 T3-D04,AIC:85552,1,Centro liso con paneles geométricos en los extremos y flecos,Henry Sanchez,2026-11-19
 T3-D04,AIC:22338,2,Figura central grande con aves a los lados y orla perimetral,Henry Sanchez,2026-11-19
 T3-D05,AIC:85278,0,Retícula de cuadros con figuras,Henry Sanchez,2026-11-19
@@ -171,6 +176,7 @@ T3-D05,CMA:134604,0,"Campo en retícula de cuadros sobre franjas lisas, distinto
 T3-D05,AIC:85639,0,"Bolsa con cuadros y panel de animales, otra organización",Henry Sanchez,2026-11-19
 T3-D05,MET:307953,1,"Tiras sueltas de banda figurativa, sin campo liso",Henry Sanchez,2026-11-19
 T3-D05,AIC:6114,0,Paneles cuadrados con figura y motivos sueltos alrededor,Henry Sanchez,2026-11-19
+T3-D05,AIC:85370,1,,Henry Sanchez,2026-11-21
 T3-D05,AIC:85269,1,Solo el sector escalonado con motivos en diagonal y flecos,Henry Sanchez,2026-11-19
 T3-D05,CMA:104249,1,"Banda geométrica diagonal con flecos, sin campo liso",Henry Sanchez,2026-11-19
 T3-D05,AIC:223217,0,"Campo entero cubierto de figuras repetidas, sin bandas",Henry Sanchez,2026-11-19
@@ -187,6 +193,7 @@ T3-D05,AIC:237551,1,"Campo figurativo pintado con cenefas, comparte solo el bord
 T3-D05,CMA:104245,1,Una banda geométrica diagonal con orlas y flecos,Henry Sanchez,2026-11-19
 T3-D05,CMA:119676,2,Campo liso con bandas figurativas en los extremos,Henry Sanchez,2026-11-19
 T3-D05,MET:308024,1,Bolsa con hileras de motivos y flecos largos,Henry Sanchez,2026-11-19
+T3-D05,AIC:85552,1,,Henry Sanchez,2026-11-21
 T3-D05,AIC:85126,1,Banda con paneles figurativos y orlas,Henry Sanchez,2026-11-19
 T3-D05,CMA:165184,0,"Franjas verticales alternas, otra composición",Henry Sanchez,2026-11-19
 T3-D05,MET:751900,0,"Túnica ajedrezada con yugo liso escalonado, distinta",Henry Sanchez,2026-11-19
@@ -325,6 +332,7 @@ T3-D08,AIC:85375,0,"Campo cubierto de figuras, sin retícula ni borde",Henry San
 T3-D08,AIC:85443,1,Dos regiones apiladas con borde lateral angosto,Henry Sanchez,2026-11-19
 T3-D08,AIC:85497,0,Panel con una sola figura grande,Henry Sanchez,2026-11-19
 T3-D08,MET:308026,1,"Campo de motivos con fleco largo debajo, sin retícula",Henry Sanchez,2026-11-19
+T3-D08,AIC:85370,1,,Henry Sanchez,2026-11-21
 T3-D08,AIC:3016,0,Hilera de paneles figurativos yuxtapuestos,Henry Sanchez,2026-11-19
 T3-D08,MET:308076,0,Fragmento figurativo sin retícula ni borde,Henry Sanchez,2026-11-19
 T3-D08,AIC:158409,1,Solo una banda decorada al pie de un campo liso,Henry Sanchez,2026-11-19

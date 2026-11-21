@@ -99,6 +99,7 @@ REPORTES = [
     "outputs/reports/experimento_v2_rankings_desarrollo.md",
     "outputs/reports/experimento_v2_juicios_desarrollo.md",
     "outputs/reports/experimento_v2_sensibilidad_anotacion.md",
+    "outputs/reports/experimento_v2_pesos_m4.md",
     "outputs/reports/experimento_v2_consultas_t1.md",
 ]
 

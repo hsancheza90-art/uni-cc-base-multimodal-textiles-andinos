@@ -35,7 +35,7 @@ import numpy as np
 from src.anotacion import congelacion_v21
 from src.anotacion.corpus_v2 import SALIDA_PRINCIPAL_V2
 from src.experimento.snapshot import SALIDA_CONSULTAS, SALIDA_PARTICIONES
-from src.modelos import m0_texto, m1_vision, m3_estructura
+from src.modelos import m0_texto, m1_vision, m3_estructura, m4_fusion
 from src.modelos.embeddings import leer_embeddings
 from src.utils.archivos import escribir_csv, escribir_texto, indexar, leer_csv
 from src.utils.config import CONFIG_MODELOS, leer_config_modelos
@@ -45,6 +45,7 @@ SALIDA_RANKINGS = "data/processed/experimento_v2_rankings_desarrollo.csv"
 REPORTE_RANKINGS = "outputs/reports/experimento_v2_rankings_desarrollo.md"
 COLUMNAS = ["sistema", "consulta", "rango", "id_global", "score"]
 SISTEMAS = ("M0", "M1", "M2", "M3", "M3-sin-orden")
+FUSIONES = ("M4", "M4-RRF")  # solo si [m4.pesos] está fijado (decisión R28)
 
 
 def ordenar(puntajes: dict[str, float | None]) -> list[tuple[str, float | None]]:
@@ -95,14 +96,26 @@ def construir(raiz: Path) -> int:
     grupo = {f["id_global"]: f["grupo"] for f in particiones}
     consultas = [c for c in leer_csv(raiz / SALIDA_CONSULTAS) if c["particion"] == "desarrollo"]
     funciones, terminos = puntuadores(raiz, galeria)
+    config_m4 = leer_config_modelos(raiz).get("m4", {})
+    pesos_m4 = {c: float(p) for c, p in config_m4.get("pesos", {}).items()}
+    sistemas = SISTEMAS + (FUSIONES if pesos_m4 else ())
 
     filas, sin_texto, puntaje_cero, sin_evidencia = [], 0, Counter(), Counter()
     for consulta in consultas:
         q = consulta["id_global"]
         candidatos = [c for c in galeria if grupo[c] != grupo[q]]
         sin_texto += not terminos[q]
-        for sistema in SISTEMAS:
-            puntajes = {c: funciones[sistema](q, c) for c in candidatos}
+        por_sistema = {s: {c: funciones[s](q, c) for c in candidatos} for s in SISTEMAS}
+        if pesos_m4:
+            # Los componentes se redondean como se versionan, para que M4 se reproduzca desde el CSV.
+            redondeados = {c: {i: None if v is None else round(v, 6) for i, v in por_sistema[c].items()}
+                           for c in m4_fusion.COMPONENTES}
+            fusion = m4_fusion.fusionar(redondeados, pesos_m4)
+            por_sistema["M4"] = {i: f.score for i, f in fusion.items()}
+            rankings_componentes = {c: [i for i, _ in ordenar(redondeados[c])] for c in m4_fusion.COMPONENTES}
+            por_sistema["M4-RRF"] = m4_fusion.posiciones_reciprocas(rankings_componentes, int(config_m4["k_rrf"]))
+        for sistema in sistemas:
+            puntajes = por_sistema[sistema]
             puntaje_cero[sistema] += sum(1 for p in puntajes.values() if p == 0)
             sin_evidencia[sistema] += sum(1 for p in puntajes.values() if p is None)
             for rango, (id_global, score) in enumerate(ordenar(puntajes), start=1):
@@ -111,9 +124,9 @@ def construir(raiz: Path) -> int:
 
     escribir_csv(raiz / SALIDA_RANKINGS, COLUMNAS, filas)
     candidatos_por_consulta = Counter((f["sistema"], f["consulta"]) for f in filas)
-    pares = len(consultas) * len(SISTEMAS)
+    pares = len(consultas) * len(sistemas)
     escribir_texto(raiz / REPORTE_RANKINGS, [
-        "# Rankings de desarrollo T3 (M0, M1, M2, M3 y M3-sin-orden)",
+        "# Rankings de desarrollo T3 (" + ", ".join(sistemas) + ")",
         "",
         "Generado por `python -m src.experimento.rankings` (`src/experimento/rankings.py`), paso del flujo. Parametros "
         f"en `{CONFIG_MODELOS.as_posix()}`. Solo consultas de desarrollo: las de prueba se ejecutan una vez, con los "
@@ -124,15 +137,17 @@ def construir(raiz: Path) -> int:
         "(sin el grupo de la consulta).",
         f"- Consultas sin texto de ficha para M0: {sin_texto}.",
         "",
-    ] + tabla([[s, str(len(consultas)), str(puntaje_cero[s]), str(sin_evidencia[s])] for s in SISTEMAS],
+    ] + tabla([[s, str(len(consultas)), str(puntaje_cero[s]), str(sin_evidencia[s])] for s in sistemas],
               ["Sistema", "Consultas", "Pares con score 0", "Pares sin evidencia estructural"]) + [
         "",
         f"Total: {len(filas)} filas ({pares} rankings completos). En M0, un score 0 indica que el candidato no comparte "
         "ningun termino con la consulta: esos candidatos quedan al final, por id. M3 y M3-sin-orden se calculan sobre "
         "la anotacion v2.1 congelada con los pesos iniciales de `[m3.pesos]`; un par sin ningun bloque observable en las "
-        "dos piezas no tiene score y va al final, por id.",
+        "dos piezas no tiene score y va al final, por id."
+        + (" M4 fusiona M0, M2 y M3 con los pesos fijados en `[m4.pesos]` (decision R28); M4-RRF suma 1 / (k + posicion) "
+           "sobre los rankings de M0, M2 y M3, sin pesos." if pesos_m4 else ""),
     ])
-    print(f"Rankings de desarrollo: {len(consultas)} consultas x {len(SISTEMAS)} sistemas -> {SALIDA_RANKINGS}")
+    print(f"Rankings de desarrollo: {len(consultas)} consultas x {len(sistemas)} sistemas -> {SALIDA_RANKINGS}")
     return 0
 
 
