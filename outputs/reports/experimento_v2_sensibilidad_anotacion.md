@@ -26,14 +26,14 @@ Generado por `python -m src.experimento.sensibilidad_anotacion` (`src/experiment
 |---|---|---|---|---|---|---|---|
 | T3-D01 | M3 | no | 4 | 0.766 | 0.424 | 0.470 | 0.50 |
 | T3-D01 | M3-sin-orden | no | 4 | 0.766 | 0.424 | 0.470 | 0.50 |
-| T3-D02 | M3 | no | 6 | 0.833 | 0.118 | 0.149 | 0.70 |
-| T3-D02 | M3-sin-orden | no | 6 | 0.833 | 0.118 | 0.149 | 0.70 |
-| T3-D03 | M3 | no | 9 | 0.864 | 0.535 | 0.555 | 0.90 |
-| T3-D03 | M3-sin-orden | no | 9 | 0.864 | 0.535 | 0.555 | 0.90 |
+| T3-D02 | M3 | no | 6 | 0.833 | 0.113 | 0.142 | 0.70 |
+| T3-D02 | M3-sin-orden | no | 6 | 0.833 | 0.113 | 0.142 | 0.70 |
+| T3-D03 | M3 | no | 9 | 0.864 | 0.555 | 0.555 | 1.00 |
+| T3-D03 | M3-sin-orden | no | 9 | 0.864 | 0.555 | 0.555 | 1.00 |
 | T3-D04 | M3 | si | 4 | 0.562 | 0.536 | 0.555 | 0.70 |
 | T3-D04 | M3-sin-orden | si | 3 | 0.550 | 0.583 | 0.555 | 0.70 |
-| T3-D05 | M3 | no | 5 | 0.716 | 0.394 | 0.610 | 0.70 |
-| T3-D05 | M3-sin-orden | no | 5 | 0.716 | 0.394 | 0.610 | 0.70 |
+| T3-D05 | M3 | no | 5 | 0.716 | 0.428 | 0.610 | 0.80 |
+| T3-D05 | M3-sin-orden | no | 5 | 0.716 | 0.428 | 0.610 | 0.80 |
 | T3-D06 | M3 | si | 5 | 0.735 | 0.231 | 0.655 | 0.50 |
 | T3-D06 | M3-sin-orden | si | 4 | 0.748 | 0.193 | 0.805 | 0.50 |
 | T3-D07 | M3 | no | 5 | 0.799 | 0.066 | 0.044 | 0.70 |
@@ -49,8 +49,8 @@ Generado por `python -m src.experimento.sensibilidad_anotacion` (`src/experiment
 
 | Sistema | nDCG@10 medio, previa | nDCG@10 medio, v2.1 |
 |---|---|---|
-| M3 | 0.367 | 0.431 |
-| M3-sin-orden | 0.354 | 0.441 |
+| M3 | 0.372 | 0.431 |
+| M3-sin-orden | 0.359 | 0.441 |
 
 - Diferencia M3 - M3-sin-orden (control de H2), media por consulta: previa 0.013 (3 de 10 consultas distintas de cero); v2.1 -0.010 (2 de 10).
 
