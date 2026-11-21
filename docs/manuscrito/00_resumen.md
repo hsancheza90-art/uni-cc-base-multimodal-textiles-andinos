@@ -1,0 +1,11 @@
+# Resumen
+
+> **Borrador 0.1, 21 de noviembre de 2026.** Se completará con los resultados de la prueba. Extensión objetivo: 250 a 300 palabras.
+
+Buena parte del diseño textil andino prehispánico se organiza en bandas, paneles, retículas y campos que se ordenan sobre la superficie, y esa organización es un criterio habitual para comparar piezas. Las colecciones digitales de los museos no la registran: ofrecen fichas heterogéneas e imágenes que los modelos visión-lenguaje representan de forma general. Esta tesis pregunta si una representación explícita de la organización visible añade utilidad a la recuperación de textiles frente a las señales textuales y visuales generales, y si su aporte puede explicarse de forma fiel.
+
+Se construyó un corpus multimodal de 615 registros de tres museos con imágenes de dominio público (Metropolitan Museum of Art, Cleveland Museum of Art y Art Institute of Chicago), curado con un criterio de aptitud verificable y organizado en grupos de piezas relacionadas. Sobre un núcleo de 150 piezas se anotó la macroestructura observable, distinguiendo lo ausente de lo no observable, y se midió la estabilidad de la anotación. La secuencia de bandas se formalizó como una palabra sobre un alfabeto finito, considerada igual a su reverso, y se definió un descriptor estructural con una disimilitud de propiedades demostradas y un control que conserva los tipos de banda y descarta su orden. El descriptor se combinó con una búsqueda léxica y con OpenCLIP congelado mediante una fusión aditiva cuya puntuación se descompone exactamente en contribuciones. La evaluación siguió un protocolo fijado de antemano: 30 consultas de prueba sorteadas, juicios humanos graduados y ciegos, prueba de permutación pareada y una única ejecución.
+
+[Pendiente: resultados de H1, H2 y H3 y su lectura a la luz del efecto mínimo detectable.]
+
+**Palabras clave:** textiles andinos; recuperación de información multimodal; descriptor estructural; palabras sobre un alfabeto finito; fusión tardía; interpretabilidad; patrimonio cultural digital.

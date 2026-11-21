@@ -426,7 +426,7 @@ Con una galería de unos cientos de piezas y palabras de pocas decenas de símbo
 Las ecuaciones 5.69–5.71 del primer avance enunciaban como relaciones matemáticas lo que son afirmaciones empíricas (por ejemplo, que la similitud híbrida «mejora» a la multimodal). Se sustituyen por las tres hipótesis del protocolo experimental, formuladas sobre resultados observables **[E]**:
 
 - **H1 (primaria).** La diferencia media por consulta de nDCG@10 entre M4 y M2 en la tarea T3 es positiva e igual o superior a 0,03.
-- **H2 (mecanismo).** M3 obtiene mejor nDCG@10 que M3-sin-orden, con las mismas consultas, candidatos y pesos.
+- **H2 (mecanismo).** M3 obtiene mejor nDCG@10 que M3-sin-orden, con las mismas consultas, candidatos y pesos; se informa además la comparación restringida a las consultas con palabra de bandas.
 - **H3 (fidelidad).** En todos los resultados de prueba, la puntuación de M4 coincide con la suma de sus contribuciones y responde a la retirada de un componente como predice (5.21).
 
 Lo que este capítulo aporta a cada una:
@@ -437,7 +437,7 @@ Lo que este capítulo aporta a cada una:
 | H2 | Que M3 refina a su control y que la única diferencia entre ambos es el orden (5.6, definición 5.15) | Que ese refinamiento mejora la recuperación |
 | H3 | Que la descomposición y la intervención son identidades de la fórmula (5.7, 5.9) | Que la implementación las cumple en todos los resultados de prueba |
 
-**Un dato previo al experimento [E].** El margen que tiene H2 en este corpus puede medirse sin ningún juicio de relevancia. En la anotación v2.1, solo 53 de las 150 piezas del núcleo tienen palabra de bandas, y el orden solo puede pesar cuando la consulta y el candidato la tienen. Entre esas 53 piezas hay 1378 pares. En 41 de ellos el control sin orden ve el mismo histograma normalizado de tipos, y en 25 de esos 41 la forma canónica difiere: son los únicos pares en que, en el bloque de bandas, el control da distancia cero y M3 no. Contando bandas en lugar de proporciones, solo 3 pares comparten inventario y difieren en el orden. En el resto de los pares, M3 y su control pueden diferir en grado, porque $d_t \le d_w$ (proposición 5.6), pero rara vez en el orden relativo de los candidatos. Así ocurrió en desarrollo: con los pesos iniciales, M3 y M3-sin-orden produjeron el mismo ranking completo en 8 de las 10 consultas. Si la proporción se repite en prueba, la diferencia pareada de H2 será cero en la mayoría de las consultas y el veredicto más probable será «evidencia insuficiente» por construcción del corpus, no por la calidad del descriptor. El alcance de H2 frente a esta limitación es una decisión pendiente, que debe tomarse antes de abrir el test y sin ver ningún resultado de prueba (capítulo 7).
+**Un dato previo al experimento [E].** El margen que tiene H2 en este corpus puede medirse sin ningún juicio de relevancia. En la anotación v2.1, solo 53 de las 150 piezas del núcleo tienen palabra de bandas, y el orden solo puede pesar cuando la consulta y el candidato la tienen. Entre esas 53 piezas hay 1378 pares. En 41 de ellos el control sin orden ve el mismo histograma normalizado de tipos, y en 25 de esos 41 la forma canónica difiere: son los únicos pares en que, en el bloque de bandas, el control da distancia cero y M3 no. Contando bandas en lugar de proporciones, solo 3 pares comparten inventario y difieren en el orden. En el resto de los pares, M3 y su control pueden diferir en grado, porque $d_t \le d_w$ (proposición 5.6), pero rara vez en el orden relativo de los candidatos. Así ocurrió en desarrollo: con los pesos iniciales, M3 y M3-sin-orden produjeron el mismo ranking completo en 8 de las 10 consultas. Si la proporción se repite en prueba, la diferencia pareada de H2 será cero en la mayoría de las consultas y el veredicto más probable será «evidencia insuficiente» por construcción del corpus, no por la calidad del descriptor. El alcance de H2 se fijó antes de abrir el test y sin ver ningún resultado de prueba: la hipótesis se decide sobre las 30 consultas de prueba, y como análisis secundario se informa la misma comparación en las 9 consultas cuya pieza tiene palabra de bandas, las únicas en que la diferencia puede ser distinta de cero (capítulo 7, secciones 7.5 y 7.8).
 
 ## 5.14 Límites de la formalización
 
@@ -557,5 +557,7 @@ Yujian, L., & Bo, L. (2007). A normalized Levenshtein distance metric. *IEEE Tra
 **Obras mencionadas y no consultadas en el proyecto:**
 
 Cereceda, V. (1978). Sémiologie des tissus andins: les talegas d'Isluga. *Annales. Économies, Sociétés, Civilisations, 33*(5–6), 1017–1035.
+
+Paul, A. (1997). [verificar: título y sede del análisis de las secuencias de color en los bordados de Paracas Necrópolis citado en la sección 5.2; referencia incompleta]
 
 Paul, A. (1997). [verificar: título y sede; el registro localizado en tDAR se titula «Color patterns and aspects of significance in the Paracas Necropolis»].
