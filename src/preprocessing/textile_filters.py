@@ -176,9 +176,7 @@ NON_TEXTILE_TITLE_TERMS = [
 
 
 def get_tags_text(record: dict[str, Any]) -> str:
-    """
-    Convert The Met tag list into a single searchable string.
-    """
+    """Une las etiquetas (`tags`) de un registro con el formato de la API del MET en un solo texto buscable."""
     tags = record.get("tags") or []
 
     if not isinstance(tags, list):
@@ -193,12 +191,11 @@ def get_tags_text(record: dict[str, Any]) -> str:
 
 
 def evaluate_met_record(record: dict[str, Any]) -> dict[str, Any]:
-    """
-    Evaluate whether a The Met object is likely to be an Andean textile.
+    """Evalúa si un registro con el formato de la API del MET es probablemente un textil andino.
 
-    The logic is intentionally transparent and rule-based. This is useful
-    for academic traceability because each accepted or excluded record
-    receives a score and a reason.
+    La lógica se basa en reglas explícitas, para que cada registro aceptado o excluido reciba una
+    puntuación y un motivo trazables. El colector de AIC y la auditoría de filtros adaptan sus
+    registros a este formato para aplicar el mismo criterio.
     """
     title = record.get("title") or ""
     classification = record.get("classification") or ""

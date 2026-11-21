@@ -1,21 +1,29 @@
-"""Punto de entrada unico del flujo reproducible del corpus (MET, CMA y AIC).
+"""Punto de entrada único del flujo reproducible del corpus y del experimento de desarrollo.
 
-Uso desde la raiz del repositorio:
+Uso desde la raíz del repositorio:
 
     python -m src.flujo
     python -m src.flujo --root ruta/a/una/copia
 
-Ejecuta, sin acceso a red, los pasos que regeneran los CSV curados a partir de
-los insumos versionados (corpus MET v1, workbooks de revision manual de MET, CMA
-y AIC, medidas de imagen y manifiesto de imagenes), calibra y aplica el puntaje
-de aptitud, construye el consolidado MET+CMA v1 (congelado) y el corpus principal
-v2 (MET, CMA y AIC), valida y exporta la anotacion v2, mide su acuerdo y verifica los conteos
-esperados de config/corpus.toml.
+Ejecuta, sin acceso a red, 27 pasos que regeneran todos los archivos derivados a partir de
+los insumos versionados:
 
-Fuera del flujo quedan los pasos que necesitan red o imagenes locales: los
-colectores (src/collectors), la descarga de imagenes
-(python -m src.imagenes.descargar_imagenes y descargar_evaluacion) y las medidas
-(python -m src.imagenes.medidas). Sus salidas versionadas son insumos del flujo.
+- curación de MET, CMA y AIC desde sus libros de revisión manual;
+- calibración y aplicación del puntaje de aptitud;
+- serie del primer avance (consolidado MET+CMA v1, congelado);
+- corpus principal v2, núcleo de anotación, grupos de piezas relacionadas, consolidado v2 y
+  anotación v2, con la comprobación de la copia congelada v2.1;
+- experimento de desarrollo: comprobación de fugas, rankings, pool de juicios, pesos de M4,
+  efecto mínimo detectable, sensibilidad de la anotación y consultas T1;
+- acuerdo intra-anotador.
+
+Termina verificando los conteos esperados de config/corpus.toml. Ningún paso ejecuta un
+sistema sobre las consultas de prueba.
+
+Fuera del flujo quedan los pasos que necesitan red, imágenes locales o una decisión humana:
+los colectores (src/collectors), las descargas y las medidas de imagen (src/imagenes), los
+vectores de M1 y M2 (src/modelos) y los generadores de libros. Sus salidas versionadas son
+insumos del flujo.
 """
 
 from __future__ import annotations
@@ -60,7 +68,7 @@ PASOS: list[tuple[str, Callable[[list[str]], int]]] = [
     ("Aptitud: puntuar imagenes desde las medidas versionadas", aptitud.main),
     ("Aptitud: informe de calibracion", lambda argv: informe_aptitud.main([*argv, "--sin-galerias"])),
     ("Vocabulario: generar taxonomia de atributos", documentar_vocabulario.main),
-    ("Anotacion: validar workbook y exportar anotaciones", aplicar_anotaciones.main),
+    ("Anotacion v1: validar workbook y exportar anotaciones", aplicar_anotaciones.main),
     ("Consolidado MET+CMA v1: construir y validar", construir_consolidado.main),
     ("MET: comparar filtro textil vigente con el inventario", auditar_filtros.main),
     ("Principal v2: construir el corpus armonizado (MET, CMA y AIC)", corpus_v2.main),

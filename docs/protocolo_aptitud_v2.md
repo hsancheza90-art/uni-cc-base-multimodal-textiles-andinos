@@ -29,7 +29,7 @@ El criterio no exige que la pieza esté entera: el modelo combinatorio necesita 
 | 6 | Ficha en los workbooks | `python -m src.imagenes.aptitud_workbooks --fuente aic` (o `--solo-reglas` en fuentes no validadas) | Excel cerrado | Columnas informativas, motivo enriquecido y decisiones automáticas por reglas | Revisar las discrepancias (`revisar_anotacion`) |
 | 7 | Validación en una fuente nueva | `python -m src.imagenes.validacion --crear`, anotar, luego `python -m src.imagenes.validacion` | — | `data/metadata/validacion_met_cma_v2.xlsx`, `outputs/reports/validacion_met_cma_v2.md` | **Sí: anotación ciega** |
 | 8 | Traslado de la validación | `python -m src.imagenes.validacion --trasladar` | — | Decisiones del revisor en los workbooks | Resolver las contradicciones que quedan en `revisar` |
-| 8b | Revisión de decisiones antiguas | `python -m src.imagenes.revision_v2 --crear`, decidir, luego `--trasladar` | — | `data/metadata/revision_criterio_v2_met_cma.xlsx` y las decisiones en los workbooks | **Sí: el revisor decide con la ficha como apoyo** |
+| 8b | Revisión de decisiones antiguas (hecha el 20-10-2026) | `src/imagenes/revision_v2.py`, retirado (ver `docs/historico.md`) | — | Las decisiones en los workbooks de MET y CMA, con `origen_curacion = revision_criterio_v2`; el workbook auxiliar `revision_criterio_v2_met_cma.xlsx` está retirado (commit `0d0ebea`) | **Sí: el revisor decidió con la ficha como apoyo** |
 | 9 | Regeneración y conteos | `python -m src.flujo` | — | CSV revisados, informes y verificación de `config/corpus.toml` | Actualizar los conteos y documentar el motivo |
 
 Las etapas 2 a 5 están separadas a propósito: las medidas no contienen ningún juicio y se versionan; la calibración traduce los juicios del revisor en pesos; la ficha aplica esos pesos sin red ni imágenes, de modo que un clon limpio regenera todo.
@@ -94,7 +94,7 @@ Después, el puntaje sugiere principal, revisar o descartar; la imagen de refere
 
 ## Revisión de decisiones tomadas con criterios anteriores
 
-En MET y CMA, parte de las decisiones son anteriores al criterio v2: el secundario por tipo de objeto (prendas tridimensionales, fajas, sombreros) y los descartes por «fragmento no legible» o «baja calidad». `src/imagenes/revision_v2.py` los reúne en un solo workbook con la ficha de cada imagen y, al terminar, traslada las decisiones a los workbooks de cada fuente. Se registran también las confirmaciones con motivo nuevo, porque son etiquetas para recalibrar el modelo en MET y CMA.
+En MET y CMA, parte de las decisiones son anteriores al criterio v2: el secundario por tipo de objeto (prendas tridimensionales, fajas, sombreros) y los descartes por «fragmento no legible» o «baja calidad». El 20 de octubre de 2026 el revisor decidió de nuevo esos 94 registros con el criterio v2, en un workbook auxiliar con la ficha de cada imagen, y las decisiones se trasladaron a los workbooks de cada fuente (`origen_curacion = revision_criterio_v2`). Se registraron también las confirmaciones con motivo nuevo, porque son etiquetas para recalibrar el modelo en MET y CMA. El workbook auxiliar y el módulo que lo generaba (`src/imagenes/revision_v2.py`) se retiraron después de la revisión (`docs/historico.md`).
 
 ## Incorporar una fuente nueva
 

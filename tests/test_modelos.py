@@ -18,7 +18,6 @@ from src.modelos.embeddings import (
     Embeddings,
     leer_embeddings,
     normalizar_l2,
-    pares_sobre_umbral,
     vecino_mas_cercano,
 )
 from src.imagenes.descargar_evaluacion import sha256_archivo
@@ -37,12 +36,9 @@ def test_relleno_cuadrado_centra_la_imagen_sobre_el_color_mediano_del_borde() ->
     assert relleno_cuadrado(Image.new("RGB", (3, 3))).size == (3, 3)
 
 
-def test_pares_sobre_umbral_y_vecino_mas_cercano() -> None:
+def test_vecino_mas_cercano() -> None:
     matriz = normalizar_l2(np.array([[1.0, 0.0], [0.99, 0.141], [0.0, 1.0], [0.0, 1.0]]))
     embeddings = Embeddings(["C:2", "A:1", "B:3", "B:4"], matriz.astype(np.float32))
-    pares = pares_sobre_umbral(embeddings, 0.95)
-    assert [(a, b) for a, b, _ in pares] == [("B:3", "B:4"), ("A:1", "C:2")]  # de mayor a menor coseno
-    assert pares[0][2] == pytest.approx(1.0) and pares[1][2] == pytest.approx(0.99, abs=1e-3)
     vecinos = vecino_mas_cercano(embeddings)
     assert vecinos == {"C:2": "A:1", "A:1": "C:2", "B:3": "B:4", "B:4": "B:3"}
 

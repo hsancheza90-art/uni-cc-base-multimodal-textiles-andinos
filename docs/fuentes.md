@@ -15,7 +15,7 @@ Solo se incorporan colecciones museográficas que cumplen las cuatro condiciones
 
 | Fuente | Licencia de imagen | Extracción | Particularidades |
 |---|---|---|---|
-| The Metropolitan Museum of Art (MET) | Dominio público (Open Access) | `src/collectors/met_collector_v2.py`; el corpus parte de la curación MET v1 congelada en `data/processed/corpus_met_textiles_andinos_v1_*` | Las fechas vienen en texto libre («7th–9th century»); el inventario v1 las conserva. Algunas imágenes originales ya no existen en el museo (MET:312615). |
+| The Metropolitan Museum of Art (MET) | Dominio público (Open Access) | El corpus parte de la curación MET v1 congelada en `data/processed/corpus_met_textiles_andinos_v1_*`. El colector MET por la API se retiró porque no produjo ningún insumo versionado (`docs/historico.md`) | Las fechas vienen en texto libre («7th–9th century»); el inventario v1 las conserva. Algunas imágenes originales ya no existen en el museo (MET:312615). |
 | Cleveland Museum of Art (CMA) | CC0 | `src/collectors/cma_collector.py` (consulta conservadora por cultura andina + «textile») | Una prueba con `type=Textile` recuperó 2045 registros casi todos no andinos y se descartó; la búsqueda conservadora dio 146 registros normalizados. |
 | Art Institute of Chicago (AIC) | CC0 (imagen); descripción CC BY 4.0, que se cita | `src/collectors/aic_collector.py` | La API exige consultas estructuradas por POST (el parámetro `?q=` devuelve la colección completa), máximo 60 peticiones por minuto y la cabecera `AIC-User-Agent`. El IIIF sirve 1686 px de ancho y responde 403 si se pide más que el original. |
 

@@ -56,7 +56,6 @@ HOJA = "revision"
 REPORTE = "outputs/reports/anotacion_v2_revision_criterios.md"
 DECISIONES = ("confirmar", "corregir")
 IDENTIDAD = ("coincide", "no_coincide")
-CONTROL = ["decision", "motivo", "revisor", "fecha_revision", "identidad_imagen"]
 CONTEXTO_FIJO = ["id_global", "lote", "orden", "archivo_imagen", "motivos_revision"]
 # Propuesta automatica (decision R20): se muestra como contexto y no cambia al editar la decision.
 PROPUESTA = ["propuesta", "propuesta_vista", "propuesta_criterios", "propuesta_confianza", "propuesta_nota"]

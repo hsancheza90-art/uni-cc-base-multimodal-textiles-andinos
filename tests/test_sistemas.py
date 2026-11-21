@@ -128,11 +128,6 @@ def test_orden_de_repeticion_y_alfabeto_coinciden_con_la_configuracion() -> None
     assert ALFABETO == [c for c in leer_vocabulario()["secuencia_bandas"].codigos if c != m3.LAGUNA]
 
 
-def test_periodo_exacto() -> None:
-    assert m3.periodo(tuple("ababab")) == 2
-    assert m3.periodo(tuple("abc")) == 3  # p* = l: no hay repeticion
-
-
 def fila(**campos: str) -> dict[str, str]:
     base = {"composicion": "bandas", "secuencia_bandas": "lisa > geometrica > lisa", "borde": "si", "centro": "no",
             "simetria": "bilateral", "repeticion": "si", "motivos": "geometrico; ave", "familia_iconografica": "zoomorfa"}

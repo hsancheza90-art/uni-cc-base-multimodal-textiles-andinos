@@ -1,4 +1,4 @@
-"""Rankings de desarrollo de la tarea T3 para M0, M1 y M2 (paso del flujo, sin red y sin torch).
+"""Rankings de desarrollo de la tarea T3 para M0 a M4 (paso del flujo, sin red y sin torch).
 
 Uso desde la raíz del repositorio:
 
@@ -16,6 +16,9 @@ galería (data/metadata/particiones_v2.csv) que no son del grupo de la consulta:
   estructural no tienen score y van al final, ordenados por id (docs/especificacion_m3.md, sección 3).
 - M3-sin-orden: lo mismo con el histograma de tipos de banda en lugar de la palabra y sin
   adyacencias, con los mismos pesos (control del mecanismo, H2).
+- M4: fusión tardía de M0, M2 y M3 con los pesos fijados en [m4.pesos] (decisión R28), sobre las
+  puntuaciones redondeadas como se versionan, para que M4 se reproduzca desde el CSV.
+- M4-RRF: fusión por posiciones recíprocas de los mismos rankings, con k fijo (decisión R03).
 
 Los empates se resuelven por id_global ascendente. Escribe
 data/processed/experimento_v2_rankings_desarrollo.csv (ranking completo de cada consulta) y un

@@ -68,17 +68,6 @@ def subconjunto(embeddings: Embeddings, ids: list[str]) -> Embeddings:
     return Embeddings(list(ids), embeddings.matriz[[posicion[id_] for id_ in ids]])
 
 
-def pares_sobre_umbral(embeddings: Embeddings, umbral: float) -> list[tuple[str, str, float]]:
-    """Pares (a, b, coseno) con a < b y coseno >= umbral, de mayor a menor coseno y luego por id."""
-    similitud = embeddings.matriz.astype(np.float64) @ embeddings.matriz.astype(np.float64).T
-    filas, columnas = np.nonzero(np.triu(similitud >= umbral, k=1))
-    pares = []
-    for i, j in zip(filas.tolist(), columnas.tolist()):
-        a, b = sorted((embeddings.ids[i], embeddings.ids[j]))
-        pares.append((a, b, float(similitud[i, j])))
-    return sorted(pares, key=lambda par: (-round(par[2], DECIMALES), par[0], par[1]))
-
-
 def vecino_mas_cercano(embeddings: Embeddings) -> dict[str, str]:
     """Para cada id, el otro id con mayor coseno (empates por id ascendente)."""
     similitud = embeddings.matriz.astype(np.float64) @ embeddings.matriz.astype(np.float64).T

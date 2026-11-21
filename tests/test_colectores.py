@@ -2,12 +2,11 @@
 
 from __future__ import annotations
 
-import json
 from pathlib import Path
 
 import requests
 
-from src.collectors import cma_collector, met_collector_v2
+from src.collectors import cma_collector
 
 
 class Respuesta:
@@ -70,29 +69,3 @@ def test_cma_no_sobrescribe_el_insumo_curado(tmp_path: Path) -> None:
 
     assert codigo == 1
     assert insumo.read_text(encoding="utf-8") == "lista curada"
-
-
-def test_met_reutiliza_cache_y_registra_errores(tmp_path: Path) -> None:
-    cache = tmp_path / "objetos"
-    cache.mkdir()
-    (cache / "1.json").write_text(json.dumps({"objectID": 1, "title": "en cache"}), encoding="utf-8")
-
-    def responder(url: str, params: dict) -> Respuesta:
-        if url.endswith("/2"):
-            return Respuesta({"objectID": 2, "title": "nuevo"})
-        return Respuesta({}, estado=404)
-
-    sesion = SesionFalsa(responder)
-    registros, errores = met_collector_v2.descargar_objetos(sesion, {1: ["q"], 2: ["q"], 3: ["q"]}, pausa=0, timeout=5, cache=cache)
-
-    assert [url for url, _ in sesion.llamadas] == [
-        met_collector_v2.API_OBJETO.format(object_id=2),
-        met_collector_v2.API_OBJETO.format(object_id=3),
-    ]
-    assert registros[1]["title"] == "en cache"
-    assert json.loads((cache / "2.json").read_text(encoding="utf-8"))["title"] == "nuevo"
-    assert len(errores) == 1 and errores[0].startswith("3:")
-
-
-def test_met_detecta_terminos_por_palabra_completa() -> None:
-    assert met_collector_v2.detectar_terminos("lincoln center textile", {"inca", "textile"}) == ["textile"]

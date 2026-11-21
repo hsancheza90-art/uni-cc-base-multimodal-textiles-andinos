@@ -1,8 +1,9 @@
 """M3: descriptor estructural desde la anotación v2 y su disimilitud mixta (docs/especificacion_m3.md).
 
 Funciones puras (solo la biblioteca estándar): el descriptor de una pieza se arma con su fila de
-data/metadata/anotaciones_v2.csv (códigos ya validados contra el vocabulario) y dos piezas se
-comparan bloque a bloque, con una máscara de observabilidad:
+la anotación congelada v2.1 (data/metadata/v2_1_congelado/anotaciones_v2_1.csv, con los códigos ya
+validados contra el vocabulario) y dos piezas se comparan bloque a bloque, con una máscara de
+observabilidad:
 
     D(i, j) = Σ_b λ_b m_ib m_jb d_b(i, j) / Σ_b λ_b m_ib m_jb,
 
@@ -25,7 +26,6 @@ SIN_OBSERVACION = {"", "no_observable", "desconocido", "no_visible"}
 LAGUNA = "laguna"
 ORDEN_REPETICION = ["no", "parcial", "si"]
 SEPARADOR_SECUENCIA = " > "
-SEPARADOR_MULTIPLE = "; "
 
 
 # --------------------------------------------------------------------------- palabras de bandas
@@ -104,15 +104,6 @@ def distancia_palabras(a: tuple[str, ...], b: tuple[str, ...]) -> float:
     if largo == 0:
         return 0.0
     return min(distancia_edicion(a, b), distancia_edicion(a, reverso(b))) / largo
-
-
-def periodo(palabra: tuple[str, ...]) -> int:
-    """p*(w) = mínimo p en 1..l con w_j = w_{j+p} para todo j <= l - p. p* = l no es repetición."""
-    largo = len(palabra)
-    for p in range(1, largo + 1):
-        if all(palabra[j] == palabra[j + p] for j in range(largo - p)):
-            return p
-    return largo
 
 
 # --------------------------------------------------------------------------- descriptor
