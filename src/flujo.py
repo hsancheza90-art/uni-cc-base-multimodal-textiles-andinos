@@ -35,7 +35,7 @@ from src.anotacion import (
     nucleo,
 )
 from src.consolidado import consolidado_v2, construir_consolidado
-from src.experimento import consultas_t1, juicios, pesos_m4, rankings, sensibilidad_anotacion, snapshot
+from src.experimento import consultas_t1, juicios, pesos_m4, potencia, rankings, sensibilidad_anotacion, snapshot
 from src.grupos import grupos
 from src.imagenes import aptitud, calibrar_aptitud, informe_aptitud
 from src.metadata import (
@@ -73,6 +73,7 @@ PASOS: list[tuple[str, Callable[[list[str]], int]]] = [
     ("Experimento v2: rankings de desarrollo T3 (M0 a M4)", rankings.main),
     ("Experimento v2: pool y juicios de relevancia de desarrollo", juicios.main),
     ("Experimento v2: seleccion de los pesos de M4 en desarrollo", pesos_m4.main),
+    ("Experimento v2: efecto minimo detectable antes del test", potencia.main),
     ("Experimento v2: sensibilidad de M3 a la revision asistida de la anotacion", sensibilidad_anotacion.main),
     ("Experimento v2: consultas T1 del evaluador", consultas_t1.main),
     ("Anotacion v2: medir el acuerdo intra-anotador (primera anotacion y re-anotacion)", acuerdo.main),

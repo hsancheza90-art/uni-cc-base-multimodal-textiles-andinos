@@ -272,3 +272,12 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Pool.** Los 10 primeros de M4 y de M4-RRF agregan 8 pares al pool de desarrollo (411 → 419). La muestra al azar no cambia (R24). Los 8 pares nuevos los juzga el evaluador sin asistencia (R27).
 - **Ceguera.** El informe de la selección contiene el rendimiento de los sistemas en desarrollo y el evaluador no lo abre.
 - **Archivos.** `src/experimento/pesos_m4.py`, `src/experimento/rankings.py`, `src/flujo.py`, `config/modelos.toml`, `config/corpus.toml`, `data/processed/experimento_v2_rankings_desarrollo.csv`, `data/processed/experimento_v2_pool_desarrollo.csv`, `data/metadata/juicios_desarrollo_v2.xlsx` y `.csv`, `outputs/reports/experimento_v2_pesos_m4.md`, `tests/test_pesos_m4.py`, `tests/test_sistemas.py`, `tests/test_flujo.py`.
+
+## R29. Efecto mínimo detectable antes del test
+
+- **Decisión.** El efecto mínimo detectable (EMD) se fija con los 419 juicios de desarrollo y los pesos de R28, antes de ejecutar ninguna consulta de prueba, con la fórmula del protocolo: EMD = (z_0,975 + z_0,8) · DE / raíz(30). No se calcula potencia a posteriori.
+- **H1 (M4 frente a M2).** DE de las diferencias en desarrollo: 0,169. EMD con 30 consultas: 0,087 (rango 0,060 a 0,159 por la incertidumbre de estimar la DE con 10 consultas). Detectar el umbral práctico de 0,03 exigiría unas 250 consultas. El estudio no tiene potencia para ese umbral, y un resultado no significativo se informará como «no se detectó una mejora de la magnitud detectable», no como ausencia de efecto.
+- **H2 (M3 frente a M3-sin-orden).** DE: 0,051; EMD: 0,026 (0,018 a 0,048). La DE es pequeña porque 8 de las 10 diferencias de desarrollo son cero (R27), y el efecto medio se diluye en la misma proporción: si el orden solo actúa en las 9 consultas de prueba con bandas, en ellas el efecto tendría que ser unas 30/9 veces mayor, del orden de 0,09, para detectarse en la media de las 30.
+- **Análisis secundario de H2.** Con solo 2 consultas de desarrollo con palabra de bandas, su desviación no es estimable; se informará de forma descriptiva junto a su intervalo.
+- **Ceguera.** El informe no muestra el nDCG medio de ningún sistema ni el signo de las diferencias.
+- **Archivos.** `src/experimento/potencia.py`, `src/flujo.py`, `outputs/reports/experimento_v2_potencia.md`, `tests/test_potencia.py`, `tests/test_flujo.py`.
