@@ -2,7 +2,7 @@
 
 | | |
 |---|---|
-| Versión | 0.6.4, **propuesta**, 21 de noviembre de 2026 |
+| Versión | 0.6.5, **propuesta**, 21 de noviembre de 2026 |
 | Estado | Pendiente de aprobación del asesor. El test no se abre antes de esa aprobación (decisión R30). Al aprobarse, el protocolo se congela: la fecha y el commit de aprobación se registran en el «Historial», y desde entonces todo cambio se anota allí con su motivo antes de abrir el test |
 | Responde a | Observación MET01 de la auditoría del asesor (20 de octubre de 2026), informe 08; actividad S1.3 del plan de cierre (`docs/plan_cierre_tesis.md`) |
 | Alcance | Estudio **piloto**, con un solo anotador y un solo evaluador principal (decisión D1, 3 de noviembre) |
@@ -56,7 +56,7 @@ Todos los sistemas son deterministas y ninguno se entrena. Los empates en la pun
 |---|---|---|
 | **M0** | BM25 sobre el texto de la ficha: título original, título sugerido en español, descripción del museo, material y técnica. No se incluye el texto de crédito de MET (SW10) ni su campo de descripción: en MET ese campo no es un texto del museo, sino una plantilla armada con los propios metadatos, y sus palabras fijas aproximarían las piezas MET entre sí solo por proceder del mismo museo. El texto se normaliza a minúsculas y sin tildes, se toman términos de tres caracteres o más y no se usa lista de palabras vacías. La mezcla de inglés y español se declara como característica del corpus | k1 y b en una rejilla pequeña; por defecto, 1,2 y 0,75 |
 | **M1** | Visión convencional sobre el textil, separado del fondo con la misma segmentación que usa el puntaje de aptitud. Combina un histograma conjunto de CIELAB (4 × 8 × 8 cubetas) y un histograma de LBP de 8 vecinos invariante a la rotación (10 valores), calculados a 320 px de lado mayor. La disimilitud es la media ponderada de la mitad de la distancia L1 en cada bloque | Resolución y peso de cada bloque |
-| **M2** | OpenCLIP congelado: embeddings de imagen (y de texto en T1) normalizados L2, comparados por coseno. El checkpoint quedó fijado el 5 de noviembre (D6): `xlm-roberta-base-ViT-B-32` con pesos `laion5b_s13b_b90k`. Es multilingüe, de modo que las consultas T1 no requieren traducción. El cálculo es en fp32, y antes del recorte central del modelo cada imagen se lleva a un cuadrado rellenado con el color de su borde, para no cortar los extremos de las piezas alargadas | Plantilla de texto (T1) y encuadre |
+| **M2** | OpenCLIP congelado: embeddings de imagen (y de texto en T1) normalizados L2, comparados por coseno. El checkpoint quedó fijado el 5 de noviembre (D6): `xlm-roberta-base-ViT-B-32` con pesos `laion5b_s13b_b90k`. Es multilingüe, de modo que las consultas T1 no requieren traducción. El cálculo es en fp32, y antes del recorte central del modelo cada imagen se lleva a un cuadrado rellenado con el color de su borde, para no cortar los extremos de las piezas alargadas | Encuadre. En T1 se codifica la descripción sin plantilla, porque T1 no tiene desarrollo (R32) |
 | **M3** | Descriptor estructural derivado de la anotación v2 (especificación completa en `docs/especificacion_m3.md`, conforme al informe 05). Considera la composición; la palabra de bandas en su forma canónica bajo reversión, c(w) = mínimo lexicográfico de {w, rev(w)}; el histograma de pares de bandas contiguas; borde, centro, simetría y repetición; los motivos y la familia iconográfica, y una máscara de observabilidad. La disimilitud mixta es D(i,j) = Σ λ_b m_ib m_jb d_b(i,j) / Σ λ_b m_ib m_jb. Si el denominador es cero, el par queda «sin evidencia estructural» y no recibe similitud máxima. **M3 no incluye el color**, para que una eventual ganancia no sea de origen cromático | Pesos λ_b y vocabulario |
 | **M3-sin-orden** | Igual que M3, pero la palabra de bandas se sustituye por el histograma de sus tipos y se omiten las adyacencias | Los mismos pesos que M3, sin reajustar |
 | **M4** | Fusión tardía y aditiva de puntuaciones: s = Σ_c α_c ŝ_c, con c ∈ {M0, M2, M3} y cada ŝ_c normalizado por consulta (mínimo y máximo sobre los candidatos). Cuando M3 no tiene evidencia para un par, su peso se reparte entre los demás componentes en proporción a sus pesos, según una regla fija, y se informa la cobertura | Pesos α_c en la rejilla {0; 0,25; 0,5; 0,75; 1}, normalizados a suma 1 (91 combinaciones) y elegidos por el nDCG@10 medio en desarrollo. En empate, la combinación más cercana a pesos iguales y, si persiste, la primera en orden lexicográfico descendente |
@@ -118,12 +118,14 @@ Además existe el estado `no_evaluable`, para imágenes que no permiten juzgar. 
 - M4 sin M3, es decir, solo texto e imagen.
 - M4 sin M0.
 - M4 con M3-sin-orden en lugar de M3.
-- M3 solo con bandas frente a M3 solo con motivos y relaciones.
+- M3 solo con bandas frente a M3 solo con motivos y relaciones. El primero usa los bloques de la palabra de bandas y de las adyacencias; el segundo, todos los demás bloques del descriptor (composición, borde, centro, simetría, repetición, motivos y familia iconográfica), de modo que los dos cubren el descriptor sin solaparse (R32).
 - M4 por posiciones recíprocas (M4-RRF) **[propuesta]**: puntuación = Σ_c 1 / (60 + r_c), con r_c la posición del candidato en el ranking de c ∈ {M0, M2, M3} (Cormack, Clarke y Büttcher, 2009). No tiene pesos que ajustar, de modo que muestra cuánto del resultado de M4 depende del ajuste con las 10 consultas de desarrollo. Los pares sin evidencia estructural ocupan las últimas posiciones del ranking de M3, por `id_global`. Es exploratoria y no interviene en H3, porque al usar posiciones no conserva la descomposición de la puntuación.
 
 **Control negativo.** M4 con los descriptores de M3 permutados al azar entre piezas del mismo museo, con semilla fija. Si el aporte de la estructura es real, debe desaparecer en esta condición.
 
-**Robustez (exploratoria).** Resultados según el museo de la consulta y según el estado de la pieza (fragmento o pieza completa). Con estos tamaños de muestra, el análisis es descriptivo.
+**Robustez (exploratoria).** Resultados según el museo de la consulta y según el estado de la pieza. El estado es la completitud que el revisor escribió en el motivo de su decisión de curación: completo, incompleto o sin dato, porque 61 de las 150 piezas de la galería no la mencionan (R32). Con estos tamaños de muestra, el análisis es descriptivo.
+
+**T1 (exploratoria).** M0 compara la descripción con el texto de las fichas; M2, el vector de texto de la descripción con los vectores de imagen; M3 solo participa si la consulta trae especificación estructural y compara solo esos bloques; M4 fusiona los componentes disponibles con los pesos de T3. La muestra al azar del pool se elige entre los candidatos que no proponen M0 ni M2 (R32). Sus métricas se informan de forma descriptiva.
 
 ## 8. Interpretabilidad (H3)
 
@@ -151,6 +153,8 @@ El experimento sigue un orden obligatorio:
 - alguna imagen no está verificada.
 
 Antes de abrir el test se ejecuta una comprobación automática de fugas: que ningún grupo esté en dos particiones y que ninguna consulta figure entre sus propios candidatos. La suspensión protege el test, pero no impide preparar código ni trabajar con los datos de desarrollo.
+
+**Aprobación y ejecución (R30 y R32).** Al aprobarse el protocolo se registran en `[ejecucion]` de `config/experimento.toml` la fecha y el commit de la aprobación y la suma SHA-256 de este documento. La comprobación previa (`python -m src.experimento.ejecucion_prueba --comprobar`) verifica las condiciones anteriores que pueden comprobarse en el repositorio: la aprobación y que el protocolo no cambió después, las particiones y las consultas, la anotación congelada y sus condiciones de buena formación, los pesos de M4, las sumas de las imágenes de M1 y M2, las consultas T1 y que el test no se haya ejecutado antes. La ejecución de los rankings se niega si encuentra un problema.
 
 ## 10. Amenazas a la validez y limitaciones
 
@@ -200,6 +204,7 @@ Todos los parámetros numéricos de este protocolo están en `config/experimento
 | Juicios de desarrollo | `data/metadata/juicios_desarrollo_v2.xlsx`, con los pares en orden aleatorio y sin sistema ni posición, y una galería local de imágenes |
 | Rankings de desarrollo | `data/processed/experimento_v2_rankings_desarrollo.csv` |
 | Checkpoint de M2 | `data/metadata/m2_openclip_manifiesto_v2.json` (sumas de los pesos y versiones) |
+| Ejecución única del test | `python -m src.experimento.ejecucion_prueba` con `--comprobar`, `--rankings`, `--crear-juicios` y `--evaluar`; vectores de texto de T1 con `python -m src.modelos.m2_openclip --textos-t1`. Escribe el manifiesto de ejecución, los rankings de prueba, los libros ciegos `data/metadata/juicios_prueba_v2.xlsx` y `juicios_t1_v2.xlsx`, las métricas por consulta y el informe de resultados |
 
 El evaluador no abre los rankings, el archivo que registra qué sistema propuso cada par (`data/processed/experimento_v2_pool_desarrollo.csv`) ni los informes con el rendimiento de los sistemas en desarrollo (selección de pesos de M4). Hasta cerrar la re-anotación del lote 1, el 12 de noviembre, tampoco abrió `consultas_t3_v2.csv` ni `anotaciones_v2.csv`, porque contenían datos de la primera anotación. Los libros de consultas T1 y de juicios incluyen una hoja de ejemplos hipotéticos que ilustran el formato y la escala; no son piezas de la galería ni consultas.
 
@@ -219,3 +224,4 @@ Las equivalencias con los nombres del informe 08 son las siguientes: grupos (`gr
 | 2026-11-19 | 0.6.2 | Sección 6, salvaguarda 3: los juicios de desarrollo se revisaron con una segunda opinión ciega y el evaluador firmó cada grado; queda pendiente decidir si los juicios de prueba se hacen igual (R25). No se ha ejecutado ninguna consulta de prueba |
 | 2026-11-21 | 0.6.3 | Sección 1: H2 se decide sobre las 30 consultas de prueba y se añade un análisis secundario en las consultas con palabra de bandas, donde la diferencia puede ser distinta de cero. Sección 6: los juicios de prueba se hacen sin asistencia; no hay segundo evaluador disponible y el doble juicio queda preparado para cuando lo haya. Decisión R27 del investigador, tomada sin ejecutar ninguna consulta de prueba |
 | 2026-11-21 | 0.6.4 | Estado y sección 9: el test espera la aprobación del asesor. Sección 4: regla de desempate de los pesos de M4, M4-RRF en la tabla de sistemas, pesos elegidos y parámetros de M0, M1 y M3 fijos en sus valores de partida. Sección 7: resultado del efecto mínimo detectable y alcance de la referencia sobre el error de tipo I. Sección 10: juicios de desarrollo asistidos y salvedad del doble juicio; siete sistemas en el pool. Sección 11: estado al 21 de noviembre. «Score» pasa a «puntuación». Decisiones R28 a R30; no se ha ejecutado ninguna consulta de prueba |
+| 2026-11-21 | 0.6.5 | Sección 7: definición de la ablación de M3 por bloques, de la robustez por completitud (tres grupos) y del cálculo de T1. Sección 4: M2 en T1 sin plantilla. Sección 9: registro de la aprobación y comprobación previa automática. Sección 12: ejecución única del test. Decisión R32; no se ha ejecutado ninguna consulta de prueba |

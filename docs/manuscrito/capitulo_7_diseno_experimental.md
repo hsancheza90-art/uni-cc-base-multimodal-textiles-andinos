@@ -1,6 +1,6 @@
 # 7. Diseño experimental
 
-> **Borrador 0.1, 21 de noviembre de 2026.** Capítulo de la segunda parte de la tesis. Sustituye al capítulo 7 del primer avance («Plan experimental preliminar»), que no se corrige. Describe el protocolo experimental en su versión 0.6.4, pendiente de aprobación, y las decisiones registradas hasta la R30. A la fecha de este borrador no se ha ejecutado ningún sistema sobre las consultas de prueba. El capítulo no informa el rendimiento de ningún sistema en desarrollo: el evaluador debe juzgar la prueba sin conocerlo.
+> **Borrador 0.1, 21 de noviembre de 2026.** Capítulo de la segunda parte de la tesis. Sustituye al capítulo 7 del primer avance («Plan experimental preliminar»), que no se corrige. Describe el protocolo experimental en su versión 0.6.5, pendiente de aprobación, y las decisiones registradas hasta la R32. A la fecha de este borrador no se ha ejecutado ningún sistema sobre las consultas de prueba. El capítulo no informa el rendimiento de ningún sistema en desarrollo: el evaluador debe juzgar la prueba sin conocerlo.
 
 ## 7.1 Principios del diseño
 
@@ -174,14 +174,16 @@ Las ablaciones se calculan sobre las mismas consultas y candidatos que la compar
 - M4 sin M3, es decir, solo texto e imagen;
 - M4 sin M0;
 - M4 con M3-sin-orden en lugar de M3;
-- M3 solo con los bloques de bandas frente a M3 solo con motivos y relaciones;
+- M3 solo con los bloques de bandas (palabra y adyacencias) frente a M3 con todos los demás bloques del descriptor (composición, borde, centro, simetría, repetición, motivos y familia iconográfica), de modo que los dos lados cubren el descriptor sin solaparse;
 - M4-RRF, la fusión por posiciones sin pesos.
 
 Retirar un componente de M4 equivale a declararlo sin evidencia para todos los candidatos, con renormalización de los pesos restantes (capítulo 5, proposición 5.9). Las ablaciones usan, por tanto, la misma fórmula que el sistema completo.
 
 **Control negativo.** M4 se recalcula con los descriptores de M3 permutados al azar entre piezas del mismo museo, con semilla fija. Si el aporte de la estructura es real, debe desaparecer en esta condición. La permutación dentro de cada museo conserva la distribución de descriptores por museo, de modo que el control también comprueba que una eventual ganancia no procede de que la anotación capture, indirectamente, el museo de procedencia.
 
-**Robustez.** Los resultados se informan según el museo de la consulta y según el estado de la pieza (fragmento o pieza completa). Con estos tamaños de muestra, el análisis es descriptivo.
+**Robustez.** Los resultados se informan según el museo de la consulta y según el estado de la pieza consultada. El estado es la completitud que el revisor escribió al decidir la curación de cada pieza: completo, incompleto o sin dato. Se mantiene el tercer grupo porque 61 de las 150 piezas de la galería no mencionan la completitud, y asignarlas a uno de los otros dos introduciría un error de clasificación. Con estos tamaños de muestra, el análisis es descriptivo.
+
+**Tarea T1.** Las seis consultas escritas se ejecutan con M0, que compara la descripción con el texto de las fichas; con M2, que compara el vector de texto de la descripción, codificada sin plantilla porque T1 no tiene consultas de desarrollo, con los vectores de imagen; con M3, solo cuando la consulta trae especificación estructural y solo sobre los bloques especificados; y con M4, que fusiona los componentes disponibles con los pesos de T3. Sus resultados son descriptivos.
 
 ## 7.11 Interpretabilidad (H3)
 
@@ -203,7 +205,7 @@ El experimento sigue un orden obligatorio:
 4. Selección de los pares de prueba y juicios de prueba, incluido el doble juicio parcial si hay segundo evaluador.
 5. Una única ejecución del test.
 
-**El test no se abre** si se da alguna de estas condiciones: hay grupos de piezas relacionadas repartidos entre particiones; algún juicio de prueba se derivó del descriptor, de CLIP o de cualquier otro modelo; la guía de anotación o el protocolo cambiaron sin registro; algún peso se ajustó con datos de prueba; o alguna imagen no está verificada. Antes de abrirlo se ejecuta la comprobación automática de fugas. La suspensión protege el test, pero no impide preparar código ni trabajar con los datos de desarrollo.
+**El test no se abre** si se da alguna de estas condiciones: hay grupos de piezas relacionadas repartidos entre particiones; algún juicio de prueba se derivó del descriptor, de CLIP o de cualquier otro modelo; la guía de anotación o el protocolo cambiaron sin registro; algún peso se ajustó con datos de prueba; o alguna imagen no está verificada. Antes de abrirlo se ejecuta una comprobación automática que reúne las condiciones verificables en el repositorio: la aprobación del protocolo y que no cambió después de aprobarse, la ausencia de fugas entre particiones, la anotación congelada y sus condiciones de buena formación, los pesos de M4, las sumas de las imágenes y la existencia de las consultas T1. La ejecución de los rankings de prueba se niega si encuentra un problema. La suspensión protege el test, pero no impide preparar código ni trabajar con los datos de desarrollo.
 
 ## 7.13 Amenazas a la validez
 

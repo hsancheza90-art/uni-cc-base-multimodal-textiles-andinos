@@ -14,7 +14,7 @@ Documentación metodológica del corpus multimodal de textiles andinos. Según l
 
 | Documento | Contenido |
 |---|---|
-| `protocolo_experimental_v2.md` | Protocolo del experimento de recuperación estructural (versión 0.6.4), propuesto para la aprobación del asesor. |
+| `protocolo_experimental_v2.md` | Protocolo del experimento de recuperación estructural (versión 0.6.5), propuesto para la aprobación del asesor. |
 | `especificacion_m3.md` | Descriptor estructural M3: definiciones, propiedades y pruebas. |
 | `protocolo_anotacion_v2.md` | Anotación estructural v2: capas, bandas, estados, núcleo y acuerdo intra-anotador. |
 | `esquema_consolidado_met_cma_aic_v2.md` | Esquema del consolidado v2, campo por campo (generado por el flujo). |
@@ -44,7 +44,7 @@ Los conteos vigentes y el motivo de cada cambio están en `config/corpus.toml`.
 |---|---|
 | `manuscrito/` | Capítulos de la segunda parte de la tesis en borrador (Markdown), con su resumen. Los capítulos 8 a 10 dependen del test. |
 | `MCC701_05-07-2026.pdf` | Primer avance de tesis. |
-| `registro_decisiones.md` | Decisiones del investigador desde el 12-11-2026 (R01 a R31): motivo, fuente, archivos afectados y estado. |
+| `registro_decisiones.md` | Decisiones del investigador desde el 12-11-2026 (R01 a R32): motivo, fuente, archivos afectados y estado. |
 | `revision_bibliografica_2026-11/` | Revisión de alcance: búsqueda del 11-11-2026 y ampliación del 20-11-2026, 48 fichas de lectura, matriz, síntesis y referencias. Los PDF no se versionan. |
 | `plan_cierre_tesis.md` | Plan de cuatro semanas (26-10 al 22-11-2026) alineado con la auditoría del asesor. Histórico: su estado final está en la sección «Cierre». |
 | `notas_para_tesis.md` | Diferencias con el capítulo 6 del primer avance, anotadas durante la curación. Histórico: su contenido pasó al capítulo 4 del manuscrito. |

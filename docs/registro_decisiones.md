@@ -41,6 +41,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 | R29 | 2026-11-21 | Efecto mínimo detectable fijado antes del test: H1 0,087; H2 0,026 | Decidida |
 | R30 | 2026-11-21 | El test espera la aprobación del asesor; se corrigen las cifras de R21; M0, M1 y M3 quedan con sus parámetros de partida | Decidida |
 | R31 | 2026-11-21 | Las condiciones B3 a B7 pasan a ser reglas de la congelación y del flujo; la proposición 5.6 se fija en una prueba automática | Decidida |
+| R32 | 2026-11-21 | Definición de la ablación de M3 por bloques, de la robustez por completitud y de la ejecución de T1; el test queda listo para un solo comando | Decidida |
 
 ## R01. Prueba inferencial de H1 y H2
 
@@ -49,7 +50,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Motivo.** Con pocos temas, la t pareada y la permutación mantienen el error de tipo I nominal, y el bootstrap usado como prueba tiende a valores p pequeños. El estudio citado trata pruebas de hipótesis y no cuestiona los intervalos.
 - **Fuente.** Urbano, Lima y Hanjalic (2019), p. 2 y 7. Ficha F20.
 - **Archivos.** `docs/protocolo_experimental_v2.md`, secciones 1 y 7 (versión 0.6).
-- **Pendiente.** Añadir `alfa` y la prueba elegida a `[metricas]` de `config/experimento.toml` y a la prueba de coherencia, al implementar la evaluación.
+- **Pendiente.** Añadir `alfa` y la prueba elegida a `[metricas]` de `config/experimento.toml` y a la prueba de coherencia, al implementar la evaluación. *(21 de noviembre: `alfa`, `replicas_permutacion` y `semilla_permutacion` añadidos a `[metricas]` en R32.)*
 
 ## R02. Uso del umbral de acuerdo
 
@@ -307,3 +308,13 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Por qué sobre la anotación final y no sobre los libros.** La primera anotación de los lotes 2 a 5 podía incumplirlas antes de las correcciones de la revisión de criterios. Convertirlas en errores de los libros detendría el flujo por filas ya corregidas.
 - **Resultado.** La anotación congelada v2.1 cumple las cinco condiciones (0 piezas las incumplen) y la proposición 5.6 no tiene violaciones. Ningún valor de la anotación cambia.
 - **Archivos.** `src/anotacion/buena_formacion.py`, `src/anotacion/congelacion_v21.py`, `outputs/reports/anotacion_v2_1_congelada.md`, `tests/test_buena_formacion.py`, `tests/test_sistemas.py`, `docs/manuscrito/capitulo_5_metodo_formal.md`, `docs/manuscrito/capitulo_6_implementacion.md`, `docs/especificacion_m3.md`.
+
+## R32. Precisiones del análisis de prueba y test listo para un solo comando
+
+- **Contexto.** El protocolo nombra tres análisis sin definirlos del todo. El investigador los fijó el 21 de noviembre, antes de ejecutar ninguna consulta de prueba.
+- **Ablación de M3 por bloques.** «M3 solo con bandas» usa los bloques de la palabra de bandas y de las adyacencias (`bandas`, `adyacencias`), con los demás pesos en 0. «M3 sin bandas» usa todos los demás bloques del descriptor (composición, borde, centro, simetría, repetición, motivos y familia iconográfica). Los dos lados cubren el descriptor sin solaparse. Es exploratoria.
+- **Robustez por estado de la pieza.** Se usa la completitud que el revisor escribió en el motivo de su decisión de curación, interpretada por `src/imagenes/motivos.py`: completo, incompleto o sin dato. Al comprobarla en la galería se vio que 61 de las 150 piezas (41 %) no la mencionan; por eso se informan tres grupos y no dos, en lugar de clasificar como fragmento toda pieza que no sea imagen de referencia. En la prueba: 44 completas, 17 incompletas y 45 sin dato (piezas de la galería de prueba). Es descriptiva.
+- **Tarea T1.** Se ejecuta con las 6 consultas redactadas (protocolo, sección 3). M2 codifica la descripción tal como la escribió el evaluador, sin plantilla, porque T1 no tiene consultas de desarrollo con que elegirla. M3 solo participa si la consulta trae especificación estructural, y compara solo los bloques especificados. M4 fusiona los componentes disponibles con los pesos de R28. La muestra al azar del pool se elige entre los candidatos que no proponen M0 ni M2, los sistemas que no dependen de la anotación. Es exploratoria y descriptiva.
+- **Implementación.** `python -m src.experimento.ejecucion_prueba` reúne la comprobación previa (`--comprobar`), la ejecución única de los rankings con su manifiesto (`--rankings`), los libros ciegos de juicios de prueba de T3 y T1 (`--crear-juicios`) y el cálculo final (`--evaluar`). `--rankings` se niega a ejecutar mientras `[ejecucion] aprobacion_protocolo` esté vacío o la suma del protocolo no coincida con la registrada al aprobarlo. Los vectores de texto de T1 se calculan con `python -m src.modelos.m2_openclip --textos-t1`, con la misma condición. El cálculo se probó con la partición de desarrollo y con consultas T1 hipotéticas; ningún sistema se ejecutó sobre las consultas de prueba.
+- **Al aprobarse el protocolo.** Se escriben en `[ejecucion]` la fecha y el commit de la aprobación y la suma SHA-256 del protocolo aprobado, y se registra en el historial del protocolo.
+- **Archivos.** `src/experimento/ejecucion_prueba.py`, `src/experimento/rankings.py`, `src/experimento/juicios.py`, `src/modelos/m2_openclip.py`, `config/experimento.toml` (`[metricas]` y `[ejecucion]`), `tests/test_ejecucion_prueba.py`, `docs/protocolo_experimental_v2.md` (versión 0.6.5).

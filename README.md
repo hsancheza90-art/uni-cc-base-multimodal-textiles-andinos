@@ -129,6 +129,13 @@ python -m src.experimento.snapshot --reemplazar  # regla de reemplazo de consult
 python -m src.experimento.consultas_t1 --crear   # libro de las consultas T1 (conserva lo escrito)
 python -m src.experimento.juicios --crear        # libro ciego de juicios de desarrollo y su galería (conserva los juicios)
 
+# Ejecución única del test (solo con el protocolo aprobado; ver docs/protocolo_experimental_v2.md, sección 9)
+python -m src.experimento.ejecucion_prueba --comprobar       # condiciones de suspensión; no ejecuta nada
+python -m src.modelos.m2_openclip --textos-t1                # vectores de texto de las consultas T1
+python -m src.experimento.ejecucion_prueba --rankings        # una sola vez: manifiesto y rankings de prueba
+python -m src.experimento.ejecucion_prueba --crear-juicios   # libros ciegos de juicios de prueba (T3 y T1)
+python -m src.experimento.ejecucion_prueba --evaluar         # resultados de H1 a H3, ablaciones y controles
+
 # Galerías HTML de revisión (locales, no se versionan)
 python -m src.review.galerias --fuente met     # una galería por decisión del libro (también cma o aic)
 python -m src.imagenes.informe_aptitud         # una galería por banda de aptitud
@@ -175,7 +182,7 @@ python -m src.imagenes.informe_aptitud         # una galería por banda de aptit
 | `docs/manuscrito/` | Capítulos de la segunda parte de la tesis (borrador en Markdown) |
 | `docs/protocolo_experimental_v2.md` | Experimento de recuperación estructural: hipótesis, galería, tareas, sistemas, particiones, juicios, métricas y criterios de suspensión |
 | `docs/especificacion_m3.md` | Descriptor estructural M3: palabra de bandas, adyacencias, máscara de observabilidad, disimilitud mixta y sus propiedades |
-| `docs/registro_decisiones.md` | Decisiones del investigador desde el 12-11-2026 (R01 a R31) |
+| `docs/registro_decisiones.md` | Decisiones del investigador desde el 12-11-2026 (R01 a R32) |
 | `docs/protocolo_anotacion_v2.md` | Anotación estructural: capas, bandas, estados, regla de los treinta segundos, núcleo y acuerdo intra-anotador |
 | `docs/protocolo_aptitud_v2.md` | Criterio de selección v2, etapas, medidas, puntaje y validación |
 | `docs/fuentes.md`, `docs/met_protocolo_fuente_v2.md`, `docs/cma_protocolo_fuente_v2.md` | Fuentes incluidas y descartadas; protocolo y cadena de curación por fuente |

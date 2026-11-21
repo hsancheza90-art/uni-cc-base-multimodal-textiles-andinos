@@ -48,3 +48,29 @@ umbral_practico = 0.03
 confianza = 0.95
 replicas_bootstrap = 10000
 semilla_bootstrap = 20261109
+# 2026-11-21 (decisiones R01 y R32): nivel de las pruebas de H1 y H2 y replicas y semilla de la
+# permutacion pareada que las decide.
+alfa = 0.05
+replicas_permutacion = 10000
+semilla_permutacion = 20261110
+
+[ejecucion]
+# Ejecucion unica del test (protocolo, secciones 8 y 9; decisiones R30 y R32), con
+# src/experimento/ejecucion_prueba.py. Mientras aprobacion_protocolo este vacio, ningun sistema se
+# ejecuta sobre las consultas de prueba. Al aprobarse el protocolo se escriben aqui la fecha y el
+# commit de la aprobacion y la suma SHA-256 del protocolo aprobado: la comprobacion previa exige
+# que el protocolo no haya cambiado despues.
+aprobacion_protocolo = ""
+sha256_protocolo = ""
+# Control negativo: descriptores de M3 permutados al azar entre piezas del mismo museo.
+semilla_control_negativo = 20261111
+# H3: tolerancia de la reconstruccion y de la intervencion, y muestra de la revision humana.
+tolerancia_h3 = 1e-9
+semilla_revision_h3 = 20261112
+revision_h3_aciertos = 5
+revision_h3_errores = 5
+# Ablacion de M3 por bloques (decision R32): los bloques de bandas frente al resto del descriptor.
+bloques_bandas = ["bandas", "adyacencias"]
+# T1: la muestra al azar del pool se elige entre los candidatos que no proponen M0 ni M2, los
+# sistemas que no dependen de la anotacion (decision R32).
+sistemas_muestra_azar_t1 = ["M0", "M2"]

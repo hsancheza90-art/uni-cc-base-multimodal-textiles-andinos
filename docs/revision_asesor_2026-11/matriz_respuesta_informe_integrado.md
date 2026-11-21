@@ -17,7 +17,7 @@ Una advertencia general, en el sentido del punto 1 del informe: los estados «At
 |---|---|---|---|
 | 1 | Estado real e inventario | Atendido | Mantenerlo al día en cada entrega |
 | 2 | Pregunta, contribución y alcance | Por ratificar | Conformidad con la redacción; los objetivos se concilian con el primer avance en el capítulo 2 del manuscrito |
-| 3 | Protocolo experimental | Por ratificar | Aprobación de la versión 0.6.4 y de las decisiones R01 a R04, R10 y R25 a R30 |
+| 3 | Protocolo experimental | Por ratificar | Aprobación de la versión 0.6.5 y de las decisiones R01 a R04, R10 y R25 a R32 |
 | 4 | Estabilidad de la anotación y v2.1 | Atendido | Anotación v2.1 congelada el 17 de noviembre (R21 a R23) |
 | 5 | Modelos y ajuste de desarrollo | Atendido en desarrollo | Rankings de M3, de su control, de M4 y de M4-RRF; pesos de M4 elegidos (R28) |
 | 6 | Juicios de relevancia | Atendido en desarrollo, por ratificar | 419 pares juzgados; revisión asistida declarada (R25); juicios de prueba sin asistencia (R27) |
@@ -50,13 +50,13 @@ Una advertencia general, en el sentido del punto 1 del informe: los estados «At
 
 | Inciso | Acción | Evidencia | Estado |
 |---|---|---|---|
-| a) Completar, aprobar y registrar el protocolo | El protocolo está en la versión 0.6.4, propuesta. El test no se abre antes de su aprobación (R30). Su historial registra cada cambio con fecha y motivo. No tiene todavía fecha ni commit de aprobación | `docs/protocolo_experimental_v2.md` («Historial»); `docs/registro_decisiones.md` (`14c0887`, `ba18dc3`) | Por ratificar |
+| a) Completar, aprobar y registrar el protocolo | El protocolo está en la versión 0.6.5, propuesta. El test no se abre antes de su aprobación (R30). Su historial registra cada cambio con fecha y motivo. No tiene todavía fecha ni commit de aprobación | `docs/protocolo_experimental_v2.md` («Historial»); `docs/registro_decisiones.md` (`14c0887`, `ba18dc3`) | Por ratificar |
 | a) Decisiones propuestas: aptitud, galería, umbral y verificación | D2, D4 y D5 siguen como propuestas; D7 quedó decidida | `docs/plan_cierre_tesis.md` («Decisiones del 12 de noviembre») | Por ratificar |
 | b) T3 primaria, T1 exploratoria, seis sistemas | Sin cambios, más la variante M4-RRF como ablación (R03). M1 no participa en T1 y M3 se declara asistido por anotación | Protocolo, secciones 3 y 4 | Atendido |
 | c) Métrica primaria, umbral, intervalo y reglas para casos límite | nDCG@10, Δ = 0,03, IC 95 % por bootstrap pareado de 10 000 réplicas, regla para consultas sin relevantes y para pares `no_evaluable` | Protocolo, secciones 6 y 7; `src/experimento/evaluacion.py` (`4dff235`) | Atendido |
 | c) Decisión de H1 por bootstrap y permutación como sensibilidad | **Difiere de lo indicado.** La decisión R01 invierte los papeles: H1 y H2 se deciden por permutación pareada y el bootstrap se reserva para el intervalo. El motivo es que, con pocos temas, el bootstrap usado como prueba no mantiene el error de tipo I nominal (Urbano, Lima y Hanjalic, 2019). Si el asesor prefiere la regla original, se restituye antes del test: el código calcula ambas | `docs/registro_decisiones.md`, R01 | Por ratificar |
 | d) Partición por grupos, consultas fijadas y diseño transductivo | 44 grupos de desarrollo y 102 de prueba; 10 y 30 consultas T3 sorteadas con semilla antes de calcular rankings. La regla de reemplazo se aplicó dos veces, a T3-P27 y a T3-P06 (R22), por correcciones de la anotación y sin consultar ningún ranking | `data/metadata/particiones_v2.csv`, `consultas_t3_v2.csv`; `outputs/reports/experimento_v2_snapshot.md` (`0143686`, `d0bce67`) | Atendido |
-| e) Registrar toda modificación antes del test | Las modificaciones posteriores al 6 de noviembre están en el registro de decisiones (R01 a R31), con motivo, fuente y archivos afectados | `docs/registro_decisiones.md` | Atendido |
+| e) Registrar toda modificación antes del test | Las modificaciones posteriores al 6 de noviembre están en el registro de decisiones (R01 a R32), con motivo, fuente y archivos afectados | `docs/registro_decisiones.md` | Atendido |
 | f) Condiciones que detienen la prueba | El protocolo enumera cinco condiciones y una comprobación automática de fugas (grupos cruzados y autocandidatos). Falta añadir, de forma expresa, la ausencia de manifiesto de ejecución como condición de suspensión | Protocolo, sección 9 | Parcial |
 
 ## 4. Estabilidad de la anotación y versión estructural v2.1
@@ -102,8 +102,8 @@ Una advertencia general, en el sentido del punto 1 del informe: los estados «At
 
 | Inciso | Acción | Evidencia | Estado |
 |---|---|---|---|
-| a) Manifiesto de ejecución | No iniciado. Existen sus insumos: manifiesto de imágenes con SHA-256, manifiesto de M2, particiones y consultas versionadas | `data/metadata/m2_openclip_manifiesto_v2.json` | Pendiente |
-| b) Comprobaciones automáticas previas | El flujo ya verifica identificadores únicos, grupos sin cruzar, consultas que no son sus propios candidatos y coincidencia entre protocolo y configuración. Falta reunirlas en una comprobación previa al test | `tests/test_experimento.py`; `outputs/reports/experimento_v2_snapshot.md` | Parcial |
+| a) Manifiesto de ejecución | Implementado: se escribe al ejecutar los rankings de prueba, con el commit, las sumas SHA-256 de los insumos, el punto de control de M2, los parámetros y el entorno | `src/experimento/ejecucion_prueba.py`; R32 | Listo; se genera al abrir el test |
+| b) Comprobaciones automáticas previas | Reunidas en una comprobación previa: aprobación del protocolo y su suma, particiones sin fugas, anotación congelada y condiciones B3 a B7, pesos de M4, sumas de las imágenes y consultas T1. Hoy solo falla por la aprobación pendiente | `python -m src.experimento.ejecucion_prueba --comprobar`; `tests/test_ejecucion_prueba.py`; R32 | Atendido |
 | c) Sellado de modelos y qrels | No iniciado | — | Pendiente |
 | d) Evaluación confirmatoria única | No ejecutada. Ningún sistema se ha ejecutado sobre las consultas de prueba | — | Pendiente |
 
@@ -154,7 +154,7 @@ No hay resultados de prueba. Lo que existe es el instrumento y una estimación p
 
 | Inciso | Acción | Evidencia | Estado |
 |---|---|---|---|
-| a) Verificación en un entorno limpio | Cada commit publicado se verificó en un clon limpio: el flujo, hoy de 27 pasos, termina sin hallazgos, las pruebas pasan (470 al 21 de noviembre) y el árbol queda sin cambios | `README.md` («Regenerar y verificar») | Atendido |
+| a) Verificación en un entorno limpio | Cada commit publicado se verificó en un clon limpio: el flujo, hoy de 27 pasos, termina sin hallazgos, las pruebas pasan (476 al 21 de noviembre) y el árbol queda sin cambios | `README.md` («Regenerar y verificar») | Atendido |
 | b) Artefactos de evaluación | Versionados: código, consultas, particiones, juicios y rankings de desarrollo, configuración y sumas. Faltan las métricas por consulta, los intervalos y el manifiesto, que dependen del test. Las imágenes no versionadas se obtienen con los comandos de descarga documentados | `data/`, `config/`, `README.md` | Parcial |
 | c) Correspondencia entre tablas y archivos | Cada sistema tiene su módulo y cada informe su generador. La correspondencia con las tablas de la tesis se hará al redactar los resultados | `docs/protocolo_experimental_v2.md`, sección 12 | Parcial |
 | d) Diferir mejoras | Se mantienen diferidos SW03, SW06, SW07, SW09, SW11 y SW12, la validación externa de la aptitud, el cuarto museo y los modelos adicionales | [`matriz_respuesta_auditoria.md`](matriz_respuesta_auditoria.md) | Atendido |
@@ -164,7 +164,7 @@ No hay resultados de prueba. Lo que existe es el instrumento y una estimación p
 
 | Etapa | Situación al 21 de noviembre |
 |---|---|
-| Primera: protocolo y juicios de desarrollo | 419 juicios de desarrollo, revisados con asistencia declarada (R25). Protocolo 0.6.4 documentado y sin aprobar |
+| Primera: protocolo y juicios de desarrollo | 419 juicios de desarrollo, revisados con asistencia declarada (R25). Protocolo 0.6.5 documentado y sin aprobar |
 | Segunda: re-anotación y v2.1 | Completa: anotación v2.1 congelada el 17 de noviembre (R12 a R23) |
 | Tercera: M3, M4, ampliación del pool y pesos | Completa en desarrollo: rankings de todos los sistemas, pool ampliado, pesos de M4 y efecto mínimo detectable (R24, R28 y R29) |
 | Cuarta a sexta | No iniciadas; el código del test se prepara con datos de desarrollo |
@@ -173,7 +173,7 @@ De las condiciones mínimas que el informe fija antes del test, falta la aprobac
 
 ## Lo que se solicita al asesor
 
-1. La aprobación del protocolo 0.6.4 o sus observaciones, y en particular su conformidad con R01 (permutación para decidir, bootstrap para el intervalo). El test no se abre antes de esa aprobación (R30).
+1. La aprobación del protocolo 0.6.5 o sus observaciones, y en particular su conformidad con R01 (permutación para decidir, bootstrap para el intervalo). El test no se abre antes de esa aprobación (R30).
 2. Su criterio sobre los juicios de desarrollo (punto 6.a). La reserva de validez se abordó con una revisión asistida por una segunda opinión ciega (R25), y los pesos de M4 ya se eligieron con esos juicios (R28): ¿acepta ese uso, declarando la asistencia?
 3. Su conformidad con la redacción de la pregunta, las hipótesis y el alcance (punto 2), con la formalización (punto 9) y con los capítulos del manuscrito en borrador.
 4. Su ratificación de las decisiones que el investigador tomó sin esperar su respuesta (R27): H2 sobre las 30 consultas de prueba con un análisis secundario en las 9 con palabra de bandas, y juicios de prueba sin asistencia.

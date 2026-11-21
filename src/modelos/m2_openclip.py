@@ -247,11 +247,44 @@ def ejecutar(raiz: Path, dispositivo: str | None) -> int:
     return 0 if all(cumple == "si" for _, _, cumple in comprobaciones) else 1
 
 
+def textos_t1(raiz: Path) -> int:
+    """Vectores de texto de las consultas T1 con el mismo checkpoint (protocolo, sección 3).
+
+    Es ejecutar M2 sobre consultas de prueba: solo corre con el protocolo aprobado (decisión R30).
+    Se codifica la descripción tal como la escribió el evaluador, sin plantilla: T1 no tiene
+    consultas de desarrollo con que elegir una (decisión R32)."""
+    import open_clip
+    import torch
+
+    from src.experimento.consultas_t1 import SALIDA_T1
+    from src.experimento.ejecucion_prueba import EMBEDDINGS_T1, INDICE_T1, aprobado
+    from src.utils.archivos import leer_csv
+
+    if not aprobado(raiz):
+        print("El protocolo no esta aprobado (o cambio despues de aprobarlo): no se codifican las consultas T1.")
+        return 1
+    config = leer_config_modelos(raiz)["m2"]
+    consultas = [f for f in leer_csv(raiz / SALIDA_T1) if f["descripcion"]]
+    modelo, _ = cargar_modelo(config, "cpu")
+    tokenizador = open_clip.get_tokenizer(config["arquitectura"])
+    with torch.no_grad():
+        vectores = modelo.encode_text(tokenizador([f["descripcion"] for f in consultas])).float().cpu().numpy()
+    guardada = redondear(normalizar_l2(vectores.astype(np.float64)).astype(np.float32))
+    np.save(raiz / EMBEDDINGS_T1, guardada, allow_pickle=False)
+    escribir_csv(raiz / INDICE_T1, ["fila", "consulta"], [{"fila": str(i), "consulta": f["consulta"]} for i, f in enumerate(consultas)])
+    print(f"M2: {len(consultas)} vectores de texto de T1 -> {EMBEDDINGS_T1}")
+    return 0
+
+
 def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="M2: embeddings de imagen con OpenCLIP congelado.")
     parser.add_argument("--root", default=".", help="Raiz del repositorio.")
     parser.add_argument("--dispositivo", default=None, help="cuda o cpu (por defecto, [m2] dispositivo).")
+    parser.add_argument("--textos-t1", action="store_true",
+                        help="Vectores de texto de las consultas T1 (solo con el protocolo aprobado).")
     args = parser.parse_args(argv)
+    if args.textos_t1:
+        return textos_t1(Path(args.root).resolve())
     return ejecutar(Path(args.root).resolve(), args.dispositivo)
 
 

@@ -95,15 +95,19 @@ def clave(consulta: str, id_global: str) -> str:
     return f"{consulta}|{id_global}"
 
 
-def construir_pool(raiz: Path, config: dict[str, Any]) -> list[dict[str, str]]:
-    """Pares del pool de cada consulta de desarrollo, con los sistemas que los propusieron."""
+def construir_pool(raiz: Path, config: dict[str, Any], rankings: str = SALIDA_RANKINGS,
+                   base: set[str] | None = None) -> list[dict[str, str]]:
+    """Pares del pool de cada consulta de un archivo de rankings, con los sistemas que los propusieron.
+
+    Por defecto, los rankings de desarrollo. La muestra al azar se elige entre los candidatos que no
+    propone ningún sistema de `base` ([juicios] sistemas_muestra_azar): así no depende de los
+    sistemas que se agregan después (decisión R24)."""
     profundidad, aleatorios = int(config["juicios"]["profundidad_pool"]), int(config["juicios"]["aleatorios_pool"])
     semilla = int(config["juicios"]["semilla_pool"])
-    # La muestra al azar no depende de los sistemas que se agregan despues (decision R24).
-    base = set(config["juicios"]["sistemas_muestra_azar"])
+    base = set(config["juicios"]["sistemas_muestra_azar"]) if base is None else base
     origen: dict[tuple[str, str], set[str]] = defaultdict(set)
     candidatos: dict[str, set[str]] = defaultdict(set)
-    for fila in leer_csv(raiz / SALIDA_RANKINGS):
+    for fila in leer_csv(raiz / rankings):
         candidatos[fila["consulta"]].add(fila["id_global"])
         if int(fila["rango"]) <= profundidad:
             origen[(fila["consulta"], fila["id_global"])].add(fila["sistema"])
