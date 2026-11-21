@@ -46,7 +46,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 
 - **Decisión.** Se mantiene kappa ≥ 0,6 como señal de revisión por atributo, no como criterio de aprobación. Se declara como criterio operativo de estudio piloto. Un atributo por debajo se revisa en la guía antes de congelar la anotación v2.1. Si es `composicion`, se mantiene y se declara como limitación de H2. `secuencia_bandas` se informa con coincidencia exacta y similitud de edición, sin umbral.
 - **Motivo.** No hay un umbral aceptado. La referencia consultada propone 0,8 si hay que fijar uno y desaconseja que un umbral sea requisito; pide informar el método, el coeficiente y la tabla de acuerdos. La regla se fija antes de calcular el acuerdo, para no decidir sobre los atributos a la vista de los resultados.
-- **Fuente.** Artstein y Poesio (2008), p. 22 y 37 (ficha F07); Landis y Koch (1977) para la escala.
+- **Fuente.** Artstein y Poesio (2008), pp. 576 y 591 de la revista (pp. 22 y 37 del PDF; ficha F07); Landis y Koch (1977) para la escala.
 - **Archivos.** `docs/protocolo_anotacion_v2.md` (medición del acuerdo); `docs/protocolo_experimental_v2.md`, sección 10.
 - **Pendiente.** El informe generado `outputs/reports/anotacion_acuerdo_v2.md` todavía dice «umbral de acuerdo aceptable». Cambiar el texto en `src/anotacion/acuerdo.py` y el comentario de `[acuerdo]` en `config/anotacion.toml`, y regenerar con el flujo. Añadir la tabla de acuerdos por atributo si el informe no la da.
 

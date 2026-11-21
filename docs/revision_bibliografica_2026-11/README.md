@@ -4,6 +4,8 @@ Revisión de alcance para la tesis «Estructuras combinatorias y representación
 
 No es una revisión sistemática. Se consultó una base de forma nativa (OpenAlex) y se leyeron 30 documentos de acceso abierto, la mayoría de forma parcial. Scopus, Web of Science, IEEE Xplore y ACM DL no se consultaron.
 
+**Actualización del 20 de noviembre de 2026.** El investigador aportó 19 PDF: F31 a F33, y F34 a F48, localizados con una búsqueda web. Las 21 fichas parciales se completaron sobre el texto íntegro de su PDF. Las 48 fichas tienen lectura completa del cuerpo. `05_pendientes_texto_completo.md` reúne lo que falta leer, los datos por confirmar y los hallazgos que afectan la tesis. La matriz `03_matriz_antecedentes.csv` sigue describiendo los 30 documentos originales; las fichas prevalecen sobre ella.
+
 ## Contenido
 
 | Archivo | Qué es |
@@ -12,8 +14,8 @@ No es una revisión sistemática. Se consultó una base de forma nativa (OpenAle
 | `01_protocolo_busqueda.md` | Fuentes usadas y no usadas, estrategia, criterios, flujo con conteos y limitaciones |
 | `02_resultados_busqueda.md` | Las 17 cadenas de OpenAlex con su total y los registros retenidos |
 | `03_matriz_antecedentes.csv` | Matriz de los 30 documentos: datos, tarea, método, comparadores, resultados, límites, código y aporte |
-| `05_pendientes_texto_completo.md` | Documentos pertinentes que no se pudieron leer, por prioridad |
-| `fichas/` | Un informe `.md` por documento (F01 a F30) con su aporte a la tesis |
+| `05_pendientes_texto_completo.md` | Afirmaciones pendientes y la fuente que las respalda, bibliografía que falta leer, datos por confirmar, hallazgos y correspondencia entre PDF y ficha |
+| `fichas/` | Un informe `.md` por documento (F01 a F48) con su aporte a la tesis |
 | `pdfs/` | Manifiesto de los PDF y sus enlaces de acceso abierto. Los archivos se bajan con `descargar.py` |
 | `busquedas/consultas_openalex.json` | Cadenas literales y URL de cada consulta |
 | `referencias.bib` | Entradas provisionales; faltan campos que no se vieron en los documentos |
