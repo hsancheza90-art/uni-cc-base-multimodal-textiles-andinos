@@ -7,6 +7,7 @@ métricas: solo comprueba la estructura y las propiedades del cálculo.
 
 from __future__ import annotations
 
+import re
 from collections import Counter
 from pathlib import Path
 
@@ -27,10 +28,14 @@ from src.utils.config import CONFIG_EXPERIMENTO, RAIZ_REPO, leer_config_experime
 from tests.insumos import copiar_insumos
 
 
-def test_el_repositorio_solo_espera_la_aprobacion_del_protocolo() -> None:
+def test_la_comprobacion_previa_del_repositorio_solo_depende_de_la_autorizacion_y_de_la_corrida() -> None:
+    # Antes de la autorización, el único problema es su falta; después (R40), solo puede objetar que la corrida
+    # ya avanzó más allá del sellado de insumos, porque el test se ejecuta una sola vez.
     problemas = ep.comprobar(RAIZ_REPO)
-    assert problemas and all("no esta aprobado" in p for p in problemas), problemas
-    assert not ep.aprobado(RAIZ_REPO)
+    if not ep.aprobado(RAIZ_REPO):
+        assert problemas and all("no esta aprobado" in p for p in problemas), problemas
+    else:
+        assert problemas == ep.reejecucion(RAIZ_REPO), problemas
 
 
 def test_sin_aprobacion_no_se_ejecuta_ningun_sistema_sobre_la_prueba() -> None:
@@ -107,7 +112,7 @@ def test_rankings_t1_con_consultas_hipoteticas(tmp_path: Path) -> None:
 def repo_autorizado(tmp_path: Path) -> Path:
     """Repositorio temporal con una autorizacion hipotetica: nunca toca la configuracion real."""
     texto = (RAIZ_REPO / CONFIG_EXPERIMENTO).read_text(encoding="utf-8")
-    texto = texto.replace('aprobacion_protocolo = ""', 'aprobacion_protocolo = "2099-01-01 hipotetica"')
+    texto = re.sub(r'(?m)^aprobacion_protocolo = ".*"$', 'aprobacion_protocolo = "2099-01-01 hipotetica"', texto)
     (tmp_path / CONFIG_EXPERIMENTO).parent.mkdir(parents=True, exist_ok=True)
     (tmp_path / CONFIG_EXPERIMENTO).write_text(texto, encoding="utf-8")
     for nombre, contenido in (("a.csv", "x\n1\n"), ("b.csv", "y\n2\n")):

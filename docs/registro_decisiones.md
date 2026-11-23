@@ -42,13 +42,14 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 | R30 | 2026-11-21 | El test espera la aprobación del asesor; se corrigen las cifras de R21; M0, M1 y M3 quedan con sus parámetros de partida | Decidida |
 | R31 | 2026-11-21 | Las condiciones B3 a B7 pasan a ser reglas de la congelación y del flujo; la proposición 5.6 se fija en una prueba automática | Decidida |
 | R32 | 2026-11-21 | Definición de la ablación de M3 por bloques, de la robustez por completitud y de la ejecución de T1; el test queda listo para un solo comando | Decidida; ejecución modificada por R37 |
-| R33 | 2026-11-23 | H1 y H2 se contrastan en secuencia fija: H2 es confirmatoria solo si H1 se sostiene; H1 no aísla la estructura | Por ratificar |
-| R34 | 2026-11-23 | H1 con 100 000 réplicas fijas, error de Monte Carlo y tres afirmaciones separadas; el efecto mínimo detectable es una estimación de planificación | Por ratificar |
-| R35 | 2026-11-23 | H2 con p exacta por enumeración de los cambios de signo y tolerancia de empates de 1e-12; sin efecto mínimo detectable por aproximación normal | Por ratificar |
-| R36 | 2026-11-23 | H3 pasa a ser la fidelidad computacional de M4; la revisión humana de las explicaciones es descriptiva | Por ratificar |
-| R37 | 2026-11-23 | Estados de la corrida, manifiesto antes de los rankings, gestión de fallos y custodia sin firma personal | Por ratificar |
-| R38 | 2026-11-23 | No se rejuzga una muestra de prueba; la estabilidad intraevaluador no se mide y se declara | Por ratificar |
-| R39 | 2026-11-23 | Archivo de auditoría de los juicios asistidos, privado, con su huella y su descripción en el repositorio | Por ratificar |
+| R33 | 2026-11-23 | H1 y H2 se contrastan en secuencia fija: H2 es confirmatoria solo si H1 se sostiene; H1 no aísla la estructura | Decidida; ratificada el 23 de noviembre (R40) |
+| R34 | 2026-11-23 | H1 con 100 000 réplicas fijas, error de Monte Carlo y tres afirmaciones separadas; el efecto mínimo detectable es una estimación de planificación | Decidida; ratificada el 23 de noviembre (R40) |
+| R35 | 2026-11-23 | H2 con p exacta por enumeración de los cambios de signo y tolerancia de empates de 1e-12; sin efecto mínimo detectable por aproximación normal | Decidida; ratificada el 23 de noviembre (R40) |
+| R36 | 2026-11-23 | H3 pasa a ser la fidelidad computacional de M4; la revisión humana de las explicaciones es descriptiva | Decidida; ratificada el 23 de noviembre (R40) |
+| R37 | 2026-11-23 | Estados de la corrida, manifiesto antes de los rankings, gestión de fallos y custodia sin firma personal | Decidida; ratificada el 23 de noviembre (R40) |
+| R38 | 2026-11-23 | No se rejuzga una muestra de prueba; la estabilidad intraevaluador no se mide y se declara | Decidida; ratificada el 23 de noviembre (R40) |
+| R39 | 2026-11-23 | Archivo de auditoría de los juicios asistidos, privado, con su huella y su descripción en el repositorio | Decidida; ratificada el 23 de noviembre (R40) |
+| R40 | 2026-11-23 | El asesor autoriza la apertura del test sobre el commit 2b01f0e; se registra la autorización y se abre la corrida | Decidida |
 
 ## R01. Prueba inferencial de H1 y H2
 
@@ -385,3 +386,12 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Riesgo de anclaje.** El capítulo 7 declarará, con los datos del informe de la segunda opinión, el riesgo de que el evaluador se anclara en la opinión del modelo.
 - **Archivos.** `docs/auditoria_juicios_desarrollo.md` (descripción y huella), `docs/manuscrito/capitulo_7_diseno_experimental.md` (sección 7.6.4).
 - *(23 de noviembre: archivo armado en `investigacion_local/auditoria_juicios_asistidos_2026-11-19/`, con 429 archivos y su manifiesto `SHA256SUMS.txt`, de suma `c473375f6cc9c3127906704a5e03e587d7db7b6585a1123fe5a794ea1d0099f2`. Incluye el modelo usado (`claude-opus-5-5`, cinco instancias), sus instrucciones, las 411 imágenes que vio, sus respuestas y la separación de los 411 juicios usados para los pesos de los 8 posteriores.)*
+
+## R40. Autorización del test y apertura de la corrida
+
+- **Autorización.** El 23 de noviembre de 2026, en reunión con el investigador, el asesor autorizó la apertura del test sobre el commit `2b01f0e` (protocolo 0.6.6), sin cambios, y ratificó las decisiones R33 a R39. Atiende la condición C12 del dictamen del 21 de noviembre.
+- **Registro.** La fecha, el commit autorizado y la suma SHA-256 del protocolo se escriben en `[ejecucion]` de `config/experimento.toml`; el protocolo añade la fila de la autorización en su historial, y `docs/registro_custodia.md`, el estado `autorizada`. El protocolo queda congelado desde ese momento: si cambia, la comprobación previa y la ejecución se niegan a continuar.
+- **Declaración.** El investigador declaró por escrito al asesor, el 23 de noviembre, que no había ejecutado ningún sistema sobre las consultas de prueba.
+- **Vectores de T1.** Se calcularon el 23 de noviembre con `--textos-t1`, en CPU, con los pesos de M2 cuya suma coincide con la del manifiesto (`a5412f19…f378`) y las mismas versiones de bibliotecas. El tokenizador del codificador de texto se descargó en esa ejecución y no tiene suma en el manifiesto de M2; queda registrado aquí.
+- **Siguiente.** Sellado de los insumos y rankings de prueba (`--rankings`), libros ciegos de juicio y juicios sin asistencia. El evaluador no abre los rankings, el pool ni el manifiesto de ejecución.
+- **Archivos.** `config/experimento.toml`, `docs/protocolo_experimental_v2.md`, `docs/registro_custodia.md`.

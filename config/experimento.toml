@@ -64,8 +64,10 @@ tolerancia_empates = 1e-12
 # ejecuta sobre las consultas de prueba. Al aprobarse el protocolo se escriben aqui la fecha y el
 # commit de la aprobacion y la suma SHA-256 del protocolo aprobado: la comprobacion previa exige
 # que el protocolo no haya cambiado despues.
-aprobacion_protocolo = ""
-sha256_protocolo = ""
+# 2026-11-23 (decision R40): el asesor autorizo la apertura del test en reunion, sobre el commit
+# 2b01f0e (protocolo 0.6.6), sin cambios. La suma es la del protocolo con la fila de la autorizacion.
+aprobacion_protocolo = "2026-11-23, autorizacion del asesor Cesar Lara Avila en reunion, sobre el commit 2b01f0e"
+sha256_protocolo = "fd43ebaecde64c3505dedf3660fa1084a12ddaee0e7c3f2789c086758d3fc22d"
 # Control negativo: descriptores de M3 permutados al azar entre piezas del mismo museo.
 semilla_control_negativo = 20261111
 # H3: tolerancia de la reconstruccion y de la intervencion, y muestra de la revision humana.

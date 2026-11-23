@@ -12,7 +12,7 @@ Las huellas las imprime `python -m src.experimento.ejecucion_prueba` al terminar
 
 | Fecha | Estado | Responsable | Corrida | Commit | Etiqueta | Huellas enviadas al asesor |
 |---|---|---|---|---|---|---|
-| | `autorizada` | | | | | |
+| 2026-11-23 | `autorizada` | Henry Sánchez Alvarado; autorización del asesor César Lara Ávila en reunión | `corrida-1d7165cf4dab` | `2b01f0e` autorizado; la autorización se registra en el commit de la etiqueta | `test-v2-autorizado` | Pendiente: suma del protocolo `fd43ebaecde64c3505dedf3660fa1084a12ddaee0e7c3f2789c086758d3fc22d` |
 | | `insumos_sellados` | | | | | |
 | | `rankings_sellados` | | | | | |
 | | `juicios_cerrados` | | | | | |
