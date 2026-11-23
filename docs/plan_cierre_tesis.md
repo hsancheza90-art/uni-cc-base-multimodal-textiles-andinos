@@ -237,9 +237,9 @@ El plan no se cumplió en su calendario: el test, previsto para el 18 y el 19 de
 | Sistemas M0 a M4 y rankings de desarrollo (S2.5, S2.6, S3.1) | Hecho en desarrollo; pesos de M4 elegidos | R24, R28 |
 | Juicios de desarrollo (S3.2) | 419 pares juzgados, con revisión asistida declarada | R17, R25, R28 |
 | Potencia | Efecto mínimo detectable fijado antes del test | R29 |
-| Protocolo (S1.3) | Versión 0.6.5, pendiente de aprobación del asesor | `docs/protocolo_experimental_v2.md` |
+| Protocolo (S1.3) | Versión 0.6.5, pendiente de aprobación del asesor. *(23-11: dictamen favorable con apertura condicionada; versión 0.6.6, R33 a R39.)* | `docs/protocolo_experimental_v2.md` |
 | Revisión bibliográfica (S1.9) | 48 documentos leídos; Scopus y Web of Science sin consultar | `docs/revision_bibliografica_2026-11/` |
 | Congelación de sistemas, juicios de prueba y test (S3.3, S3.4, S4.1 a S4.3) | Pendiente: el test espera la aprobación del protocolo | R27, R30 |
 | Manuscrito (S4.5) | Capítulos 1 a 7 y 11 en borrador; 8 a 10 dependen del test | `docs/manuscrito/` |
 
-Desde esta fecha el trabajo pendiente se sigue en el registro de decisiones y en la matriz de respuesta al informe integrado (`docs/revision_asesor_2026-11/matriz_respuesta_informe_integrado.md`).
+Desde esta fecha el trabajo pendiente se sigue en el registro de decisiones y en la matriz de respuesta al informe integrado (`docs/revision_asesor_2026-11/matriz_respuesta_informe_integrado.md`) y, desde el 23 de noviembre, en la matriz de respuesta al dictamen (`docs/revision_asesor_2026-11/matriz_respuesta_dictamen_2026-11-21.md`).

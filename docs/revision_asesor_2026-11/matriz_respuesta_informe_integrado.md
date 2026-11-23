@@ -1,5 +1,7 @@
 # Matriz de respuesta al informe integrado del 8 de noviembre de 2026
 
+> **Nota del 23 de noviembre de 2026.** Esta matriz se conserva como se envió con el commit `6c121a3`. El dictamen del asesor del 21 de noviembre la sustituye en lo que toca al test: su respuesta está en [`matriz_respuesta_dictamen_2026-11-21.md`](matriz_respuesta_dictamen_2026-11-21.md), que corrige dos estados que aquí se sobrestimaron (7.a, manifiesto, y 8.c, instrumento de H3).
+
 Estado al 21 de noviembre de 2026. La versión inicial es del 13 de noviembre; el punto 4 se actualizó el 17, el punto 6 el 19 y el conjunto el 21 de noviembre, con las decisiones R24 a R30. Los puntos y los incisos siguen la numeración del informe integrado del asesor, versionado en [`docs/informe_integrado_2026-11-08/`](../informe_integrado_2026-11-08/). El informe tomó como referencia el commit `c313224` (6 de noviembre); esta matriz registra lo ocurrido desde entonces. La columna de evidencia remite a archivos del repositorio y, entre paréntesis, al commit que los introdujo.
 
 Los estados se interpretan así:

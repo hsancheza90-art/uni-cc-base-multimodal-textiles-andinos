@@ -133,7 +133,7 @@ Los generadores de libros conservan lo ya escrito: al regenerar un libro para a�
 
 ## 6.9 Verificación
 
-La batería de pruebas reúne 476 casos en 21 archivos. Se agrupan en cinco clases.
+La batería de pruebas reúne 504 casos en 21 archivos. Se agrupan en cinco clases.
 
 **Cuadro 6.5.** Pruebas automáticas por clase.
 
@@ -143,7 +143,7 @@ La batería de pruebas reúne 476 casos en 21 archivos. Se agrupan en cinco clas
 | Curación, aptitud y consolidados | Filtros de evidencia textil y andina, reglas y calibración del puntaje, esquema y construcción de los consolidados, colectores | 144 |
 | Anotación | Validación de la anotación v1 y v2, estados de observación, condiciones de buena formación, revisión de criterios, congelación y grupos | 87 |
 | Sistemas | Propiedades del descriptor y de la fusión: invariancia de la forma canónica, conteo de órbitas, simetría y cotas de la disimilitud, cota del control sin orden, contraejemplos de la desigualdad triangular, descomposición exacta, intervención, renormalización, posiciones recíprocas | 87 |
-| Experimento y evaluación | Particiones y consultas sin fugas, coherencia del protocolo con la configuración, métricas con ejemplos calculados a mano, pruebas estadísticas, selección de pesos, efecto mínimo detectable, sensibilidad y ejecución de la prueba (ensayada con desarrollo) | 38 |
+| Experimento y evaluación | Particiones y consultas sin fugas, coherencia del protocolo con la configuración y el código, métricas con ejemplos calculados a mano, pruebas estadísticas (p exacta frente a una enumeración independiente, réplicas fijas, secuencia de H1 y H2), selección de pesos, planificación de la potencia, sensibilidad y ejecución de la prueba: ensayo con desarrollo, sellado, fallos, cegamiento y revisión de H3 | 66 |
 
 Las pruebas de propiedades de M3 y M4 cumplen una función adicional: fijan los enunciados **[P]** del capítulo 5 y los contraejemplos de la proposición 5.8, de modo que una afirmación contraria no puede introducirse en el código sin que una prueba falle. La cota del control sin orden (proposición 5.6) se comprueba por enumeración exhaustiva de 132 496 pares de palabras. Las condiciones de buena formación B3 a B7 de la anotación (capítulo 5, sección 5.4.1) son reglas que la congelación y el flujo aplican sobre la anotación final.
 
@@ -157,14 +157,18 @@ El número reducido de dependencias es deliberado. Cada biblioteca añadida es u
 
 ## 6.11 Ejecución única de la prueba
 
-La ejecución de la prueba se implementó y se verificó antes de abrirla, para que el día en que se abra no haya que escribir código nuevo, cuando ya no puede corregirse nada. Un módulo reúne cuatro órdenes que se ejecutan en secuencia:
+La ejecución de la prueba se implementó y se verificó antes de abrirla, para que el día en que se abra no haya que escribir código nuevo, cuando ya no puede corregirse nada. La corrida avanza por los cinco estados del capítulo 7 (sección 7.12), registrados en un manifiesto de ejecución, y un módulo reúne seis órdenes que se ejecutan en secuencia:
 
-1. **Comprobación previa.** Verifica las condiciones de suspensión que pueden comprobarse en el repositorio (capítulo 7, sección 7.12). La primera es la aprobación del protocolo: la configuración registra la fecha y el commit de la aprobación y la suma SHA-256 del protocolo aprobado, y la comprobación exige que el documento no haya cambiado después.
-2. **Rankings de prueba.** Se ejecutan una sola vez, sobre las 30 consultas de T3 y las 6 de T1, y se niegan a correr si la comprobación previa encuentra un problema o si el test ya se ejecutó. Escriben un manifiesto de ejecución con el commit, las sumas SHA-256 de los insumos, el punto de control de M2, los parámetros y el entorno. Los vectores de texto de T1 se calculan aparte, con el mismo codificador y la misma condición de aprobación.
-3. **Juicios de prueba.** Libros ciegos de T3 y de T1, con la misma estructura que los de desarrollo y una galería local por tarea.
-4. **Evaluación.** Valida los juicios y, si están completos y sin errores, calcula H1, H2 con su análisis secundario, la reconstrucción y la intervención de H3, las ablaciones, el control negativo, la robustez por museo y por completitud, y las métricas descriptivas de T1.
+1. **Comprobación previa.** Verifica las condiciones de suspensión que pueden comprobarse en el repositorio. La primera es la autorización del protocolo: la configuración registra la fecha y el commit de la autorización y la suma SHA-256 del protocolo, y la comprobación exige que el documento no haya cambiado después. También rechaza una segunda corrida.
+2. **Rankings de prueba.** Antes de calcular nada, exigen todos los insumos y un árbol de trabajo sin cambios en archivos versionados, y escriben el manifiesto con el commit, las sumas SHA-256 de los insumos, la huella de las reglas de juicio, el punto de control de M2, los parámetros y el entorno. Después calculan los rankings de las 30 consultas de T3 y las 6 de T1 y el pool, y los sellan. Los vectores de texto de T1 se calculan aparte, con el mismo codificador y la misma condición de autorización.
+3. **Juicios de prueba.** Libros ciegos de T3 y de T1, con la misma estructura que los de desarrollo y una galería local por tarea. Un validador comprueba, antes de entregarlos, que no contienen el sistema, la puntuación ni la posición, que conservan el orden sorteado y que su guía coincide con la rúbrica sellada.
+4. **Cierre de los juicios.** Valida que los juicios estén completos y sin errores, repite la comprobación del cegamiento y sella los libros y su exportación.
+5. **Revisión de H3.** Sortea con semilla los aciertos y errores del top 10 de M4 y escribe las fichas ciegas de la revisión descriptiva, con su validador de campos.
+6. **Evaluación.** Recalcula todas las sumas del manifiesto y, solo si coinciden, calcula H1 con sus tres afirmaciones y su error de Monte Carlo, H2 con su p exacta y la compuerta de H1, la reconstrucción y la intervención de H3, la cobertura y la sensibilidad del pool, las ablaciones, el control negativo, la robustez por museo y por completitud y las métricas descriptivas de T1, en un informe con la plantilla fijada en el protocolo.
 
-El cálculo de la evaluación recibe la partición como parámetro. Las pruebas automáticas lo ejecutan sobre la partición de desarrollo y sus juicios, en memoria y sin mostrar ninguna métrica, para comprobar que produce todas las comparaciones y que la reconstrucción y la intervención de H3 se cumplen. La tarea T1 se prueba con consultas hipotéticas y vectores sintéticos. Una prueba comprueba además que, sin aprobación, la orden de los rankings termina con error y no escribe nada. Ningún sistema se ha ejecutado sobre las consultas de prueba.
+Cada orden escribe en archivos temporales y publica sus salidas al terminar, junto con el manifiesto. Si una suma no coincide o falta un archivo sellado, la corrida queda suspendida y no se calcula ninguna métrica.
+
+El cálculo de la evaluación recibe la partición como parámetro. Las pruebas automáticas lo ejecutan sobre la partición de desarrollo y sus juicios, en memoria y sin mostrar ninguna métrica, para comprobar que produce todas las comparaciones y el informe completo y que la reconstrucción y la intervención de H3 se cumplen. La tarea T1 se prueba con consultas hipotéticas y vectores sintéticos. Las pruebas de aceptación que pidió el asesor (T1 a T8) cubren la secuencia de H1 y H2, la p exacta de H2 frente a una enumeración independiente, la regla de H1 y sus réplicas fijas, la alteración de un byte en un archivo sellado, una caída parcial, la muestra de H3 con clases vacías, el cegamiento del libro de extremo a extremo y la coherencia entre el protocolo, la configuración y el código. Una prueba comprueba además que, sin autorización, la orden de los rankings termina con error y no escribe nada. Ningún sistema se ha ejecutado sobre las consultas de prueba.
 
 ## 6.12 Cierre del capítulo
 

@@ -1,10 +1,20 @@
 # 11. Limitaciones y trabajo futuro
 
-> **Borrador 0.1, 21 de noviembre de 2026.** Capítulo de la segunda parte de la tesis. Reúne las limitaciones declaradas en los capítulos 4, 5 y 7 y las ordena según lo que comprometen. Se redactó antes de ejecutar la prueba: las limitaciones que dependan del resultado (por ejemplo, la proporción juzgada del top 10 o la frecuencia de pares no evaluables) se añadirán después de los capítulos 8 y 9. Las marcas **[verificar: …]** señalan afirmaciones que dependen de una obra no leída en el proyecto.
+> **Borrador 0.2, 23 de noviembre de 2026** (lista de limitaciones fijada antes del test y estabilidad del evaluador, según el dictamen del asesor del 21 de noviembre). Capítulo de la segunda parte de la tesis. Reúne las limitaciones declaradas en los capítulos 4, 5 y 7 y las ordena según lo que comprometen. Se redactó antes de ejecutar la prueba: las limitaciones que dependan del resultado (por ejemplo, la proporción juzgada del top 10 o la frecuencia de pares no evaluables) se añadirán después de los capítulos 8 y 9. Las marcas **[verificar: …]** señalan afirmaciones que dependen de una obra no leída en el proyecto.
 
 ## 11.1 Criterio de organización
 
 Una limitación es pertinente en la medida en que condiciona lo que la tesis puede afirmar. Por eso este capítulo no repite cada salvedad de los capítulos anteriores, sino que las agrupa según el tipo de conclusión que limitan: qué mide la representación (sección 11.2), si la diferencia observada puede atribuirse al método (11.3), con qué precisión se estima (11.4) y a qué se extiende (11.5). La sección 11.6 trata los límites éticos y de gobernanza, y la 11.7 propone el trabajo futuro que se desprende de cada grupo.
+
+**Limitaciones fijadas antes del test.** Las siguientes quedaron escritas en el protocolo antes de ejecutar ningún sistema sobre las consultas de prueba, y se mantienen cualquiera sea el resultado:
+
+1. M3 y M4 dependen de una anotación humana, cuyo costo no se midió (sección 11.3).
+2. Un solo evaluador, que además anotó la estructura (sección 11.3).
+3. El pool es parcial: solo se juzgan los diez primeros de cada sistema y una muestra al azar, y lo no juzgado cuenta como 0 (sección 11.3).
+4. La potencia es insuficiente para detectar una diferencia de 0,03 (sección 11.4).
+5. Los pesos de M4 se eligieron con diez consultas (sección 11.4).
+6. La generalización se restringe a la colección elegible (sección 11.5).
+7. **No se estimó la estabilidad intraevaluador de los juicios de relevancia de prueba**, porque no se rejuzgó ninguna submuestra (sección 11.3).
 
 ## 11.2 Qué mide la representación
 
@@ -22,13 +32,17 @@ Una limitación es pertinente en la medida en que condiciona lo que la tesis pue
 
 **Circularidad entre anotación y juicio.** Una misma persona definió el esquema, anotó las 150 piezas y juzga la relevancia. Las salvaguardas de procedimiento (consultas fijadas de antemano, juicio ciego y en orden aleatorio, sin acceso a rankings ni a la anotación) impiden que el evaluador sepa qué sistema propuso cada candidato, pero no que su criterio coincida con el del descriptor. Es la limitación principal del estudio. Sin un segundo evaluador, los juicios no pueden presentarse como una verdad independiente de quien los emitió (capítulo 7, sección 7.6.3).
 
+**Estabilidad del evaluador.** Los juicios de relevancia de prueba se emiten una sola vez. No se estimó la estabilidad intraevaluador de los juicios de prueba: ninguna submuestra se juzgó dos veces (decisión R38). La estabilidad medida en la tesis es la de la anotación, en otro procedimiento y con otra escala, y no la sustituye. Con un evaluador único puede haber variabilidad en sus propios juicios que el estudio no cuantifica.
+
 **Un solo anotador.** La estabilidad intra-anotador, medida en 30 piezas, es una cota optimista de la fiabilidad entre personas y no la sustituye. Los atributos de los que depende H2 resultaron estables en ese lote (composición, κ = 0,84; palabra idéntica en 17 de 24 piezas), pero el atributo centro quedó en κ = 0,49 y la estabilidad de los lotes posteriores no se midió (capítulo 4, sección 4.9).
 
 **Observabilidad inestable.** La decisión de si un atributo puede observarse fue menos estable que el valor anotado: en la composición, el acuerdo sobre la observabilidad corregido por azar fue nulo (κ = −0,10). Como la máscara decide qué bloques compara el descriptor, la disimilitud entre dos piezas depende en parte de un juicio que no se reproduce bien.
 
 **Revisión asistida de la anotación.** La versión 2.1 incluye correcciones que partieron de propuestas de un modelo de visión y lenguaje, verificadas y firmadas por el anotador. 58 de las 108 decisiones coinciden con la propuesta, y no puede saberse cuántas habría tomado igual sin ella (Parasuraman y Manzey, 2010, p. 397). La revisión cambió al menos un atributo del descriptor en 46 de las 150 piezas y modificó de forma apreciable los rankings de desarrollo de M3: entre 4 y 9 piezas comunes en el top 10 y correlación de Spearman entre 0,56 y 0,91 (capítulo 4, sección 4.10.1). Las conclusiones sobre M3 valen para la versión congelada y no para la anotación en abstracto.
 
-**Juicios de desarrollo asistidos.** Los juicios con que se eligieron los pesos de M4 y se estimó la potencia se revisaron con la segunda opinión de un modelo de visión y lenguaje, y los grados firmados coinciden casi siempre con ella. Antes, esos juicios se habían aplicado con un criterio de parecido global más que estructural. Los pesos de la fusión y la planificación de la potencia heredan ambas reservas. Los juicios de prueba se hacen sin asistencia, de modo que las conclusiones confirmatorias no dependen de ellos (capítulo 7, sección 7.6.4).
+**Juicios de desarrollo asistidos.** Los juicios con que se eligieron los pesos de M4 y se estimó la potencia se revisaron con la segunda opinión de un modelo de visión y lenguaje. El acuerdo previo entre el evaluador y el modelo era bajo (κ = 0,161); en la revisión, el evaluador cambió 246 de los 411 grados, y la justificación firmada coincide con la del modelo en 406. El riesgo de que el evaluador se anclara en la propuesta del modelo no puede descartarse. Antes, esos juicios se habían aplicado con un criterio de parecido global más que estructural. Los pesos de la fusión y la planificación de la potencia heredan ambas reservas. El material de la revisión se conserva en un archivo de auditoría con su huella registrada. Los juicios de relevancia de prueba se emitirán sin asistencia de modelos, de modo que las conclusiones confirmatorias no dependen de juicios asistidos (capítulo 7, sección 7.6.4).
+
+**Revisión de las explicaciones.** La revisión humana de diez explicaciones de M4 la hace el mismo evaluador que anotó la estructura, de modo que no es independiente. Es descriptiva y no interviene en H3, que solo verifica la fidelidad de la descomposición a la fórmula (capítulo 7, sección 7.11).
 
 **Pooling.** Solo se juzgan los diez primeros candidatos de cada sistema y una muestra al azar; lo no juzgado cuenta como no relevante, lo que infravalora a los sistemas ajenos al pool (Buckley et al., 2007). Todos los sistemas comparados aportan al pool, pero las ablaciones que no aportan candidatos se evalúan con juicios incompletos.
 
@@ -38,9 +52,9 @@ Una limitación es pertinente en la medida en que condiciona lo que la tesis pue
 
 ## 11.4 Con qué precisión se estima
 
-**Potencia.** Con 30 consultas de prueba, el efecto mínimo detectable en H1 es de 0,087 en nDCG@10 (rango de 0,060 a 0,159), unas tres veces el umbral práctico de 0,03; detectar ese umbral exigiría unas 250 consultas (capítulo 7, sección 7.8). Un resultado no significativo será, con alta probabilidad, inconcluso y no negativo.
+**Potencia.** Con 30 consultas de prueba, el efecto mínimo detectable en H1 se estima en 0,087 en nDCG@10 (rango de 0,060 a 0,159), unas tres veces el umbral práctico de 0,03; detectar ese umbral exigiría unas 250 consultas (capítulo 7, sección 7.8). Es una estimación aproximada de planificación, basada en diez consultas, y no una frontera de detectabilidad. Un resultado no significativo será, con alta probabilidad, inconcluso y no negativo, y un resultado significativo puede sobrestimar el efecto.
 
-**H2 diluida por construcción.** En 21 de las 30 consultas de prueba la pieza no tiene palabra de bandas, y M3 y su control asignan la misma puntuación a todos los candidatos. La diferencia media de H2 se diluye en esa proporción, y el análisis secundario en las 9 consultas restantes tiene muy pocas observaciones. Solo 53 de las 150 piezas del núcleo tienen palabra de bandas, y solo 25 de los 1378 pares entre ellas difieren en el orden con el mismo histograma de tipos (capítulo 5, sección 5.13). La pregunta sobre el orden queda, por tanto, mal servida por la composición del corpus, con independencia de la calidad del descriptor.
+**H2 diluida por construcción.** En 21 de las 30 consultas de prueba la pieza no tiene palabra de bandas, y M3 y su control asignan la misma puntuación a todos los candidatos. La diferencia media de H2 se diluye en esa proporción, y el subgrupo de las 9 consultas restantes tiene muy pocas observaciones. La p de H2 es exacta y discreta: si menos de seis de esas diferencias son distintas de cero, no puede bajar de 0,05 cualquiera sea el resultado. Además, H2 solo es confirmatoria si H1 se sostiene, de modo que una conclusión confirmatoria sobre el orden es improbable. Solo 53 de las 150 piezas del núcleo tienen palabra de bandas, y solo 25 de los 1378 pares entre ellas difieren en el orden con el mismo histograma de tipos (capítulo 5, sección 5.13). La pregunta sobre el orden queda, por tanto, mal servida por la composición del corpus, con independencia de la calidad del descriptor.
 
 **Pesos con diez consultas.** Los pesos de M4 se eligieron una sola vez, en una rejilla pequeña, con diez consultas de desarrollo. El respaldo de la combinación convexa con pocas consultas proviene de fusiones de dos sistemas y de colecciones con miles de consultas (Bruch et al., 2023). La variante sin pesos permite estimar cuánto depende el resultado de ese ajuste, pero no corrige su inestabilidad.
 
@@ -62,7 +76,7 @@ Una limitación es pertinente en la medida en que condiciona lo que la tesis pue
 
 La licencia abierta permite reutilizar las imágenes, pero no responde a las preguntas que los principios CARE plantean sobre datos de origen indígena: beneficio colectivo, autoridad para controlar, responsabilidad y ética (Carroll et al., 2020). Parte de las piezas procede de contextos funerarios, mencionados de forma explícita en al menos 24 de los 615 registros del consolidado, y ninguna comunidad de origen participó en su descripción. La tesis no puede afirmar que cumple esos principios. Lo que sí hace es acotar el uso: la anotación no atribuye significados, las atribuciones se conservan como las de cada museo, las imágenes no se redistribuyen y la ficha del corpus declara los usos para los que no está pensado (capítulo 4, sección 4.12).
 
-Una limitación de otro orden es la asistencia de un modelo de lenguaje en dos procedimientos del estudio: la revisión de criterios de la anotación y la revisión de los juicios de desarrollo. Ambas se declaran, se acotan y se excluyen de la prueba, pero introducen en datos de desarrollo un criterio que no es el del investigador ni el de un especialista, y cuya relación con los sistemas evaluados solo puede discutirse, no medirse (capítulo 7, sección 7.6.4).
+Una limitación de otro orden es la asistencia de un modelo de lenguaje en dos procedimientos del estudio: la revisión de criterios de la anotación y la revisión de los juicios de desarrollo. Ambas se declaran y se acotan. Los juicios de relevancia de prueba se emitirán sin asistencia de modelos; M3 y M4 utilizarán, no obstante, la anotación congelada cuya revisión incluyó asistencia. Las dos revisiones introducen en datos de desarrollo y en la anotación un criterio que no es el del investigador ni el de un especialista, y cuya relación con los sistemas evaluados solo puede discutirse, no medirse (capítulo 7, sección 7.6.4).
 
 ## 11.7 Trabajo futuro
 
@@ -99,7 +113,7 @@ Cada grupo de limitaciones sugiere una línea de trabajo. Se ordenan de la más 
 
 ## 11.8 Cierre del capítulo
 
-Las limitaciones de la tesis son las de un estudio piloto con una sola persona en los papeles de anotador y evaluador, una galería de 150 piezas y 30 consultas de prueba. Ninguna invalida el diseño, pero todas acotan lo que puede concluirse: la tesis puede responder si, en esta colección y con esta anotación, la estructura añade utilidad detectable a un codificador general, y puede verificar la fidelidad de la explicación. No puede responder si la estructura textil andina, en general, es recuperable desde fotografías, ni qué significa para quienes la tejieron. El trabajo futuro más inmediato, un segundo evaluador y más consultas con bandas, está al alcance de una extensión del mismo estudio.
+Las limitaciones de la tesis son las de un estudio piloto con una sola persona en los papeles de anotador y evaluador, una galería de 150 piezas y 30 consultas de prueba. Ninguna invalida el diseño, pero todas acotan lo que puede concluirse: la tesis puede responder si, en esta colección y con esta anotación, la fusión que incluye la estructura mejora de forma detectable a un codificador general, explorar con las ablaciones qué parte corresponde a la estructura, y verificar que la explicación de la fusión es fiel a su cálculo. No puede responder si la estructura textil andina, en general, es recuperable desde fotografías, ni qué significa para quienes la tejieron. El trabajo futuro más inmediato, un segundo evaluador y más consultas con bandas, está al alcance de una extensión del mismo estudio.
 
 ## Referencias
 

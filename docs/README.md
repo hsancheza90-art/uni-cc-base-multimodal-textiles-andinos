@@ -6,7 +6,7 @@ Documentación metodológica del corpus multimodal de textiles andinos. Según l
 
 | Documento | Contenido |
 |---|---|
-| `revision_asesor_2026-11/` | Carta de envío, informe de avance y matrices de respuesta a la auditoría y al informe integrado; inventario del estado, propuesta de problema e hipótesis, formalización matemática y amenazas a la validez. Es el punto de entrada de la revisión. Los documentos conservan la fecha en que se entregaron; la matriz de respuesta al informe integrado está al día al 21-11-2026. |
+| `revision_asesor_2026-11/` | Carta de envío, informe de avance y matrices de respuesta a la auditoría y al informe integrado; inventario del estado, propuesta de problema e hipótesis, formalización matemática y amenazas a la validez. Es el punto de entrada de la revisión. Los documentos conservan la fecha en que se entregaron; la matriz de respuesta al informe integrado está al día al 21-11-2026 y la matriz de respuesta al dictamen del 21-11-2026, al 23-11-2026. |
 | `auditoria_2026-10-20/` | Auditoría del asesor del 20 de octubre de 2026, versionada sin cambios, con una nota sobre la verificación de sus sumas. |
 | `informe_integrado_2026-11-08/` | Informe integrado del asesor del 8 de noviembre de 2026: documento original sin cambios y su transcripción. |
 
@@ -14,7 +14,9 @@ Documentación metodológica del corpus multimodal de textiles andinos. Según l
 
 | Documento | Contenido |
 |---|---|
-| `protocolo_experimental_v2.md` | Protocolo del experimento de recuperación estructural (versión 0.6.5), propuesto para la aprobación del asesor. |
+| `protocolo_experimental_v2.md` | Protocolo del experimento de recuperación estructural (versión 0.6.6), que responde al dictamen del asesor del 21-11-2026 y espera su autorización. |
+| `registro_custodia.md` | Registro de custodia de la ejecución única del test: estados, commit, etiquetas y huellas (R37). |
+| `auditoria_juicios_desarrollo.md` | Descripción y huella del archivo de auditoría, privado, de los juicios de desarrollo asistidos (R39). |
 | `especificacion_m3.md` | Descriptor estructural M3: definiciones, propiedades y pruebas. |
 | `protocolo_anotacion_v2.md` | Anotación estructural v2: capas, bandas, estados, núcleo y acuerdo intra-anotador. |
 | `esquema_consolidado_met_cma_aic_v2.md` | Esquema del consolidado v2, campo por campo (generado por el flujo). |
@@ -44,7 +46,7 @@ Los conteos vigentes y el motivo de cada cambio están en `config/corpus.toml`.
 |---|---|
 | `manuscrito/` | Capítulos de la segunda parte de la tesis en borrador (Markdown), con su resumen. Los capítulos 8 a 10 dependen del test. |
 | `MCC701_05-07-2026.pdf` | Primer avance de tesis. |
-| `registro_decisiones.md` | Decisiones del investigador desde el 12-11-2026 (R01 a R32): motivo, fuente, archivos afectados y estado. |
+| `registro_decisiones.md` | Decisiones del investigador desde el 12-11-2026 (R01 a R39): motivo, fuente, archivos afectados y estado. |
 | `revision_bibliografica_2026-11/` | Revisión de alcance: búsqueda del 11-11-2026 y ampliación del 20-11-2026, 48 fichas de lectura, matriz, síntesis y referencias. Los PDF no se versionan. |
 | `plan_cierre_tesis.md` | Plan de cuatro semanas (26-10 al 22-11-2026) alineado con la auditoría del asesor. Histórico: su estado final está en la sección «Cierre». |
 | `notas_para_tesis.md` | Diferencias con el capítulo 6 del primer avance, anotadas durante la curación. Histórico: su contenido pasó al capítulo 4 del manuscrito. |

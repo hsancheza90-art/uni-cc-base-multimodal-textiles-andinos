@@ -26,7 +26,7 @@ El enfoque descansa en cuatro decisiones.
 
 **Sistemas separados y fusión de puntuaciones.** Cada modalidad tiene su propio sistema: una búsqueda léxica sobre la ficha (M0), una medida de color y textura (M1), un codificador visión-lenguaje congelado (M2) y un descriptor estructural sobre la anotación (M3), con un control que conserva los tipos de banda y descarta su orden. Las puntuaciones de M0, M2 y M3 se combinan en una fusión aditiva (M4), cuya puntuación se descompone exactamente en las contribuciones de sus componentes.
 
-**Evaluación controlada con juicios humanos.** La utilidad de la estructura se mide en una tarea de recuperación por ejemplar, con consultas sorteadas antes de ejecutar los sistemas, una partición por grupos de piezas relacionadas, juicios de relevancia graduados emitidos a ciegas sobre las imágenes, un protocolo fijado antes de la prueba y una única ejecución de esta (capítulo 7).
+**Evaluación controlada con juicios humanos.** La hipótesis principal compara la fusión con el codificador visión-lenguaje solo, y mide así la utilidad del sistema combinado; qué parte de ella corresponde a la estructura se examina con ablaciones exploratorias, y el aporte del orden, frente a su control. Todo se mide en una tarea de recuperación por ejemplar, con consultas sorteadas antes de ejecutar los sistemas, una partición por grupos de piezas relacionadas, juicios de relevancia graduados emitidos a ciegas sobre las imágenes, un protocolo fijado antes de la prueba y una única ejecución de esta (capítulo 7).
 
 ## 1.4 Continuidad con el primer avance
 
@@ -44,7 +44,7 @@ El cambio de mayor alcance es de orientación. El primer avance preguntaba cómo
 
 ## 1.5 Contribuciones
 
-La tesis aporta una formalización de la macroestructura visible de los textiles a partir de fotografías de museo, con un descriptor y una disimilitud de propiedades demostradas y un control que aísla el efecto del orden; un corpus multimodal documentado de tres colecciones abiertas, con una anotación estructural congelada y su estabilidad medida; y una evaluación controlada de la utilidad de esa estructura frente a un codificador visión-lenguaje congelado. Estas contribuciones no dependen del signo del resultado (capítulo 2, sección 2.6). [Pendiente: síntesis de los resultados del capítulo 8.]
+La tesis aporta una formalización de la macroestructura visible de los textiles a partir de fotografías de museo, con un descriptor y una disimilitud de propiedades demostradas y un control que aísla el efecto del orden; un corpus multimodal documentado de tres colecciones abiertas, con una anotación estructural congelada y su estabilidad medida; y una evaluación controlada de un sistema que combina esa estructura con el texto y la imagen frente a un codificador visión-lenguaje congelado, con ablaciones que examinan el aporte de la estructura. Estas contribuciones no dependen del signo del resultado (capítulo 2, sección 2.6). [Pendiente: síntesis de los resultados del capítulo 8.]
 
 ## 1.6 Organización del documento
 

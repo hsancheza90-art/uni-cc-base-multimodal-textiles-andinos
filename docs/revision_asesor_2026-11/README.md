@@ -34,6 +34,10 @@ La [matriz de respuesta a la auditoría](matriz_respuesta_auditoria.md) se actua
 
 Dos asuntos requieren su atención antes de continuar. El primero es una reserva sobre los juicios de desarrollo: comparados con la anotación, no puede afirmarse que midan similitud estructural (sección 2 de las amenazas a la validez). El segundo es la regla de decisión de H1: el protocolo propone decidir por permutación pareada y reservar el bootstrap para el intervalo, a diferencia de lo que indica su informe (decisión R01).
 
+## Actualización al 23 de noviembre de 2026
+
+El dictamen del 21 de noviembre, sobre el commit `6c121a3`, es favorable al diseño piloto y condiciona la apertura del test a acreditar las condiciones C1 a C12. La respuesta, observación por observación y con las pruebas de aceptación T1 a T8, está en la [matriz de respuesta al dictamen](matriz_respuesta_dictamen_2026-11-21.md). El protocolo pasa a la versión 0.6.6 (decisiones R33 a R39), y se añaden el [registro de custodia](../registro_custodia.md) y la [descripción del archivo de auditoría de los juicios asistidos](../auditoria_juicios_desarrollo.md).
+
 ## Lo que le solicito
 
 1. **La aprobación del protocolo experimental** (`docs/protocolo_experimental_v2.md`, versión 0.5), o sus observaciones para corregirlo. Una vez aprobado, el protocolo se congela y cualquier cambio posterior queda registrado en su historial antes de abrir el test.
