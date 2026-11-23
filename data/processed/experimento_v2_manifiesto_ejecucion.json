@@ -1,0 +1,188 @@
+{
+  "checkpoint_m2": {
+    "arquitectura": "xlm-roberta-base-ViT-B-32",
+    "encuadre": "relleno_cuadrado",
+    "pesos": "laion5b_s13b_b90k",
+    "precision": "fp32",
+    "sha256_pesos": "a5412f19cca70db8d434f68361f7254bd322a553455a63dbb709bd6a650cf378"
+  },
+  "corrida": "corrida-1d7165cf4dab",
+  "entorno": {
+    "numpy": "2.5.3",
+    "plataforma": "Windows-11-10.0.26300-SP0",
+    "python": "3.15.2"
+  },
+  "estados": [
+    {
+      "aprobacion_protocolo": "2026-11-23, autorizacion del asesor Cesar Lara Avila en reunion, sobre el commit 2b01f0e",
+      "estado": "autorizada",
+      "sha256": {
+        "docs/protocolo_experimental_v2.md": "fd43ebaecde64c3505dedf3660fa1084a12ddaee0e7c3f2789c086758d3fc22d"
+      }
+    },
+    {
+      "arbol_limpio": true,
+      "commit": "cc501aef53628bcaabff9b02bc3ada7e892d223e",
+      "estado": "insumos_sellados",
+      "reglas_juicio": "5c6618ae96bbc9569b6560831146966d6dbcfd6617f104435b6cb07a1cf3a8f9",
+      "sha256": {
+        "config/experimento.toml": "48fd0611978a1e513d1669e3ac632f00e67a9bd8fcccd01211bf1b3292fa82f0",
+        "config/modelos.toml": "419e59dbd1dcc79ba54e71c7a4d99a5bd852b8de444737922d422d9105759f77",
+        "data/metadata/consultas_t1_v2.csv": "7d78467251d660986d1a82fe4447ac7da928ae59267316df7e69ae2fdf348610",
+        "data/metadata/consultas_t3_v2.csv": "b28eacbcd9756588498ef841e058f193267325ef93db1330797def42ec2aa406",
+        "data/metadata/imagenes_evaluacion_manifiesto_v2.csv": "cdcf1b8f6fca076982d4c6071132652a09a5d28c466d6c373d97d4233e3d2d26",
+        "data/metadata/juicios_desarrollo_v2.csv": "113819aece9c0715ebabb1d5a628d3c851418899edf7028c81c011291d539255",
+        "data/metadata/m1_caracteristicas_v2.npy": "39d09f1a8c8be1a0f96a455c66b6718cae8774a870bc9e73addf3ee592dacfb1",
+        "data/metadata/m1_indice_v2.csv": "82cf4117dcb421931fa014d88f556224dd78a3f650780da3c6177c1cf6a56547",
+        "data/metadata/m2_openclip_embeddings_v2.npy": "131418045b53748651594469bf8339e27a7438b8ea392c0610af741e9dcee78f",
+        "data/metadata/m2_openclip_indice_v2.csv": "29bc0021ea7bf4aae710177bc303672823974355217f242b91c9ccd3ef7f3acb",
+        "data/metadata/m2_openclip_manifiesto_v2.json": "f53da0deface415c084fea02c5555593a1e26dbb6e3c992df1d651d22d381ace",
+        "data/metadata/m2_openclip_t1_indice_v2.csv": "d8a1246b332e2c08a1ea7545d1ce8c461b0a6e95105000ba7109b9f52448a381",
+        "data/metadata/m2_openclip_t1_v2.npy": "7507280b3b8d01fad4e8bf63037707c517c3d80fb87b7bd8d5793eae7af21f1a",
+        "data/metadata/particiones_v2.csv": "3b94f644ab66a8bf317288d7d145bbb7ba859492a3c6bd7bf2a6da3d1d3f148d",
+        "data/metadata/v2_1_congelado/anotaciones_v2_1.csv": "80adec1c77efbb8fe00da1d3cbdf71c0b30a7e3a9930dff1f915fb84db2d610e",
+        "data/processed/corpus_textiles_andinos_v2_principal.csv": "b72d0a8ef80cca362874c842379c63cd67f3f587a6fd044b61b71b3a6ffa0bae",
+        "docs/protocolo_experimental_v2.md": "fd43ebaecde64c3505dedf3660fa1084a12ddaee0e7c3f2789c086758d3fc22d"
+      }
+    },
+    {
+      "estado": "rankings_sellados",
+      "sha256": {
+        "data/processed/experimento_v2_pool_prueba.csv": "5eb38c2ec99a10bb81c2809e7ce2a4e394f9c9b37dddcd6b8fafb82a7ec2f651",
+        "data/processed/experimento_v2_pool_t1.csv": "fbf719eb7fe7cee91726d132b65dc073cf5aae7d3175aba9c3227c9fc1dbe3c1",
+        "data/processed/experimento_v2_rankings_prueba.csv": "0a8d8176e82c81012f2b829b6625d19b7f67b9f23df0d7df8b09fa71855a2e3d",
+        "data/processed/experimento_v2_rankings_t1.csv": "4b331212b4a41d95500a72cdc757984dc0dae3aad270bad096fbda9adf08767c"
+      }
+    }
+  ],
+  "parametros": {
+    "experimento": {
+      "consultas_t1": {
+        "prueba": 6
+      },
+      "consultas_t3": {
+        "desarrollo": 10,
+        "excluir_composicion": [
+          "no_observable",
+          "desconocido"
+        ],
+        "prueba": 30,
+        "semilla": 20261107
+      },
+      "ejecucion": {
+        "aprobacion_protocolo": "2026-11-23, autorizacion del asesor Cesar Lara Avila en reunion, sobre el commit 2b01f0e",
+        "bloques_bandas": [
+          "bandas",
+          "adyacencias"
+        ],
+        "revision_h3_aciertos": 5,
+        "revision_h3_errores": 5,
+        "semilla_control_negativo": 20261111,
+        "semilla_revision_h3": 20261112,
+        "sha256_protocolo": "fd43ebaecde64c3505dedf3660fa1084a12ddaee0e7c3f2789c086758d3fc22d",
+        "sistemas_muestra_azar_t1": [
+          "M0",
+          "M2"
+        ],
+        "tolerancia_h3": 1e-09
+      },
+      "juicios": {
+        "aleatorios_pool": 10,
+        "consultas_doble_juicio": 5,
+        "escala": [
+          0,
+          1,
+          2,
+          3
+        ],
+        "profundidad_pool": 10,
+        "semilla_pool": 20261108,
+        "sistemas_muestra_azar": [
+          "M0",
+          "M1",
+          "M2"
+        ]
+      },
+      "metricas": {
+        "alfa": 0.05,
+        "confianza": 0.95,
+        "k": 10,
+        "replicas_bootstrap": 10000,
+        "replicas_permutacion": 100000,
+        "semilla_bootstrap": 20261109,
+        "semilla_permutacion": 20261110,
+        "tolerancia_empates": 1e-12,
+        "umbral_practico": 0.03
+      },
+      "particiones": {
+        "proporcion_desarrollo": 0.3,
+        "semilla": 20261106
+      }
+    },
+    "modelos": {
+      "m0": {
+        "b": 0.75,
+        "campos": [
+          "titulo_original",
+          "titulo_es_sugerido",
+          "descripcion",
+          "material",
+          "tecnica"
+        ],
+        "excluir_descripcion": [
+          "MET"
+        ],
+        "k1": 1.2,
+        "longitud_minima_termino": 3
+      },
+      "m1": {
+        "cubetas_ab": 8,
+        "cubetas_l": 4,
+        "lado": 320,
+        "peso_color": 1.0,
+        "peso_textura": 1.0
+      },
+      "m2": {
+        "arquitectura": "xlm-roberta-base-ViT-B-32",
+        "dispositivo": "cpu",
+        "encuadre": "relleno_cuadrado",
+        "licencia_pesos": "MIT",
+        "lote": 32,
+        "muestra_determinismo": 32,
+        "pesos": "laion5b_s13b_b90k",
+        "precision": "fp32",
+        "repositorio_pesos": "laion/CLIP-ViT-B-32-xlm-roberta-base-laion5B-s13B-b90k",
+        "tolerancia_determinismo": 1e-05,
+        "tolerancia_dispositivo": 0.001
+      },
+      "m3": {
+        "pesos": {
+          "adyacencias": 1.0,
+          "bandas": 1.0,
+          "borde": 1.0,
+          "centro": 1.0,
+          "composicion": 1.0,
+          "familia_iconografica": 1.0,
+          "motivos": 1.0,
+          "repeticion": 1.0,
+          "simetria": 1.0
+        }
+      },
+      "m4": {
+        "k_rrf": 60,
+        "pesos": {
+          "M0": 0.14285714285714285,
+          "M2": 0.5714285714285714,
+          "M3": 0.2857142857142857
+        },
+        "rejilla": [
+          0.0,
+          0.25,
+          0.5,
+          0.75,
+          1.0
+        ]
+      }
+    }
+  }
+}
