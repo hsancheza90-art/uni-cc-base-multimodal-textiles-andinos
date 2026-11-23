@@ -9,16 +9,20 @@ qué datos pasa. Definiciones:
   a 0: se retira del ranking y del ideal.
 - H1 y H2 se deciden con una prueba de permutación pareada por cambio de signo, bilateral
   (decisión R01 de docs/registro_decisiones.md); la t de Student pareada es la comprobación y el
-  bootstrap pareado da solo el intervalo.
+  bootstrap pareado da solo el intervalo. H1 usa B réplicas fijas y se informa el error de Monte
+  Carlo (R34); H2 usa la enumeración exacta de los 2^m cambios de signo (R35).
+- Una diferencia con |d| ≤ TOLERANCIA_EMPATES cuenta como cero (R35).
+- La regla de decisión separa tres afirmaciones (frente a cero, estimación y relevancia práctica)
+  y H2 solo es confirmatoria si H1 se sostiene (secuencia fija, R33).
 - El efecto mínimo detectable se calcula antes del test con la desviación estándar de las
-  diferencias en desarrollo (decisión R04).
+  diferencias en desarrollo (decisión R04); en H2 no se usa (R35).
 """
 
 from __future__ import annotations
 
 import math
 from collections.abc import Mapping, Sequence
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from statistics import NormalDist
 
 import numpy as np
@@ -26,9 +30,17 @@ import numpy as np
 NO_EVALUABLE = None
 """Valor de un juicio `no_evaluable` en los mapas de juicios (los grados son 0, 1, 2 y 3)."""
 
+TOLERANCIA_EMPATES = 1e-12
+"""Valor por defecto; el que rige es `[metricas] tolerancia_empates` de config/experimento.toml."""
+
+# Lecturas de una comparación (protocolo, sección 7). Solo SE_SOSTIENE sostiene la hipótesis.
 SE_SOSTIENE = "se sostiene"
+BAJO_UMBRAL = "mejora distinta de cero, por debajo del umbral práctico"
+INFERIOR = "inferior al sistema de referencia"
 FAVORABLE = "dirección favorable sin evidencia suficiente"
-NO_SE_SOSTIENE = "no se sostiene"
+NO_DETECTADA = "no se detectó una mejora"
+EXPLORATORIA = "exploratoria: H1 no se sostiene (secuencia fija)"
+LECTURAS = (SE_SOSTIENE, BAJO_UMBRAL, INFERIOR, FAVORABLE, NO_DETECTADA)
 
 Juicios = Mapping[str, int | None]
 
@@ -101,19 +113,62 @@ def diferencias(a: Mapping[str, float | None], b: Mapping[str, float | None]) ->
     return [a[c] - b[c] for c in comunes if c not in excluidas], excluidas
 
 
-def permutacion_pareada(d: Sequence[float], replicas: int, semilla: int) -> float:
-    """Valor p bilateral de la prueba de permutación pareada por cambio de signo sobre la media.
-
-    Bajo la hipótesis nula, el signo de cada diferencia es intercambiable. Se estima con `replicas`
-    asignaciones aleatorias de signos y la corrección (1 + casos) / (1 + replicas), que nunca da 0.
-    """
+def sin_empates(d: Sequence[float], tolerancia: float = TOLERANCIA_EMPATES) -> np.ndarray:
+    """Las diferencias con |d| ≤ tolerancia pasan a ser exactamente 0 (decisión R35)."""
     x = np.asarray(d, dtype=float)
+    return np.where(np.abs(x) <= tolerancia, 0.0, x)
+
+
+def permutacion_pareada(d: Sequence[float], replicas: int, semilla: int,
+                        tolerancia: float = TOLERANCIA_EMPATES) -> float:
+    """Valor p bilateral de la prueba de permutación pareada por cambio de signo (H1, decisión R34).
+
+    Bajo la hipótesis nula, el signo de cada diferencia es intercambiable. El estadístico es
+    |Σ d|. Se calculan exactamente `replicas` asignaciones aleatorias de signos, en bloques para
+    acotar la memoria, sin parada anticipada, y p = (b + 1) / (B + 1), que nunca da 0.
+    """
+    x = sin_empates(d, tolerancia)
     if x.size == 0:
         return float("nan")
-    signos = np.random.default_rng(semilla).choice((-1.0, 1.0), size=(replicas, x.size))
-    medias = np.abs((signos * x).mean(axis=1))
-    extremas = int((medias >= abs(x.mean()) - 1e-12).sum())
+    observado = abs(x.sum())
+    generador = np.random.default_rng(semilla)
+    extremas, hechas, bloque = 0, 0, 10_000
+    while hechas < replicas:
+        filas = min(bloque, replicas - hechas)
+        signos = generador.choice((-1.0, 1.0), size=(filas, x.size))
+        extremas += int((np.abs(signos @ x) >= observado - tolerancia).sum())
+        hechas += filas
     return (1 + extremas) / (1 + replicas)
+
+
+def error_monte_carlo(p: float, replicas: int) -> float:
+    """Error estándar de Monte Carlo de una p estimada con `replicas` réplicas: raíz(p(1 - p)/B)."""
+    return math.sqrt(p * (1 - p) / replicas) if p == p else float("nan")
+
+
+def permutacion_exacta(d: Sequence[float], tolerancia: float = TOLERANCIA_EMPATES) -> tuple[float, int]:
+    """Valor p bilateral exacto por enumeración de los 2^m cambios de signo (H2, decisión R35).
+
+    Solo las m diferencias distintas de cero cambian el estadístico |Σ d|; las nulas no aportan.
+    p es la proporción de los 2^m vectores de signos cuyo estadístico iguala o supera al
+    observado, incluido el observado. Con m = 0, p = 1. Devuelve (p, m).
+    """
+    x = sin_empates(d, tolerancia)
+    no_nulas = x[x != 0]
+    m = int(no_nulas.size)
+    if m == 0:
+        return 1.0, 0
+    if m > 20:
+        raise ValueError(f"La enumeración exacta no está prevista para m = {m} > 20 diferencias distintas de cero.")
+    codigos = np.arange(2**m, dtype=np.int64)[:, None]
+    signos = 1.0 - 2.0 * ((codigos >> np.arange(m, dtype=np.int64)) & 1)
+    estadisticos = np.abs(signos @ no_nulas)
+    return float((estadisticos >= abs(no_nulas.sum()) - tolerancia).mean()), m
+
+
+def p_minima(m: int) -> float:
+    """p mínima alcanzable por la prueba exacta bilateral con m diferencias distintas de cero: 2^(1 - m)."""
+    return 1.0 if m <= 0 else 2.0 ** (1 - m)
 
 
 def beta_incompleta(a: float, b: float, x: float) -> float:
@@ -170,13 +225,37 @@ def intervalo_bootstrap(d: Sequence[float], replicas: int, confianza: float, sem
     return float(np.quantile(medias, cola)), float(np.quantile(medias, 1 - cola))
 
 
-def decidir(media: float, p: float, umbral: float, alfa: float) -> str:
-    """Regla de decisión de H1 y H2 (protocolo, sección 1)."""
-    if media >= umbral and p < alfa:
-        return SE_SOSTIENE
-    if media > 0 and p >= alfa:
-        return FAVORABLE
-    return NO_SE_SOSTIENE
+@dataclass(frozen=True)
+class Afirmaciones:
+    """Las tres afirmaciones que componen la regla de decisión (protocolo, sección 7; R34)."""
+
+    frente_a_cero: bool  # la permutación da p < alfa
+    relevancia_practica: bool  # la diferencia media es >= umbral
+    lectura: str  # una de LECTURAS
+
+    @property
+    def sostiene(self) -> bool:
+        return self.lectura == SE_SOSTIENE
+
+
+def decidir(media: float, p: float, umbral: float, alfa: float,
+            tolerancia: float = TOLERANCIA_EMPATES) -> Afirmaciones:
+    """Regla de decisión de H1 y H2: tres afirmaciones separadas y su lectura conjunta.
+
+    - p < alfa y media >= umbral: se sostiene.
+    - p < alfa y 0 < media < umbral: mejora distinta de cero, por debajo del umbral práctico.
+    - p < alfa y media < 0: inferior al sistema de referencia.
+    - p >= alfa y media > 0: dirección favorable sin evidencia suficiente.
+    - p >= alfa y media <= 0: no se detectó una mejora (no demuestra que no haya mejora).
+    """
+    if media != media or p != p:
+        return Afirmaciones(False, False, NO_DETECTADA)
+    significativa, relevante = p < alfa, media >= umbral - tolerancia
+    if significativa:
+        lectura = SE_SOSTIENE if relevante else BAJO_UMBRAL if media > tolerancia else INFERIOR
+    else:
+        lectura = FAVORABLE if media > tolerancia else NO_DETECTADA
+    return Afirmaciones(significativa, relevante, lectura)
 
 
 @dataclass(frozen=True)
@@ -188,27 +267,53 @@ class Comparacion:
     media: float
     desviacion: float
     p_permutacion: float
+    exacta: bool  # p exacta por enumeración (H2) o por B réplicas (H1 y exploratorias)
+    m: int  # diferencias distintas de cero
+    p_minima: float  # p mínima alcanzable (solo con la prueba exacta; nan en otro caso)
+    error_mc: float  # error de Monte Carlo de la p (0 con la prueba exacta)
+    replicas: int
     t: float
     p_t: float
     intervalo: tuple[float, float]
-    decision: str
+    afirmaciones: Afirmaciones
+    decision: str  # lectura de las afirmaciones, o EXPLORATORIA si la compuerta lo impide
+
+    @property
+    def sostiene(self) -> bool:
+        return self.decision == SE_SOSTIENE
 
 
 def comparar(a: Mapping[str, float | None], b: Mapping[str, float | None], *, umbral: float, alfa: float,
-             confianza: float, replicas: int, semilla_permutacion: int, semilla_bootstrap: int) -> Comparacion:
-    """Compara el sistema a con el b: diferencia media, contraste, comprobación, intervalo y decisión."""
+             confianza: float, replicas_permutacion: int, replicas_bootstrap: int, semilla_permutacion: int,
+             semilla_bootstrap: int, exacta: bool = False, tolerancia: float = TOLERANCIA_EMPATES) -> Comparacion:
+    """Compara el sistema a con el b: diferencia media, contraste, comprobación, intervalo y afirmaciones."""
     d, excluidas = diferencias(a, b)
-    x = np.asarray(d, dtype=float)
+    x = sin_empates(d, tolerancia)
     media = float(x.mean()) if x.size else float("nan")
-    p = permutacion_pareada(d, replicas, semilla_permutacion)
-    t, p_t = t_pareada(d)
+    m = int((x != 0).sum())
+    if exacta:
+        p, _ = permutacion_exacta(x, tolerancia) if x.size else (float("nan"), 0)
+        minima, error, replicas = p_minima(m), 0.0, 2**m
+        t, p_t = float("nan"), float("nan")  # con m <= 9 la aproximación t no es fiable (R35)
+    else:
+        p = permutacion_pareada(x, replicas_permutacion, semilla_permutacion, tolerancia)
+        minima, error, replicas = float("nan"), error_monte_carlo(p, replicas_permutacion), replicas_permutacion
+        t, p_t = t_pareada(x)
+    afirmaciones = decidir(media, p, umbral, alfa, tolerancia)
     return Comparacion(
         n=len(d), excluidas=excluidas, media=media,
         desviacion=float(x.std(ddof=1)) if x.size > 1 else float("nan"),
-        p_permutacion=p, t=t, p_t=p_t,
-        intervalo=intervalo_bootstrap(d, replicas, confianza, semilla_bootstrap),
-        decision=decidir(media, p, umbral, alfa) if x.size else NO_SE_SOSTIENE,
+        p_permutacion=p, exacta=exacta, m=m, p_minima=minima, error_mc=error, replicas=replicas, t=t, p_t=p_t,
+        intervalo=intervalo_bootstrap(x, replicas_bootstrap, confianza, semilla_bootstrap),
+        afirmaciones=afirmaciones, decision=afirmaciones.lectura,
     )
+
+
+def compuerta(h1: Comparacion, h2: Comparacion) -> Comparacion:
+    """Secuencia fija (R33): H2 conserva su lectura solo si H1 se sostiene; si no, es exploratoria.
+
+    Las cifras de H2 (estimación, intervalo y p) no cambian: solo deja de tener veredicto."""
+    return h2 if h1.sostiene else replace(h2, decision=EXPLORATORIA)
 
 
 def efecto_minimo_detectable(desviacion: float, n: int, alfa: float = 0.05, potencia: float = 0.8) -> float:

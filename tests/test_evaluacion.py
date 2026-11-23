@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import math
 
+import numpy as np
 import pytest
 
 from src.experimento import evaluacion as ev
@@ -75,23 +76,115 @@ def test_el_intervalo_bootstrap_es_determinista_y_contiene_la_media() -> None:
     assert ev.intervalo_bootstrap([0.2] * 5, 1000, 0.95, 1) == pytest.approx((0.2, 0.2))
 
 
-def test_regla_de_decision_del_protocolo() -> None:
-    assert ev.decidir(0.05, 0.01, 0.03, 0.05) == ev.SE_SOSTIENE
-    assert ev.decidir(0.05, 0.20, 0.03, 0.05) == ev.FAVORABLE
-    assert ev.decidir(0.01, 0.20, 0.03, 0.05) == ev.FAVORABLE
-    assert ev.decidir(0.01, 0.01, 0.03, 0.05) == ev.NO_SE_SOSTIENE
-    assert ev.decidir(-0.05, 0.01, 0.03, 0.05) == ev.NO_SE_SOSTIENE
-    assert ev.decidir(0.0, 0.90, 0.03, 0.05) == ev.NO_SE_SOSTIENE
+def test_t3_la_regla_separa_las_tres_afirmaciones_de_h1() -> None:
+    # Prueba T3 del dictamen: una mejora significativa menor que el umbral ya no se confunde con una nula.
+    casos = {
+        (0.05, 0.01): (ev.SE_SOSTIENE, True, True),
+        (0.02, 0.01): (ev.BAJO_UMBRAL, True, False),
+        (-0.05, 0.01): (ev.INFERIOR, True, False),
+        (0.05, 0.20): (ev.FAVORABLE, False, True),
+        (0.01, 0.20): (ev.FAVORABLE, False, False),
+        (0.0, 0.90): (ev.NO_DETECTADA, False, False),
+        (-0.02, 0.30): (ev.NO_DETECTADA, False, False),
+    }
+    for (media, p), (lectura, frente_a_cero, relevante) in casos.items():
+        a = ev.decidir(media, p, 0.03, 0.05)
+        assert (a.lectura, a.frente_a_cero, a.relevancia_practica) == (lectura, frente_a_cero, relevante), (media, p)
+        assert a.sostiene == (lectura == ev.SE_SOSTIENE)
+    assert ev.decidir(0.03, 0.049, 0.03, 0.05).sostiene and not ev.decidir(0.03, 0.05, 0.03, 0.05).sostiene
+
+
+def test_t3_la_permutacion_usa_exactamente_b_replicas_y_su_error_de_monte_carlo() -> None:
+    d = [0.02, -0.01, 0.03, 0.0, 0.05, -0.02, 0.01, 0.04, 0.0, 0.02]
+    for replicas in (999, 25_001):  # bloques de 10 000 y un resto: sin parada anticipada
+        p = ev.permutacion_pareada(d, replicas, 3)
+        b = p * (replicas + 1) - 1
+        assert b == pytest.approx(round(b)) and 0 <= round(b) <= replicas
+    p = ev.permutacion_pareada(d, 100_000, 3)
+    assert ev.error_monte_carlo(p, 100_000) == pytest.approx(math.sqrt(p * (1 - p) / 100_000))
+    exacta, _ = ev.permutacion_exacta(d)
+    assert abs(p - exacta) < 4 * ev.error_monte_carlo(exacta, 100_000)  # converge al valor exacto
+
+
+def fuerza_bruta(d: list[float]) -> float:
+    """p exacta por la definición: todos los vectores de signos, incluidas las diferencias nulas."""
+    from itertools import product
+    observado = abs(sum(d))
+    vectores = list(product((-1, 1), repeat=len(d)))
+    return sum(abs(sum(s * x for s, x in zip(v, d))) >= observado - 1e-12 for v in vectores) / len(vectores)
+
+
+@pytest.mark.parametrize("m", [0, 1, 5, 6, 9])
+def test_t2_la_p_exacta_de_h2_coincide_con_la_enumeracion_completa(m: int) -> None:
+    # Prueba T2 del dictamen: m diferencias distintas de cero entre ceros, como en H2 (m <= 9).
+    distintas = [0.013 * (i + 1) * (-1) ** (i // 2) for i in range(m)]
+    d = distintas + [0.0] * (12 - m)
+    p, m_obtenido = ev.permutacion_exacta(d)
+    assert m_obtenido == m
+    assert p == pytest.approx(fuerza_bruta(d))
+    assert p >= ev.p_minima(m)
+    if m == 0:
+        assert p == 1.0
+
+
+def test_t2_p_minima_y_tolerancia_de_empates() -> None:
+    assert ev.p_minima(0) == 1.0 and ev.p_minima(1) == 1.0
+    assert ev.p_minima(5) == pytest.approx(0.0625) and ev.p_minima(6) == pytest.approx(0.03125)
+    assert ev.permutacion_exacta([0.1] * 5)[0] == pytest.approx(0.0625)  # con m = 5 no se alcanza p < 0,05
+    assert ev.permutacion_exacta([0.1] * 6)[0] == pytest.approx(ev.p_minima(6))
+    assert ev.permutacion_exacta([0.1] * 9)[0] == pytest.approx(2 / 512)
+    p, m = ev.permutacion_exacta([0.1, 0.2, 1e-13, -1e-13, 0.0])
+    assert m == 2 and p == pytest.approx(fuerza_bruta([0.1, 0.2]))  # |d| <= 1e-12 cuenta como cero
+
+
+def opciones(**cambios) -> dict:
+    base = dict(umbral=0.03, alfa=0.05, confianza=0.95, replicas_permutacion=10_000, replicas_bootstrap=10_000,
+                semilla_permutacion=1, semilla_bootstrap=2)
+    return base | cambios
 
 
 def test_comparar_reune_contraste_comprobacion_intervalo_y_decision() -> None:
     a = {f"q{i:02d}": 0.5 + 0.01 * i for i in range(30)} | {"q99": None}
     b = {f"q{i:02d}": 0.45 for i in range(30)} | {"q99": 0.3}
-    c = ev.comparar(a, b, umbral=0.03, alfa=0.05, confianza=0.95, replicas=10_000,
-                    semilla_permutacion=1, semilla_bootstrap=2)
-    assert c.n == 30 and c.excluidas == ["q99"] and c.decision == ev.SE_SOSTIENE
+    c = ev.comparar(a, b, **opciones())
+    assert c.n == 30 and c.excluidas == ["q99"] and c.decision == ev.SE_SOSTIENE and c.sostiene
     assert c.media == pytest.approx(0.195) and c.intervalo[0] < c.media < c.intervalo[1]
-    assert c.p_permutacion < 0.05 and c.p_t < 0.05
+    assert c.p_permutacion < 0.05 and c.p_t < 0.05 and c.error_mc > 0 and c.replicas == 10_000
+    pocas = {f"q{i:02d}": 0.5 + (0.1 if i < 4 else 0.0) for i in range(30)}
+    exacta = ev.comparar(pocas, b | {f"q{i:02d}": 0.5 for i in range(30)}, **opciones(), exacta=True)
+    assert exacta.m == 4 and exacta.error_mc == 0 and exacta.replicas == 16 and exacta.p_minima == pytest.approx(0.125)
+    assert math.isnan(exacta.t) and exacta.decision == ev.FAVORABLE  # con m = 4 la p no baja de 0,125
+
+
+def test_t1_secuencia_fija_h2_solo_es_confirmatoria_si_h1_se_sostiene() -> None:
+    # Prueba T1 del dictamen (control de la tasa de error por familia): sin H1, H2 no tiene veredicto.
+    base = {f"q{i:02d}": 0.5 for i in range(30)}
+    mejor = {c: v + 0.1 for c, v in base.items()}
+    peor = {c: v - 0.1 for c, v in base.items()}
+    h2 = ev.comparar({f"q{i:02d}": 0.6 if i < 9 else 0.5 for i in range(30)}, base, **opciones(), exacta=True)
+    assert h2.decision == ev.SE_SOSTIENE
+    for h1, abierta in ((ev.comparar(mejor, base, **opciones()), True), (ev.comparar(peor, base, **opciones()), False),
+                        (ev.comparar({c: v + 0.01 for c, v in base.items()}, base, **opciones()), False)):
+        resultado = ev.compuerta(h1, h2)
+        assert resultado.sostiene == abierta
+        assert resultado.decision == (ev.SE_SOSTIENE if abierta else ev.EXPLORATORIA)
+        assert (resultado.media, resultado.p_permutacion, resultado.intervalo) == (h2.media, h2.p_permutacion, h2.intervalo)
+
+
+def test_t1_la_compuerta_mantiene_la_tasa_de_error_por_familia_bajo_la_nula() -> None:
+    # Bajo la hipótesis nula global, la familia solo yerra si H1 se rechaza: la tasa no supera alfa.
+    generador = np.random.default_rng(20261123)
+    errores = 0
+    estudios = 300
+    for estudio in range(estudios):
+        d1 = generador.normal(0, 0.1, 30)
+        d2 = np.concatenate([generador.normal(0, 0.1, 9), np.zeros(21)])
+        h1 = ev.comparar({f"q{i}": float(x) for i, x in enumerate(d1)}, {f"q{i}": 0.0 for i in range(30)},
+                         **opciones(replicas_permutacion=999, replicas_bootstrap=10, semilla_permutacion=estudio, umbral=0.0))
+        h2 = ev.compuerta(h1, ev.comparar({f"q{i}": float(x) for i, x in enumerate(d2)}, {f"q{i}": 0.0 for i in range(30)},
+                                          **opciones(replicas_bootstrap=10, umbral=0.0), exacta=True))
+        errores += h1.afirmaciones.frente_a_cero or h2.sostiene
+    assert errores / estudios <= 0.05 + 3 * math.sqrt(0.05 * 0.95 / estudios)
 
 
 def test_efecto_minimo_detectable_y_consultas_necesarias() -> None:

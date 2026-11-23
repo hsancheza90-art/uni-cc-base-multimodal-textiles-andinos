@@ -10,7 +10,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 
 | ID | Fecha | Decisión | Estado |
 |---|---|---|---|
-| R01 | 2026-11-12 | H1 y H2 se deciden con permutación pareada; el bootstrap queda para el intervalo | Por ratificar |
+| R01 | 2026-11-12 | H1 y H2 se deciden con permutación pareada; el bootstrap queda para el intervalo | Decidida; ratificada en el dictamen del 21 de noviembre; precisada por R34 y R35 |
 | R02 | 2026-11-12 | Kappa ≥ 0,6 se usa como señal de revisión, no como aprobado | Por ratificar |
 | R03 | 2026-11-12 | Se añade la ablación de M4 por posiciones recíprocas | Por ratificar |
 | R04 | 2026-11-12 | El efecto mínimo detectable se calcula antes del test | Por ratificar |
@@ -41,7 +41,14 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 | R29 | 2026-11-21 | Efecto mínimo detectable fijado antes del test: H1 0,087; H2 0,026 | Decidida |
 | R30 | 2026-11-21 | El test espera la aprobación del asesor; se corrigen las cifras de R21; M0, M1 y M3 quedan con sus parámetros de partida | Decidida |
 | R31 | 2026-11-21 | Las condiciones B3 a B7 pasan a ser reglas de la congelación y del flujo; la proposición 5.6 se fija en una prueba automática | Decidida |
-| R32 | 2026-11-21 | Definición de la ablación de M3 por bloques, de la robustez por completitud y de la ejecución de T1; el test queda listo para un solo comando | Decidida |
+| R32 | 2026-11-21 | Definición de la ablación de M3 por bloques, de la robustez por completitud y de la ejecución de T1; el test queda listo para un solo comando | Decidida; ejecución modificada por R37 |
+| R33 | 2026-11-23 | H1 y H2 se contrastan en secuencia fija: H2 es confirmatoria solo si H1 se sostiene; H1 no aísla la estructura | Por ratificar |
+| R34 | 2026-11-23 | H1 con 100 000 réplicas fijas, error de Monte Carlo y tres afirmaciones separadas; el efecto mínimo detectable es una estimación de planificación | Por ratificar |
+| R35 | 2026-11-23 | H2 con p exacta por enumeración de los cambios de signo y tolerancia de empates de 1e-12; sin efecto mínimo detectable por aproximación normal | Por ratificar |
+| R36 | 2026-11-23 | H3 pasa a ser la fidelidad computacional de M4; la revisión humana de las explicaciones es descriptiva | Por ratificar |
+| R37 | 2026-11-23 | Estados de la corrida, manifiesto antes de los rankings, gestión de fallos y custodia sin firma personal | Por ratificar |
+| R38 | 2026-11-23 | No se rejuzga una muestra de prueba; la estabilidad intraevaluador no se mide y se declara | Por ratificar |
+| R39 | 2026-11-23 | Archivo de auditoría de los juicios asistidos, privado, con su huella y su descripción en el repositorio | Por ratificar |
 
 ## R01. Prueba inferencial de H1 y H2
 
@@ -50,7 +57,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Motivo.** Con pocos temas, la t pareada y la permutación mantienen el error de tipo I nominal, y el bootstrap usado como prueba tiende a valores p pequeños. El estudio citado trata pruebas de hipótesis y no cuestiona los intervalos.
 - **Fuente.** Urbano, Lima y Hanjalic (2019), p. 2 y 7. Ficha F20.
 - **Archivos.** `docs/protocolo_experimental_v2.md`, secciones 1 y 7 (versión 0.6).
-- **Pendiente.** Añadir `alfa` y la prueba elegida a `[metricas]` de `config/experimento.toml` y a la prueba de coherencia, al implementar la evaluación. *(21 de noviembre: `alfa`, `replicas_permutacion` y `semilla_permutacion` añadidos a `[metricas]` en R32.)*
+- **Pendiente.** Añadir `alfa` y la prueba elegida a `[metricas]` de `config/experimento.toml` y a la prueba de coherencia, al implementar la evaluación. *(21 de noviembre: `alfa`, `replicas_permutacion` y `semilla_permutacion` añadidos a `[metricas]` en R32.)* *(23 de noviembre: el asesor dio su conformidad en el dictamen del 21 de noviembre. R34 eleva las réplicas de H1 a 100 000 y R35 sustituye la permutación por muestreo en H2 por la enumeración exacta.)*
 
 ## R02. Uso del umbral de acuerdo
 
@@ -257,6 +264,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Método.** El 2026-11-19 se revisaron los 411 juicios de desarrollo con la segunda opinión de un modelo de visión general (Claude, de Anthropic; no es CLIP ni ninguno de los sistemas evaluados). El modelo solo vio las dos imágenes de cada par y la rúbrica: no tuvo acceso a los grados del evaluador, los rankings, los sistemas ni la anotación. El evaluador revisó cada par con esa opinión a la vista y firmó el grado y la justificación finales. Los juicios vigentes de desarrollo son, por tanto, juicios humanos asistidos por un modelo, y casi siempre coinciden con la segunda opinión. Antes de la revisión, el acuerdo entre el evaluador y la segunda opinión era bajo: kappa ponderado lineal de 0,16.
 - **Alcance.** La revisión se aplica solo a los juicios de desarrollo, que se usan para ajustar pesos y estimar la potencia. Los grados iniciales se conservan fuera del repositorio. Antes de los juicios de prueba, el investigador y el asesor decidirán si se repite la asistencia.
 - **Archivos.** `data/metadata/juicios_desarrollo_v2.xlsx` y `data/metadata/juicios_desarrollo_v2.csv`.
+- *(21 de noviembre: R27 decide que los juicios de prueba se hacen sin asistencia. 23 de noviembre: el dictamen del asesor acepta los juicios de desarrollo con reserva y pide un archivo de auditoría, que fija R39.)*
 
 ## R26. Sensibilidad de M3 a la revisión asistida de la anotación
 
@@ -276,6 +284,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Evaluador único.** No hay segundo evaluador disponible. El doble juicio parcial se prepara para cuando lo haya; mientras tanto, el evaluador único se declara como limitación principal.
 - **Archivos.** `docs/protocolo_experimental_v2.md` (versión 0.6.3).
 - *(21 de noviembre: el contexto cambia en R30. El investigador decidió esperar la aprobación del protocolo antes de abrir el test. Las decisiones de fondo de esta entrada se mantienen.)*
+- *(23 de noviembre: el asesor dio su conformidad. Por R33, H2 es confirmatoria solo si H1 se sostiene, y el análisis de las consultas con bandas es descriptivo y no puede confirmar H2.)*
 
 ## R28. Pesos de M4 y conexión de M4 a los rankings de desarrollo
 
@@ -294,6 +303,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Análisis secundario de H2.** Con solo 2 consultas de desarrollo con palabra de bandas, su desviación no es estimable; se informará de forma descriptiva junto a su intervalo.
 - **Ceguera.** El informe no muestra el nDCG medio de ningún sistema ni el signo de las diferencias.
 - **Archivos.** `src/experimento/potencia.py`, `src/flujo.py`, `outputs/reports/experimento_v2_potencia.md`, `tests/test_potencia.py`, `tests/test_flujo.py`.
+- *(23 de noviembre: el asesor aceptó el EMD de H1 como estimación incierta, no como frontera (R34). La cifra de H2 (0,026, y las consultas necesarias para 0,03) usa una aproximación normal que no vale con a lo sumo nueve diferencias distintas de cero; R35 la sustituye por la p mínima alcanzable.)*
 
 ## R30. Apertura del test, corrección de R21 y parámetros de M0, M1 y M3
 
@@ -318,3 +328,56 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Implementación.** `python -m src.experimento.ejecucion_prueba` reúne la comprobación previa (`--comprobar`), la ejecución única de los rankings con su manifiesto (`--rankings`), los libros ciegos de juicios de prueba de T3 y T1 (`--crear-juicios`) y el cálculo final (`--evaluar`). `--rankings` se niega a ejecutar mientras `[ejecucion] aprobacion_protocolo` esté vacío o la suma del protocolo no coincida con la registrada al aprobarlo. Los vectores de texto de T1 se calculan con `python -m src.modelos.m2_openclip --textos-t1`, con la misma condición. El cálculo se probó con la partición de desarrollo y con consultas T1 hipotéticas; ningún sistema se ejecutó sobre las consultas de prueba.
 - **Al aprobarse el protocolo.** Se escriben en `[ejecucion]` la fecha y el commit de la aprobación y la suma SHA-256 del protocolo aprobado, y se registra en el historial del protocolo.
 - **Archivos.** `src/experimento/ejecucion_prueba.py`, `src/experimento/rankings.py`, `src/experimento/juicios.py`, `src/modelos/m2_openclip.py`, `config/experimento.toml` (`[metricas]` y `[ejecucion]`), `tests/test_ejecucion_prueba.py`, `docs/protocolo_experimental_v2.md` (versión 0.6.5).
+- *(23 de noviembre: R37 cambia el orden de la ejecución: el manifiesto se escribe antes de los rankings y la corrida avanza por estados.)*
+
+## R33. Multiplicidad: secuencia fija de H1 y H2
+
+- **Contexto.** El dictamen del asesor del 21 de noviembre, sobre el commit `6c121a3` y el protocolo 0.6.5, es favorable al diseño piloto y condiciona la apertura del test a que sus observaciones se acrediten en un nuevo commit con pruebas automáticas. No pide ampliar el corpus, cambiar las 30 consultas, volver a elegir los pesos de M4 ni repetir los juicios de desarrollo. Las decisiones R33 a R39 responden a sus observaciones B1 a B8 y se toman sin haber ejecutado ningún sistema sobre las consultas de prueba.
+- **Observación (B1).** El protocolo decía que H2, «al ser una sola», no requería corrección por comparaciones múltiples, pero H1 y H2 son dos comparaciones confirmatorias.
+- **Decisión.** Secuencia fija. H1 se contrasta primero con α = 0,05. H2 recibe una conclusión confirmatoria solo si H1 cumple su regla completa (p < 0,05 y diferencia media ≥ 0,03); si no, H2 se informa como exploratoria, con su estimación, su intervalo y su p, sin veredicto.
+- **Motivo.** El procedimiento de secuencia fija controla la tasa de error por familia en α sin dividir el nivel, porque la segunda hipótesis solo se contrasta si se rechaza la primera. La exigencia adicional de Δ ≥ 0,03 hace la compuerta más conservadora. Se elige el orden H1 → H2 porque H1 es la hipótesis primaria de la tesis.
+- **Consecuencia declarada.** Con la potencia disponible (R29 y R35), la compuerta hace improbable una conclusión confirmatoria sobre H2.
+- **Alcance de H1 (B6).** H1 compara la fusión enriquecida M4 (M0, M2 y M3) con M2. Un resultado favorable no aísla el aporte de la estructura, porque M4 también añade el texto; ese aporte se examina en las ablaciones, que son exploratorias. El manuscrito deja de decir que la comparación «aísla» la estructura.
+- **Archivos.** `docs/protocolo_experimental_v2.md` (versión 0.6.6, sección 1), `src/experimento/evaluacion.py` (`compuerta`), `src/experimento/ejecucion_prueba.py`, `tests/test_evaluacion.py` (prueba T1). Pendiente: el capítulo 2, el capítulo 7 y el resumen del manuscrito.
+
+## R34. Inferencia de H1
+
+- **Observación (B2).** Con 10 000 réplicas no se informaba el error de Monte Carlo, y la función que decide el veredicto mezclaba la p y el umbral: una diferencia positiva y significativa menor que 0,03 salía como «no se sostiene» sin distinguirla de una diferencia nula.
+- **Decisión.** Prueba de permutación pareada por cambio de signo con B = 100 000 réplicas fijas, semilla declarada, p = (b + 1)/(B + 1) y error de Monte Carlo √[p(1 − p)/B]. El cálculo termina solo al completar las B réplicas. El resultado se informa en tres afirmaciones separadas: frente a cero (p < 0,05), estimación (media e IC 95 %) y relevancia práctica (Δ ≥ 0,03). H1 se sostiene solo con la primera y la tercera; cada una de las demás combinaciones tiene su propia redacción (protocolo, sección 7). Una diferencia negativa significativa se informa como «M4 inferior a M2», y una p no significativa no se presenta como ausencia de mejora.
+- **Efecto mínimo detectable.** El de H1 (0,087, con un rango de 0,060 a 0,159) se presenta como estimación aproximada de planificación con diez consultas, no como frontera; así lo aceptó el asesor.
+- **Archivos.** `docs/protocolo_experimental_v2.md` (sección 7), `config/experimento.toml` (`replicas_permutacion = 100000`), `src/experimento/evaluacion.py` (`decidir`, `permutacion_pareada`, `error_monte_carlo`), `src/experimento/potencia.py`, `outputs/reports/experimento_v2_potencia.md`, `tests/test_evaluacion.py` (prueba T3).
+
+## R35. Inferencia exacta de H2 y empates
+
+- **Observación (B3).** H2 usaba la misma permutación por muestreo que H1, aunque solo pueden ser distintas de cero las diferencias de las consultas con palabra de bandas (a lo sumo 9). Con tan pocas, la distribución nula se puede enumerar completa, y con m ≤ 5 no se alcanza p < 0,05.
+- **Decisión.** p exacta por enumeración de los 2^m vectores de signos de las m diferencias distintas de cero, bilateral. Se definen n (consultas evaluables), b (consultas evaluables con palabra de bandas) y m (diferencias distintas de cero, m ≤ b), y se informa la p mínima alcanzable, 2^(1−m). Si m = 0, p = 1. En el subgrupo de bandas, el umbral práctico equivale a 0,03 · n/b (0,10 con 30 y 9); si b = 0, el subgrupo no es estimable. Se declaran el supuesto de intercambiabilidad de las etiquetas dentro de cada consulta, la independencia entre consultas y el carácter conservador de una prueba discreta.
+- **Empates.** Una diferencia con |Δ_q| ≤ 1e-12 cuenta como cero, en H1 y en H2. Sin esa tolerancia, un redondeo de coma flotante podría convertir en distinta de cero una diferencia nula por construcción (R27) y cambiar m.
+- **Corrección de R29 (hallazgo propio).** El EMD de H2 (0,026) y las consultas necesarias para 0,03 se calcularon con una aproximación normal que no vale con a lo sumo nueve diferencias distintas de cero. Se retiran del protocolo; el informe de potencia se corregirá para informar la p mínima alcanzable.
+- **Archivos.** `docs/protocolo_experimental_v2.md` (sección 7), `config/experimento.toml` (`tolerancia_empates`), `src/experimento/evaluacion.py` (`permutacion_exacta`, `p_minima`, `sin_empates`), `src/experimento/potencia.py`, `outputs/reports/experimento_v2_potencia.md`, `tests/test_evaluacion.py` y `tests/test_potencia.py` (prueba T2).
+
+## R36. H3 como fidelidad computacional
+
+- **Observación (B4).** H3 incluía en su veredicto una revisión humana de diez explicaciones que no existía en el código y que no puede probar lo mismo que la reconstrucción y la intervención.
+- **Decisión.** H3 afirma la fidelidad computacional de la descomposición de M4 y se sostiene con dos comprobaciones: reconstrucción e intervención, con error máximo de 1e-9. La revisión humana pasa a ser un análisis descriptivo aparte. Un acierto es un resultado del top 10 de M4 juzgado con grado ≥ 2, y un error, uno juzgado con grado 0 o 1; los `no_evaluable` no entran en ninguna clase. Se sortean 5 y 5 con semilla fija; si una clase tiene menos de 5, se usan todos y se informa. La ficha es ciega a la clase, al grado y a la posición. El evaluador marca cada explicación como correcta, incorrecta, especulativa o no evaluable. Se declara que la revisión no es independiente, porque el revisor anotó la estructura que usa M3.
+- **Archivos.** `docs/protocolo_experimental_v2.md` (secciones 1 y 8), `config/experimento.toml`, `src/experimento/ejecucion_prueba.py` (`--crear-revision-h3`, `muestra_revision_h3`, `validar_revision_h3`), `tests/test_ejecucion_prueba.py` (prueba T6).
+
+## R37. Estados de la corrida, gestión de fallos y custodia
+
+- **Observación (B5).** El código escribía los rankings antes que el manifiesto, el manifiesto omitía en silencio los archivos ausentes y la evaluación solo comprobaba que existiera el archivo de rankings.
+- **Decisión.** La corrida tiene un identificador y avanza por cinco estados (`autorizada`, `insumos_sellados`, `rankings_sellados`, `juicios_cerrados`, `evaluada`), cada uno registrado en el manifiesto. El manifiesto se escribe antes de los rankings, y un insumo obligatorio ausente detiene la corrida. Cada paso escribe en archivos temporales y publica sus salidas de una vez. `--evaluar` recalcula todas las sumas y suspende la corrida si alguna no coincide, si hay archivos de otra corrida o si falta un estado. La ausencia del manifiesto es una condición de suspensión.
+- **Custodia.** Sin firma criptográfica personal: etiqueta Git anotada en cada cambio de estado, registro `docs/registro_custodia.md` (fecha, responsable, identificador de corrida, commit y sumas SHA-256) y envío de las sumas al asesor por correo al sellarlas.
+- **Archivos.** `docs/protocolo_experimental_v2.md` (secciones 9 y 12), `src/experimento/ejecucion_prueba.py` (`verificar`, `publicar`, `suspender`, `--cerrar-juicios`), `docs/registro_custodia.md`, `tests/test_ejecucion_prueba.py` (pruebas T4 y T5) y `tests/test_experimento.py` (prueba T8, coherencia del protocolo con la configuración y el código).
+
+## R38. Estabilidad del evaluador en prueba
+
+- **Observación (B7).** El asesor pide probar el cegamiento de extremo a extremo y, o bien rejuzgar una muestra, o bien declarar que no se mide la estabilidad del evaluador.
+- **Decisión.** No se rejuzga una muestra de prueba. El protocolo (secciones 6 y 10) y el capítulo 11 declaran que no se estimó la estabilidad intraevaluador de los juicios de prueba. El cegamiento se comprueba con un validador automático del libro de juicios: no contiene el sistema, la puntuación ni la posición, y conserva el orden de presentación sorteado.
+- **Alcance.** La estabilidad del lote 1 que ya se informa es la de la anotación, no la de los juicios, y no la sustituye.
+- **Archivos.** `docs/protocolo_experimental_v2.md` (secciones 6 y 10), `src/experimento/ejecucion_prueba.py` (`validar_cegamiento`), `tests/test_ejecucion_prueba.py` (prueba T7). Pendiente: el capítulo 11.
+
+## R39. Archivo de auditoría de los juicios de desarrollo asistidos
+
+- **Observación (B8).** R25 decía que los grados iniciales se conservaban fuera del repositorio, sin un archivo formal ni una huella que permitiera verificarlo.
+- **Decisión.** Se arma un archivo de auditoría con el material de la segunda opinión del 19 de noviembre: los grados del evaluador antes de la revisión, la segunda opinión del modelo, la revisión firmada por el evaluador y el informe de la comparación. Debe añadir la versión exacta del modelo y las instrucciones que recibió, y separar los 411 juicios que se usaron para elegir los pesos de M4 de los 8 juzgados después sin asistencia (R28). El archivo queda privado en `investigacion_local/`, fuera de git. En el repositorio se registran su suma SHA-256 y una descripción de su contenido (archivos, campos y número de juicios, versión del modelo e instrucciones), sin los grados iniciales ni las respuestas del modelo.
+- **Riesgo de anclaje.** El capítulo 7 declarará, con los datos del informe de la segunda opinión, el riesgo de que el evaluador se anclara en la opinión del modelo.
+- **Archivos.** Pendiente: el archivo de auditoría, su descripción y su huella en el repositorio, y el capítulo 7.

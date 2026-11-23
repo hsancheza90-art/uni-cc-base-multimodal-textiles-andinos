@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import math
 from collections import Counter
 from pathlib import Path
 
@@ -33,6 +34,36 @@ def test_la_configuracion_coincide_con_el_protocolo() -> None:
     assert f"Umbral práctico: Δ = {str(metricas['umbral_practico']).replace('.', ',')}" in texto
     assert f"{metricas['replicas_bootstrap']:,} réplicas".replace(",", " ") in texto
     assert f"IC {round(metricas['confianza'] * 100)} %" in texto
+
+
+def test_t8_protocolo_configuracion_y_codigo_dicen_lo_mismo() -> None:
+    # Prueba T8 del dictamen (coherencia documental, C10): las cifras y nombres de las decisiones R33 a R39
+    # que usa el código están escritos en el protocolo con el mismo valor.
+    from src.experimento import ejecucion_prueba as ep
+    from src.experimento import evaluacion as ev
+
+    config = leer_config_experimento()
+    texto = PROTOCOLO.read_text(encoding="utf-8")
+    metricas, ejecucion = config["metricas"], config["ejecucion"]
+    miles = lambda n: f"{n:,}".replace(",", " ")  # noqa: E731
+    potencia10 = lambda x: f"1e{round(math.log10(x))}"  # noqa: E731  (1e-9, no 1e-09)
+    assert f"B = {miles(metricas['replicas_permutacion'])}" in texto  # R34
+    assert f"α = {str(metricas['alfa']).replace('.', ',')}" in texto  # R33
+    assert f"|Δ_q| ≤ {potencia10(metricas['tolerancia_empates'])}" in texto  # R35
+    assert f"error ≤ {potencia10(ejecucion['tolerancia_h3'])}" in texto  # H3
+    assert f"Se sortean {ejecucion['revision_h3_aciertos']} aciertos y {ejecucion['revision_h3_errores']} errores" in texto
+    assert "(grado ≥ 2" in texto and "grado 0 o 1" in texto  # clases de H3 = clase_h3
+    assert ep.clase_h3(2) == "acierto" and ep.clase_h3(1) == "error" and ep.clase_h3(None) is None
+    for lectura in (ev.BAJO_UMBRAL, ev.INFERIOR, ev.FAVORABLE, ev.NO_DETECTADA):
+        assert f"«{lectura}»" in texto, lectura
+    for estado in ep.ESTADOS:
+        assert f"`{estado}`" in texto, estado
+    for orden in ("--comprobar", "--rankings", "--crear-juicios", "--cerrar-juicios", "--crear-revision-h3", "--evaluar"):
+        assert f"`{orden}`" in texto, orden
+    assert "0,03 · n/b" in texto and ev.p_minima(5) > metricas["alfa"] > ev.p_minima(6)  # «con m ≤ 5 vale al menos 0,0625»
+    assert "con m ≤ 5 vale al menos 0,0625" in texto
+    assert "registro_custodia.md" in texto and ep.REGISTRO_CUSTODIA == "docs/registro_custodia.md"
+    assert (RAIZ_REPO / ep.REGISTRO_CUSTODIA).exists()
 
 
 CONFIG_PEQUENA = """

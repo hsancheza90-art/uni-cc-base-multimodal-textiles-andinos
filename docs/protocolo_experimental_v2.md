@@ -2,9 +2,9 @@
 
 | | |
 |---|---|
-| Versión | 0.6.5, **propuesta**, 21 de noviembre de 2026 |
-| Estado | Pendiente de aprobación del asesor. El test no se abre antes de esa aprobación (decisión R30). Al aprobarse, el protocolo se congela: la fecha y el commit de aprobación se registran en el «Historial», y desde entonces todo cambio se anota allí con su motivo antes de abrir el test |
-| Responde a | Observación MET01 de la auditoría del asesor (20 de octubre de 2026), informe 08; actividad S1.3 del plan de cierre (`docs/plan_cierre_tesis.md`) |
+| Versión | 0.6.6, **propuesta**, 23 de noviembre de 2026 |
+| Estado | El dictamen del asesor del 21 de noviembre, sobre la versión 0.6.5, es favorable al diseño piloto y condiciona la apertura del test a que se acrediten sus observaciones en un nuevo commit, con pruebas automáticas. Esta versión incorpora esas observaciones (decisiones R33 a R39). El test no se abre antes de la autorización del asesor (R30). Al autorizarse, el protocolo se congela: la fecha y el commit se registran en el «Historial» y en `docs/registro_custodia.md`, y desde entonces todo cambio se anota con su motivo antes de abrir el test |
+| Responde a | Observación MET01 de la auditoría del asesor (20 de octubre de 2026), informe 08; actividad S1.3 del plan de cierre (`docs/plan_cierre_tesis.md`); dictamen del asesor del 21 de noviembre de 2026 (observaciones B1 a B8) |
 | Alcance | Estudio **piloto**, con un solo anotador y un solo evaluador principal (decisión D1, 3 de noviembre) |
 
 Este protocolo establece, antes de observar cualquier resultado de prueba, qué se compara, con qué datos, cómo se mide y qué se considerará evidencia a favor o en contra de cada hipótesis. A la fecha de esta versión no se ha ejecutado ningún sistema sobre las consultas de prueba. Las decisiones del plan de cierre que el asesor debe ratificar (D2, D4 y D5) aparecen marcadas como **[propuesta]**. Las decisiones D6, sobre las dependencias y el checkpoint de M2, y D7, sobre el versionado de la auditoría, las tomó el investigador el 5 y el 6 de noviembre.
@@ -17,11 +17,15 @@ Este protocolo establece, antes de observar cualquier resultado de prueba, qué 
 
 | | Hipótesis | Contraste | Regla de decisión |
 |---|---|---|---|
-| H1 (primaria) | La fusión que incorpora la estructura recupera mejor que el codificador visual-textual congelado | nDCG@10 de M4 frente a M2, pareado por consulta | Se sostiene si la diferencia media es ≥ 0,03 **y** la prueba de permutación pareada bilateral da p < 0,05 (sección 7). Si la diferencia es positiva pero p ≥ 0,05, se informa como «dirección favorable sin evidencia suficiente». En cualquier otro caso, no se sostiene. El IC 95 % se informa siempre, como estimación de la magnitud |
-| H2 (mecanismo) | El orden importa: el descriptor con secuencia y adyacencias supera al mismo descriptor sin orden | nDCG@10 de M3 frente a M3-sin-orden, sobre las 30 consultas de prueba | La misma regla que H1. Además, como análisis secundario fijado antes del test, la misma comparación restringida a las consultas cuya pieza tiene palabra de bandas (9 de 30): en las demás, M3 y su control asignan la misma puntuación a todos los candidatos y la diferencia es cero por construcción (R27) |
-| H3 (interpretabilidad) | La puntuación de M4 se explica exactamente por la suma de sus componentes | Reconstrucción e intervención (sección 8) | Se sostiene si se cumplen las tres comprobaciones de la sección 8 |
+| H1 (primaria) | La fusión enriquecida con la estructura recupera mejor que el codificador visual-textual congelado | nDCG@10 de M4 frente a M2, pareado por consulta | Se sostiene si la prueba de permutación pareada bilateral da p < 0,05 **y** la diferencia media es ≥ 0,03 (sección 7). La sección 7 separa las tres afirmaciones que componen la regla y el modo de informar cada combinación. El IC 95 % se informa siempre, como estimación de la magnitud |
+| H2 (mecanismo) | El orden importa: el descriptor con secuencia y adyacencias supera al mismo descriptor sin orden | nDCG@10 de M3 frente a M3-sin-orden, sobre las 30 consultas de prueba | La misma regla que H1, con la p exacta de la sección 7, y solo si H1 se sostiene (regla secuencial, más abajo). Además, como análisis descriptivo fijado antes del test, la misma comparación restringida a las consultas cuya pieza tiene palabra de bandas (9 de 30): en las demás, M3 y su control asignan la misma puntuación a todos los candidatos y la diferencia es cero por construcción (R27). Ese subgrupo no puede confirmar H2 |
+| H3 (fidelidad computacional) | La puntuación de M4 se descompone exactamente en las contribuciones de sus componentes | Reconstrucción e intervención (sección 8) | Se sostiene si se cumplen las dos comprobaciones de la sección 8. La revisión humana de las explicaciones es un análisis descriptivo aparte y no interviene en el veredicto |
 
-H1 es la única comparación confirmatoria primaria y H2 la única confirmatoria secundaria; al ser una sola, no requiere corrección por comparaciones múltiples. Cualquier otra comparación (M4 frente a M0, M1 o M3, las ablaciones o el análisis por museo) es **exploratoria** y se presentará como tal.
+**Comparaciones confirmatorias y multiplicidad (R33).** Hay dos comparaciones confirmatorias, H1 y H2, y se contrastan en una secuencia fija. H1 se contrasta primero con α = 0,05. H2 recibe una conclusión confirmatoria solo si H1 cumple su regla completa (p < 0,05 y diferencia media ≥ 0,03); en caso contrario, H2 se informa como exploratoria, con su estimación, su intervalo y su p, sin veredicto. El procedimiento secuencial controla la tasa de error por familia en α porque H2 solo se contrasta si se rechaza la hipótesis nula de H1; exigir además Δ ≥ 0,03 hace la compuerta más conservadora, no menos. Con la potencia disponible (sección 7), la compuerta hace improbable una conclusión confirmatoria sobre H2, y así se declara.
+
+**Alcance de H1.** H1 compara la fusión M4, que suma a M2 el texto (M0) y la estructura (M3), con M2 solo. Un resultado favorable indica que la fusión enriquecida mejora a M2; no aísla el aporte de la estructura, porque M4 también añade el texto. El aporte de la estructura se examina en las ablaciones (M4 sin M3, M4 con M3-sin-orden) y en H2, y las ablaciones son exploratorias.
+
+Cualquier otra comparación (M4 frente a M0, M1 o M3, las ablaciones, el control negativo, M4-RRF, el subgrupo de bandas o el análisis por museo y por estado) es **exploratoria** y se presentará como tal.
 
 **Población de inferencia.** Los resultados se refieren a la colección digital elegible del corpus principal v2: piezas de MET, CMA y AIC con imagen CC0 o de dominio público, curadas con el criterio v2. No se generalizan a los textiles andinos en su conjunto. Con este diseño, un resultado negativo o nulo es igualmente válido y se informará del mismo modo que uno positivo.
 
@@ -89,14 +93,20 @@ Los grupos de la galería se reparten en **desarrollo (30 %)** y **prueba (70 %)
 
 Además existe el estado `no_evaluable`, para imágenes que no permiten juzgar. No equivale a 0: el par se excluye del ideal de la consulta y se informa su frecuencia. Todo juicio de grado 2 o 3 lleva una justificación breve que indique la evidencia visible.
 
+**Reporte de `no_evaluable`.** Para cada consulta y cada sistema se informa cuántos de los 10 primeros quedaron `no_evaluable`, y en total por sistema. No se fija un umbral para excluir consultas o sistemas: un umbral elegido sin datos previos sería arbitrario. Las métricas se calculan con la regla anterior y la tabla permite al lector ver si algún sistema concentra los pares no evaluables.
+
 **Selección de los pares a juzgar.** Para cada consulta se juzgan los 10 primeros de M0, M1, M2, M3, M3-sin-orden y M4, sin repetir pares. También entran los 10 primeros de la variante de M4 por posiciones recíprocas (sección 7). A ellos se suman 10 candidatos al azar (con semilla fija) y los positivos que proponga el evaluador. Las ablaciones y el control negativo (sección 7) se evalúan sobre ese mismo conjunto: los candidatos no juzgados cuentan como 0 y se informa qué proporción del top 10 quedó juzgada. Si se informan recall o mAP, se calculan respecto de este conjunto.
+
+**Supuesto del pooling.** Los cuatro sistemas de H1 y H2 (M2, M3, M3-sin-orden y M4) aportan sus 10 primeros al pool, de modo que su nDCG@10 no depende de candidatos sin juzgar; solo el ideal de cada consulta puede quedar incompleto si un relevante no entró al pool. El supuesto de que un candidato no juzgado vale 0 afecta solo a las ablaciones y al control negativo, y los favorece o perjudica según cuánto se aparten sus rankings del pool. Por eso, para cada uno se informa la proporción juzgada de su top 10.
 
 **Salvaguardas contra la circularidad.** El investigador anotó la estructura que utiliza M3 y es, además, el evaluador principal. Es la amenaza más seria para la validez del estudio (dictamen del asesor, pregunta 9), y se mitiga de cuatro maneras:
 
 1. Las consultas se fijan antes de ejecutar cualquier sistema sobre ellas: las de T3 por sorteo y las de T1 por redacción.
-2. Los juicios se hacen solo sobre las imágenes, sin consultar la anotación ni ver los rankings, las puntuaciones o el sistema que propuso cada candidato. Los candidatos de cada consulta se presentan en orden aleatorio.
+2. Los juicios se hacen solo sobre las imágenes, sin consultar la anotación ni ver los rankings, las puntuaciones o el sistema que propuso cada candidato. Los candidatos de cada consulta se presentan en orden aleatorio. Una comprobación automática verifica, antes de entregar el libro de juicios, que no contiene el sistema, la puntuación ni la posición en ningún ranking y que el orden de presentación es el sorteado; el informe de la ejecución registra su resultado.
 3. La escala y estos criterios se fijan antes de juzgar. Ningún juicio se deriva de la anotación, del descriptor ni de CLIP. Los juicios de desarrollo se revisaron con la segunda opinión ciega de un modelo de visión general, y el evaluador firmó cada grado (R25). Los juicios de prueba se hacen sin ninguna asistencia: el evaluador juzga solo, a ciegas, y su grado es el único que se usa (R27).
 4. **Doble juicio parcial [sin segundo evaluador disponible a la fecha]:** el asesor, u otra persona con criterio estructural, juzga a ciegas los pools de 5 consultas de prueba elegidas al azar. Se informa el acuerdo entre ambos evaluadores (kappa ponderado lineal sobre la escala 0–3) antes de cualquier adjudicación, y la métrica primaria se recalcula con esos juicios como análisis de sensibilidad. Se conservan las dos versiones.
+
+**Estabilidad del evaluador (R38).** Los juicios de prueba se emiten una sola vez. No se repite una muestra para estimar la estabilidad intraevaluador, de modo que esa estabilidad no se mide y se declara como limitación (sección 10). La estabilidad que se informa es la de la anotación (lote 1), que no es la de los juicios.
 
 **Consultas sin relevantes.** Si ningún candidato de una consulta alcanza el grado 1, su nDCG no está definido. Esa consulta se excluye de la media, se informa cuántas hubo y cuáles fueron, y no se reemplaza.
 
@@ -108,11 +118,22 @@ Además existe el estado `no_evaluable`, para imágenes que no permiten juzgar. 
 
 **Inferencia [propuesta, D5]:**
 
-- Se calcula la diferencia pareada por consulta, Δ = nDCG@10(M4) − nDCG@10(M2), y, para H2, Δ = nDCG@10(M3) − nDCG@10(M3-sin-orden).
-- **Contraste.** H1 y H2 se deciden con una prueba de permutación pareada por cambio de signo, bilateral, con 10 000 réplicas, semilla fija y nivel 0,05. Como comprobación se informa la t de Student pareada; si las dos pruebas discrepan, se informa la discrepancia y decide la permutación. En las simulaciones de Urbano, Lima y Hanjalic (2019), con 25 a 100 temas, estas dos pruebas se mantienen cerca del error de tipo I nominal, mientras que el bootstrap usado como prueba tiende a valores p pequeños. Su respaldo cubre las 30 consultas de prueba, pero no menos de 25.
+- **Estimandos.** Para H1, la media, sobre las consultas de prueba evaluables, de la diferencia pareada por consulta Δ_q = nDCG@10(M4) − nDCG@10(M2). Para H2, la misma media con Δ_q = nDCG@10(M3) − nDCG@10(M3-sin-orden). Para el subgrupo de H2, la media de Δ_q en las consultas con palabra de bandas. Las consultas evaluables son las que tienen nDCG definido (más abajo, «Consultas sin relevantes»); n designa su número. La inferencia se refiere a estas consultas de la galería congelada (sección 1, población), no a otra colección.
+- **Empates.** Una diferencia con |Δ_q| ≤ 1e-12 cuenta como cero, en H1 y en H2, para que los redondeos de coma flotante no conviertan en distinta de cero una diferencia nula por construcción (R35).
+- **Contraste de H1 (R34).** Prueba de permutación pareada por cambio de signo, bilateral, con un número fijo de réplicas B = 100 000, semilla fija declarada en la configuración y nivel 0,05. El estadístico es |Σ Δ_q|, y la p es (b + 1) / (B + 1), con b el número de réplicas cuyo estadístico iguala o supera al observado. Se informa el error de Monte Carlo de la p, √[p(1 − p)/B]. El cálculo se detiene solo al completar las B réplicas: no se amplía, no se repite con otra semilla y no se interrumpe a la vista de una p intermedia. Como comprobación se informa la t de Student pareada; si las dos pruebas discrepan, se informa la discrepancia y decide la permutación. En las simulaciones de Urbano, Lima y Hanjalic (2019), con 25 a 100 temas, estas dos pruebas se mantienen cerca del error de tipo I nominal, mientras que el bootstrap usado como prueba tiende a valores p pequeños. Su respaldo cubre las 30 consultas de prueba, pero no menos de 25.
+- **Las tres afirmaciones de H1.** La regla de la sección 1 combina tres afirmaciones, que se informan por separado: (a) **frente a cero**, si la permutación da p < 0,05; (b) **estimación**, la diferencia media con su IC 95 %; (c) **relevancia práctica**, si la diferencia media es ≥ 0,03. H1 se sostiene solo si se cumplen (a) y (c). Las demás combinaciones se informan así:
+  - p < 0,05 y 0 < Δ < 0,03: «mejora distinta de cero, por debajo del umbral práctico»; H1 no se sostiene.
+  - p < 0,05 y Δ < 0: «inferior al sistema de referencia» (M4 inferior a M2); H1 no se sostiene.
+  - p ≥ 0,05 y Δ > 0: «dirección favorable sin evidencia suficiente».
+  - p ≥ 0,05 y Δ ≤ 0: «no se detectó una mejora».
+
+  Una p no significativa no demuestra que no haya mejora: con 30 consultas, el estudio solo tiene potencia para efectos del orden del efecto mínimo detectable (más abajo), y el intervalo muestra qué magnitudes siguen siendo compatibles con los datos.
+- **Contraste de H2 (R35).** Prueba de permutación pareada por cambio de signo, bilateral y **exacta**: se enumeran los 2^m vectores de signos de las m diferencias distintas de cero, y la p es la proporción de vectores cuyo estadístico |Σ Δ_q| iguala o supera al observado, con la tolerancia de 1e-12 en la comparación. Por construcción, m ≤ b, con b el número de consultas evaluables con palabra de bandas (9 de las 30 consultas de prueba, R27), de modo que la enumeración tiene a lo sumo 512 vectores. Se informan n, b, m y la p mínima alcanzable, 2^(1−m): con m ≤ 5 vale al menos 0,0625 y H2 no puede alcanzar p < 0,05 cualquiera sea el resultado. Si m = 0, p = 1. La t de Student no se informa en H2, porque con m ≤ 9 diferencias distintas de cero su aproximación no es fiable.
+- **Supuesto de la prueba exacta.** Bajo la hipótesis nula, en cada consulta las etiquetas «M3» y «M3-sin-orden» son intercambiables, es decir, el signo de Δ_q es igualmente probable en un sentido y en el otro, y las consultas son independientes entre sí. La prueba contrasta la hipótesis nula de que no hay diferencia en ninguna consulta. Con una distribución discreta y pocos valores, la prueba es conservadora: el error de tipo I real puede quedar por debajo de 0,05.
+- **Umbral de H2 en el subgrupo.** Como las diferencias son cero fuera del subgrupo de bandas, la media sobre las n consultas es b/n veces la media del subgrupo. El umbral práctico de 0,03 sobre las n consultas equivale, por tanto, a una diferencia media de 0,03 · n/b en el subgrupo: 0,10 con n = 30 y b = 9. Si b = 0, el subgrupo se informa como «no estimable».
 - **Intervalo.** El IC 95 % de Δ se obtiene por bootstrap pareado de consultas (percentiles), con 10 000 réplicas, semilla fija y el mismo remuestreo para los dos sistemas. Describe la magnitud y su incertidumbre; no decide las hipótesis.
 - Umbral práctico: Δ = 0,03.
-- **Potencia.** Con la desviación estándar de Δ observada en las 10 consultas de desarrollo se estima el tamaño necesario, n ≈ [(z₀,₉₇₅ + z₀,₈) · DE(Δ) / 0,03]². Si n supera 30, el estudio se declarará sin potencia suficiente para ese umbral y se informará el intervalo obtenido. El número de consultas de prueba solo puede reducirse antes de abrir el test, nunca después. De forma equivalente, con 30 consultas el efecto mínimo detectable con potencia de 80 % es (z₀,₉₇₅ + z₀,₈) · DE(Δ) / √30 ≈ 0,51 · DE(Δ). Se calcula antes de abrir el test y se informa con el rango que resulta de estimar DE(Δ) con solo 10 consultas. No se calcula la potencia a posteriori con el efecto observado en prueba (Card et al., 2020). El cálculo se hizo el 21 de noviembre (R29): el efecto mínimo detectable es de 0,087 en H1 (rango de 0,060 a 0,159) y de 0,026 en H2, diluido por las consultas sin palabra de bandas.
+- **Potencia.** Con la desviación estándar de Δ observada en las 10 consultas de desarrollo se estima el tamaño necesario, n ≈ [(z₀,₉₇₅ + z₀,₈) · DE(Δ) / 0,03]². Si n supera 30, el estudio se declarará sin potencia suficiente para ese umbral y se informará el intervalo obtenido. El número de consultas de prueba solo puede reducirse antes de abrir el test, nunca después. De forma equivalente, con 30 consultas el efecto mínimo detectable con potencia de 80 % es (z₀,₉₇₅ + z₀,₈) · DE(Δ) / √30 ≈ 0,51 · DE(Δ). No se calcula la potencia a posteriori con el efecto observado en prueba (Card et al., 2020). El cálculo se hizo el 21 de noviembre (R29): para H1, el efecto mínimo detectable es de 0,087, con un rango de 0,060 a 0,159. Es una estimación aproximada de planificación, hecha con la desviación de solo diez consultas, y no una frontera: no garantiza que un efecto mayor se detecte ni que uno menor no se detecte. Para H2 la aproximación normal no vale, porque la distribución de la prueba exacta es discreta y tiene a lo sumo 2^9 valores; en lugar de un efecto mínimo detectable se informa la p mínima alcanzable con el m observado (R35).
 
 **Ablaciones.** Se calculan sobre las mismas consultas y candidatos:
 - M4 sin M3, es decir, solo texto e imagen.
@@ -121,19 +142,41 @@ Además existe el estado `no_evaluable`, para imágenes que no permiten juzgar. 
 - M3 solo con bandas frente a M3 solo con motivos y relaciones. El primero usa los bloques de la palabra de bandas y de las adyacencias; el segundo, todos los demás bloques del descriptor (composición, borde, centro, simetría, repetición, motivos y familia iconográfica), de modo que los dos cubren el descriptor sin solaparse (R32).
 - M4 por posiciones recíprocas (M4-RRF) **[propuesta]**: puntuación = Σ_c 1 / (60 + r_c), con r_c la posición del candidato en el ranking de c ∈ {M0, M2, M3} (Cormack, Clarke y Büttcher, 2009). No tiene pesos que ajustar, de modo que muestra cuánto del resultado de M4 depende del ajuste con las 10 consultas de desarrollo. Los pares sin evidencia estructural ocupan las últimas posiciones del ranking de M3, por `id_global`. Es exploratoria y no interviene en H3, porque al usar posiciones no conserva la descomposición de la puntuación.
 
-**Control negativo.** M4 con los descriptores de M3 permutados al azar entre piezas del mismo museo, con semilla fija. Si el aporte de la estructura es real, debe desaparecer en esta condición.
+**Control negativo.** M4 con los descriptores de M3 permutados al azar entre piezas del mismo museo, con una sola permutación de semilla fija declarada en la configuración. La permutación dentro del museo conserva la distribución de los descriptores en cada fuente y rompe solo su correspondencia con la imagen. Si el aporte de la estructura a M4 es real, la diferencia entre M4 y M4 con el control debe ser positiva, y el control no debería mejorar a M4 sin M3. Se informa como diferencia pareada con su IC 95 %, de forma descriptiva: una sola permutación no da una distribución nula y no decide ninguna hipótesis.
+
+**Informe de resultados.** El informe de la ejecución (`outputs/reports/experimento_v2_resultados.md`) sigue una plantilla fijada antes del test, con estas tablas, en este orden:
+
+1. Integridad de la corrida: identificador, estado, commit, huellas comprobadas y resultado de las comprobaciones de fugas y de cegamiento (sección 9).
+2. Pool y juicios: pares por consulta, `no_evaluable` por consulta y sistema, consultas sin relevantes y proporción juzgada del top 10 de cada sistema.
+3. H1: n, diferencia media, IC 95 %, p de la permutación con su error de Monte Carlo, t pareada, las tres afirmaciones y el veredicto.
+4. H2: n, b, m, p exacta, p mínima alcanzable, diferencia media e IC 95 %; si se aplicó la compuerta de H1 y el veredicto o la indicación de «exploratoria». Subgrupo de bandas: diferencia media, IC 95 % y umbral equivalente.
+5. H3: error máximo de reconstrucción y de intervención y número de resultados comprobados; aparte, el resumen descriptivo de la revisión humana (sección 8).
+6. Métricas primaria y secundarias de todos los sistemas, por consulta y en media.
+7. Ablaciones, control negativo y M4-RRF, como diferencias pareadas con su IC 95 %.
+8. Robustez por museo y por estado de la pieza.
+9. T1, descriptiva.
+10. Desviaciones del protocolo, si las hubo, con su motivo.
 
 **Robustez (exploratoria).** Resultados según el museo de la consulta y según el estado de la pieza. El estado es la completitud que el revisor escribió en el motivo de su decisión de curación: completo, incompleto o sin dato, porque 61 de las 150 piezas de la galería no la mencionan (R32). Con estos tamaños de muestra, el análisis es descriptivo.
 
 **T1 (exploratoria).** M0 compara la descripción con el texto de las fichas; M2, el vector de texto de la descripción con los vectores de imagen; M3 solo participa si la consulta trae especificación estructural y compara solo esos bloques; M4 fusiona los componentes disponibles con los pesos de T3. La muestra al azar del pool se elige entre los candidatos que no proponen M0 ni M2 (R32). Sus métricas se informan de forma descriptiva.
 
-## 8. Interpretabilidad (H3)
+## 8. Fidelidad computacional (H3) y revisión de las explicaciones
 
-Para cada resultado del top 10 de M4 en prueba se registran las contribuciones α_c ŝ_c de cada componente, la máscara de observabilidad y la procedencia de cada valor. H3 se sostiene si se cumplen tres comprobaciones:
+Para cada resultado del top 10 de M4 en prueba se registran las contribuciones α_c ŝ_c de cada componente, la máscara de observabilidad y la procedencia de cada valor. H3 afirma la fidelidad computacional de la descomposición de M4: que la explicación es la puntuación, y no una aproximación a ella. Se sostiene si se cumplen dos comprobaciones (R36):
 
 1. **Reconstrucción:** la suma de las contribuciones coincide con la puntuación, con un error ≤ 1e-9, en todos los resultados.
-2. **Intervención:** retirar un componente modifica la puntuación exactamente como predice la fórmula, incluida la regla de reparto de pesos. Se verifica con pruebas de propiedades y sobre todos los resultados de prueba.
-3. **Revisión humana:** en 10 resultados de prueba elegidos al azar (5 aciertos y 5 errores), el evaluador juzga si la explicación es correcta y no especulativa. Se informan los desacuerdos.
+2. **Intervención:** retirar un componente modifica la puntuación exactamente como predice la fórmula, incluida la regla de reparto de pesos, con el mismo error máximo. Se verifica con pruebas de propiedades y sobre todos los resultados de prueba.
+
+H3 no afirma que las explicaciones sean útiles ni que coincidan con el criterio de un experto: eso no lo prueba la descomposición.
+
+**Revisión humana de las explicaciones (descriptiva).** Es un análisis aparte, que no interviene en el veredicto de H3:
+
+- **Clases.** Un *acierto* es un resultado del top 10 de M4 juzgado relevante (grado ≥ 2, la binarización de la sección 7); un *error*, un resultado del top 10 de M4 juzgado con grado 0 o 1. Los pares `no_evaluable` no entran en ninguna clase.
+- **Muestra.** Se sortean 5 aciertos y 5 errores entre los resultados de prueba, con semilla fija declarada en la configuración. Si una clase tiene menos de 5 resultados, se usan todos y se informa cuántos había.
+- **Ficha ciega.** Para cada resultado, la ficha muestra las dos imágenes y las contribuciones de cada componente con sus valores y su procedencia, sin la clase, el grado ni la posición en el ranking, y en orden aleatorio.
+- **Juicio.** El evaluador indica si la explicación es correcta (las contribuciones corresponden a lo que se ve en las imágenes), incorrecta o especulativa (atribuye a un componente un rasgo que no se puede verificar en las imágenes), o la marca «no evaluable» si las imágenes no permiten decidir; los «no evaluable» se informan y no se reemplazan.
+- **Límite.** La revisión no es independiente: el revisor es el evaluador y anotó la estructura que usa M3. Se informa como descripción de casos, sin tasas ni contraste.
 
 ## 9. Congelación y criterios de suspensión
 
@@ -141,20 +184,34 @@ El experimento sigue un orden obligatorio:
 
 1. Se congelan los grupos, las particiones y la anotación. Las correcciones de criterios y de vocabulario que resulten de la re-anotación del lote 1 se aplican y se registran **antes** de este punto.
 2. Desarrollo: rankings, juicios de desarrollo, ajuste de pesos y estimación de la potencia.
-3. Aprobación del protocolo por el asesor (R30) y congelación de los sistemas, con un manifiesto de ejecución que registra el commit, las sumas SHA-256 de todos los insumos, el checkpoint, los parámetros, el hardware y las semillas.
-4. Selección de los pares de prueba y juicios de prueba, incluido el doble juicio parcial.
-5. Una única ejecución del test.
+3. Autorización del protocolo por el asesor (R30) y congelación de los sistemas.
+4. Ejecución única del test, en la secuencia de estados que sigue (R37).
+
+**Secuencia y estados de la corrida.** Cada corrida tiene un identificador único y avanza por estados que se registran en el manifiesto de ejecución; ningún paso se ejecuta si el estado anterior no está registrado:
+
+| Estado | Qué se hace | Qué queda sellado |
+|---|---|---|
+| `autorizada` | Se registran en `[ejecucion]` de `config/experimento.toml` la fecha, el commit y la suma SHA-256 de este protocolo, y se crea una etiqueta Git anotada en ese commit | Protocolo y código |
+| `insumos_sellados` | Se escribe el manifiesto **antes** de calcular ningún ranking: commit, sumas SHA-256 de todos los insumos obligatorios (particiones, consultas, anotación congelada, vectores de M2, índices de M1, configuración, protocolo), checkpoint, parámetros, semillas, versiones y hardware. Un insumo obligatorio ausente detiene la corrida | Insumos |
+| `rankings_sellados` | Se calculan los rankings de prueba de T3 y T1 y el pool, y sus sumas se añaden al manifiesto | Rankings y pool |
+| `juicios_cerrados` | Se entregan los libros ciegos, se juzgan (incluido el doble juicio parcial, si hay segundo evaluador) y se cierran; su suma se añade al manifiesto | Juicios |
+| `evaluada` | Se recalculan todas las sumas del manifiesto; solo si coinciden se calculan las métricas y el informe | Resultados |
+
+**Gestión de fallos.** Cada paso escribe sus salidas en archivos temporales y las publica de una vez al terminar, de modo que un fallo no deja salidas parciales con el nombre definitivo. Si un paso falla antes de publicar, el estado no avanza, el fallo se anota en el registro de custodia y el paso puede repetirse con el mismo código y los mismos insumos, que son deterministas. Si `--evaluar` encuentra una suma que no coincide, un archivo de otra corrida o un estado que falta, la corrida queda **suspendida**: no se calculan métricas, se informa al asesor y no se repite ningún paso sin su conformidad. Ningún ranking publicado se regenera con otro código ni con otros parámetros.
+
+**Custodia (R37).** No se usa una firma criptográfica personal. La custodia se acredita con tres elementos: una etiqueta Git anotada en cada cambio de estado; el registro `docs/registro_custodia.md`, con la fecha, el responsable, el identificador de la corrida, el commit y las sumas SHA-256 de cada estado; y el envío de esas sumas al asesor por correo en el momento de sellarlas, que deja una constancia fuera del repositorio.
 
 **El test no se abre** si se da alguna de estas condiciones (informe 10 de la auditoría):
 - hay grupos de piezas relacionadas repartidos entre particiones;
 - algún juicio se derivó del descriptor o de CLIP;
 - la guía de anotación o este protocolo cambiaron sin registro;
 - algún peso se ajustó con datos de prueba;
-- alguna imagen no está verificada.
+- alguna imagen no está verificada;
+- falta el manifiesto de ejecución, o alguna suma registrada en él no coincide con el archivo.
 
 Antes de abrir el test se ejecuta una comprobación automática de fugas: que ningún grupo esté en dos particiones y que ninguna consulta figure entre sus propios candidatos. La suspensión protege el test, pero no impide preparar código ni trabajar con los datos de desarrollo.
 
-**Aprobación y ejecución (R30 y R32).** Al aprobarse el protocolo se registran en `[ejecucion]` de `config/experimento.toml` la fecha y el commit de la aprobación y la suma SHA-256 de este documento. La comprobación previa (`python -m src.experimento.ejecucion_prueba --comprobar`) verifica las condiciones anteriores que pueden comprobarse en el repositorio: la aprobación y que el protocolo no cambió después, las particiones y las consultas, la anotación congelada y sus condiciones de buena formación, los pesos de M4, las sumas de las imágenes de M1 y M2, las consultas T1 y que el test no se haya ejecutado antes. La ejecución de los rankings se niega si encuentra un problema.
+**Autorización y ejecución (R30, R32 y R37).** Al autorizarse el protocolo se registran en `[ejecucion]` de `config/experimento.toml` la fecha y el commit de la autorización y la suma SHA-256 de este documento. La comprobación previa (`python -m src.experimento.ejecucion_prueba --comprobar`) verifica las condiciones anteriores que pueden comprobarse en el repositorio: la aprobación y que el protocolo no cambió después, las particiones y las consultas, la anotación congelada y sus condiciones de buena formación, los pesos de M4, las sumas de las imágenes de M1 y M2, las consultas T1 y que el test no se haya ejecutado antes. La ejecución de los rankings se niega si encuentra un problema.
 
 ## 10. Amenazas a la validez y limitaciones
 
@@ -162,7 +219,12 @@ Antes de abrir el test se ejecuta una comprobación automática de fugas: que ni
 |---|---|---|
 | Circularidad: un mismo investigador anota, diseña y juzga | Juicio ciego y aleatorizado, consultas fijadas de antemano y doble juicio parcial preparado | Sesgo residual a favor de M3; es la limitación principal |
 | Un solo evaluador | Doble juicio parcial en 5 consultas, preparado para cuando haya un segundo evaluador (no disponible a la fecha, R27) | Sin segundo evaluador, no se mide el acuerdo entre evaluadores; con él, se estimaría con una muestra pequeña |
-| Juicios de desarrollo asistidos (R25) | Uso limitado a los pesos de M4 y a la potencia; juicios de prueba sin asistencia | Los pesos y la potencia heredan la reserva |
+| Juicios de desarrollo asistidos (R25) | Uso limitado a los pesos de M4 y a la potencia; juicios de prueba sin asistencia; archivo de auditoría con huella registrada (R39) | Los pesos y la potencia heredan la reserva, incluido el riesgo de que el evaluador se anclara en la segunda opinión |
+| Estabilidad del evaluador en prueba | Juicio ciego con escala fijada de antemano | No se mide la estabilidad intraevaluador de los juicios de prueba: no hay rejuicio (R38) |
+| Anotación con revisión asistida (R20) | Los juicios de prueba se emiten sin asistencia | M3 y M4 usan la anotación congelada, cuya revisión incluyó propuestas automáticas |
+| H2 con pocas diferencias distintas de cero | Prueba exacta y análisis del subgrupo de bandas | Con m ≤ 5 la p no puede bajar de 0,05; la compuerta de H1 hace improbable una conclusión confirmatoria |
+| Revisión humana de las explicaciones | Ficha ciega y muestra sorteada | No es independiente y no interviene en H3 |
+| Control negativo con una sola permutación | Semilla fija y permutación dentro del museo | Es descriptivo; no da una distribución nula |
 | Duplicados y vistas de una misma pieza | Grupos decididos antes de partir y comprobación de fugas | Relaciones que no detecte ninguna señal |
 | Pocas consultas de prueba (30) | Prueba de permutación pareada, intervalo pareado y efecto mínimo detectable estimado en desarrollo | Intervalos amplios; alcance de piloto |
 | Juicio solo de los primeros candidatos (pooling) | Unión de los 10 primeros de siete sistemas (M0, M1, M2, M3, M3-sin-orden, M4 y M4-RRF) más una muestra al azar | Sesgo hacia los sistemas que aportan candidatos; se informa la proporción juzgada |
@@ -173,17 +235,18 @@ Antes de abrir el test se ejecuta una comprobación automática de fugas: que ni
 
 ## 11. Estado y calendario restante
 
-| Etapa (plan de cierre) | Estado al 21 de noviembre |
+| Etapa (plan de cierre) | Estado al 23 de noviembre |
 |---|---|
 | Protocolo (S1.3), grupos y particiones (S1.7, S2.2 y S2.3), especificación de M3 (S2.5), M0 y M1 (S2.6), consultas T1 (S2.7) | Hecho el 5 y el 6 de noviembre, salvo la aprobación del protocolo |
 | Re-anotación del lote 1 (S2.1), aclaración de la guía, revisión de criterios y congelación de la anotación v2.1 | Hecho entre el 12 y el 17 de noviembre (R12 a R23) |
 | Juicios de desarrollo (S3.2) | 419 pares juzgados (R24, R25 y R28) |
 | Rankings de M3 y M4, pesos de M4 y efecto mínimo detectable | Hecho el 21 de noviembre (R28 y R29) |
-| Aprobación del protocolo | Pendiente del asesor; el test no se abre antes (R30) |
-| Congelación de los sistemas (S3.3), juicios de prueba y doble juicio parcial (S3.4) | Después de la aprobación; el código del test se prepara con datos de desarrollo |
+| Dictamen del asesor sobre la versión 0.6.5 | Recibido el 21 de noviembre: favorable al diseño piloto; la apertura queda condicionada a acreditar sus observaciones en un nuevo commit con pruebas automáticas (R33 a R39) |
+| Autorización del protocolo | Pendiente; el test no se abre antes (R30) |
+| Congelación de los sistemas (S3.3), juicios de prueba y doble juicio parcial (S3.4) | Después de la autorización; el código del test se prepara con datos de desarrollo |
 | Test, ablaciones e interpretabilidad (S4.1 a S4.3) | Después de los juicios de prueba |
 
-El calendario original del plan de cierre preveía el test entre el 18 y el 19 de noviembre. Se desplazó por el atraso de los juicios de desarrollo y por la revisión de criterios de la anotación, y se fija ahora en función de la aprobación del asesor.
+El calendario original del plan de cierre preveía el test entre el 18 y el 19 de noviembre. Se desplazó por el atraso de los juicios de desarrollo y por la revisión de criterios de la anotación, y se fija ahora en función de la autorización del asesor.
 
 **Carga estimada de juicios**, con un supuesto de 30 s por juicio:
 - Prueba en T3: unos 1600 pares, alrededor de 13 h.
@@ -204,9 +267,10 @@ Todos los parámetros numéricos de este protocolo están en `config/experimento
 | Juicios de desarrollo | `data/metadata/juicios_desarrollo_v2.xlsx`, con los pares en orden aleatorio y sin sistema ni posición, y una galería local de imágenes |
 | Rankings de desarrollo | `data/processed/experimento_v2_rankings_desarrollo.csv` |
 | Checkpoint de M2 | `data/metadata/m2_openclip_manifiesto_v2.json` (sumas de los pesos y versiones) |
-| Ejecución única del test | `python -m src.experimento.ejecucion_prueba` con `--comprobar`, `--rankings`, `--crear-juicios` y `--evaluar`; vectores de texto de T1 con `python -m src.modelos.m2_openclip --textos-t1`. Escribe el manifiesto de ejecución, los rankings de prueba, los libros ciegos `data/metadata/juicios_prueba_v2.xlsx` y `juicios_t1_v2.xlsx`, las métricas por consulta y el informe de resultados |
+| Ejecución única del test | `python -m src.experimento.ejecucion_prueba` con `--comprobar`, `--rankings`, `--crear-juicios`, `--cerrar-juicios`, `--crear-revision-h3` y `--evaluar`, en ese orden; vectores de texto de T1 con `python -m src.modelos.m2_openclip --textos-t1`. Escribe el manifiesto de ejecución con sus estados, los rankings y el pool de prueba, los libros ciegos `data/metadata/juicios_prueba_v2.xlsx` y `juicios_t1_v2.xlsx`, las fichas de la revisión de H3 (`data/metadata/revision_h3_v2.xlsx`), las métricas por consulta y el informe de resultados |
+| Custodia | `docs/registro_custodia.md` y etiquetas Git anotadas por estado (sección 9) |
 
-El evaluador no abre los rankings, el archivo que registra qué sistema propuso cada par (`data/processed/experimento_v2_pool_desarrollo.csv`) ni los informes con el rendimiento de los sistemas en desarrollo (selección de pesos de M4). Hasta cerrar la re-anotación del lote 1, el 12 de noviembre, tampoco abrió `consultas_t3_v2.csv` ni `anotaciones_v2.csv`, porque contenían datos de la primera anotación. Los libros de consultas T1 y de juicios incluyen una hoja de ejemplos hipotéticos que ilustran el formato y la escala; no son piezas de la galería ni consultas.
+El evaluador no abre los rankings, los archivos que registran qué sistema propuso cada par (`data/processed/experimento_v2_pool_desarrollo.csv` y, en prueba, `experimento_v2_pool_prueba.csv` y `experimento_v2_pool_t1.csv`), la clase de cada ficha de H3 (`data/processed/experimento_v2_revision_h3_muestra.csv`) ni los informes con el rendimiento de los sistemas en desarrollo (selección de pesos de M4). Hasta cerrar la re-anotación del lote 1, el 12 de noviembre, tampoco abrió `consultas_t3_v2.csv` ni `anotaciones_v2.csv`, porque contenían datos de la primera anotación. Los libros de consultas T1 y de juicios incluyen una hoja de ejemplos hipotéticos que ilustran el formato y la escala; no son piezas de la galería ni consultas.
 
 Las equivalencias con los nombres del informe 08 son las siguientes: grupos (`groups.csv`), particiones (`splits.csv`), consultas (`queries.csv`), juicios (`qrels.csv`), métricas por consulta (`metrics_by_query.csv`), modelos (`models.toml`) y manifiesto de ejecución (`run_manifest.json`).
 
@@ -225,3 +289,4 @@ Las equivalencias con los nombres del informe 08 son las siguientes: grupos (`gr
 | 2026-11-21 | 0.6.3 | Sección 1: H2 se decide sobre las 30 consultas de prueba y se añade un análisis secundario en las consultas con palabra de bandas, donde la diferencia puede ser distinta de cero. Sección 6: los juicios de prueba se hacen sin asistencia; no hay segundo evaluador disponible y el doble juicio queda preparado para cuando lo haya. Decisión R27 del investigador, tomada sin ejecutar ninguna consulta de prueba |
 | 2026-11-21 | 0.6.4 | Estado y sección 9: el test espera la aprobación del asesor. Sección 4: regla de desempate de los pesos de M4, M4-RRF en la tabla de sistemas, pesos elegidos y parámetros de M0, M1 y M3 fijos en sus valores de partida. Sección 7: resultado del efecto mínimo detectable y alcance de la referencia sobre el error de tipo I. Sección 10: juicios de desarrollo asistidos y salvedad del doble juicio; siete sistemas en el pool. Sección 11: estado al 21 de noviembre. «Score» pasa a «puntuación». Decisiones R28 a R30; no se ha ejecutado ninguna consulta de prueba |
 | 2026-11-21 | 0.6.5 | Sección 7: definición de la ablación de M3 por bloques, de la robustez por completitud (tres grupos) y del cálculo de T1. Sección 4: M2 en T1 sin plantilla. Sección 9: registro de la aprobación y comprobación previa automática. Sección 12: ejecución única del test. Decisión R32; no se ha ejecutado ninguna consulta de prueba |
+| 2026-11-23 | 0.6.6 | Respuesta al dictamen del asesor del 21 de noviembre. Sección 1: regla secuencial de H1 y H2 en lugar de «al ser una sola»; alcance de H1 (la fusión enriquecida frente a M2, sin aislar la estructura); H3 como fidelidad computacional. Sección 6: reporte de `no_evaluable`, supuesto del pooling, comprobación del cegamiento y estabilidad del evaluador no medida. Sección 7: estimandos, tolerancia de empates, H1 con 100 000 réplicas fijas, error de Monte Carlo y tres afirmaciones; H2 con p exacta por enumeración; el efecto mínimo detectable como estimación de planificación y sin aproximación normal en H2; control negativo descriptivo; plantilla del informe de resultados. Sección 8: revisión humana descriptiva, con clases, muestreo y ficha ciega. Sección 9: estados de la corrida, manifiesto antes de los rankings, gestión de fallos y custodia. Sección 10: nuevas limitaciones. Sección 12: órdenes `--cerrar-juicios` y `--crear-revision-h3` y registro de custodia. Decisiones R33 a R39; no se ha ejecutado ninguna consulta de prueba |

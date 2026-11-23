@@ -51,8 +51,12 @@ semilla_bootstrap = 20261109
 # 2026-11-21 (decisiones R01 y R32): nivel de las pruebas de H1 y H2 y replicas y semilla de la
 # permutacion pareada que las decide.
 alfa = 0.05
-replicas_permutacion = 10000
+# 2026-11-23 (decision R34, dictamen del asesor del 21-11, observacion B2): 100 000 replicas fijas
+# en H1, sin parada anticipada (antes 10 000). H2 no usa replicas: su p es exacta (R35).
+replicas_permutacion = 100000
 semilla_permutacion = 20261110
+# 2026-11-23 (decision R35, observacion B3): una diferencia con |d| <= tolerancia cuenta como cero.
+tolerancia_empates = 1e-12
 
 [ejecucion]
 # Ejecucion unica del test (protocolo, secciones 8 y 9; decisiones R30 y R32), con
@@ -65,6 +69,8 @@ sha256_protocolo = ""
 # Control negativo: descriptores de M3 permutados al azar entre piezas del mismo museo.
 semilla_control_negativo = 20261111
 # H3: tolerancia de la reconstruccion y de la intervencion, y muestra de la revision humana.
+# 2026-11-23 (decision R36): la revision humana es descriptiva y no interviene en H3; un acierto es
+# un resultado del top 10 de M4 con grado >= 2 y un error, uno con grado 0 o 1.
 tolerancia_h3 = 1e-9
 semilla_revision_h3 = 20261112
 revision_h3_aciertos = 5
