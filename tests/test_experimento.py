@@ -63,6 +63,17 @@ def test_t8_protocolo_configuracion_y_codigo_dicen_lo_mismo() -> None:
     assert "0,03 · n/b" in texto and ev.p_minima(5) > metricas["alfa"] > ev.p_minima(6)  # «con m ≤ 5 vale al menos 0,0625»
     assert "con m ≤ 5 vale al menos 0,0625" in texto
     assert "registro_custodia.md" in texto and ep.REGISTRO_CUSTODIA == "docs/registro_custodia.md"
+    # Pesos de M4 (R28), k de M4-RRF y tamaños: protocolo frente a config/modelos.toml y config/experimento.toml.
+    from fractions import Fraction
+
+    from src.utils.config import leer_config_modelos
+    modelos = leer_config_modelos()
+    pesos = {c: Fraction(p).limit_denominator(100) for c, p in modelos["m4"]["pesos"].items()}
+    assert f"M0 = {pesos['M0']}, M2 = {pesos['M2']} y M3 = {pesos['M3']}" in texto
+    assert f"Σ_c 1 / ({modelos['m4']['k_rrf']} + r_c)" in texto
+    assert f"{config['consultas_t3']['prueba']} consultas de prueba" in texto
+    assert ep.SISTEMAS_POOL == ("M0", "M1", "M2", "M3", "M3-sin-orden", "M4", "M4-RRF")
+    assert "M0, M1, M2, M3, M3-sin-orden y M4" in texto and "posiciones recíprocas" in texto
     assert (RAIZ_REPO / ep.REGISTRO_CUSTODIA).exists()
 
 

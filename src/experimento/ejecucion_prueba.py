@@ -51,7 +51,7 @@ from src.anotacion.corpus_v2 import SALIDA_PRINCIPAL_V2
 from src.anotacion.nucleo import huella
 from src.experimento import evaluacion, juicios, rankings
 from src.experimento.consultas_t1 import SALIDA_T1
-from src.experimento.libro import escribir_libro
+from src.experimento.libro import HOJA_GUIA, escribir_libro
 from src.experimento.potencia import consultas_con_palabra
 from src.experimento.snapshot import SALIDA_CONSULTAS, SALIDA_PARTICIONES
 from src.experimento.snapshot import comprobar as comprobar_particiones
@@ -95,7 +95,8 @@ PROHIBIDAS = ("sistema", "origen", "score", "puntuacion", "rango", "posicion", "
 
 # Revisión humana de las explicaciones de M4 (R36): descriptiva, ciega a la clase, al grado y a la posición.
 VALORACIONES_H3 = ("correcta", "incorrecta", "especulativa", "no_evaluable")
-EDITABLES_H3 = ["valoracion", "comentario", "evaluador", "fecha_revision"]
+DESACUERDOS_H3 = ("ninguno", "M0", "M2", "M3", "varios")
+EDITABLES_H3 = ["valoracion", "componente_en_desacuerdo", "justificacion", "evaluador", "fecha_revision"]
 CONTEXTO_H3 = ["ficha", "id_consulta", "imagen_consulta", "id_candidato", "imagen_candidato", "explicacion"]
 PROCEDENCIA = {"M0": "texto de la ficha (BM25)", "M2": "imagen y texto (OpenCLIP)", "M3": "anotacion congelada v2.1"}
 
@@ -156,10 +157,14 @@ GUIA_H3 = [
     "se compone su puntuacion: el peso efectivo de cada componente por su puntuacion normalizada. La ficha no dice si",
     "el candidato fue juzgado relevante ni en que posicion quedo; el orden es al azar.",
     "",
+    "valoracion:",
     "  correcta     = las contribuciones corresponden a lo que se ve en las dos imagenes.",
     "  incorrecta   = alguna contribucion alta o baja contradice lo que se ve.",
     "  especulativa = la explicacion atribuye a un componente un rasgo que no se puede verificar en las imagenes.",
     "  no_evaluable = las imagenes no permiten decidir.",
+    "",
+    "componente_en_desacuerdo (codigo de desacuerdo): ninguno, M0, M2, M3 o varios. Con incorrecta o especulativa",
+    "indique el componente cuya contribucion no corresponde y escriba la justificacion con la evidencia visible.",
     "",
     "Complete evaluador y fecha_revision (AAAA-MM-DD). Despues: python -m src.experimento.ejecucion_prueba --evaluar.",
 ]
@@ -217,14 +222,34 @@ def comprobar(raiz: Path, antes_de_rankings: bool = True) -> list[str]:
     if len(t1) != int(config["consultas_t1"]["prueba"]) or not all(f["descripcion"] for f in t1):
         problemas.append("Las consultas T1 no estan todas redactadas y validadas.")
     if antes_de_rankings:
-        man = leer_manifiesto(raiz)
-        if man is not None and estado_actual(man) == SUSPENDIDA:
-            problemas.append(f"La corrida {man.get('corrida', '')} esta suspendida: {man['estados'][-1].get('motivo', '')}")
-        elif man is not None and estado_actual(man) not in ESTADOS[:2]:
-            problemas.append(f"La corrida {man.get('corrida', '')} ya paso por {estado_actual(man)}: el test se ejecuta una sola vez.")
-        if (raiz / RANKINGS_PRUEBA).exists():
-            problemas.append(f"Ya existe {RANKINGS_PRUEBA}: el test se ejecuta una sola vez.")
+        problemas += reejecucion(raiz)
     return problemas
+
+
+def reejecucion(raiz: Path) -> list[str]:
+    """Rechaza una segunda corrida: solo se continúa una corrida que quedó en `insumos_sellados`."""
+    problemas = []
+    man = leer_manifiesto(raiz)
+    if man is not None and estado_actual(man) == SUSPENDIDA:
+        problemas.append(f"La corrida {man.get('corrida', '')} esta suspendida: {man['estados'][-1].get('motivo', '')}")
+    elif man is not None and estado_actual(man) not in ESTADOS[:2]:
+        problemas.append(f"La corrida {man.get('corrida', '')} ya paso por {estado_actual(man)}: el test se ejecuta una sola vez.")
+    if (raiz / RANKINGS_PRUEBA).exists():
+        problemas.append(f"Ya existe {RANKINGS_PRUEBA}: el test se ejecuta una sola vez.")
+    return problemas
+
+
+def reglas_juicio(config: dict[str, Any]) -> dict[str, Any]:
+    """Rúbrica, instrucciones y parámetros de pooling que se sellan con los insumos (R38, observación B7)."""
+    return {"guia_t3": GUIA_T3, "guia_t1": GUIA_T1, "guia_h3": GUIA_H3, "escala": config["juicios"]["escala"],
+            "pooling": {c: config["juicios"][c] for c in ("profundidad_pool", "aleatorios_pool", "semilla_pool",
+                                                          "sistemas_muestra_azar")},
+            "sistemas_muestra_azar_t1": config["ejecucion"]["sistemas_muestra_azar_t1"]}
+
+
+def huella_reglas(config: dict[str, Any]) -> str:
+    texto = json.dumps(reglas_juicio(config), ensure_ascii=False, sort_keys=True)
+    return hashlib.sha256(texto.encode("utf-8")).hexdigest()
 
 
 def imagenes_no_verificadas(raiz: Path) -> list[str]:
@@ -313,6 +338,9 @@ def verificar(raiz: Path, requerido: str) -> tuple[dict[str, Any] | None, list[s
         problemas.append(f"La corrida esta en {actual or 'ningun estado'}; este paso exige {requerido}.")
     if man.get("corrida") != identificador_corrida(config):
         problemas.append("El manifiesto es de otra corrida: su identificador no coincide con la autorizacion registrada.")
+    reglas = next((e.get("reglas_juicio") for e in man.get("estados", []) if e["estado"] == "insumos_sellados"), None)
+    if reglas is not None and reglas != huella_reglas(config):
+        problemas.append("La huella de las reglas de juicio (rubrica, instrucciones y pooling) no coincide con la sellada.")
     for ruta, suma in sorted(sellados(man).items()):
         if not (raiz / ruta).exists():
             problemas.append(f"Falta un archivo sellado: {ruta}")
@@ -376,6 +404,7 @@ def manifiesto_inicial(raiz: Path) -> dict[str, Any]:
              "sha256": {PROTOCOLO.as_posix(): config["ejecucion"]["sha256_protocolo"]}},
             {"estado": "insumos_sellados", "commit": commit,
              "arbol_limpio": git(raiz, "status", "--porcelain", "--untracked-files=no") == "",
+             "reglas_juicio": huella_reglas(config),
              "sha256": huellas(raiz, insumos_obligatorios(raiz))},
         ],
         "checkpoint_m2": {c: m2.get(c, "") for c in ("arquitectura", "pesos", "sha256_pesos", "encuadre", "precision")},
@@ -583,11 +612,22 @@ def escribir_libro_juicios(raiz: Path, tarea: Tarea, filas: list[dict[str, str]]
                    enlaces=("imagen_consulta", "imagen_candidato"))
 
 
+def guia_del_libro(ruta: Path) -> list[str]:
+    libro = load_workbook(ruta, read_only=True)
+    try:
+        return ["" if fila[0] is None else str(fila[0]) for fila in libro[HOJA_GUIA].iter_rows(max_col=1, values_only=True)]
+    finally:
+        libro.close()
+
+
 def cegamiento_del_libro(raiz: Path, tarea: Tarea, ruta: Path | None = None) -> list[str]:
-    """Valida el libro escrito en disco contra el pool sellado."""
+    """Valida el libro escrito en disco contra el pool sellado y la rúbrica registrada (R38)."""
     ruta = ruta or raiz / tarea.workbook
     filas = leer_hoja(ruta, juicios.HOJA_JUICIOS, clave="consulta")
-    return validar_cegamiento(encabezados_libro(ruta, juicios.HOJA_JUICIOS), filas, leer_csv(raiz / tarea.pool))
+    errores = validar_cegamiento(encabezados_libro(ruta, juicios.HOJA_JUICIOS), filas, leer_csv(raiz / tarea.pool))
+    if guia_del_libro(ruta) != tarea.guia:
+        errores.append(f"La guia del libro {tarea.nombre} no coincide con la rubrica y las instrucciones registradas.")
+    return errores
 
 
 def crear_juicios(raiz: Path) -> int:
@@ -781,7 +821,8 @@ def crear_revision_h3(raiz: Path) -> int:
         (MUESTRA_H3, lambda ruta: escribir_csv(ruta, ["ficha", "consulta", "id_global", "clase"], muestra)),
         (WORKBOOK_REVISION_H3.as_posix(), lambda ruta: escribir_libro(
             ruta, GUIA_H3, "revision", EDITABLES_H3 + CONTEXTO_H3, fichas, EDITABLES_H3,
-            {"explicacion": 90, "comentario": 50}, {"valoracion": list(VALORACIONES_H3)}, (["nota"], []),
+            {"explicacion": 90, "justificacion": 50, "componente_en_desacuerdo": 14},
+            {"valoracion": list(VALORACIONES_H3), "componente_en_desacuerdo": list(DESACUERDOS_H3)}, (["nota"], []),
             enlaces=("imagen_consulta", "imagen_candidato"))),
     ])
     print(f"Revision de H3: {len(fichas)} fichas en {WORKBOOK_REVISION_H3} (aciertos disponibles: {disponibles['acierto']}, "
@@ -798,6 +839,11 @@ def validar_revision_h3(filas: list[dict[str, str]]) -> tuple[list[str], int]:
             continue
         if f["valoracion"] not in VALORACIONES_H3:
             errores.append(f"{f['ficha']}: valoracion '{f['valoracion']}' no prevista")
+        desacuerdo = f.get("componente_en_desacuerdo", "")
+        if desacuerdo not in DESACUERDOS_H3:
+            errores.append(f"{f['ficha']}: componente_en_desacuerdo '{desacuerdo}' no previsto")
+        elif f["valoracion"] in ("incorrecta", "especulativa") and (desacuerdo == "ninguno" or not f.get("justificacion")):
+            errores.append(f"{f['ficha']}: una explicacion {f['valoracion']} lleva componente en desacuerdo y justificacion")
         if not f.get("evaluador"):
             errores.append(f"{f['ficha']}: evaluador vacio")
         if not fecha_valida(f.get("fecha_revision", "")):
@@ -806,7 +852,9 @@ def validar_revision_h3(filas: list[dict[str, str]]) -> tuple[list[str], int]:
 
 
 def resumen_revision_h3(raiz: Path) -> tuple[dict[tuple[str, str], int] | None, str]:
-    """Conteos por clase y valoración, o None con el motivo si la revisión no se hizo o está incompleta."""
+    """Conteos por clase y valoración y por componente en desacuerdo, o None con el motivo si falta.
+
+    Las claves son (clase, valoración) y ("desacuerdo", componente). Es descriptivo: sin tasas."""
     if not (raiz / WORKBOOK_REVISION_H3).exists():
         return None, "no realizada"
     filas = leer_hoja(raiz / WORKBOOK_REVISION_H3, "revision", clave="ficha")
@@ -815,7 +863,9 @@ def resumen_revision_h3(raiz: Path) -> tuple[dict[tuple[str, str], int] | None, 
         return None, f"incompleta ({pendientes} fichas pendientes, {len(errores)} errores)"
     clases = {f["ficha"]: f["clase"] for f in leer_csv(raiz / MUESTRA_H3)}
     escribir_csv(raiz / SALIDA_REVISION_H3, ["ficha"] + EDITABLES_H3, [{c: f.get(c, "") for c in ["ficha"] + EDITABLES_H3} for f in filas])
-    return dict(Counter((clases[f["ficha"]], f["valoracion"]) for f in filas)), "completa"
+    conteos = Counter((clases[f["ficha"]], f["valoracion"]) for f in filas)
+    conteos.update(("desacuerdo", f["componente_en_desacuerdo"]) for f in filas)
+    return dict(conteos), "completa"
 
 
 # --------------------------------------------------------------------------- calculo de resultados
@@ -930,9 +980,37 @@ def no_evaluables(sistemas: dict[str, dict[str, list[str]]], juicios_t3: dict[st
             for s in SISTEMAS_POOL}
 
 
+def pooling(sistemas: dict[str, dict[str, list[str]]], juicios_t3: dict[str, dict[str, int | None]],
+            pares_pool: list[dict[str, str]], k: int) -> tuple[list[list[str]], dict[str, tuple]]:
+    """Cobertura del pool por consulta y sensibilidad a retirar los aportes exclusivos (P1; Buckley et al., 2007).
+
+    Por consulta: pares del pool, juzgados, relevantes (grado >= 1 y >= 2) y `no_evaluable`. Por
+    sistema: nDCG@k medio con los juicios completos, con sus aportes exclusivos tratados como no
+    juzgados, y número de aportes exclusivos."""
+    procedencia: dict[str, dict[str, set[str]]] = defaultdict(dict)
+    for par in pares_pool:
+        procedencia[par["consulta"]][par["id_global"]] = set(par["origen"].split("; "))
+    por_consulta = []
+    for c in sorted(sistemas):
+        grados = list(juicios_t3.get(c, {}).values())
+        por_consulta.append([c, str(len(procedencia[c])), str(len(grados)), str(sum(g is not None and g >= 1 for g in grados)),
+                             str(sum(g is not None and g >= 2 for g in grados)), str(sum(g is None for g in grados))])
+    sensibilidad = {}
+    for s in SISTEMAS_POOL:
+        consultas = [c for c in sorted(sistemas) if s in sistemas[c]]
+        if not consultas:
+            continue
+        completos = [evaluacion.ndcg(sistemas[c][s], juicios_t3.get(c, {}), k) for c in consultas]
+        sin_propios = [evaluacion.ndcg(sistemas[c][s], evaluacion.sin_aportes_unicos(juicios_t3.get(c, {}), procedencia[c], s), k)
+                       for c in consultas]
+        exclusivos = sum(1 for c in consultas for origen in procedencia[c].values() if origen == {s})
+        sensibilidad[s] = (media(completos), media(sin_propios), exclusivos)
+    return por_consulta, sensibilidad
+
+
 def calcular(raiz: Path, particion: str, rk: dict[str, dict[str, list]],
-             juicios_t3: dict[str, dict[str, int | None]]) -> dict[str, Any]:
-    """Métricas por consulta, hipótesis, ablaciones, control negativo, H3 y robustez de la tarea T3."""
+             juicios_t3: dict[str, dict[str, int | None]], pares_pool: list[dict[str, str]] | None = None) -> dict[str, Any]:
+    """Métricas por consulta, hipótesis, ablaciones, control negativo, H3, pooling y robustez de la tarea T3."""
     config, modelos = leer_config_experimento(raiz), leer_config_modelos(raiz)
     metricas_cfg, ejecucion = config["metricas"], config["ejecucion"]
     k = int(metricas_cfg["k"])
@@ -985,6 +1063,7 @@ def calcular(raiz: Path, particion: str, rk: dict[str, dict[str, list]],
     return {"filas": filas, "ndcg": ndcg, "juzgada": juzgada, "comparaciones": comparaciones, "exploratorias": exploratorias,
             "h3": h3, "robustez": robustez, "nombres": nombres, "con_bandas": sorted(con_bandas & set(sistemas)), "b": b,
             "no_evaluables": no_evaluables(sistemas, juicios_t3, k),
+            "pooling": pooling(sistemas, juicios_t3, pares_pool, k) if pares_pool is not None else None,
             "sin_relevantes": sorted({e for c in (h1, h2) for e in c.excluidas})}
 
 
@@ -1030,6 +1109,15 @@ def informe(r: dict[str, Any], config: dict[str, Any], integridad: dict[str, Any
                  ", ".join(f"{c}: {v}" for c, v in r["no_evaluables"][s].items() if v) or "ninguna",
                  fmt(media(list(r["juzgada"][s].values())))] for s in SISTEMAS_POOL if s in r["juzgada"]]
     lineas += tabla(filas_ne, ["Sistema", f"no_evaluable en el top {k}", "Consultas con no_evaluable", f"Proporcion juzgada del top {k}"])
+    if r["pooling"] is not None:
+        por_consulta, sensibilidad = r["pooling"]
+        lineas += ["", "Cobertura del pool por consulta. Un candidato no juzgado cuenta como 0 (supuesto del pooling, protocolo "
+                   "seccion 6):", ""]
+        lineas += tabla(por_consulta, ["Consulta", "Pares del pool", "Juzgados", "Relevantes (>= 1)", "Relevantes (>= 2)", "no_evaluable"])
+        lineas += ["", "Sensibilidad a los aportes exclusivos: cada sistema recalculado con los pares que solo el aporto tratados "
+                   "como no juzgados (Buckley et al., 2007):", ""]
+        lineas += tabla([[s, fmt(a), fmt(b), str(n)] for s, (a, b, n) in sensibilidad.items()],
+                        ["Sistema", f"nDCG@{k} medio", "Sin sus aportes exclusivos", "Aportes exclusivos"])
     lineas += ["", "## 3. H1: M4 frente a M2", ""]
     a = h1.afirmaciones
     lineas += tabla([["Consultas (n)", str(h1.n)], ["Diferencia media", fmt(h1.media)],
@@ -1039,8 +1127,11 @@ def informe(r: dict[str, Any], config: dict[str, Any], integridad: dict[str, Any
                      [f"(a) Frente a cero: p < {alfa}", si_no(a.frente_a_cero)],
                      [f"(c) Relevancia practica: diferencia >= {umbral}", si_no(a.relevancia_practica)],
                      ["Lectura y veredicto", h1.decision]], ["Elemento", "Valor"])
-    lineas += ["", "Una p no significativa no demuestra que no haya mejora (protocolo, seccion 7).", "",
-               "## 4. H2: M3 frente a M3-sin-orden", ""]
+    lineas += ["", "La p contrasta la diferencia frente a cero; la relevancia practica se refiere a la diferencia observada y no "
+               f"prueba que el efecto poblacional alcance {umbral}, umbral que no se contrasto. Si la p y el intervalo parecen "
+               "discrepar, se informan ambos y decide la permutacion. Con potencia limitada, un efecto seleccionado por "
+               "significacion puede estar sobrestimado. Una p no significativa no demuestra que no haya mejora (protocolo, "
+               "seccion 7).", "", "## 4. H2: M3 frente a M3-sin-orden", ""]
     lineas += tabla([["Consultas (n)", str(h2.n)], ["b: consultas evaluables con palabra de bandas", str(r["b"])],
                      ["m: diferencias distintas de cero", str(h2.m)], ["p exacta (2^m vectores)", fmt(h2.p_permutacion, 5)],
                      ["p minima alcanzable", fmt(h2.p_minima, 5)], ["Diferencia media", fmt(h2.media)],
@@ -1064,6 +1155,8 @@ def informe(r: dict[str, Any], config: dict[str, Any], integridad: dict[str, Any
     if conteos:
         lineas += tabla([[clase] + [str(conteos.get((clase, v), 0)) for v in VALORACIONES_H3] for clase in ("acierto", "error")],
                         ["Clase"] + list(VALORACIONES_H3))
+        lineas += ["", "Componente en desacuerdo: " + ", ".join(f"{d}: {conteos.get(('desacuerdo', d), 0)}" for d in DESACUERDOS_H3)
+                   + ". Denominador: las fichas sorteadas; las `no_evaluable` se informan y no se reemplazan."]
     lineas += ["", f"## 6. Metricas de todos los sistemas (media sobre las consultas; por consulta en `{METRICAS}`)", ""]
     lineas += tabla([[s, fmt(media(list(r["ndcg"][s].values())))] for s in r["nombres"]], ["Sistema o variante", f"nDCG@{k} medio"])
     lineas += ["", "## 7. Ablaciones, control negativo y M4-RRF (exploratorias)", "",
@@ -1104,7 +1197,7 @@ def evaluar(raiz: Path) -> int:
     juicios_t3 = leer_juicios_sellados(raiz / TAREAS["T3"].salida)
     juicios_t1 = leer_juicios_sellados(raiz / TAREAS["T1"].salida)
     rk_t1 = leer_rankings(raiz / RANKINGS_T1)
-    r = calcular(raiz, "prueba", leer_rankings(raiz / RANKINGS_PRUEBA), juicios_t3)
+    r = calcular(raiz, "prueba", leer_rankings(raiz / RANKINGS_PRUEBA), juicios_t3, leer_csv(raiz / POOL_PRUEBA))
     estados = [e["estado"] for e in man["estados"]]
     integridad = {"corrida": man["corrida"], "estados": estados + ["evaluada"], "huellas": len(sellados(man)),
                   "commit": next((e.get("commit", "") for e in man["estados"] if e["estado"] == "insumos_sellados"), ""),

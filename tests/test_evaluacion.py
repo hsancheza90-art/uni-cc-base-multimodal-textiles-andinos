@@ -197,3 +197,26 @@ def test_efecto_minimo_detectable_y_consultas_necesarias() -> None:
 def test_el_rango_de_la_desviacion_es_amplio_con_diez_consultas() -> None:
     inferior, superior = ev.rango_desviacion(0.1, 10)
     assert inferior == pytest.approx(0.0688, abs=1e-3) and superior == pytest.approx(0.1826, abs=2e-3)
+
+
+def test_t1_h1_confirmada_conserva_la_lectura_de_h2_favorable_o_no() -> None:
+    base = {f"q{i:02d}": 0.5 for i in range(30)}
+    h1 = ev.comparar({c: v + 0.1 for c, v in base.items()}, base, **opciones())
+    assert h1.sostiene
+    no_favorable = ev.comparar({f"q{i:02d}": 0.4 if i < 2 else 0.5 for i in range(30)}, base, **opciones(), exacta=True)
+    favorable = ev.comparar({f"q{i:02d}": 0.6 if i < 3 else 0.5 for i in range(30)}, base, **opciones(), exacta=True)
+    assert ev.compuerta(h1, no_favorable).decision == ev.NO_DETECTADA
+    assert ev.compuerta(h1, favorable).decision == ev.FAVORABLE  # m = 3: la p no baja de 0,25
+
+
+def test_t2_exclusiones_ceros_y_b_mayor_que_m() -> None:
+    # 9 consultas con bandas (b = 9): 2 dan diferencia cero (b > m) y una queda excluida por no tener relevantes.
+    m3 = {f"q{i:02d}": 0.5 for i in range(30)}
+    sin_orden = dict(m3)
+    for i in range(6):
+        m3[f"q{i:02d}"] = 0.5 + 0.05 * (i + 1)
+    m3["q08"] = None  # excluida: no entra en n
+    c = ev.comparar(m3, sin_orden, **opciones(), exacta=True)
+    assert c.n == 29 and c.excluidas == ["q08"] and c.m == 6
+    assert c.p_permutacion == pytest.approx(fuerza_bruta([0.05 * (i + 1) for i in range(6)]))
+    assert c.p_minima == pytest.approx(2 / 64)

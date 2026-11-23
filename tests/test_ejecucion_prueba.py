@@ -45,7 +45,8 @@ def test_sin_aprobacion_no_se_ejecuta_ningun_sistema_sobre_la_prueba() -> None:
 def ensayo_desarrollo() -> dict:
     """Cálculo completo sobre la partición de desarrollo, en memoria."""
     rk = ep.leer_rankings(RAIZ_REPO / SALIDA_RANKINGS)
-    return ep.calcular(RAIZ_REPO, "desarrollo", rk, leer_juicios(RAIZ_REPO))
+    pool = juicios.construir_pool(RAIZ_REPO, leer_config_experimento())
+    return ep.calcular(RAIZ_REPO, "desarrollo", rk, leer_juicios(RAIZ_REPO), pool)
 
 
 def test_h3_reconstruccion_e_intervencion_se_cumplen(ensayo_desarrollo: dict) -> None:
@@ -210,11 +211,16 @@ def test_t6_la_ficha_de_h3_es_ciega_y_se_valida() -> None:
     texto = ep.explicacion(rk["Q1"], "AIC:0", {"M0": 1 / 7, "M2": 4 / 7, "M3": 2 / 7})
     assert "M0 (" in texto and "Total:" in texto
     errores, pendientes = ep.validar_revision_h3([
-        {"ficha": "F01", "valoracion": "correcta", "evaluador": "HS", "fecha_revision": "2026-11-30"},
-        {"ficha": "F02", "valoracion": "quizas", "evaluador": "", "fecha_revision": "30-11"},
+        {"ficha": "F01", "valoracion": "correcta", "componente_en_desacuerdo": "ninguno", "evaluador": "HS", "fecha_revision": "2026-11-30"},
+        {"ficha": "F02", "valoracion": "quizas", "componente_en_desacuerdo": "ninguno", "evaluador": "", "fecha_revision": "30-11"},
         {"ficha": "F03", "valoracion": "", "evaluador": "", "fecha_revision": ""},
+        {"ficha": "F04", "valoracion": "especulativa", "componente_en_desacuerdo": "ninguno", "evaluador": "HS",
+         "fecha_revision": "2026-11-30"},
+        {"ficha": "F05", "valoracion": "incorrecta", "componente_en_desacuerdo": "M3", "justificacion": "El M3 alto no se ve",
+         "evaluador": "HS", "fecha_revision": "2026-11-30"},
+        {"ficha": "F06", "valoracion": "correcta", "componente_en_desacuerdo": "M9", "evaluador": "HS", "fecha_revision": "2026-11-30"},
     ])
-    assert pendientes == 1 and len(errores) == 3
+    assert pendientes == 1 and len(errores) == 5  # F02: tres; F04: sin componente ni justificacion; F06: codigo
 
 
 def test_t7_el_libro_de_juicios_es_ciego_de_extremo_a_extremo(tmp_path: Path) -> None:
@@ -246,3 +252,59 @@ def test_el_informe_sigue_la_plantilla_de_diez_tablas(ensayo_desarrollo: dict) -
     assert [t.split(".")[0] for t in titulos] == [f"## {n}" for n in range(1, 11)]
     texto = "\n".join(lineas)
     assert "p minima alcanzable" in texto and "Error de Monte Carlo" in texto and "Compuerta de H1" in texto
+
+def sellar_hasta_juicios(raiz: Path) -> dict:
+    sellar(raiz)
+    man = ep.leer_manifiesto(raiz)
+    ep.publicar(raiz, [("j.csv", lambda ruta: ruta.write_text("juicio\n2\n", encoding="utf-8"))],
+                lambda sumas: ep.con_estado(man, "juicios_cerrados", sumas))
+    return ep.leer_manifiesto(raiz)
+
+
+@pytest.mark.parametrize("archivo", ["a.csv", "c.csv", "j.csv"])  # insumo, ranking y juicios
+def test_t4_evaluar_se_detiene_antes_de_producir_metricas_si_cambia_un_byte(tmp_path: Path, archivo: str) -> None:
+    raiz = repo_autorizado(tmp_path)
+    sellar_hasta_juicios(raiz)
+    assert ep.verificar(raiz, "juicios_cerrados")[1] == []
+    contenido = bytearray((raiz / archivo).read_bytes())
+    contenido[-1] ^= 1
+    (raiz / archivo).write_bytes(bytes(contenido))
+    assert ep.evaluar(raiz) == 1
+    assert not (raiz / ep.METRICAS).exists() and not (raiz / ep.REPORTE).exists()
+    assert ep.estado_actual(ep.leer_manifiesto(raiz)) == ep.SUSPENDIDA
+
+
+def test_t4_un_archivo_sellado_faltante_suspende(tmp_path: Path) -> None:
+    raiz = repo_autorizado(tmp_path)
+    sellar_hasta_juicios(raiz)
+    (raiz / "c.csv").unlink()
+    assert ep.evaluar(raiz) == 1 and not (raiz / ep.METRICAS).exists()
+    assert "Falta un archivo sellado: c.csv" in ep.leer_manifiesto(raiz)["estados"][-1]["motivo"]
+
+
+def test_t5_se_rechaza_la_reejecucion_accidental(tmp_path: Path) -> None:
+    raiz = repo_autorizado(tmp_path)
+    assert ep.reejecucion(raiz) == []
+    config = leer_config_experimento(raiz)
+    man = {"corrida": ep.identificador_corrida(config), "estados": [{"estado": "autorizada", "sha256": {}},
+                                                                    {"estado": "insumos_sellados", "sha256": {}}]}
+    ep.publicar(raiz, [], lambda _: man)
+    assert ep.reejecucion(raiz) == []  # una corrida en insumos_sellados puede reanudarse tras un fallo documentado
+    ep.publicar(raiz, [("c.csv", lambda ruta: ruta.write_text("z\n", encoding="utf-8"))],
+                lambda sumas: ep.con_estado(man, "rankings_sellados", sumas))
+    assert any("una sola vez" in p for p in ep.reejecucion(raiz))  # despues del sellado, no
+    (raiz / ep.RANKINGS_PRUEBA).parent.mkdir(parents=True, exist_ok=True)
+    (raiz / ep.RANKINGS_PRUEBA).write_text("x\n", encoding="utf-8")
+    assert len(ep.reejecucion(raiz)) == 2
+
+
+def test_t7_las_reglas_de_juicio_se_sellan_y_su_cambio_se_detecta(tmp_path: Path, monkeypatch) -> None:
+    raiz = repo_autorizado(tmp_path)
+    config = leer_config_experimento(raiz)
+    huella = ep.huella_reglas(config)
+    man = {"corrida": ep.identificador_corrida(config), "estados": [
+        {"estado": "autorizada", "sha256": {}}, {"estado": "insumos_sellados", "reglas_juicio": huella, "sha256": {}}]}
+    ep.publicar(raiz, [], lambda _: man)
+    assert ep.verificar(raiz, "insumos_sellados")[1] == []
+    monkeypatch.setattr(ep, "GUIA_T3", ep.GUIA_T3 + ["Instruccion agregada despues del sellado"])
+    assert any("reglas de juicio" in p for p in ep.verificar(raiz, "insumos_sellados")[1])
