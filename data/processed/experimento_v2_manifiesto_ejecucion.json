@@ -53,6 +53,19 @@
         "data/processed/experimento_v2_rankings_prueba.csv": "0a8d8176e82c81012f2b829b6625d19b7f67b9f23df0d7df8b09fa71855a2e3d",
         "data/processed/experimento_v2_rankings_t1.csv": "4b331212b4a41d95500a72cdc757984dc0dae3aad270bad096fbda9adf08767c"
       }
+    },
+    {
+      "cegamiento": {
+        "T1": "sin problemas",
+        "T3": "sin problemas"
+      },
+      "estado": "juicios_cerrados",
+      "sha256": {
+        "data/metadata/juicios_prueba_v2.csv": "ee52f855381eb7f2610571633c42222a63e53e26ee41e1326f828bc1a903f3e2",
+        "data/metadata/juicios_prueba_v2.xlsx": "a480dfe3c841a2e7912a366d975991a925cde704f49ee6fb0c92ed106d6c2447",
+        "data/metadata/juicios_t1_v2.csv": "d1aa209e4656089edeb699d727aa922a650b8caf1efeb2e723d5732c30e513fd",
+        "data/metadata/juicios_t1_v2.xlsx": "6cc822c76d4f9187d1731d91870bac0b6b56234db71db53c1ca7c4c648e38473"
+      }
     }
   ],
   "parametros": {
