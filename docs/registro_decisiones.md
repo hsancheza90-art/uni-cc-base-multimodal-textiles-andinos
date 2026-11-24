@@ -50,6 +50,7 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 | R38 | 2026-11-23 | No se rejuzga una muestra de prueba; la estabilidad intraevaluador no se mide y se declara | Decidida; ratificada el 23 de noviembre (R40) |
 | R39 | 2026-11-23 | Archivo de auditoría de los juicios asistidos, privado, con su huella y su descripción en el repositorio | Decidida; ratificada el 23 de noviembre (R40) |
 | R40 | 2026-11-23 | El asesor autoriza la apertura del test sobre el commit 2b01f0e; se registra la autorización y se abre la corrida | Decidida |
+| R41 | 2026-11-24 | Criterio de lectura de la revisión de H3 (tercios), doble juicio parcial no realizado y entrega del informe de Seminario II | Decidida |
 
 ## R01. Prueba inferencial de H1 y H2
 
@@ -395,3 +396,10 @@ Estados: **Decidida** (vigente); **Por ratificar** (decidida por el investigador
 - **Vectores de T1.** Se calcularon el 23 de noviembre con `--textos-t1`, en CPU, con los pesos de M2 cuya suma coincide con la del manifiesto (`a5412f19…f378`) y las mismas versiones de bibliotecas. El tokenizador del codificador de texto se descargó en esa ejecución y no tiene suma en el manifiesto de M2; queda registrado aquí.
 - **Siguiente.** Sellado de los insumos y rankings de prueba (`--rankings`), libros ciegos de juicio y juicios sin asistencia. El evaluador no abre los rankings, el pool ni el manifiesto de ejecución.
 - **Archivos.** `config/experimento.toml`, `docs/protocolo_experimental_v2.md`, `docs/registro_custodia.md`.
+
+## R41. Criterio de la revisión de H3, doble juicio y entrega
+
+- **Criterio de lectura de la revisión de H3.** La guía del libro de revisión (sellada) no fijaba cuándo una contribución es «alta» o «baja». El investigador aplicó el mismo criterio a los tres componentes (M0, M2 y M3), sobre la puntuación normalizada por mínimo y máximo de cada consulta: alta si es ≥ 0,67, baja si es ≤ 0,33. En la zona intermedia, la contribución no se toma como una afirmación sobre las imágenes. El criterio se fijó después de crear el libro de revisión, sin conocer la clase (acierto o error) de ninguna ficha, y el investigador lo declaró el 24 de noviembre, después de completar la revisión. Como la revisión es descriptiva (R36), el criterio no cambia el veredicto de H3. Se informa como limitación que no quedó registrado antes de valorar la primera ficha.
+- **Doble juicio parcial.** No se realiza. No hubo segundo evaluador disponible antes de la entrega, y el protocolo (sección 6) lo condicionaba a que lo hubiera (R27). No es una desviación: los resultados se informan con un solo evaluador y la falta de acuerdo entre evaluadores se declara en las limitaciones.
+- **Entrega.** El informe de Seminario de Tesis II (MCC702, semestre 2026-2) se entrega el 27 de noviembre de 2026. Se redacta sobre `docs/manuscrito/`; el primer entregable (`docs/manuscrito/entregable_1_MCC701/`) sirve solo como referencia de formato y de figuras.
+- **Archivos.** `docs/registro_decisiones.md`.
