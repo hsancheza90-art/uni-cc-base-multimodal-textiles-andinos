@@ -16,7 +16,7 @@ Las huellas las imprime `python -m src.experimento.ejecucion_prueba` al terminar
 | 2026-11-23 | `insumos_sellados` | Henry Sánchez Alvarado | `corrida-1d7165cf4dab` | `cc501ae` (árbol limpio) | `test-v2-rankings-sellados` | Pendiente: 17 sumas de insumos del manifiesto de ejecución |
 | 2026-11-23 | `rankings_sellados` | Henry Sánchez Alvarado | `corrida-1d7165cf4dab` | `cc501ae` | `test-v2-rankings-sellados` | Pendiente: rankings T3 `0a8d8176…2e3d`, rankings T1 `4b331212…767c`, pool T3 `5eb38c2e…f651`, pool T1 `fbf719eb…e3c1` |
 | 2026-11-24 | `juicios_cerrados` | Henry Sánchez Alvarado; juicios de T3 (1283 pares) y T1 (212 pares) emitidos sin asistencia | `corrida-1d7165cf4dab` | el de la etiqueta | `test-v2-juicios-cerrados` | Pendiente: juicios T3 `ee52f855…f3e2` (libro `a480dfe3…c447`), juicios T1 `d1aa209e…13fd` (libro `6cc822c7…8473`) |
-| | `evaluada` | | | | | |
+| 2026-11-24 | `evaluada` | Henry Sánchez Alvarado; revisión descriptiva de H3 (10 fichas) hecha sin asistencia | `corrida-1d7165cf4dab` | el de la etiqueta | `test-v2-evaluada` | Pendiente: informe `046cf990…d4a7`, métricas por consulta `9aa7145c…2b0f`, revisión H3 `be9a71cb…a1a9` (libro `f080efbe…d48a`), muestra H3 `f9b7fb4f…c48a` |
 
 ## Fallos, suspensiones y desviaciones del protocolo
 

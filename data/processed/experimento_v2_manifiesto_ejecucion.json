@@ -66,6 +66,16 @@
         "data/metadata/juicios_t1_v2.csv": "d1aa209e4656089edeb699d727aa922a650b8caf1efeb2e723d5732c30e513fd",
         "data/metadata/juicios_t1_v2.xlsx": "6cc822c76d4f9187d1731d91870bac0b6b56234db71db53c1ca7c4c648e38473"
       }
+    },
+    {
+      "estado": "evaluada",
+      "sha256": {
+        "data/metadata/revision_h3_v2.csv": "be9a71cbf5cbe9170c029e2f99b75eb905888feb4b1508e8b6e965ab334c21a9",
+        "data/metadata/revision_h3_v2.xlsx": "f080efbed13dc2dc569b2097e66182b4d8725a7eb9bbe88310803d63ce4cd48a",
+        "data/processed/experimento_v2_metricas_por_consulta.csv": "9aa7145c8d7d056e12c93baa1f4fc2698f8af843c6cec6089e80557b978b2b0f",
+        "data/processed/experimento_v2_revision_h3_muestra.csv": "f9b7fb4f7525f990eb253916d409d2d8d6ddbc554569c1a336e6774df2d1717a",
+        "outputs/reports/experimento_v2_resultados.md": "046cf9908a9b27fb2b2c77e6540a2e8a1f56d8ede87af29aa2f4bdbc25c4d4a7"
+      }
     }
   ],
   "parametros": {
