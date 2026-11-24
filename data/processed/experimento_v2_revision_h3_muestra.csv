@@ -1,0 +1,11 @@
+ficha,consulta,id_global,clase
+F01,T3-P20,MET:307953,acierto
+F02,T3-P10,AIC:181387,error
+F03,T3-P17,CMA:104251,error
+F04,T3-P11,MET:308098,acierto
+F05,T3-P09,AIC:152936,error
+F06,T3-P21,CMA:165184,acierto
+F07,T3-P14,AIC:85253,error
+F08,T3-P15,AIC:223217,acierto
+F09,T3-P07,AIC:181387,acierto
+F10,T3-P28,AIC:223217,error
