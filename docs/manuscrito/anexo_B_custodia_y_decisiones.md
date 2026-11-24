@@ -24,7 +24,7 @@ La custodia no depende de una firma criptográfica personal. Se acredita con tre
 
 1. una etiqueta Git anotada en cada cambio de estado (Cuadro B.1);
 2. el registro de custodia versionado, con la fecha, el responsable, la corrida, el commit y las sumas de cada estado; al estar bajo control de versiones, cualquier modificación posterior queda a la vista;
-3. el envío de las sumas de cada estado al asesor por correo, que deja una constancia fuera del repositorio. En el registro de custodia, ese envío figura como pendiente para los cinco estados a la fecha de este anexo.
+3. el envío de las sumas de cada estado al asesor por correo, que deja una constancia fuera del repositorio. Las sumas de los cinco estados se enviaron juntas por correo el 24 de noviembre de 2026, una vez evaluada la corrida.
 
 El 23 de noviembre de 2026, junto con la autorización, el investigador declaró por escrito que no había ejecutado ningún sistema sobre las consultas de prueba.
 
@@ -37,7 +37,7 @@ El protocolo fijó de antemano cómo tratar un fallo:
 - Una vez sellados los rankings, una segunda ejecución de esa orden se rechaza, y ningún ranking publicado se regenera con otro código ni con otros parámetros.
 - Si la evaluación encuentra una suma que no coincide, un archivo sellado ausente, un artefacto de otra corrida o un estado que falta, la corrida queda suspendida: no se calcula ninguna métrica, se informa al asesor y no se repite ningún paso sin su conformidad.
 
-En esta corrida no hubo fallos, suspensiones ni desviaciones del protocolo, y la tabla de incidencias del registro de custodia quedó vacía. El doble juicio parcial previsto no se realizó porque no hubo un segundo evaluador; el protocolo lo condicionaba a que lo hubiera, de modo que no constituye una desviación.
+En esta corrida no hubo fallos ni suspensiones. Hubo una desviación del procedimiento de custodia, sin efecto sobre los datos ni sobre las métricas: las sumas de los cinco estados se enviaron al asesor juntas, el 24 de noviembre de 2026, después de la evaluación, y no en el momento de sellar cada estado, como prevé el protocolo. Durante ese intervalo, la secuencia de los estados quedó fijada solo por las etiquetas Git anotadas, con fecha y hora: autorización y rankings sellados el 23 de noviembre (12:21 y 12:23), juicios cerrados el 24 (12:36) y evaluación el 24 (14:10), hora de Lima. La evaluación comprobó que las 25 sumas registradas en cada estado coincidían con los archivos. La desviación figura en el registro de custodia. El doble juicio parcial previsto no se realizó porque no hubo un segundo evaluador; el protocolo lo condicionaba a que lo hubiera, de modo que no constituye una desviación.
 
 ## B.4 Archivo de auditoría de los juicios de desarrollo asistidos
 

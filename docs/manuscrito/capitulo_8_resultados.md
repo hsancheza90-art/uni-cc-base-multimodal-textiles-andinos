@@ -4,7 +4,7 @@ Este capítulo informa los resultados de la ejecución única del experimento de
 
 ## 8.1 Ejecución y juicios
 
-La prueba se ejecutó una sola vez, entre el 23 y el 24 de noviembre de 2026, con los sistemas congelados y los pesos de M4 elegidos en desarrollo (1/7 para M0, 4/7 para M2 y 2/7 para M3). La evaluación volvió a calcular las 25 sumas de los insumos, los rankings, el pool y los juicios, y todas coincidieron con las registradas al sellar cada etapa. La comprobación automática del cegamiento no encontró en los libros de juicio el sistema de origen, la puntuación ni la posición de ningún candidato. No hubo fallos, suspensiones ni desviaciones del protocolo.
+La prueba se ejecutó una sola vez, entre el 23 y el 24 de noviembre de 2026, con los sistemas congelados y los pesos de M4 elegidos en desarrollo (1/7 para M0, 4/7 para M2 y 2/7 para M3). La evaluación volvió a calcular las 25 sumas de los insumos, los rankings, el pool y los juicios, y todas coincidieron con las registradas al sellar cada etapa. La comprobación automática del cegamiento no encontró en los libros de juicio el sistema de origen, la puntuación ni la posición de ningún candidato. No hubo fallos ni suspensiones. La única desviación afectó a la custodia y no a los datos: las sumas de cada etapa se enviaron al asesor juntas al terminar la evaluación, y no al sellar cada etapa (anexo B).
 
 El evaluador juzgó sin asistencia 1283 pares de T3, correspondientes a las 30 consultas de prueba (entre 29 y 51 pares por consulta), y 212 pares de T1. El Cuadro 8.1 resume la distribución de los grados.
 
