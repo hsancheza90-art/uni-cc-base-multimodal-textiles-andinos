@@ -4,9 +4,9 @@
 
 Este capítulo define qué se compara cuando el método dice que dos textiles «se parecen por su estructura». El objeto formal no es el textil ni su tejido, sino su **macroestructura observable**: la organización de la superficie que una persona puede registrar al mirar la fotografía publicada por un museo (composición, secuencia de bandas, borde decorado, centro, simetría, repetición y motivos). Las secciones 5.3 a 5.5 fijan las unidades; las 5.6 a 5.11 definen el descriptor, la disimilitud y la fusión y demuestran sus propiedades; las 5.12 a 5.14 separan lo demostrado de lo que contrastó el experimento.
 
-Los sistemas se describen en el capítulo 7: M3 ordena las piezas por el descriptor estructural, M3-sin-orden es su control sin el orden de las bandas y M4 es la fusión tardía de M0 (búsqueda léxica sobre el texto de la ficha), M2 (el codificador visión-lenguaje OpenCLIP) y M3. La formalización no modela la estructura técnica del tejido (ligamento, cruces de hilos), que es la escala de Helmer y Ngo (2015) y Ngo et al. (2021); no infiere la estructura desde los píxeles, porque el descriptor se calcula sobre una anotación de la que responde una persona, de modo que M3 y M4 son sistemas **asistidos por anotación**; y no atribuye significado cultural a la organización que formaliza.
+Los sistemas se describen en el capítulo 7: M3 ordena las piezas por el descriptor estructural, M3-sin-orden es su control sin el orden de las bandas y M4 es la fusión tardía de M0 (búsqueda léxica sobre el texto de la ficha), M2 (el codificador visión-lenguaje OpenCLIP) y M3. La formalización no modela la estructura técnica del tejido (ligamento, cruces de hilos), que es la escala de Helmer y Ngo [@helmer2015] y Ngo et al. [@ngo2021]; no infiere la estructura desde los píxeles, porque el descriptor se calcula sobre una anotación de la que responde una persona, de modo que M3 y M4 son sistemas **asistidos por anotación**; y no atribuye significado cultural a la organización que formaliza.
 
-**Naturaleza de cada enunciado.** Cada enunciado lleva una de cuatro marcas: **[T]**, resultado conocido de la literatura, que no se reclama como aporte; **[D]**, decisión de diseño, que pudo ser otra y se justifica; **[P]**, propiedad demostrada en este capítulo y fijada en una prueba automatizada (anexo A), como las proposiciones 5.1 a 5.9 y el lema 5.1; y **[E]**, afirmación empírica, contrastada en el capítulo 8, como las hipótesis H1 a H3 o la estabilidad de la anotación.
+**Naturaleza de cada enunciado.** Cada enunciado lleva una de cuatro marcas: **[T]**, resultado conocido de la literatura, que no se reclama como aporte; **[D]**, decisión de diseño, que pudo ser otra y se justifica; **[P]**, propiedad demostrada en este capítulo y fijada en una prueba automatizada (anexo A), como las proposiciones 5.1 a 5.9 y el lema 5.1; y **[E]**, afirmación empírica, como las hipótesis H1 a H3, contrastadas en el capítulo 8, o la estabilidad de la anotación, medida en el capítulo 4.
 
 El capítulo sustituye al capítulo 5 del primer avance, que no se corrige. De aquel se conservan, con una instancia concreta, los resultados de enumeración por órbitas; se retiran el espacio de configuraciones, los grafos, el índice de complejidad y la suma de vectores procedentes de espacios distintos; y las restricciones sobre la pieza y las hipótesis escritas como ecuaciones se reemplazan por la separación entre elegibilidad y estructura y por hipótesis contrastables. El anexo C da la correspondencia ecuación por ecuación.
 
@@ -14,13 +14,13 @@ El capítulo sustituye al capítulo 5 del primer avance, que no se corrige. De a
 
 Las decisiones de diseño de las secciones siguientes responden a rasgos documentados del textil andino, que la sección 3.2 expone, y a los límites de la fuente, que es una fotografía de museo.
 
-**Por qué bandas.** En los tejidos de faz de urdimbre (aquellos en que los hilos longitudinales, la urdimbre, cubren la superficie y forman el diseño), la banda y su paleta quedan fijadas al urdir, antes de tejer (Desrosiers, 2013; sección 3.2). En buena parte del material, la franja transversal es, por tanto, una unidad que la propia técnica produce, y no solo una convención de quien describe. La relación no es una regla: en el tapiz la técnica no impone bandas, aunque hay bordados que imitan las bandas tejidas. La definición operativa de banda (sección 5.5) recoge el caso común a todas las técnicas: una franja que atraviesa toda la superficie visible.
+**Por qué bandas.** En los tejidos de faz de urdimbre (aquellos en que los hilos longitudinales, la urdimbre, cubren la superficie y forman el diseño), la banda y su paleta quedan fijadas al urdir (disponer los hilos de urdimbre en el telar), antes de tejer [@desrosiers2013] (sección 3.2). En buena parte del material, la franja transversal es, por tanto, una unidad que la propia técnica produce, y no solo una convención de quien describe. La relación no es una regla: en el tapiz la técnica no impone bandas, aunque hay bordados que imitan las bandas tejidas. La definición operativa de banda (sección 5.5) recoge el caso común a todas las técnicas: una franja que atraviesa toda la superficie visible.
 
 **Por qué el orden.** Que la disposición de las bandas sea una decisión previa al tejido, y no un efecto secundario del decorado, hace del orden un candidato natural a rasgo de diseño. Que sea útil para recuperar piezas es otra cuestión: es H2 **[E]**.
 
-**Por qué no una clasificación por grupos de simetría.** La clasificación cristalográfica de los patrones en siete tipos de friso y diecisiete del plano (Crowe, 2001, pp. 6–9) no es apropiada para todos los patrones andinos, cuya lógica deriva en parte de las estructuras de fibra (Frame, 2006a); los diseños de pocas franjas tienen regularidades que ni los frisos ni los patrones del plano recogen (Chavey et al., 2015, pp. 85–87); y la detección automática del grupo exige un patrón periódico fotografiado de frente y sin distorsiones (Liu et al., 2004, p. 368). El descriptor registra la simetría como un atributo nominal anotado (sección 5.8.4), y la única equivalencia formal que impone es la reversión del sentido de lectura (sección 5.6).
+**Por qué no una clasificación por grupos de simetría.** La clasificación cristalográfica de los patrones en siete tipos de friso y diecisiete del plano [@crowe2001, pp. 6–9] no es apropiada para todos los patrones andinos, cuya lógica deriva en parte de las estructuras de fibra [@frame2006a]; los diseños de pocas franjas tienen regularidades que ni los frisos ni los patrones del plano recogen [@chavey2015, pp. 85–87]; y la detección automática del grupo exige un patrón periódico fotografiado de frente y sin distorsiones [@liu2004, p. 368]. El descriptor registra la simetría como un atributo nominal anotado (sección 5.8.4), y la única equivalencia formal que impone es la reversión del sentido de lectura (sección 5.6).
 
-**Por qué la reversión.** El sentido en que se lee una secuencia de bandas es una convención del anotador. Un fragmento no tiene extremo privilegiado; una prenda completa puede tenerlo (una túnica con abertura de cuello, un manto con cenefa en un solo extremo), y la formalización lo descarta deliberadamente (sección 5.14).
+**Por qué la reversión.** El sentido en que se lee una secuencia de bandas es una convención del anotador. Un fragmento no tiene extremo privilegiado; una prenda completa puede tenerlo (una túnica con abertura de cuello, un manto con cenefa, una franja decorativa, en un solo extremo), y la formalización lo descarta deliberadamente (sección 5.14).
 
 **Por qué el eje no entra en el descriptor.** El eje registrado es el de la fotografía, no el del telar ni el de uso, y una misma organización puede aparecer horizontal o vertical según la toma (sección 3.2; capítulo 4, sección 4.7.3). La palabra de bandas no depende del eje, pero el atributo `eje_bandas` sí, y por eso queda fuera.
 
@@ -293,7 +293,7 @@ $$D(i, j) = \frac{\sum_{b \in B(i,j)} \lambda_b\, d_b(i, j)}{\sum_{b \in B(i,j)}
 
 $D$ tiene la forma del coeficiente general de Gower para datos mixtos con valores faltantes: cada variable aporta una puntuación en $[0, 1]$ en su propia escala, y las variables no comparables para un par se excluyen del numerador y del denominador. La diferencia es que aquí dos de las «variables» son estructuradas (una palabra y un histograma) y tienen distancias propias **[T, D]**.
 
-**Ausencia de evidencia [D].** Si $B(i, j) = \varnothing$, $D$ no está definida. El par queda «sin evidencia estructural»: no recibe similitud máxima ni mínima, y en el ranking de M3 se ubica después de todos los candidatos con evidencia, ordenado por identificador.
+**Ausencia de evidencia [D].** Si $B(i, j) = \varnothing$, $D$ no está definida. El par queda «sin evidencia estructural»: no recibe similitud máxima ni mínima, y en el *ranking* de M3 se ubica después de todos los candidatos con evidencia, ordenado por identificador.
 
 **Definición 5.17 (cobertura).**
 
@@ -301,7 +301,7 @@ $$\kappa(i, j) = \frac{\sum_{b \in B(i,j)} \lambda_b}{\sum_{b} \lambda_b} \in [0
 
 Se informa junto con $D$. Una disimilitud calculada sobre un solo bloque y otra calculada sobre nueve no tienen el mismo respaldo, y la cobertura lo hace visible.
 
-**Definición 5.18 (ranking de M3).** Para una consulta $q$, los candidatos con evidencia se ordenan por $D(q, \cdot)$ ascendente; los empates se resuelven por identificador ascendente. El ranking es, por tanto, determinista. La puntuación que M3 entrega a la fusión es $s_{M3} = 1 - D$.
+**Definición 5.18 (*ranking* de M3).** Para una consulta $q$, los candidatos con evidencia se ordenan por $D(q, \cdot)$ ascendente; los empates se resuelven por identificador ascendente. El *ranking* es, por tanto, determinista. La puntuación que M3 entrega a la fusión es $s_{M3} = 1 - D$.
 
 **Proposición 5.7 [P].** Cuando $D$ está definida:
 
@@ -339,7 +339,7 @@ con mínimo y máximo sobre los candidatos que tienen valor. Si todos coinciden,
 
 $$s(q, i) = \sum_{c \in C(q,i)} \alpha'_c\, \hat{s}_c(q, i), \qquad \alpha'_c = \frac{\alpha_c}{\sum_{c' \in C(q,i)} \alpha_{c'}}. \tag{5.21}$$
 
-Es una combinación convexa de puntuaciones normalizadas, la forma de fusión que Bruch et al. (2023) analizan frente a la fusión por posiciones. Su análisis cubre la fusión de dos sistemas; la extensión a tres componentes y el ajuste de los pesos con diez consultas de desarrollo no tienen respaldo cuantitativo en ese trabajo (capítulo 3, sección 3.7).
+Es una combinación convexa de puntuaciones normalizadas, la forma de fusión que Bruch et al. [@bruch2023] analizan frente a la fusión por posiciones. Su análisis cubre la fusión de dos sistemas; la extensión a tres componentes y el ajuste de los pesos con diez consultas de desarrollo no tienen respaldo cuantitativo en ese trabajo (capítulo 3, sección 3.7).
 
 **Proposición 5.9 [P].**
 
@@ -354,9 +354,9 @@ Es una combinación convexa de puntuaciones normalizadas, la forma de fusión qu
 
 Las propiedades 2 y 3 son, respectivamente, la primera y la segunda comprobación de H3, y la 3 es además la forma de calcular las ablaciones. Que se cumplan como identidad algebraica no hace trivial a H3: lo que se contrastó en la evaluación final es que la implementación las satisface en **todos** los resultados de prueba, dentro de una tolerancia numérica fijada de antemano.
 
-**Variante por posiciones recíprocas.** La fusión $\sum_c 1/(60 + r_c)$, con $r_c$ la posición del candidato en el ranking del componente $c$ (Cormack, Clarke y Büttcher, 2009), no tiene pesos y no conserva la descomposición. Se implementa como variante de comparación (M4-RRF) y no interviene en H3.
+**Variante por posiciones recíprocas.** La fusión $\sum_c 1/(60 + r_c)$, con $r_c$ la posición del candidato en el *ranking* del componente $c$ [@cormack2009], no tiene pesos y no conserva la descomposición. Se implementa como variante de comparación (M4-RRF) y no interviene en H3.
 
-**Relación con los modelos de cuello de botella de conceptos.** El marco más cercano es el de Koh et al. (2020): la decisión pasa por conceptos legibles. La diferencia es que allí los conceptos se predicen desde la imagen y aquí los anota una persona. M4 es aditivo y produce su propia explicación (Rudin, 2019); lo que H3 comprueba es su fidelidad, no su plausibilidad (Jacovi y Goldberg, 2020).
+**Relación con los modelos de cuello de botella de conceptos.** El marco más cercano es el de Koh et al. [@koh2020]: la decisión pasa por conceptos legibles. La diferencia es que allí los conceptos se predicen desde la imagen y aquí los anota una persona. M4 es aditivo y produce su propia explicación [@rudin2019]; lo que H3 comprueba es su fidelidad, no su plausibilidad [@jacovi2020].
 
 ## 5.11 Costo computacional
 
@@ -370,7 +370,7 @@ Sea $n = \lvert \mathcal{C}(q) \rvert$ el número de candidatos de una consulta,
 | Histogramas de tipos y de adyacencias | $O(L)$ |
 | Distancia entre dos palabras | $O(L^2)$ |
 | Disimilitud de un par | $O(\lvert B \rvert + L^2)$ |
-| Ranking de una consulta en M3 | $O(n\,(\lvert B \rvert + L^2) + n \log n)$ |
+| *Ranking* de una consulta en M3 | $O(n\,(\lvert B \rvert + L^2) + n \log n)$ |
 | Fusión de una consulta | $O(n)$ por componente, más la ordenación |
 
 Con una galería de unos cientos de piezas y palabras de pocas decenas de símbolos, el costo es despreciable frente al cálculo de los vectores de M2. No se hace ninguna afirmación de escalabilidad a colecciones grandes: sin desigualdad triangular no pueden usarse índices métricos, y la comparación es exhaustiva, consecuencia directa de la proposición 5.8.
@@ -383,13 +383,13 @@ Las afirmaciones sobre la utilidad del descriptor no son relaciones matemáticas
 - **H2 (mecanismo).** M3 obtiene mejor nDCG@10 que M3-sin-orden, con las mismas consultas, candidatos y pesos.
 - **H3 (fidelidad).** En todos los resultados de prueba, la puntuación de M4 coincide con la suma de sus contribuciones y responde a la retirada de un componente como predice (5.21).
 
-El Cuadro 5.5 separa lo que la formalización establece de lo que solo el experimento podía establecer. El capítulo 8 informa el contraste: H1 y H3 se sostuvieron, y en H2 no se detectó una mejora.
+El Cuadro 5.5 separa lo que la formalización establece de lo que solo el experimento podía establecer. El capítulo 8 informa el contraste: H1 y H3 se sostuvieron, y en H2 no se detectó una mejora atribuible al orden de las bandas.
 
 **Cuadro 5.5.** Aporte de la formalización a cada hipótesis.
 
 | Hipótesis | Lo que el capítulo establece | Lo que solo el experimento puede establecer |
 |---|---|---|
-| H1 | Que la fusión está bien definida, incluso cuando falta evidencia estructural (proposición 5.9) | Que la estructura añade utilidad a un codificador general |
+| H1 | Que la fusión está bien definida, incluso cuando falta evidencia estructural (proposición 5.9) | Que la fusión supera a un codificador general; el aporte propio de la estructura solo se examina en ablaciones exploratorias |
 | H2 | Que M3 refina a su control y que la única diferencia entre ambos es el orden (proposición 5.6, definición 5.15) | Que ese refinamiento mejora la recuperación |
 | H3 | Que la descomposición y la intervención son identidades de la fórmula (proposiciones 5.7 y 5.9) | Que la implementación las cumple en todos los resultados de prueba |
 
@@ -397,43 +397,17 @@ El Cuadro 5.5 separa lo que la formalización establece de lo que solo el experi
 
 El margen que tenía H2 en este corpus podía medirse antes del experimento, sin ningún juicio de relevancia **[E]**. En la anotación v2.1, solo 53 de las 150 piezas del núcleo tienen palabra de bandas, y el orden solo puede pesar cuando la consulta y el candidato la tienen. Entre esas 53 piezas hay 1378 pares. En 41 de ellos el control sin orden ve el mismo histograma normalizado de tipos, y en 25 de esos 41 la forma canónica difiere: son los únicos pares en que, en el bloque de bandas, el control da distancia cero y M3 no. Contando bandas en lugar de proporciones, solo 3 pares comparten inventario y difieren en el orden. En el resto de los pares, M3 y su control pueden diferir en grado, porque $d_t \le d_w$ (proposición 5.6), pero rara vez en el orden relativo de los candidatos.
 
-Cuando la pieza de consulta no tiene palabra de bandas, porque su secuencia es `ausente` o no observable, $d_w$ y $d_t$ coinciden para todo candidato y el bloque de adyacencias no es observable. M3 y su control asignan entonces la misma puntuación a todos los candidatos, y la diferencia pareada de H2 es cero por construcción. En desarrollo ocurrió en 8 de las 10 consultas, en las que M3 y M3-sin-orden produjeron el mismo ranking completo. Por eso, antes de abrir la partición de prueba y sin ver ningún resultado, se mantuvo la regla de H2 sobre las 30 consultas de prueba y se añadió, como subgrupo descriptivo, la misma comparación en las consultas cuya pieza tiene palabra de bandas (capítulo 7, secciones 7.5 y 7.8).
+Cuando la pieza de consulta no tiene palabra de bandas, porque su secuencia es `ausente` o no observable, $d_w$ y $d_t$ coinciden para todo candidato y el bloque de adyacencias no es observable. M3 y su control asignan entonces la misma puntuación a todos los candidatos, y la diferencia pareada de H2 es cero por construcción. En desarrollo ocurrió en 8 de las 10 consultas, en las que M3 y M3-sin-orden produjeron el mismo *ranking* completo. Por eso, antes de abrir la partición de prueba y sin ver ningún resultado, se mantuvo la regla de H2 sobre las 30 consultas de prueba y se añadió, como subgrupo descriptivo, la misma comparación en las consultas cuya pieza tiene palabra de bandas (capítulo 7, secciones 7.5 y 7.8).
 
-Así ocurrió en la evaluación final: la diferencia fue cero por construcción en 21 de las 30 consultas, y solo las 9 con palabra de bandas aportaron diferencias distintas de cero. No se detectó una mejora de M3 sobre su control (capítulo 8, sección 8.4). El resultado es coherente con el margen medido aquí: con tan pocos pares en que el orden puede cambiar la posición relativa de dos candidatos, la galería ofrecía poca ocasión para que el orden se manifestara, con independencia de la calidad del descriptor.
+Así ocurrió en la evaluación final: la diferencia fue cero por construcción en 21 de las 30 consultas, y solo las 9 con palabra de bandas aportaron diferencias distintas de cero. No se detectó una mejora atribuible al orden de las bandas (capítulo 8, sección 8.4). El resultado es coherente con el margen medido aquí: con tan pocos pares en que el orden puede cambiar la posición relativa de dos candidatos, la galería ofrecía poca ocasión para que el orden se manifestara, con independencia de la calidad del descriptor.
 
 ## 5.14 Límites de la formalización
 
 1. **Es una codificación del investigador.** La palabra de bandas describe lo visible en una fotografía con un alfabeto elegido. No se afirma que el diseño se haya concebido así, ni que las cinco clases del alfabeto correspondan a categorías de quienes tejieron las piezas.
-2. **Depende de la anotación.** El descriptor hereda la variabilidad del anotador, incluida la de la máscara (sección 5.4). Hay un solo anotador y el acuerdo medido es intra-anotador. La versión 2.1 combina la re-anotación del lote 1, la primera anotación de los lotes 2 a 5 y, sobre esta, las correcciones de una revisión asistida que cambió al menos un atributo del descriptor en 46 de las 150 piezas, con efectos apreciables en los rankings de M3 (capítulo 4, sección 4.10.1).
+2. **Depende de la anotación.** El descriptor hereda la variabilidad del anotador, incluida la de la máscara (sección 5.4). Hay un solo anotador y el acuerdo medido es intra-anotador. La versión 2.1 combina la re-anotación del lote 1, la primera anotación de los lotes 2 a 5 y, sobre esta, las correcciones de una revisión asistida que cambió al menos un atributo del descriptor en 46 de las 150 piezas, con efectos apreciables en los *rankings* de M3 (capítulo 4, sección 4.10.1).
 3. **La reversión descarta la orientación de la prenda.** Es convencional en un fragmento y no lo es en una prenda con extremos distinguibles.
 4. **El eje es fotográfico.** La palabra no depende de él, pero la decisión de qué cuenta como banda sí depende de cómo se muestra la pieza.
 5. **La palabra no registra color ni anchura.** Dos piezas con la misma palabra pueden diferir mucho a la vista. Es deliberado (sección 5.8), y limita lo que «similitud estructural» significa aquí.
 6. **La estructura no es independiente de la técnica ni de la tradición.** Como la técnica condiciona la organización en bandas (sección 3.2), una similitud estructural alta puede reflejar en parte la pertenencia a una misma técnica o tradición, que un codificador visual también capta. Una ganancia de M3 no se lee, por sí sola, como evidencia de una gramática estructural independiente del estilo.
 7. **No es una métrica.** Sin consecuencias para el método, con consecuencias para su escalabilidad (sección 5.11).
 8. **La población es la del corpus.** Lo formalizado se aplica a piezas de tres museos seleccionadas con un criterio que privilegia la legibilidad de colores y figuras. No describe «los textiles andinos».
-
-## Referencias
-
-Bruch, S., Gai, S., & Ingber, A. (2023). *An analysis of fusion functions for hybrid retrieval* (arXiv:2210.11934v2). arXiv. https://arxiv.org/abs/2210.11934
-
-Chavey, D., Meissen, M., O'Bryan, T., & Terry, G. (2015). Double strip patterns: Between strip patterns and wallpaper patterns. En *Proceedings of Bridges 2015: Mathematics, Music, Art, Architecture, Culture* (pp. 85–92). https://archive.bridgesmathart.org/2015/bridges2015-85.html
-
-Cormack, G. V., Clarke, C. L. A., & Büttcher, S. (2009). Reciprocal rank fusion outperforms Condorcet and individual rank learning methods. En *Proceedings of the 32nd International ACM SIGIR Conference on Research and Development in Information Retrieval*. ACM.
-
-Crowe, D. W. (2001). Symmetries of culture. En *Bridges: Mathematical connections in art, music, and science* (pp. 1–20). https://archive.bridgesmathart.org/2001/bridges2001-1.html
-
-Desrosiers, S. (2013). El textil como matriz para el desarrollo de las artes plásticas en los Andes. *Revista Española de Antropología Americana, 43*(2), 477–514. https://doi.org/10.5209/rev_REAA.2013.v43.n2.44020
-
-Frame, M. (2006a). *Elemental pathways in fiber structures: Approaching Andean symmetry patterns through an ancient technology* [Ponencia]. Textile Society of America 10th Biennial Symposium, Toronto. https://digitalcommons.unl.edu/cgi/viewcontent.cgi?article=1347&context=tsaconf
-
-Helmer, S., & Ngo, V. M. (2015). A similarity measure for weaving patterns in textiles. En *Proceedings of the 38th International ACM SIGIR Conference on Research and Development in Information Retrieval* (pp. 163–172). https://doi.org/10.1145/2766462.2767735
-
-Jacovi, A., & Goldberg, Y. (2020). *Towards faithfully interpretable NLP systems: How should we define and evaluate faithfulness?* (arXiv:2004.03685). arXiv. https://arxiv.org/abs/2004.03685
-
-Koh, P. W., Nguyen, T., Tang, Y. S., Mussmann, S., Pierson, E., Kim, B., & Liang, P. (2020). Concept bottleneck models. En *Proceedings of the 37th International Conference on Machine Learning* (Vol. 119). PMLR. https://arxiv.org/abs/2007.04612
-
-Liu, Y., Collins, R. T., & Tsin, Y. (2004). A computational model for periodic pattern perception based on frieze and wallpaper groups. *IEEE Transactions on Pattern Analysis and Machine Intelligence, 26*(3), 354–371. https://doi.org/10.1109/TPAMI.2004.1262332
-
-Ngo, V. M., Helmer, S., Le-Khac, N.-A., & Kechadi, M.-T. (2021). Structural textile pattern recognition and processing based on hypergraphs. *Information Retrieval Journal, 24*, 137–173. https://doi.org/10.1007/s10791-020-09384-y
-
-Rudin, C. (2019). *Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead* (arXiv:1811.10154v3). arXiv. https://arxiv.org/abs/1811.10154

@@ -25,3 +25,5 @@ Cada fallo de un paso, cada suspensión de la corrida y cada desviación del pro
 | Fecha | Estado | Hecho | Motivo | Acción |
 |---|---|---|---|---|
 | 2026-11-24 | `autorizada` a `evaluada` | Las sumas de los cinco estados se enviaron al asesor juntas, por correo, el 24 de noviembre después de la evaluación, y no en el momento de sellar cada estado (protocolo, sección 9). | El envío se dejó para el final de la corrida. | Se registra como desviación del procedimiento de custodia, sin efecto sobre los datos ni las métricas. Entre el sellado y el envío, la secuencia la fijan las etiquetas Git anotadas (23-11 12:21 y 12:23; 24-11 12:36 y 14:10, hora de Lima), y la evaluación comprobó las 25 sumas. Se declara en el anexo B del informe y en el capítulo 8. |
+
+**Aclaración (2026-11-26, tras el informe del asesor del 25-11-2026).** Las etiquetas Git son una constancia interna del repositorio y no sustituyen íntegramente el envío de las sumas al sellar cada estado. La verificación de las 25 sumas acredita la integridad actual de los archivos sellados, no toda su historia temporal. Esta aclaración no modifica ningún dato ni ningún estado de la corrida.

@@ -4,7 +4,7 @@ Este anexo reúne el detalle técnico de la implementación descrita en el capí
 
 ## A.1 Estructura del código
 
-El código está escrito en Python. Cada módulo ejecutable expone una función `main` y se invoca como `python -m src.paquete.modulo`; no se usan cuadernos interactivos. El punto de entrada del flujo reproducible es `python -m src.flujo`, y las pruebas se ejecutan con `python -m pytest`.
+El código está escrito en Python. Cada módulo ejecutable expone una función `main` y se invoca como `python -m src.paquete.modulo`; no se usan cuadernos interactivos. El punto de entrada del flujo reproducible es `python -m src.flujo`, y las pruebas se ejecutan con `python -m pytest`. El Cuadro A.1 resume la responsabilidad de cada paquete.
 
 **Cuadro A.1.** Paquetes del código y su responsabilidad.
 
@@ -18,7 +18,7 @@ El código está escrito en Python. Cada módulo ejecutable expone una función 
 | `anotacion` | Corpus principal v2, núcleo de anotación, libros de anotación, validación, acuerdo intra-anotador, revisión de criterios, condiciones de buena formación y congelación |
 | `grupos` | Candidatos a duplicado y grupos de piezas relacionadas |
 | `modelos` | Sistemas M0 a M4 y lectura de los vectores del codificador visual |
-| `experimento` | Particiones, consultas, rankings, pool de juicios, selección de pesos, efecto mínimo detectable, sensibilidad, métricas y ejecución única de la evaluación final |
+| `experimento` | Particiones, consultas, *rankings*, *pool* de juicios, selección de pesos, efecto mínimo detectable, sensibilidad, métricas y ejecución única de la evaluación final |
 | `review` | Galerías HTML locales para la revisión visual |
 | `utils` | Registro de fuentes, lectura de libros, lectura y escritura de archivos, configuración, vocabulario, métricas de acuerdo, fechas y texto |
 
@@ -26,7 +26,7 @@ La configuración se reparte en archivos TOML por ámbito, en `config/`: conteos
 
 ## A.2 Flujo reproducible y pasos fuera del flujo
 
-El punto de entrada `python -m src.flujo` ejecuta 27 pasos en un orden fijo y termina con una verificación de conteos contra `config/corpus.toml`. Si un paso devuelve un código distinto de cero, el flujo se detiene.
+El punto de entrada `python -m src.flujo` ejecuta 27 pasos en un orden fijo, agrupados en las etapas del Cuadro A.2, y termina con una verificación de conteos contra `config/corpus.toml`. Si un paso devuelve un código distinto de cero, el flujo se detiene.
 
 **Cuadro A.2.** Etapas del flujo reproducible.
 
@@ -37,7 +37,7 @@ El punto de entrada `python -m src.flujo` ejecuta 27 pasos en un orden fijo y te
 | Serie del primer avance | 10–13 | Copias congeladas y vocabulario congelado | Taxonomía, anotación v1, consolidado MET+CMA v1 y comparación de filtros |
 | Corpus v2 y anotación | 14–18 | Subconjuntos revisados, huella perceptual (dHash), libros de grupos y de anotación | Principal v2, núcleo de anotación, grupos, consolidado v2, anotación exportada |
 | Congelación | 19 | Copia congelada de la anotación v2.1 y sus sumas | Comprobación de que la exportación no cambió |
-| Experimento de desarrollo | 20–26 | Particiones, consultas, características de M1, vectores de M2, juicios de desarrollo | Comprobación de fugas, rankings de desarrollo, pool, pesos de M4, efecto mínimo detectable, sensibilidad de la anotación, consultas T1 |
+| Experimento de desarrollo | 20–26 | Particiones, consultas, características de M1, vectores de M2, juicios de desarrollo | Comprobación de fugas, *rankings* de desarrollo, *pool*, pesos de M4, efecto mínimo detectable, sensibilidad de la anotación, consultas T1 |
 | Estabilidad de la anotación | 27 | Primera anotación y re-anotación del lote 1 | Informe de acuerdo intra-anotador |
 
 **Cuadro A.3.** Pasos que se ejecutan fuera del flujo reproducible.
@@ -53,13 +53,13 @@ El punto de entrada `python -m src.flujo` ejecuta 27 pasos en un orden fijo y te
 | Sorteo de particiones y consultas | Se ejecuta una sola vez | Particiones y consultas T3 |
 | Congelación de la anotación | Se ejecuta una sola vez y se niega si hay pendientes | Copia congelada v2.1 y sus sumas |
 
-Ninguno de estos pasos sobrescribe un archivo con decisiones manuales salvo con la opción explícita `--forzar`.
+Ninguno de los pasos del Cuadro A.3 sobrescribe un archivo con decisiones manuales salvo con la opción explícita `--forzar`.
 
 **Vectores de M2.** Se calcularon con `python -m src.modelos.m2_openclip`, con el modelo `xlm-roberta-base-ViT-B-32` y los pesos `laion5b_s13b_b90k`, en CPU y con precisión fp32, porque la compilación de PyTorch con GPU no cargaba en el equipo disponible. El cálculo comprueba su propio determinismo: recalcula una muestra de 32 piezas y exige una diferencia máxima de $10^{-5}$ por componente entre pasadas. El manifiesto (`data/metadata/m2_openclip_manifiesto_v2.json`) registra las sumas SHA-256 de los archivos de pesos y las versiones de las bibliotecas, de modo que una ejecución posterior puede verificar que usa el mismo punto de control. Los vectores de texto de las consultas T1 se calcularon con la misma orden y la opción `--textos-t1`, solo después de la autorización del protocolo.
 
 ## A.3 Funciones de los sistemas y de la evaluación
 
-Los sistemas están en `src/modelos/` (un módulo por sistema) y la evaluación en `src/experimento/evaluacion.py`. Todas las funciones citadas son puras: no leen ni escriben archivos.
+Los sistemas están en `src/modelos/` (un módulo por sistema) y la evaluación en `src/experimento/evaluacion.py` (Cuadro A.4). Todas las funciones citadas son puras: no leen ni escriben archivos.
 
 **M0** (`m0_texto.py`). BM25 de Okapi implementado sin bibliotecas de recuperación. El documento de cada pieza es la unión de los campos configurados en `config/modelos.toml`, normalizados a minúsculas y sin tildes; los términos son secuencias de letras y dígitos de al menos tres caracteres.
 
@@ -75,19 +75,19 @@ Los sistemas están en `src/modelos/` (un módulo por sistema) y la evaluación 
 
 | Función | Qué calcula |
 |---|---|
-| `ndcg`, `precision`, `rango_reciproco` | nDCG@k, precisión y rango recíproco; un candidato sin juicio cuenta como 0 y un par `no_evaluable` se retira del ranking y del ideal |
+| `ndcg`, `precision`, `rango_reciproco` | nDCG@k, precisión y rango recíproco; un candidato sin juicio cuenta como 0 y un par `no_evaluable` se retira del *ranking* y del ideal |
 | `proporcion_juzgada`, `sin_aportes_unicos` | Proporción juzgada del top k y métrica sin los pares que solo aportó un sistema |
 | `diferencias`, `sin_empates` | Diferencias pareadas por consulta, excluidas las consultas sin relevantes; diferencias con $\lvert\Delta_q\rvert \le 10^{-12}$ tratadas como cero |
 | `permutacion_pareada`, `error_monte_carlo` | Prueba de permutación por cambio de signo, bilateral, con réplicas y semilla fijas, y su error de Monte Carlo (H1) |
 | `permutacion_exacta`, `p_minima` | p exacta por enumeración de los cambios de signo y p mínima alcanzable (H2) |
 | `t_pareada`, `beta_incompleta` | t de Student pareada como comprobación, con la función beta incompleta regularizada |
-| `intervalo_bootstrap` | Intervalo de percentiles por bootstrap pareado |
+| `intervalo_bootstrap` | Intervalo de percentiles por *bootstrap* pareado |
 | `decidir`, `comparar`, `compuerta` | Regla de decisión de H1 y H2 y secuencia fija (H2 solo es confirmatoria si H1 se sostiene) |
 | `efecto_minimo_detectable`, `consultas_necesarias`, `rango_desviacion` | Planificación de la potencia (capítulo 7, sección 7.8) |
 
 ## A.4 Pruebas automatizadas
 
-La batería, en `tests/`, reúne 504 pruebas automatizadas en 21 archivos. El Cuadro A.5 las agrupa por clase.
+La batería, en `tests/`, reúne 504 pruebas automatizadas en 21 archivos; 503 se ejecutan y una se omite por diseño, porque protege la apertura de la evaluación final ya autorizada. El Cuadro A.5 las agrupa por clase.
 
 **Cuadro A.5.** Pruebas automatizadas por clase.
 
@@ -99,7 +99,7 @@ La batería, en `tests/`, reúne 504 pruebas automatizadas en 21 archivos. El Cu
 | Sistemas | Propiedades del descriptor y de la fusión: invariancia de la forma canónica, conteo de órbitas, simetría y cotas de la disimilitud, cota del control sin orden, contraejemplos de la desigualdad triangular, descomposición exacta, intervención, renormalización, posiciones recíprocas | 87 |
 | Experimento y evaluación | Particiones y consultas sin fugas, coherencia del protocolo con la configuración y el código, métricas con ejemplos calculados a mano, contrastes estadísticos, selección de pesos, planificación de la potencia, sensibilidad y ejecución de la evaluación final: ensayo con desarrollo, sellado, fallos, cegamiento y revisión de H3 | 66 |
 
-**Pruebas de aceptación.** Ocho pruebas, incluidas en la batería, comprueban los requisitos de la ejecución única. En los comentarios del código figuran como pruebas T1 a T8; aquí se denominan PA1 a PA8 para no confundirlas con las tareas T1 y T3. Cada una puede comprender varias funciones de prueba.
+**Pruebas de aceptación.** Ocho pruebas, incluidas en la batería, comprueban los requisitos de la ejecución única (Cuadro A.6). En los comentarios del código figuran como pruebas T1 a T8; aquí se denominan PA1 a PA8 para no confundirlas con las tareas T1 y T3. Cada una puede comprender varias funciones de prueba.
 
 **Cuadro A.6.** Pruebas de aceptación de la ejecución única.
 
@@ -109,7 +109,7 @@ La batería, en `tests/`, reúne 504 pruebas automatizadas en 21 archivos. El Cu
 | PA2 | p exacta de H2 con $m$ diferencias distintas de cero entre ceros, frente a una enumeración independiente | `test_evaluacion.py`, `test_potencia.py` |
 | PA3 | Regla de H1 con réplicas fijas: una mejora significativa menor que el umbral práctico no se confunde con una nula | `test_evaluacion.py` |
 | PA4 | La alteración de un byte en un archivo sellado, un archivo sellado ausente o un manifiesto de otra corrida suspenden la corrida antes de producir métricas | `test_ejecucion_prueba.py` |
-| PA5 | Una interrupción parcial no deja salidas ni hace avanzar el estado; el paso de los rankings exige todos los insumos y una segunda ejecución se rechaza | `test_ejecucion_prueba.py` |
+| PA5 | Una interrupción parcial no deja salidas ni hace avanzar el estado; el paso de los *rankings* exige todos los insumos y una segunda ejecución se rechaza | `test_ejecucion_prueba.py` |
 | PA6 | La muestra de la revisión de H3 usa todos los casos si una clase tiene menos de cinco, y la ficha es ciega y se valida | `test_ejecucion_prueba.py` |
 | PA7 | El libro de juicios es ciego de extremo a extremo, y un cambio en las reglas de juicio selladas se detecta | `test_ejecucion_prueba.py` |
 | PA8 | Coherencia entre el protocolo, la configuración y el código | `test_experimento.py` |
@@ -118,7 +118,7 @@ La batería, en `tests/`, reúne 504 pruebas automatizadas en 21 archivos. El Cu
 
 ## A.5 Entorno y versiones
 
-El flujo y las pruebas requieren Python 3.11 o superior y cuatro bibliotecas. Las versiones exactas están fijadas en `requirements.txt` y los rangos compatibles en `pyproject.toml`; la verificación de referencia se hizo con Python 3.15.2.
+El flujo y las pruebas requieren Python 3.11 o superior y cuatro bibliotecas (Cuadro A.7). Las versiones exactas están fijadas en `requirements.txt` y los rangos compatibles en `pyproject.toml`; la verificación de referencia se hizo con Python 3.15.2.
 
 **Cuadro A.7.** Dependencias del flujo y de las pruebas.
 
@@ -135,14 +135,14 @@ Las dependencias del codificador visual están en un archivo separado, `requirem
 
 La evaluación final se ejecutó con el módulo `src/experimento/ejecucion_prueba.py`, cuyas órdenes son mutuamente excluyentes y se ejecutan en secuencia. Cada una escribe en archivos temporales y publica sus salidas al terminar, junto con el manifiesto de ejecución (`data/processed/experimento_v2_manifiesto_ejecucion.json`). Los estados y las fechas de la corrida están en el anexo B.
 
-1. **`--comprobar`.** Verifica las condiciones de suspensión que pueden comprobarse en el repositorio, sin ejecutar ningún sistema. La primera es la autorización del protocolo: la sección `[ejecucion]` de `config/experimento.toml` registra la fecha y el commit de la autorización y la suma SHA-256 del protocolo, y la comprobación exige que el documento no haya cambiado después. Comprueba además las particiones y las consultas, la anotación congelada y sus condiciones de buena formación, los pesos de M4, las sumas de las imágenes de M1 y M2, la existencia de las consultas T1 y que la evaluación no se haya ejecutado antes.
-2. **`--rankings`.** Una sola vez. Antes de calcular nada, exige todos los insumos y un árbol de trabajo sin cambios en archivos versionados, y escribe el manifiesto con el commit, las sumas SHA-256 de los insumos, la huella de las reglas de juicio, el punto de control de M2, los parámetros y el entorno (estado `insumos_sellados`). Después calcula los rankings de las 30 consultas de T3 y las 6 de T1 y el pool, y los sella (`rankings_sellados`). Los vectores de texto de T1 se calculan antes, con `python -m src.modelos.m2_openclip --textos-t1`, con el mismo codificador y la misma condición de autorización.
+1. **`--comprobar`.** Verifica las condiciones de suspensión que pueden comprobarse en el repositorio, sin ejecutar ningún sistema. La primera es la autorización del protocolo: la sección `[ejecucion]` de `config/experimento.toml` registra la fecha y el *commit* de la autorización y la suma SHA-256 del protocolo, y la comprobación exige que el documento no haya cambiado después. Comprueba además las particiones y las consultas, la anotación congelada y sus condiciones de buena formación, los pesos de M4, las sumas de las imágenes de M1 y M2, la existencia de las consultas T1 y que la evaluación no se haya ejecutado antes.
+2. **`--rankings`.** Una sola vez. Antes de calcular nada, exige todos los insumos y un árbol de trabajo sin cambios en archivos versionados, y escribe el manifiesto con el *commit*, las sumas SHA-256 de los insumos, la huella de las reglas de juicio, el punto de control de M2, los parámetros y el entorno (estado `insumos_sellados`). Después calcula los *rankings* de las 30 consultas de T3 y las 6 de T1 y el *pool*, y los sella (`rankings_sellados`). Los vectores de texto de T1 se calculan antes, con `python -m src.modelos.m2_openclip --textos-t1`, con el mismo codificador y la misma condición de autorización.
 3. **`--crear-juicios`.** Crea los libros ciegos de T3 y de T1, con la misma estructura que los de desarrollo y una galería local por tarea, y conserva lo ya juzgado si se regeneran. Un validador comprueba, antes de entregarlos, que no contienen el sistema, la puntuación ni la posición, que conservan el orden sorteado y que su guía coincide con la rúbrica sellada.
 4. **`--cerrar-juicios`.** Valida que los juicios estén completos y sin errores, repite la comprobación del cegamiento y sella los libros y su exportación (`juicios_cerrados`).
 5. **`--crear-revision-h3`.** Sortea con semilla los aciertos y errores del top 10 de M4 y escribe las fichas ciegas de la revisión descriptiva, con su validador de campos.
-6. **`--evaluar`.** Recalcula todas las sumas del manifiesto y, solo si coinciden, calcula H1 con sus tres afirmaciones y su error de Monte Carlo, H2 con su p exacta y la compuerta de H1, la reconstrucción y la intervención de H3, la cobertura y la sensibilidad del pool, las ablaciones, el control negativo, la robustez por museo y por completitud y las métricas descriptivas de T1, en un informe con la plantilla fijada en el protocolo (`outputs/reports/experimento_v2_resultados.md`) (`evaluada`).
+6. **`--evaluar`.** Recalcula todas las sumas del manifiesto y, solo si coinciden, calcula H1 con sus tres afirmaciones y su error de Monte Carlo, H2 con su p exacta y la compuerta de H1, la reconstrucción y la intervención de H3, la cobertura y la sensibilidad del *pool*, las ablaciones, el control negativo, la robustez por museo y por completitud y las métricas descriptivas de T1, en un informe con la plantilla fijada en el protocolo (`outputs/reports/experimento_v2_resultados.md`) (`evaluada`).
 
-Sin autorización registrada, `--rankings` termina con error y no escribe nada; una vez sellados los rankings, una segunda ejecución se rechaza.
+Sin autorización registrada, `--rankings` termina con error y no escribe nada; una vez sellados los *rankings*, una segunda ejecución se rechaza.
 
 ## A.7 Correspondencia entre fórmula, implementación y prueba
 

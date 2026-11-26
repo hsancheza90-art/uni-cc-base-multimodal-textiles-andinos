@@ -4,7 +4,7 @@ Este capítulo informa los resultados de la ejecución única del experimento de
 
 ## 8.1 Ejecución y juicios
 
-La prueba se ejecutó una sola vez, entre el 23 y el 24 de noviembre de 2026, con los sistemas congelados y los pesos de M4 elegidos en desarrollo (1/7 para M0, 4/7 para M2 y 2/7 para M3). La evaluación volvió a calcular las 25 sumas de los insumos, los rankings, el pool y los juicios, y todas coincidieron con las registradas al sellar cada etapa. La comprobación automática del cegamiento no encontró en los libros de juicio el sistema de origen, la puntuación ni la posición de ningún candidato. No hubo fallos ni suspensiones. La única desviación afectó a la custodia y no a los datos: las sumas de cada etapa se enviaron al asesor juntas al terminar la evaluación, y no al sellar cada etapa (anexo B).
+La evaluación final se ejecutó una sola vez, entre el 23 y el 24 de noviembre de 2026, con los sistemas congelados y los pesos de M4 elegidos en desarrollo (1/7 para M0, 4/7 para M2 y 2/7 para M3). La evaluación volvió a calcular las 25 sumas de los insumos, los *rankings*, el *pool* y los juicios, y todas coincidieron con las registradas al sellar cada etapa. La comprobación automática del cegamiento no encontró en los libros de juicio el sistema de origen, la puntuación ni la posición de ningún candidato. No se registraron fallos ni suspensiones. Se produjo una desviación del procedimiento de custodia: las sumas de cada etapa se enviaron al asesor juntas al terminar la evaluación, y no al sellar cada etapa. La verificación de los archivos sellados no detectó discrepancias; el envío tardío limita la constancia externa contemporánea de la secuencia de ejecución (anexo B).
 
 El evaluador juzgó sin asistencia 1283 pares de T3, correspondientes a las 30 consultas de prueba (entre 29 y 51 pares por consulta), y 212 pares de T1. El Cuadro 8.1 resume la distribución de los grados.
 
@@ -15,11 +15,11 @@ El evaluador juzgó sin asistencia 1283 pares de T3, correspondientes a las 30 c
 | T3 (estructura) | 1283 | 858 (66,9 %) | 145 (11,3 %) | 211 (16,4 %) | 69 (5,4 %) | 0 |
 | T1 (texto) | 212 | 145 (68,4 %) | 15 (7,1 %) | 19 (9,0 %) | 33 (15,6 %) | 0 |
 
-Ninguna imagen se marcó como no evaluable y todas las consultas de T3 tienen al menos un candidato relevante, de modo que el nDCG@10 está definido en las 30. La consulta con menos relevantes, T3-P19, tiene un solo candidato de grado 1 y ninguno de grado 2 o superior; en el otro extremo, T3-P18 reúne 17 candidatos de grado 2 o 3 en un pool de 35. Los siete sistemas que aportaron sus diez primeros resultados al pool quedaron juzgados por completo: su proporción juzgada del top 10 es 1,0.
+Ninguna imagen se marcó como no evaluable y todas las consultas de T3 tienen al menos un candidato relevante, de modo que el nDCG@10 está definido en las 30. La consulta con menos relevantes, T3-P19, tiene un solo candidato de grado 1 y ninguno de grado 2 o superior; en el otro extremo, T3-P18 reúne 17 candidatos de grado 2 o 3 en un *pool* de 35. Los siete *rankings* que aportaron sus diez primeros resultados al *pool* (los cinco sistemas, el control sin orden y la variante por posiciones) quedaron juzgados por completo: su proporción juzgada del top 10 es 1,000.
 
 ## 8.2 Rendimiento de los sistemas en T3
 
-El Cuadro 8.2 reúne las tres métricas de todos los sistemas y variantes en las 30 consultas de prueba. La precisión en 10 (P@10) y el rango recíproco medio (MRR) usan la relevancia binarizada en el grado 2. La última columna indica qué parte de los diez primeros resultados de cada sistema fue juzgada; en las variantes que no aportaron candidatos al pool, los no juzgados cuentan como irrelevantes y sus métricas son, por tanto, cotas inferiores.
+El Cuadro 8.2 reúne las tres métricas de todos los sistemas y variantes en las 30 consultas de prueba. La precisión en 10 (P@10) y el rango recíproco medio (MRR) usan la relevancia binarizada en el grado 2. La última columna indica qué parte de los diez primeros resultados de cada sistema fue juzgada; en las variantes que no aportaron candidatos al *pool*, los no juzgados cuentan como irrelevantes y sus métricas son, por tanto, cotas inferiores.
 
 **Cuadro 8.2.** Métricas medias en T3 (30 consultas de prueba).
 
@@ -42,9 +42,11 @@ El Cuadro 8.2 reúne las tres métricas de todos los sistemas y variantes en las
 
 ![Figura 8.1. nDCG@10 medio en T3 de los cinco sistemas, el control sin orden y la variante por posiciones, en las 30 consultas de prueba.](figuras/fig_8_1_ndcg_sistemas.png)
 
-Entre los sistemas individuales, M2 obtiene el mejor nDCG@10 (0,492), seguido a distancia por M0, M3-sin-orden y M3, con valores entre 0,338 y 0,353, y por M1 (0,302). M4 supera a todos los sistemas individuales en nDCG@10 y en P@10. En MRR, que solo mide la posición del primer relevante, el orden cambia: M4-RRF (0,719) y M4 sin M3 (0,702) colocan antes su primer acierto que M4 (0,664).
+Entre los sistemas individuales (Figura 8.1), M2 obtiene el mejor nDCG@10 (0,492), seguido a distancia por M0, M3-sin-orden y M3, con valores entre 0,338 y 0,353, y por M1 (0,302). M4 supera a todos los sistemas individuales en nDCG@10 y en P@10. En MRR, que solo mide la posición del primer relevante, el orden cambia: M4-RRF (0,719) y M4 sin M3 (0,702) colocan antes su primer acierto que M4 (0,664).
 
 ## 8.3 Hipótesis H1: M4 frente a M2
+
+El Cuadro 8.3 resume el contraste de H1.
 
 **Cuadro 8.3.** Contraste de H1.
 
@@ -53,7 +55,7 @@ Entre los sistemas individuales, M2 obtiene el mejor nDCG@10 (0,492), seguido a 
 | Consultas evaluables (n) | 30 |
 | nDCG@10 medio de M4 y de M2 | 0,604 y 0,492 |
 | Diferencia media Δ | 0,112 |
-| Intervalo de confianza del 95 % (bootstrap pareado) | 0,062 a 0,164 |
+| Intervalo de confianza del 95 % (*bootstrap* pareado) | 0,062 a 0,164 |
 | p de la prueba de permutación (B = 100 000) | 0,00015 (error de Monte Carlo 0,00004) |
 | t de Student pareada (comprobación) | t = 4,259; p = 0,0002 |
 | Diferencia frente a cero (p < 0,05) | Sí |
@@ -68,7 +70,7 @@ H1 compara el sistema combinado con su componente visual. No aísla la aportaci�
 
 ## 8.4 Hipótesis H2: el orden de las bandas
 
-Como H1 se sostuvo con su regla completa, H2 se contrastó como hipótesis confirmatoria, según la secuencia fijada en la sección 7.7.
+Como H1 se sostuvo con su regla completa, H2 se contrastó como hipótesis confirmatoria, según la secuencia fijada en la sección 7.7 (Cuadro 8.4).
 
 **Cuadro 8.4.** Contraste de H2 (M3 frente a M3-sin-orden).
 
@@ -83,7 +85,7 @@ Como H1 se sostuvo con su regla completa, H2 se contrastó como hipótesis confi
 | Umbral práctico | 0,03 | 0,10 (equivalente) |
 | Veredicto | **No se detectó una mejora** | — |
 
-Las 21 consultas sin palabra de bandas producen, como estaba previsto, la misma puntuación en M3 y en M3-sin-orden. De las 9 con bandas, el orden mejora el resultado en 4 y lo empeora en 5. La diferencia media es negativa en ambos niveles de análisis, pero su intervalo incluye el cero, por lo que el resultado no permite afirmar que el orden empeore la recuperación, sino solo que no se detectó que la mejore. Con nueve diferencias distintas de cero la prueba podía alcanzar significación (su p mínima es 0,0039), de modo que el resultado no se debe a una imposibilidad del contraste, aunque la muestra sigue siendo pequeña.
+Las 21 consultas sin palabra de bandas producen, como estaba previsto, la misma puntuación en M3 y en M3-sin-orden. De las 9 con bandas, el orden mejora el resultado en 4 y lo empeora en 5. La diferencia media es negativa en ambos niveles de análisis, pero su intervalo incluye el cero, por lo que el resultado no permite afirmar que el orden empeore la recuperación, sino solo que no se detectó que la mejore. Con nueve diferencias distintas de cero la prueba podía alcanzar significación (su p mínima es 0,0039), de modo que el resultado no se debe a una imposibilidad del contraste, aunque la muestra sigue siendo pequeña. La p exacta coincide en los dos niveles porque las nueve diferencias distintas de cero son las mismas; el umbral equivalente del subgrupo, 0,10, resulta de trasladar el umbral de 0,03 de las 30 consultas a las 9 con bandas (sección 7.7).
 
 ## 8.5 Ablaciones y control negativo
 
@@ -105,16 +107,16 @@ Las comparaciones del Cuadro 8.5 son exploratorias: se informan con su intervalo
 
 Cuatro resultados destacan:
 
-- **La estructura aporta dentro de la fusión.** Retirar M3 de M4 reduce el nDCG@10 en 0,081, una pérdida más del doble que la que produce retirar el texto de la ficha (0,035). Sin M3, la fusión de texto e imagen queda en 0,523, apenas por encima de M2 solo.
-- **El orden no aporta dentro de la fusión.** Sustituir M3 por M3-sin-orden en M4 no cambia el resultado (−0,003, con un intervalo estrecho alrededor de cero), en línea con H2.
-- **El control negativo confirma que la ganancia depende del contenido de la anotación.** Cuando los descriptores de M3 se permutan entre piezas del mismo museo, M4 cae a 0,418, por debajo incluso de M4 sin M3 (0,523) y de M2 (0,492). La ganancia no procede, por tanto, de la sola presencia de un tercer componente ni de la distribución de descriptores propia de cada museo. Que el control supere a M0, M1 y M3 por separado se explica porque conserva intactos los componentes de texto e imagen, que suman 5/7 del peso.
+- **Entre las ablaciones realizadas, retirar la estructura es la que más reduce el resultado.** Retirar M3 de M4 reduce el nDCG@10 en 0,081, más del doble que retirar el texto de la ficha (0,035). La comparación se limita a esas ablaciones: no se evaluó retirar M2. Sin M3, la fusión de texto e imagen queda en 0,523, apenas por encima de M2 solo.
+- **No se detectó una mejora atribuible al orden dentro de la fusión.** Sustituir M3 por M3-sin-orden en M4 apenas cambia el resultado (−0,003; IC 95 %: −0,009 a 0,001), en línea con H2.
+- **El control negativo aporta evidencia exploratoria compatible con que la ganancia dependa del contenido de la anotación.** Cuando los descriptores de M3 se permutan entre piezas del mismo museo, M4 cae a 0,418, por debajo incluso de M4 sin M3 (0,523) y de M2 (0,492). El resultado es compatible con que la ganancia no proceda de la sola presencia de un tercer componente ni de la distribución de descriptores propia de cada museo. Como se usó una sola permutación, el control es descriptivo y no ofrece una distribución nula. Que el control supere a M0, M1 y M3 por separado puede explicarse porque conserva intactos los componentes de texto e imagen, que suman 5/7 del peso.
 - **Los bloques de bandas, por sí solos, recuperan mal.** M3 restringido a la palabra de bandas y sus adyacencias obtiene 0,105, frente a 0,347 del resto del descriptor. Esta cifra debe leerse con cautela: solo el 39,7 % de sus diez primeros resultados fue juzgado, de modo que es una cota inferior. Además, en las 21 consultas cuya pieza no tiene palabra de bandas, la variante carece precisamente de los bloques que usa.
 
-Además, la fusión ponderada supera a la fusión por posiciones en 0,061: en este estudio, los pesos elegidos en desarrollo aportan algo más que una combinación sin parámetros.
+Además, la fusión ponderada supera a la fusión por posiciones en 0,061, lo que sugiere que, en este estudio, los pesos elegidos en desarrollo aportaron algo más que una combinación sin parámetros.
 
-## 8.6 Sensibilidad al pooling
+## 8.6 Sensibilidad al *pooling*
 
-Cada sistema se recalculó tratando como no juzgados los pares que solo él había aportado al pool, siguiendo a Buckley et al. (2007). El procedimiento estima cuánto depende la puntuación de un sistema de haber contribuido al conjunto juzgado.
+Cada sistema se recalculó tratando como no juzgados los pares que solo él había aportado al *pool*, siguiendo a Buckley et al. [@buckley2007]. El procedimiento estima cuánto depende la puntuación de un sistema de haber contribuido al conjunto juzgado (Cuadro 8.6).
 
 **Cuadro 8.6.** nDCG@10 medio con y sin los aportes exclusivos de cada sistema.
 
@@ -128,7 +130,7 @@ Cada sistema se recalculó tratando como no juzgados los pares que solo él hab�
 | M4 | 0,604 | 0,602 | 4 |
 | M4-RRF | 0,544 | 0,540 | 14 |
 
-M4 apenas depende de sus aportes exclusivos: solo 4 pares, y su puntuación baja 0,002. M2 pierde 0,049, de modo que, sin sus aportes exclusivos, la ventaja de M4 sobre M2 sería mayor que la observada. La comparación de H1 no está, por tanto, favorecida por la construcción del pool. Los sistemas más alejados de los demás, M1 y M0, son los más sensibles, como cabe esperar de rankings que comparten pocos candidatos con el resto.
+M4 apenas depende de sus aportes exclusivos: solo 4 pares, y su puntuación baja 0,002. M2 pierde 0,049, de modo que, sin sus aportes exclusivos, la ventaja de M4 sobre M2 sería mayor que la observada. La comparación de H1 no está, por tanto, favorecida por la construcción del *pool*. Los sistemas más alejados de los demás, M1 y M0, son los más sensibles, como cabe esperar de *rankings* que comparten pocos candidatos con el resto.
 
 ## 8.7 Robustez por museo y por estado de la pieza
 
@@ -143,7 +145,7 @@ M4 apenas depende de sus aportes exclusivos: solo 4 pares, y su puntuación baja
 | Completitud | Incompleto | 5 | 0,496 | 0,469 | 0,442 | 0,561 |
 | Completitud | Sin dato | 11 | 0,431 | 0,305 | 0,317 | 0,566 |
 
-M4 obtiene el valor más alto en los seis grupos. La ventaja sobre M2 es mayor en las consultas del MET (0,182), donde M2 rinde peor, y menor en las del CMA (0,051), donde M2 alcanza su mejor valor y M3 el peor. En las piezas incompletas, M3 se acerca a M2 (0,469 frente a 0,496), un indicio de que la descripción estructural conserva información cuando el fragmento limita la comparación visual global. Con entre 5 y 15 consultas por grupo, estas diferencias solo describen la muestra.
+M4 obtiene el valor más alto en los seis grupos (Cuadro 8.7). La ventaja sobre M2 es mayor en las consultas del MET (0,182), donde M2 rinde peor, y menor en las del CMA (0,051), donde M2 alcanza su mejor valor y M3 el peor. En las piezas incompletas, M3 se acerca a M2 (0,469 frente a 0,496), un resultado compatible con que la descripción estructural conserve información cuando el fragmento limita la comparación visual global. Con entre 5 y 15 consultas por grupo, estas diferencias solo describen la muestra.
 
 ## 8.8 Hipótesis H3: fidelidad de la explicación
 
@@ -154,11 +156,11 @@ M4 obtiene el valor más alto en los seis grupos. La ventaja sobre M2 es mayor e
 | Resultados comprobados | 300 |
 | Error máximo de reconstrucción (suma de contribuciones frente a puntuación) | 0 |
 | Error máximo de intervención (retirada de cada componente) | 0 |
-| Diferencia máxima con la puntuación sellada | 0 |
-| Tolerancia | 10⁻⁹ |
+| Diferencia máxima con la puntuación sellada (a seis decimales) | 0 |
+| Tolerancia de reconstrucción e intervención | 10⁻⁹ |
 | Veredicto | **H3 se sostiene** |
 
-En los 300 resultados, la suma de las contribuciones de M0, M2 y M3 reproduce exactamente la puntuación de M4, y la retirada de cada componente la modifica como predice la fórmula con reparto de pesos. El resultado acredita que la explicación es la puntuación y no una aproximación a ella; no dice nada de su utilidad para un especialista.
+En los 300 resultados (Cuadro 8.8), la suma de las contribuciones de M0, M2 y M3 reproduce exactamente la puntuación de M4, y la retirada de cada componente la modifica como predice la fórmula con reparto de pesos. El resultado acredita que la explicación es la puntuación y no una aproximación a ella; no dice nada de su utilidad para un especialista.
 
 **Revisión de las explicaciones.** De los diez primeros resultados de M4 se sortearon 5 aciertos (grado 2 o 3) y 5 errores (grado 0 o 1), y el evaluador valoró cada explicación a ciegas respecto de la clase. Para decidir si una contribución era alta o baja usó tercios de la puntuación normalizada (alta si ≥ 0,67, baja si ≤ 0,33), un criterio que fijó durante la revisión y no antes.
 
@@ -169,7 +171,7 @@ En los 300 resultados, la suma de las contribuciones de M0, M2 y M3 reproduce ex
 | Acierto | 5 | 0 | 0 | 0 |
 | Error | 4 | 1 | 0 | 0 |
 
-Nueve de las diez explicaciones se valoraron como correctas, incluidas cuatro de las cinco correspondientes a errores de M4: en esos casos, las contribuciones se corresponden con lo que muestran las imágenes aunque el candidato no sea relevante. La única valorada como incorrecta pertenece a un error, y el componente en desacuerdo es M2. El revisor es el mismo evaluador que anotó la estructura que usa M3, por lo que estos conteos describen diez casos y no estiman ninguna tasa.
+Nueve de las diez explicaciones se valoraron como correctas (Cuadro 8.9), incluidas cuatro de las cinco correspondientes a errores de M4: en esos casos, las contribuciones se corresponden con lo que muestran las imágenes aunque el candidato no sea relevante. La única valorada como incorrecta pertenece a un error, y el componente en desacuerdo es M2. El revisor es el mismo evaluador que anotó la estructura que usa M3, por lo que estos conteos describen diez casos y no estiman ninguna tasa.
 
 ## 8.9 Tarea T1: texto a imagen
 
@@ -182,7 +184,7 @@ Nueve de las diez explicaciones se valoraron como correctas, incluidas cuatro de
 | M3: especificación estructural | 3 | 0,183 |
 | M4: fusión | 6 | 0,499 |
 
-Con seis consultas redactadas, el orden de los sistemas reproduce el de T3: M4 por delante de M2 y ambos por delante de M0. M3 solo participa en las tres consultas que incluyen una especificación estructural, y su media no es comparable con la de los demás. Los resultados de T1 son descriptivos.
+Con seis consultas redactadas (Cuadro 8.10), el orden de los sistemas reproduce el de T3: M4 por delante de M2 y ambos por delante de M0. M3 solo participa en las tres consultas que incluyen una especificación estructural, y su media no es comparable con la de los demás. Los resultados de T1 son descriptivos.
 
 ## 8.10 Síntesis
 
@@ -194,8 +196,4 @@ Con seis consultas redactadas, el orden de los sistemas reproduce el de T3: M4 p
 | H2 | M3 frente a M3-sin-orden | Δ = −0,015 (IC 95 %: −0,040 a 0,006); p = 0,223 | No se detectó una mejora |
 | H3 | Reconstrucción e intervención en 300 resultados de M4 | Error máximo 0 (tolerancia 10⁻⁹) | Se sostiene |
 
-La fusión de texto, imagen y estructura anotada recupera textiles de organización similar mejor que el codificador visual por sí solo. La estructura anotada es la parte de esa ganancia que más pesa, y depende de que cada pieza conserve su propia descripción. El orden de las bandas, en cambio, no produjo una mejora detectable: con la anotación y las nueve consultas con bandas de este estudio, el descriptor que conoce la secuencia no recuperó mejor que el que solo conoce qué tipos de bandas tiene la pieza. El capítulo 9 discute estos resultados.
-
-## Referencias
-
-Buckley, C., Dimmick, D., Soboroff, I., & Voorhees, E. (2007). Bias and the limits of pooling for large collections. *Information Retrieval, 10*, 491–508. https://doi.org/10.1007/s10791-007-9032-x
+En este corpus y con los juicios del evaluador, la fusión de texto, imagen y estructura anotada recuperó textiles de organización similar mejor que el codificador visual por sí solo (Cuadro 8.11). Entre las ablaciones realizadas, retirar la estructura anotada es la que más reduce el resultado, y el control negativo es compatible con que la ganancia dependa de que cada pieza conserve su propia descripción; ambas comparaciones son exploratorias. No se detectó, en cambio, una mejora atribuible al orden de las bandas: con la anotación y las nueve consultas con bandas de este estudio, el descriptor que conoce la secuencia no recuperó mejor que el que solo conoce qué tipos de bandas tiene la pieza. El capítulo 9 discute estos resultados.
