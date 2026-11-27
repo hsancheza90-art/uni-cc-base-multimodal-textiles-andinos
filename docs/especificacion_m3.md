@@ -42,7 +42,7 @@ Tres elementos quedan fuera del descriptor de forma deliberada:
 **Periodo, retirado.** La versión 0.1 calculaba el periodo de la palabra como dato informativo, sin intervenir en la disimilitud. Se retiró en la 0.2: la repetición entra en el descriptor como atributo anotado, y el capítulo 5 del manuscrito no usa el periodo (sección 5.16).
 
 Dos ejemplos ilustran estas definiciones:
-- Las palabras `aabb` y `abab` tienen el mismo histograma de tipos y distintas adyacencias. Por eso es indispensable un control sin orden para atribuir una ganancia al orden de las bandas.
+- Las palabras `aabb` y `abab` tienen el mismo histograma de tipos y distintas adyacencias. Por eso se necesita un control sin orden para contrastar empíricamente el aporte del orden de las bandas.
 - Con cuatro posiciones, dos símbolos y el grupo C₂ hay 2⁴ palabras, de las cuales la reversión deja fijas 2². Por el lema de Burnside, el número de formas canónicas es (16 + 4) / 2 = 10. El ejemplo forma parte de las pruebas unitarias; no es un resultado experimental.
 
 ## 3. Disimilitud mixta
@@ -67,11 +67,11 @@ con pesos λ_b ≥ 0 definidos en `[m3.pesos]`.
 
 ## 4. M3-sin-orden, control del mecanismo (H2)
 
-M3-sin-orden coincide con M3 salvo en dos aspectos:
+M3-sin-orden coincide con M3 en su definición salvo en dos aspectos:
 - la palabra de bandas se sustituye por el histograma de sus tipos, sin lagunas, comparado con la mitad de la distancia L1;
 - se omite el bloque de adyacencias.
 
-Usa los mismos pesos, sin reajustarlos. Si M3 supera a M3-sin-orden, la diferencia puede atribuirse al orden de las bandas y no a su composición por tipos.
+Usa los mismos pesos, sin reajustarlos. Al omitir un bloque cambia además la normalización de D: la disimilitud agregada de M3-sin-orden puede ser mayor o menor que la de M3, y el orden relativo de dos candidatos puede invertirse aunque sus histogramas difieran del de la consulta. La cota d_t ≤ d_w (proposición 5.6 del manuscrito) vale solo para el bloque de bandas. Una diferencia entre M3 y M3-sin-orden reúne, por tanto, el orden, las adyacencias y esa renormalización, y su efecto sobre la recuperación se contrasta empíricamente en H2 (R43).
 
 ## 5. Límites del descriptor
 
