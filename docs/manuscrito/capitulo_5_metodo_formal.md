@@ -257,9 +257,9 @@ El descriptor no prescribe qué vecindades son admisibles; describe cuáles se o
 
 $$d_t(w, v) = \tfrac{1}{2} \lVert t(w) - t(v) \rVert_1, \tag{5.15}$$
 
-con $d_t(\varepsilon, \varepsilon) = 0$ y $d_t = 1$ si exactamente una de las dos palabras es vacía, y omite el bloque de adyacencias. Usa los mismos pesos, sin reajustarlos. Es la única diferencia con M3.
+con $d_t(\varepsilon, \varepsilon) = 0$ y $d_t = 1$ si exactamente una de las dos palabras es vacía, y omite el bloque de adyacencias. Usa los mismos pesos, sin reajustarlos. No hay otra diferencia en la definición, pero al omitir un bloque cambia además la normalización de $D$ (véase la interpretación de la proposición 5.6).
 
-**Proposición 5.6 (el control acota inferiormente a la distancia con orden) [P].** Para toda $w, v$,
+**Proposición 5.6 (en el bloque de bandas, el control acota inferiormente a la distancia con orden) [P].** Para toda $w, v$,
 
 $$d_t(w, v) \le d_w(w, v). \tag{5.16}$$
 
@@ -267,7 +267,7 @@ En particular, $d_w(w, v) = 0$ implica $d_t(w, v) = 0$, y el recíproco es falso
 
 *Demostración.* Si alguna palabra es vacía, ambas distancias valen lo mismo (0 o 1). En otro caso, sean $x = \tilde{w}$, $y = \tilde{v}$ con $m = \lvert x \rvert \le n = \lvert y \rvert$, y sean $a_s, b_s$ el número de apariciones del símbolo $s$ en $x$ e $y$. En un alineamiento óptimo, cada posición de $y$ está emparejada con un símbolo igual de $x$ o cuesta al menos una operación; el número de emparejamientos iguales es a lo sumo $\sum_s \min(a_s, b_s)$. Luego $\mathrm{lev}(x, y) \ge n - \sum_s \min(a_s, b_s)$. Por otra parte, $d_t = 1 - \sum_s \min(a_s/m, b_s/n)$ y, como $m \le n$, $\min(a_s/m, b_s/n) \ge \min(a_s, b_s)/n$. Por tanto $d_t \le 1 - \sum_s \min(a_s, b_s)/n \le \mathrm{lev}(x, y)/n$. El mismo argumento vale para $\rho(y)$, que tiene los mismos conteos; luego $d_t \le \delta(x, y)/n = d_w$. El recíproco falla con `aabb` y `abab`: $d_t = 0$ y $d_w = 1/2$. $\blacksquare$
 
-*Interpretación.* M3 **refina** a su control: todo lo que el control distingue, M3 lo distingue al menos en la misma medida, y M3 separa además pares que el control confunde. Esto es lo que autoriza a leer una diferencia entre M3 y M3-sin-orden como efecto del orden (junto con las adyacencias) y no del inventario de tipos. Que ese refinamiento mejore la recuperación es H2 **[E]**.
+*Interpretación.* La proposición compara dos distancias entre palabras de bandas: la distancia con orden nunca es menor que la distancia entre los histogramas de tipos, y separa pares de palabras que el histograma confunde. Su alcance es ese bloque. No se extiende a la disimilitud agregada $D$ ni al ordenamiento de los candidatos: el control también omite el bloque de adyacencias y, al promediar sobre un bloque menos, cambia la normalización de los demás, de modo que la disimilitud agregada de M3-sin-orden puede ser mayor o menor que la de M3, y el orden relativo de dos candidatos puede invertirse aunque ambos tengan histogramas distintos del de la consulta. La diferencia entre M3 y M3-sin-orden reúne, por tanto, el orden, las adyacencias y esa renormalización, y su efecto sobre la recuperación solo puede establecerse empíricamente, en H2 **[E]**.
 
 *Verificación.* Una prueba automatizada recorre por enumeración exhaustiva, con la implementación, todas las palabras de longitud 0 a 5 sobre un alfabeto de tres símbolos (132 496 pares) y no encuentra ninguna violación, salvo diferencias de redondeo del orden de $10^{-16}$; comprueba además el contraejemplo del recíproco.
 
@@ -390,16 +390,16 @@ El Cuadro 5.5 separa lo que la formalización establece de lo que solo el experi
 | Hipótesis | Lo que el capítulo establece | Lo que solo el experimento puede establecer |
 |---|---|---|
 | H1 | Que la fusión está bien definida, incluso cuando falta evidencia estructural (proposición 5.9) | Que la fusión supera a un codificador general; el aporte propio de la estructura solo se examina en ablaciones exploratorias |
-| H2 | Que M3 refina a su control y que la única diferencia entre ambos es el orden (proposición 5.6, definición 5.15) | Que ese refinamiento mejora la recuperación |
+| H2 | Que, en el bloque de bandas, la distancia con orden acota superiormente a la del histograma de tipos (proposición 5.6), y qué cambia el control: el bloque de bandas, la omisión de las adyacencias y la normalización (definición 5.15). No establece un refinamiento de la disimilitud agregada ni del orden de los candidatos | Si M3 recupera mejor que M3-sin-orden, una comparación empírica |
 | H3 | Que la descomposición y la intervención son identidades de la fórmula (proposiciones 5.7 y 5.9) | Que la implementación las cumple en todos los resultados de prueba |
 
-## 5.13 Margen del orden en el corpus
+## 5.13 Palabras de bandas y coincidencias de inventario en el corpus
 
-El margen que tenía H2 en este corpus podía medirse antes del experimento, sin ningún juicio de relevancia **[E]**. En la anotación v2.1, solo 53 de las 150 piezas del núcleo tienen palabra de bandas, y el orden solo puede pesar cuando la consulta y el candidato la tienen. Entre esas 53 piezas hay 1378 pares. En 41 de ellos el control sin orden ve el mismo histograma normalizado de tipos, y en 25 de esos 41 la forma canónica difiere: son los únicos pares en que, en el bloque de bandas, el control da distancia cero y M3 no. Contando bandas en lugar de proporciones, solo 3 pares comparten inventario y difieren en el orden. En el resto de los pares, M3 y su control pueden diferir en grado, porque $d_t \le d_w$ (proposición 5.6), pero rara vez en el orden relativo de los candidatos.
+La composición de la galería respecto del orden de las bandas podía describirse antes del experimento, sin ningún juicio de relevancia **[E]**. En la anotación v2.1, solo 53 de las 150 piezas del núcleo tienen palabra de bandas, y el orden solo puede pesar cuando la consulta y el candidato la tienen. Entre esas 53 piezas hay 1378 pares. En 41 de ellos el control sin orden ve el mismo histograma normalizado de tipos, y en 25 de esos 41 la forma canónica difiere: son los únicos pares en que, en el bloque de bandas, el control da distancia cero y M3 no. Contando bandas en lugar de proporciones, solo 3 pares comparten inventario y difieren en el orden. Estos conteos describen las coincidencias que el control no distingue; no acotan cuántas veces el orden cambia la posición relativa de dos candidatos, que también puede cambiar entre piezas con histogramas distintos (sección 5.8.3).
 
 Cuando la pieza de consulta no tiene palabra de bandas, porque su secuencia es `ausente` o no observable, $d_w$ y $d_t$ coinciden para todo candidato y el bloque de adyacencias no es observable. M3 y su control asignan entonces la misma puntuación a todos los candidatos, y la diferencia pareada de H2 es cero por construcción. En desarrollo ocurrió en 8 de las 10 consultas, en las que M3 y M3-sin-orden produjeron el mismo *ranking* completo. Por eso, antes de abrir la partición de prueba y sin ver ningún resultado, se mantuvo la regla de H2 sobre las 30 consultas de prueba y se añadió, como subgrupo descriptivo, la misma comparación en las consultas cuya pieza tiene palabra de bandas (capítulo 7, secciones 7.5 y 7.8).
 
-Así ocurrió en la evaluación final: la diferencia fue cero por construcción en 21 de las 30 consultas, y solo las 9 con palabra de bandas aportaron diferencias distintas de cero. No se detectó una mejora atribuible al orden de las bandas (capítulo 8, sección 8.4). El resultado es coherente con el margen medido aquí: con tan pocos pares en que el orden puede cambiar la posición relativa de dos candidatos, la galería ofrecía poca ocasión para que el orden se manifestara, con independencia de la calidad del descriptor.
+Así ocurrió en la evaluación final: la diferencia fue cero por construcción en 21 de las 30 consultas, y solo las 9 con palabra de bandas aportaron diferencias distintas de cero. No se detectó una mejora atribuible al orden de las bandas (capítulo 8, sección 8.4). El resultado es compatible con la composición de la galería descrita aquí, con pocas piezas con palabra de bandas y pocas coincidencias de inventario con secuencias distintas, pero esos conteos no fijan por sí solos cuánto podía cambiar el orden los *rankings*.
 
 ## 5.14 Límites de la formalización
 

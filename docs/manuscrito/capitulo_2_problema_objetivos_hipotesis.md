@@ -54,7 +54,7 @@ El análisis crítico de los límites del enfoque no se formula como objetivo se
 
 ## 2.5 Hipótesis
 
-Las tres hipótesis se formulan sobre resultados observables en la tarea T3 (Cuadro 2.2). Intervienen cinco sistemas (M0–M4), un control (M3-sin-orden) y una variante (M4-RRF), descritos en el capítulo 7 (sección 7.4): M0 es una búsqueda léxica BM25 sobre el texto de la ficha; M1, una medida de color y textura; M2, el codificador visión-lenguaje OpenCLIP congelado; M3, el descriptor estructural; M4, la fusión tardía de M0, M2 y M3; M3-sin-orden, el mismo descriptor con la palabra de bandas reducida al histograma de sus tipos, y M4-RRF, una fusión de los mismos componentes por posiciones, sin pesos.
+Las tres hipótesis se formulan sobre resultados observables en la tarea T3 (Cuadro 2.2). Intervienen cinco sistemas (M0–M4), un control (M3-sin-orden) y una variante (M4-RRF), descritos en el capítulo 7 (sección 7.4): M0 es una búsqueda léxica BM25 sobre el texto de la ficha; M1, una medida de color y textura; M2, el codificador visión-lenguaje OpenCLIP congelado; M3, el descriptor estructural; M4, la fusión tardía de M0, M2 y M3; M3-sin-orden, el mismo descriptor con la palabra de bandas reducida al histograma de sus tipos y sin el bloque de adyacencias, y M4-RRF, una fusión de los mismos componentes por posiciones, sin pesos.
 
 **H1 (primaria).** La fusión enriquecida recupera mejor que el codificador visión-lenguaje congelado: la diferencia media por consulta de nDCG@10 entre M4 y M2 es distinta de cero en la prueba de permutación (p < 0,05) y la diferencia observada es igual o superior a 0,03.
 
@@ -83,7 +83,7 @@ Dos precisiones, fijadas antes de ejecutar ninguna consulta de prueba, condicion
 La contribución se define por el método y por la evidencia, no por el número de técnicas empleadas.
 
 1. **Una formalización de la macroestructura observable** de un textil a partir de su fotografía: una palabra de bandas sobre un alfabeto finito, considerada igual a su reverso, sus adyacencias, un conjunto de atributos de región y una máscara que distingue lo ausente de lo que no pudo observarse. Se sitúa en una escala distinta de la estructura de hilos de Helmer y Ngo [@helmer2015] y Ngo et al. [@ngo2021], y no adopta la clasificación por grupos de simetría, que Frame [@frame2006a] considera inadecuada para parte de los patrones andinos.
-2. **Un descriptor y una disimilitud** definidos sobre esa formalización, con propiedades demostradas o verificadas por pruebas automatizadas, y un control sin orden que permite atribuir una eventual diferencia a la secuencia de las bandas y no a su composición por tipos.
+2. **Un descriptor y una disimilitud** definidos sobre esa formalización, con propiedades demostradas o verificadas por pruebas automatizadas, y un control sin orden, que sustituye la palabra por el histograma de sus tipos y omite las adyacencias, para contrastar empíricamente el aporte del orden.
 3. **Una evaluación controlada** de su utilidad en un corpus museográfico: partición por grupos de piezas relacionadas, consultas fijadas antes de ejecutar los sistemas, juicios humanos graduados y ciegos, una sola ejecución de la evaluación final y un control negativo.
 
 Estas contribuciones no dependían del signo del resultado: el diseño fijaba de antemano cómo leer tanto un resultado favorable a la estructura anotada como uno desfavorable, y distinguía un resultado no significativo de la ausencia de efecto.

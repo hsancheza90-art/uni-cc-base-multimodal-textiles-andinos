@@ -96,7 +96,7 @@ La batería, en `tests/`, reúne 504 pruebas automatizadas en 21 archivos; 503 s
 | Regeneración | Que cada salida versionada se regenera idéntica, con finales LF, y que los conteos coinciden con la configuración; que una revisión con errores termina con código 1 sin reemplazar salidas; que los generadores no sobrescriben decisiones | 120 |
 | Curación, aptitud y consolidados | Filtros de evidencia textil y andina, reglas y calibración del puntaje, esquema y construcción de los consolidados, colectores | 144 |
 | Anotación | Validación de la anotación v1 y v2, estados de observación, condiciones de buena formación, revisión de criterios, congelación y grupos | 87 |
-| Sistemas | Propiedades del descriptor y de la fusión: invariancia de la forma canónica, conteo de órbitas, simetría y cotas de la disimilitud, cota del control sin orden, contraejemplos de la desigualdad triangular, descomposición exacta, intervención, renormalización, posiciones recíprocas | 87 |
+| Sistemas | Propiedades del descriptor y de la fusión: invariancia de la forma canónica, conteo de órbitas, simetría y cotas de la disimilitud, cota del control sin orden en el bloque de bandas, contraejemplos de la desigualdad triangular, descomposición exacta, intervención, renormalización, posiciones recíprocas | 87 |
 | Experimento y evaluación | Particiones y consultas sin fugas, coherencia del protocolo con la configuración y el código, métricas con ejemplos calculados a mano, contrastes estadísticos, selección de pesos, planificación de la potencia, sensibilidad y ejecución de la evaluación final: ensayo con desarrollo, sellado, fallos, cegamiento y revisión de H3 | 66 |
 
 **Pruebas de aceptación.** Ocho pruebas, incluidas en la batería, comprueban los requisitos de la ejecución única (Cuadro A.6). En los comentarios del código figuran como pruebas T1 a T8; aquí se denominan PA1 a PA8 para no confundirlas con las tareas T1 y T3. Cada una puede comprender varias funciones de prueba.
@@ -163,7 +163,7 @@ Cada definición y propiedad del capítulo 5 tiene su contraparte en el código,
 | Distancia entre palabras | (5.12)–(5.13) | `distancia_edicion`, `distancia_palabras` | `secuencia_bandas` | `test_distancia_de_palabras_…`; `test_la_disimilitud_no_es_una_metrica` |
 | Adyacencias | (5.14) | `histograma_adyacencias`, `distancia_l1_media` | `secuencia_bandas` | `test_el_control_sin_orden_no_distingue_lo_que_las_adyacencias_si` |
 | Control sin orden | (5.15) | `histograma_tipos`; `comparar(..., sin_orden=True)` | `secuencia_bandas` | `test_m3_sin_orden_ignora_el_orden_de_las_bandas` |
-| Cota del control | (5.16) | `distancias_por_bloque` | `secuencia_bandas` | `test_el_control_sin_orden_acota_inferiormente_la_distancia_con_orden` (enumeración exhaustiva) |
+| Cota del control (bloque de bandas) | (5.16) | `distancias_por_bloque` | `secuencia_bandas` | `test_el_control_sin_orden_acota_inferiormente_la_distancia_con_orden` (enumeración exhaustiva) |
 | Distancias por bloque | Sec. 5.8.4 | `nominal`, `distancias_por_bloque` | Atributos del Cuadro 5.3 | Las de $D$ |
 | Disimilitud, cobertura y contribuciones | (5.17)–(5.19) | `comparar` | `[m3.pesos]` de `config/modelos.toml` | `test_disimilitud_mixta_…`; `test_la_suma_de_contribuciones_…` |
 | Normalización por consulta | (5.20) | `normalizar` | — | `tests/test_m4.py` |

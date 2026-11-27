@@ -19,7 +19,7 @@ Ninguna imagen se marcó como no evaluable y todas las consultas de T3 tienen al
 
 ## 8.2 Rendimiento de los sistemas en T3
 
-El Cuadro 8.2 reúne las tres métricas de todos los sistemas y variantes en las 30 consultas de prueba. La precisión en 10 (P@10) y el rango recíproco medio (MRR) usan la relevancia binarizada en el grado 2. La última columna indica qué parte de los diez primeros resultados de cada sistema fue juzgada; en las variantes que no aportaron candidatos al *pool*, los no juzgados cuentan como irrelevantes y sus métricas son, por tanto, cotas inferiores.
+El Cuadro 8.2 reúne las tres métricas de todos los sistemas y variantes en las 30 consultas de prueba. La precisión en 10 (P@10) y el rango recíproco medio (MRR) usan la relevancia binarizada en el grado 2. La última columna indica qué parte de los diez primeros resultados de cada sistema fue juzgada; en las variantes que no aportaron candidatos al *pool*, los no juzgados cuentan como irrelevantes, y sus métricas son estimaciones bajo los juicios disponibles. Con juicios completos podrían cambiar en cualquier dirección, porque cambiarían tanto la ganancia observada como la ideal.
 
 **Cuadro 8.2.** Métricas medias en T3 (30 consultas de prueba).
 
@@ -110,7 +110,7 @@ Cuatro resultados destacan:
 - **Entre las ablaciones realizadas, retirar la estructura es la que más reduce el resultado.** Retirar M3 de M4 reduce el nDCG@10 en 0,081, más del doble que retirar el texto de la ficha (0,035). La comparación se limita a esas ablaciones: no se evaluó retirar M2. Sin M3, la fusión de texto e imagen queda en 0,523, apenas por encima de M2 solo.
 - **No se detectó una mejora atribuible al orden dentro de la fusión.** Sustituir M3 por M3-sin-orden en M4 apenas cambia el resultado (−0,003; IC 95 %: −0,009 a 0,001), en línea con H2.
 - **El control negativo aporta evidencia exploratoria compatible con que la ganancia dependa del contenido de la anotación.** Cuando los descriptores de M3 se permutan entre piezas del mismo museo, M4 cae a 0,418, por debajo incluso de M4 sin M3 (0,523) y de M2 (0,492). El resultado es compatible con que la ganancia no proceda de la sola presencia de un tercer componente ni de la distribución de descriptores propia de cada museo. Como se usó una sola permutación, el control es descriptivo y no ofrece una distribución nula. Que el control supere a M0, M1 y M3 por separado puede explicarse porque conserva intactos los componentes de texto e imagen, que suman 5/7 del peso.
-- **Los bloques de bandas, por sí solos, recuperan mal.** M3 restringido a la palabra de bandas y sus adyacencias obtiene 0,105, frente a 0,347 del resto del descriptor. Esta cifra debe leerse con cautela: solo el 39,7 % de sus diez primeros resultados fue juzgado, de modo que es una cota inferior. Además, en las 21 consultas cuya pieza no tiene palabra de bandas, la variante carece precisamente de los bloques que usa.
+- **Los bloques de bandas, por sí solos, recuperan mal.** M3 restringido a la palabra de bandas y sus adyacencias obtiene 0,105, frente a 0,347 del resto del descriptor. Esta cifra debe leerse con cautela: solo el 39,7 % de sus diez primeros resultados fue juzgado, y esa cobertura parcial limita su comparación con el 0,347 del resto del descriptor. Además, en las 21 consultas cuya pieza no tiene palabra de bandas, la variante carece precisamente de los bloques que usa.
 
 Además, la fusión ponderada supera a la fusión por posiciones en 0,061, lo que sugiere que, en este estudio, los pesos elegidos en desarrollo aportaron algo más que una combinación sin parámetros.
 
@@ -130,7 +130,7 @@ Cada sistema se recalculó tratando como no juzgados los pares que solo él hab�
 | M4 | 0,604 | 0,602 | 4 |
 | M4-RRF | 0,544 | 0,540 | 14 |
 
-M4 apenas depende de sus aportes exclusivos: solo 4 pares, y su puntuación baja 0,002. M2 pierde 0,049, de modo que, sin sus aportes exclusivos, la ventaja de M4 sobre M2 sería mayor que la observada. La comparación de H1 no está, por tanto, favorecida por la construcción del *pool*. Los sistemas más alejados de los demás, M1 y M0, son los más sensibles, como cabe esperar de *rankings* que comparten pocos candidatos con el resto.
+M4 aportó solo 4 pares exclusivos, y sin ellos su puntuación baja 0,002, un cambio pequeño pero distinto de cero. M2 pierde 0,049. Cada retiro cambia un conjunto distinto de juicios, de modo que estas cifras miden la sensibilidad de cada sistema a ese conjunto y no el signo del sesgo respecto de una evaluación con juicios completos. Los sistemas más alejados de los demás, M1 y M0, son los más sensibles, como cabe esperar de *rankings* que comparten pocos candidatos con el resto.
 
 ## 8.7 Robustez por museo y por estado de la pieza
 

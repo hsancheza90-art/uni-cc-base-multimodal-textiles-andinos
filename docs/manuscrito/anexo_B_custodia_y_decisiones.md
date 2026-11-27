@@ -111,3 +111,4 @@ Las decisiones del investigador sobre el diseño, la evaluación y la redacción
 | R40 | 2026-11-23 | El asesor autoriza la evaluación final sobre el *commit* `2b01f0e`; se registra la autorización y se abre la corrida |
 | R41 | 2026-11-24 | Criterio de lectura de la revisión de H3 (tercios), doble juicio parcial no realizado y entrega del informe de Seminario de Tesis II |
 | R42 | 2026-11-26 | Levantamiento del informe del asesor del 25 de noviembre; referencias en IEEE; error de anotación de AIC:85278 declarado sin corregir la copia congelada |
+| R43 | 2026-11-27 | Levantamiento del informe final del asesor: alcance de la proposición 5.6 al bloque de bandas y nDCG con juicios parciales como estimación, no como cota inferior |
