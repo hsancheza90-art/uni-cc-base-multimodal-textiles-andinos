@@ -1,6 +1,6 @@
 # Relación de cambios: informe de revisión final del 27 de noviembre de 2026
 
-Respuesta al «Informe de revisión final del proyecto de tesis 2» (pendiente de conformidad por B1-01 y B1-02), sobre el commit `4ddab6d`. Versión corregida: commit `d7e7df2`, archivos `MCC702_informe_seminario_II_2026-11-27.docx` y `.pdf`.
+Respuesta al «Informe de revisión final del proyecto de tesis 2» (pendiente de conformidad por B1-01 y B1-02), sobre el commit `4ddab6d`. Versión corregida: commits `d7e7df2` (correcciones B1-01 y B1-02) y `a9d7d98` (revisión editorial y de maquetación final), archivos `MCC702_informe_seminario_II_2026-11-27.docx` y `.pdf`.
 
 No se modificaron datos, anotaciones, consultas, rankings, juicios, pesos, código experimental ni resultados sellados, y las cifras de H1, H2 y H3 no cambian. `git diff --stat 4ddab6d..d7e7df2` solo muestra cambios en `docs/`. Los tres contraejemplos del informe se comprobaron con la implementación del repositorio, sin modificarla: disimilitud agregada 1/4 con orden frente a 1/3 sin orden; inversión del orden relativo con la consulta `aab` y los candidatos `a` y `aacc`; nDCG de 1 a 0,33735.
 
@@ -8,7 +8,7 @@ No se modificaron datos, anotaciones, consultas, rankings, juicios, pesos, códi
 
 | Ubicación | Antes | Ahora |
 |---|---|---|
-| Sección 5.8.3, título de la proposición 5.6 | «el control acota inferiormente a la distancia con orden» | «en el bloque de bandas, el control acota inferiormente a la distancia con orden». La demostración no cambia |
+| Sección 5.8.3, título de la proposición 5.6 | «el control acota inferiormente a la distancia con orden» | «en el bloque de bandas, la distancia del control no supera a la distancia con orden». La demostración no cambia |
 | Sección 5.8.3, interpretación | «M3 refina a su control… autoriza a leer una diferencia entre M3 y M3-sin-orden como efecto del orden» | La proposición compara la distancia entre palabras con la distancia entre histogramas de tipos y su alcance es ese bloque. El control omite además el bloque de adyacencias y cambia la normalización, de modo que la disimilitud agregada puede ser mayor o menor y el orden relativo de dos candidatos puede invertirse. El efecto sobre la recuperación se establece empíricamente en H2 |
 | Sección 5.12, Cuadro 5.5, fila H2 | «Que M3 refina a su control y que la única diferencia entre ambos es el orden» | Propiedad por bloque y lo que cambia el control (bandas, adyacencias y normalización), sin refinamiento de la disimilitud agregada ni del orden de los candidatos; la comparación entre M3 y M3-sin-orden queda como empírica |
 | Sección 5.13 | «pueden diferir en grado… pero rara vez en el orden relativo»; «con tan pocos pares en que el orden puede cambiar la posición relativa…» | Se conservan los conteos (53, 1378, 41, 25 y 3) como coincidencias que el control no distingue; se indica que no acotan los cambios de posición |
@@ -35,6 +35,10 @@ No se modificaron datos, anotaciones, consultas, rankings, juicios, pesos, códi
 | Sección 11.2, *pooling* | «las comparaciones de H1 y H2 no dependen de juicios faltantes… sus valores son cotas inferiores» | La cobertura completa del top 10 de los siete *rankings* del *pool* no equivale a relevancias exhaustivas; la ganancia ideal de H1 y H2 puede depender de juicios faltantes; las variantes con cobertura parcial son estimaciones que piden más cautela |
 
 ## Otros cambios
+
+- Revisión editorial final de todos los capítulos con el mismo estándar: se retiraron formulaciones equivalentes («conserva todo lo demás», «separa el efecto del orden», «conservadora» aplicada a la comparación) y se precisó en 8.2 que el top 10 juzgado por completo no equivale a conocer todos los relevantes. No cambió ninguna cifra.
+- Maquetación: títulos de cuadro unidos a su cuadro, filas que no se parten entre páginas, anchos de columna según el contenido, listas a 12 pt, números de ecuación alineados al margen derecho, identificadores de código sin partición silábica y citas con dos localizadores resueltas dentro del corchete.
+- La especificación de M3 (`docs/especificacion_m3.md`, commit `ced7d70`) recoge el mismo alcance de B1-01.
 
 - Portada: nota del asesor (20), código UNI del tesista y líneas de firma del asesor y del tesista.
 - Decisión R43 en `docs/registro_decisiones.md` y en el anexo B.
