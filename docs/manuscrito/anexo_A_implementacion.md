@@ -140,7 +140,7 @@ La evaluación final se ejecutó con el módulo `src/experimento/ejecucion_prueb
 3. **`--crear-juicios`.** Crea los libros ciegos de T3 y de T1, con la misma estructura que los de desarrollo y una galería local por tarea, y conserva lo ya juzgado si se regeneran. Un validador comprueba, antes de entregarlos, que no contienen el sistema, la puntuación ni la posición, que conservan el orden sorteado y que su guía coincide con la rúbrica sellada.
 4. **`--cerrar-juicios`.** Valida que los juicios estén completos y sin errores, repite la comprobación del cegamiento y sella los libros y su exportación (`juicios_cerrados`).
 5. **`--crear-revision-h3`.** Sortea con semilla los aciertos y errores del top 10 de M4 y escribe las fichas ciegas de la revisión descriptiva, con su validador de campos.
-6. **`--evaluar`.** Recalcula todas las sumas del manifiesto y, solo si coinciden, calcula H1 con sus tres afirmaciones y su error de Monte Carlo, H2 con su p exacta y la compuerta de H1, la reconstrucción y la intervención de H3, la cobertura y la sensibilidad del *pool*, las ablaciones, el control negativo, la robustez por museo y por completitud y las métricas descriptivas de T1, en un informe con la plantilla fijada en el protocolo (`outputs/reports/experimento_v2_resultados.md`) (`evaluada`).
+6. **`--evaluar`.** Recalcula todas las sumas del manifiesto y, solo si coinciden, calcula H1 con sus tres afirmaciones y su error de Monte Carlo, H2 con su p exacta y la compuerta de H1, la reconstrucción y la intervención de H3, la cobertura y la sensibilidad del *pool*, las ablaciones, el control negativo, la robustez por museo y por completitud y las métricas descriptivas de T1, en un informe con la plantilla fijada en el protocolo (`outputs/reports/experimento_v2_resultados.md`), y la corrida pasa al estado `evaluada`.
 
 Sin autorización registrada, `--rankings` termina con error y no escribe nada; una vez sellados los *rankings*, una segunda ejecución se rechaza.
 
@@ -170,7 +170,7 @@ Cada definición y propiedad del capítulo 5 tiene su contraparte en el código,
 | Fusión y pesos efectivos | (5.21) | `fusionar`, `pesos_efectivos` | Rejilla del protocolo | `tests/test_m4.py` |
 | Posiciones recíprocas | Sec. 5.10 | `posiciones_reciprocas` | — | `tests/test_m4.py` |
 
-### Control de las condiciones de buena formación
+### A.7.1 Control de las condiciones de buena formación
 
 El Cuadro A.9 detalla, para cada condición de la sección 5.4.1, qué la exige, cómo se controla y cuántas piezas la incumplen en la anotación congelada v2.1 (150 piezas). Las condiciones B3 a B7 se comprueban sobre la anotación final, después de las correcciones de la revisión de criterios, y no sobre los libros: la primera anotación podía incumplirlas antes de corregirse. La congelación se niega a escribir una copia que las incumpla, el flujo se detiene si la copia congelada las incumple, y el informe de la congelación da, para cada condición, las piezas que la incumplen.
 
@@ -189,7 +189,7 @@ El Cuadro A.9 detalla, para cada condición de la sección 5.4.1, qué la exige,
 | B9 | Ninguna corrección de la revisión de criterios se aplica sin la firma del anotador | Una propuesta automática sin verificar no es anotación (capítulo 4, sección 4.10) | Condición de la congelación | 0 pendientes |
 | B10 | La anotación describe la imagen de su registro | Definición 5.1: $a(r)$ es lo observado en $f(r)$ | Revisión manual de la identidad de las imágenes | 0 (ocho anotaciones desplazadas se trasladaron a su registro antes de congelar) |
 
-### Casos admitidos en la palabra de bandas
+### A.7.2 Casos admitidos en la palabra de bandas
 
 En la versión 2.1, 53 piezas tienen palabra de bandas, 83 la tienen `ausente` y 14 no la tienen observada (11 `no_observable` y 3 `desconocido`). El Cuadro A.10 recoge las situaciones legítimas con las definiciones del capítulo 5 que no deben confundirse con incoherencias.
 

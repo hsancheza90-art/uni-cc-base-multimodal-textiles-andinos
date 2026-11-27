@@ -24,19 +24,22 @@ nuevos = {
               f'<w:rPr>{TNR}<w:sz w:val="24" /><w:szCs w:val="24" /></w:rPr></w:style>',
     "BodyText": estilo("BodyText", "Body Text", '<w:spacing w:before="0" w:after="240" w:line="360" w:lineRule="auto" /><w:ind w:firstLine="720" /><w:jc w:val="both" />', ""),
     "FirstParagraph": estilo("FirstParagraph", "First Paragraph", '<w:spacing w:before="0" w:after="240" w:line="360" w:lineRule="auto" /><w:ind w:firstLine="720" /><w:jc w:val="both" />', "", '<w:next w:val="BodyText" />'),
-    "Compact": estilo("Compact", "Compact", '<w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="auto" /><w:jc w:val="left" />', '<w:sz w:val="22" /><w:szCs w:val="22" />'),
+    "Compact": estilo("Compact", "Compact", '<w:suppressAutoHyphens /><w:spacing w:before="0" w:after="0" w:line="240" w:lineRule="auto" /><w:jc w:val="left" />', '<w:sz w:val="24" /><w:szCs w:val="24" />'),
     "Heading1": estilo("Heading1", "heading 1", '<w:keepNext /><w:keepLines /><w:pageBreakBefore /><w:suppressAutoHyphens /><w:spacing w:before="240" w:after="480" w:line="360" w:lineRule="auto" /><w:jc w:val="center" /><w:outlineLvl w:val="0" />',
                        f'{TNR}<w:b /><w:caps /><w:sz w:val="28" /><w:szCs w:val="28" />', '<w:next w:val="BodyText" />'),
     "Heading2": estilo("Heading2", "heading 2", '<w:keepNext /><w:keepLines /><w:suppressAutoHyphens /><w:spacing w:before="360" w:after="240" w:line="360" w:lineRule="auto" /><w:jc w:val="left" /><w:outlineLvl w:val="1" />',
                        f'{TNR}<w:b /><w:sz w:val="24" /><w:szCs w:val="24" />', '<w:next w:val="BodyText" />'),
     "Heading3": estilo("Heading3", "heading 3", '<w:keepNext /><w:keepLines /><w:suppressAutoHyphens /><w:spacing w:before="240" w:after="120" w:line="360" w:lineRule="auto" /><w:jc w:val="left" /><w:outlineLvl w:val="2" />',
                        f'{TNR}<w:b /><w:i /><w:sz w:val="24" /><w:szCs w:val="24" />', '<w:next w:val="BodyText" />'),
-    "ImageCaption": estilo("ImageCaption", "Image Caption", '<w:spacing w:before="60" w:after="240" w:line="240" w:lineRule="auto" /><w:jc w:val="center" />', '<w:sz w:val="20" /><w:szCs w:val="20" />'),
+    "ImageCaption": estilo("ImageCaption", "Image Caption", '<w:suppressAutoHyphens /><w:spacing w:before="60" w:after="240" w:line="240" w:lineRule="auto" /><w:jc w:val="both" />', '<w:sz w:val="24" /><w:szCs w:val="24" />'),
+    # Ecuación numerada: tabulador centrado para la fórmula y derecho para el número (texto de 8788 twips)
+    "Ecuacion": estilo("Ecuacion", "Ecuacion", '<w:keepLines /><w:tabs><w:tab w:val="center" w:pos="4394" /><w:tab w:val="right" w:pos="8788" /></w:tabs>'
+                       '<w:spacing w:before="120" w:after="120" w:line="240" w:lineRule="auto" /><w:ind w:firstLine="0" /><w:jc w:val="left" />', ""),
     "TableCaption": estilo("TableCaption", "Table Caption", '<w:keepNext /><w:spacing w:before="120" w:after="60" w:line="240" w:lineRule="auto" /><w:jc w:val="left" />', '<w:b /><w:sz w:val="20" /><w:szCs w:val="20" />'),
     "Caption": estilo("Caption", "caption", '<w:spacing w:before="60" w:after="240" w:line="240" w:lineRule="auto" /><w:jc w:val="center" />', '<w:sz w:val="20" /><w:szCs w:val="20" />'),
     "CaptionedFigure": estilo("CaptionedFigure", "Captioned Figure", '<w:keepNext /><w:spacing w:before="120" w:after="0" /><w:jc w:val="center" />', ""),
     "Figure": estilo("Figure", "Figure", '<w:spacing w:before="120" w:after="0" /><w:jc w:val="center" />', ""),
-    "Bibliography": estilo("Bibliography", "Bibliography", '<w:spacing w:after="120" w:line="240" w:lineRule="auto" /><w:ind w:left="720" w:hanging="720" /><w:jc w:val="left" />', ""),
+    "Bibliography": estilo("Bibliography", "Bibliography", '<w:suppressAutoHyphens /><w:spacing w:after="120" w:line="240" w:lineRule="auto" /><w:ind w:left="720" w:hanging="720" /><w:jc w:val="left" />', ""),
     "Title": estilo("Title", "Title", '<w:suppressAutoHyphens /><w:spacing w:before="0" w:after="160" w:line="240" w:lineRule="auto" /><w:jc w:val="center" />', f'{TNR}<w:b /><w:sz w:val="32" /><w:szCs w:val="32" />'),
     "TOCHeading": estilo("TOCHeading", "TOC Heading", '<w:keepNext /><w:spacing w:before="240" w:after="480" /><w:jc w:val="center" /><w:outlineLvl w:val="9" />', f'{TNR}<w:b /><w:caps /><w:sz w:val="28" /><w:szCs w:val="28" />'),
 }
@@ -52,6 +55,11 @@ for sid, xml in nuevos.items():
         estilos = estilos.replace("</w:styles>", xml + "</w:styles>")
 # Hipervínculos y código en negro, sin colores
 estilos = re.sub(r'<w:color w:val="[0-9A-F]{6}"[^/]*/>', "", estilos)
+# Código en el texto: sin corrección ni partición silábica (Word no divide el texto marcado noProof), 11 pt
+estilos, n_verb = re.subn(r'(<w:style w:type="character"[^>]*w:styleId="VerbatimChar">.*?<w:rPr>)(.*?)(</w:rPr>)',
+                          lambda m: m.group(1) + '<w:rFonts w:ascii="Consolas" w:hAnsi="Consolas" /><w:noProof />'
+                          '<w:sz w:val="22" />' + m.group(3), estilos, count=1, flags=re.S)
+assert n_verb == 1, "no se encontró el estilo de código"
 
 # Tablas académicas de tres líneas: borde superior e inferior de la tabla y borde bajo el encabezado
 BORDES = ('<w:tblBorders><w:top w:val="single" w:sz="8" w:space="0" w:color="000000" />'

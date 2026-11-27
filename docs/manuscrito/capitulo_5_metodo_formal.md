@@ -4,7 +4,7 @@
 
 Este capítulo define qué se compara cuando el método dice que dos textiles «se parecen por su estructura». El objeto formal no es el textil ni su tejido, sino su **macroestructura observable**: la organización de la superficie que una persona puede registrar al mirar la fotografía publicada por un museo (composición, secuencia de bandas, borde decorado, centro, simetría, repetición y motivos). Las secciones 5.3 a 5.5 fijan las unidades; las 5.6 a 5.11 definen el descriptor, la disimilitud y la fusión y demuestran sus propiedades; las 5.12 a 5.14 separan lo demostrado de lo que contrastó el experimento.
 
-Los sistemas se describen en el capítulo 7: M3 ordena las piezas por el descriptor estructural, M3-sin-orden es su control sin el orden de las bandas y M4 es la fusión tardía de M0 (búsqueda léxica sobre el texto de la ficha), M2 (el codificador visión-lenguaje OpenCLIP) y M3. La formalización no modela la estructura técnica del tejido (ligamento, cruces de hilos), que es la escala de Helmer y Ngo [@helmer2015] y Ngo et al. [@ngo2021]; no infiere la estructura desde los píxeles, porque el descriptor se calcula sobre una anotación de la que responde una persona, de modo que M3 y M4 son sistemas **asistidos por anotación**; y no atribuye significado cultural a la organización que formaliza.
+Los sistemas se describen en el capítulo 7: M3 ordena las piezas por el descriptor estructural; M3-sin-orden, su control, sustituye la palabra de bandas por el histograma de sus tipos y omite el bloque de adyacencias (sección 5.8.3), y M4 es la fusión tardía de M0 (búsqueda léxica sobre el texto de la ficha), M2 (el codificador visión-lenguaje OpenCLIP) y M3. La formalización no modela la estructura técnica del tejido (ligamento, cruces de hilos), que es la escala de Helmer y Ngo [@helmer2015] y Ngo et al. [@ngo2021]; no infiere la estructura desde los píxeles, porque el descriptor se calcula sobre una anotación de la que responde una persona, de modo que M3 y M4 son sistemas **asistidos por anotación**; y no atribuye significado cultural a la organización que formaliza.
 
 **Naturaleza de cada enunciado.** Cada enunciado lleva una de cuatro marcas: **[T]**, resultado conocido de la literatura, que no se reclama como aporte; **[D]**, decisión de diseño, que pudo ser otra y se justifica; **[P]**, propiedad demostrada en este capítulo y fijada en una prueba automatizada (anexo A), como las proposiciones 5.1 a 5.9 y el lema 5.1; y **[E]**, afirmación empírica, como las hipótesis H1 a H3, contrastadas en el capítulo 8, o la estabilidad de la anotación, medida en el capítulo 4.
 
@@ -20,7 +20,7 @@ Las decisiones de diseño de las secciones siguientes responden a rasgos documen
 
 **Por qué no una clasificación por grupos de simetría.** La clasificación cristalográfica de los patrones en siete tipos de friso y diecisiete del plano [@crowe2001, pp. 6–9] no es apropiada para todos los patrones andinos, cuya lógica deriva en parte de las estructuras de fibra [@frame2006a]; los diseños de pocas franjas tienen regularidades que ni los frisos ni los patrones del plano recogen [@chavey2015, pp. 85–87]; y la detección automática del grupo exige un patrón periódico fotografiado de frente y sin distorsiones [@liu2004, p. 368]. El descriptor registra la simetría como un atributo nominal anotado (sección 5.8.4), y la única equivalencia formal que impone es la reversión del sentido de lectura (sección 5.6).
 
-**Por qué la reversión.** El sentido en que se lee una secuencia de bandas es una convención del anotador. Un fragmento no tiene extremo privilegiado; una prenda completa puede tenerlo (una túnica con abertura de cuello, un manto con cenefa, una franja decorativa, en un solo extremo), y la formalización lo descarta deliberadamente (sección 5.14).
+**Por qué la reversión.** El sentido en que se lee una secuencia de bandas es una convención del anotador. Un fragmento no tiene extremo privilegiado; una prenda completa puede tenerlo (una túnica con abertura de cuello, un manto con una cenefa, o franja decorativa, en un solo extremo), y la formalización lo descarta deliberadamente (sección 5.14).
 
 **Por qué el eje no entra en el descriptor.** El eje registrado es el de la fotografía, no el del telar ni el de uso, y una misma organización puede aparecer horizontal o vertical según la toma (sección 3.2; capítulo 4, sección 4.7.3). La palabra de bandas no depende del eje, pero el atributo `eje_bandas` sí, y por eso queda fuera.
 
@@ -56,7 +56,7 @@ donde $G(q)$ es el grupo de $q$. Una pieza, es decir, un registro de la galería
 
 **Definición 5.4 (espacio de valores).** Sea $A$ el conjunto de atributos estructurales y $V_k$ el vocabulario controlado del atributo $k \in A$ (capítulo 4, sección 4.7). El valor anotado de cada atributo pertenece a una de tres clases disjuntas:
 
-$$\underbrace{P_k}_{\text{presencia}} \;\cup\; \underbrace{Z_k}_{\text{ausencia observada}} \;\cup\; \underbrace{N_k}_{\text{sin observación}}. \tag{5.2}$$
+$$P_k \;\cup\; Z_k \;\cup\; N_k \qquad \text{(presencia, ausencia observada y sin observación)}. \tag{5.2}$$
 
 $P_k$ reúne los valores que describen el rasgo; $Z_k$, el valor que registra que el rasgo se buscó y no está; $N_k$, los estados que indican que no pudo observarse o decidirse. Las tres clases no se codifican igual en todos los atributos, porque varios conservan los valores del vocabulario del primer avance. El Cuadro 5.2 fija la correspondencia, que es la que aplican el vocabulario y el código.
 
@@ -97,7 +97,7 @@ Las definiciones de este capítulo presuponen diez condiciones sobre la anotaci�
 
 **Definición 5.7 (alfabeto) [D].**
 
-$$\Sigma = \{\text{lisa} < \text{geométrica} < \text{figurativa} < \text{mixta} < \text{no determinada}\}, \qquad k = \lvert\Sigma\rvert = 5. \tag{5.4}$$
+$$\Sigma = \{\text{lisa} < \text{geométrica} < \text{figurativa} < \text{mixta} < \text{no determinada}\},\; k = \lvert\Sigma\rvert = 5. \tag{5.4}$$
 
 Cada símbolo es un **tipo** de banda. No codifica color ni anchura. El orden total es convencional y solo sirve para definir la forma canónica.
 
@@ -257,9 +257,9 @@ El descriptor no prescribe qué vecindades son admisibles; describe cuáles se o
 
 $$d_t(w, v) = \tfrac{1}{2} \lVert t(w) - t(v) \rVert_1, \tag{5.15}$$
 
-con $d_t(\varepsilon, \varepsilon) = 0$ y $d_t = 1$ si exactamente una de las dos palabras es vacía, y omite el bloque de adyacencias. Usa los mismos pesos, sin reajustarlos. No hay otra diferencia en la definición, pero al omitir un bloque cambia además la normalización de $D$ (véase la interpretación de la proposición 5.6).
+con $d_t(\varepsilon, \varepsilon) = 0$ y $d_t = 1$ si exactamente una de las dos palabras es vacía, y omite el bloque de adyacencias. Los demás bloques mantienen sus pesos, sin reajustarlos. Al omitir un bloque cambia también la normalización de $D$ (véase la interpretación de la proposición 5.6).
 
-**Proposición 5.6 (en el bloque de bandas, el control acota inferiormente a la distancia con orden) [P].** Para toda $w, v$,
+**Proposición 5.6 (en el bloque de bandas, la distancia del control no supera a la distancia con orden) [P].** Para toda $w, v$,
 
 $$d_t(w, v) \le d_w(w, v). \tag{5.16}$$
 
@@ -370,7 +370,7 @@ Sea $n = \lvert \mathcal{C}(q) \rvert$ el número de candidatos de una consulta,
 | Histogramas de tipos y de adyacencias | $O(L)$ |
 | Distancia entre dos palabras | $O(L^2)$ |
 | Disimilitud de un par | $O(\lvert B \rvert + L^2)$ |
-| *Ranking* de una consulta en M3 | $O(n\,(\lvert B \rvert + L^2) + n \log n)$ |
+| *Ranking* de una consulta en M3 | $O(n\,(\lvert B \rvert + L^2) + n \,\log n)$ |
 | Fusión de una consulta | $O(n)$ por componente, más la ordenación |
 
 Con una galería de unos cientos de piezas y palabras de pocas decenas de símbolos, el costo es despreciable frente al cálculo de los vectores de M2. No se hace ninguna afirmación de escalabilidad a colecciones grandes: sin desigualdad triangular no pueden usarse índices métricos, y la comparación es exhaustiva, consecuencia directa de la proposición 5.8.
@@ -390,16 +390,16 @@ El Cuadro 5.5 separa lo que la formalización establece de lo que solo el experi
 | Hipótesis | Lo que el capítulo establece | Lo que solo el experimento puede establecer |
 |---|---|---|
 | H1 | Que la fusión está bien definida, incluso cuando falta evidencia estructural (proposición 5.9) | Que la fusión supera a un codificador general; el aporte propio de la estructura solo se examina en ablaciones exploratorias |
-| H2 | Que, en el bloque de bandas, la distancia con orden acota superiormente a la del histograma de tipos (proposición 5.6), y qué cambia el control: el bloque de bandas, la omisión de las adyacencias y la normalización (definición 5.15). No establece un refinamiento de la disimilitud agregada ni del orden de los candidatos | Si M3 recupera mejor que M3-sin-orden, una comparación empírica |
+| H2 | Que, en el bloque de bandas, la distancia con orden nunca es menor que la del histograma de tipos (proposición 5.6), y en qué difiere el control: la distancia del bloque de bandas, la omisión de las adyacencias y la normalización de $D$ (definición 5.15). La desigualdad no se extiende a la disimilitud agregada ni al orden de los candidatos | Si M3 recupera mejor que M3-sin-orden |
 | H3 | Que la descomposición y la intervención son identidades de la fórmula (proposiciones 5.7 y 5.9) | Que la implementación las cumple en todos los resultados de prueba |
 
 ## 5.13 Palabras de bandas y coincidencias de inventario en el corpus
 
-La composición de la galería respecto del orden de las bandas podía describirse antes del experimento, sin ningún juicio de relevancia **[E]**. En la anotación v2.1, solo 53 de las 150 piezas del núcleo tienen palabra de bandas, y el orden solo puede pesar cuando la consulta y el candidato la tienen. Entre esas 53 piezas hay 1378 pares. En 41 de ellos el control sin orden ve el mismo histograma normalizado de tipos, y en 25 de esos 41 la forma canónica difiere: son los únicos pares en que, en el bloque de bandas, el control da distancia cero y M3 no. Contando bandas en lugar de proporciones, solo 3 pares comparten inventario y difieren en el orden. Estos conteos describen las coincidencias que el control no distingue; no acotan cuántas veces el orden cambia la posición relativa de dos candidatos, que también puede cambiar entre piezas con histogramas distintos (sección 5.8.3).
+Cuántas piezas de la galería tienen palabra de bandas, y cuántos pares de ellas coinciden en el inventario de tipos, podía establecerse antes del experimento, sin ningún juicio de relevancia **[E]**. En la anotación v2.1, solo 53 de las 150 piezas del núcleo tienen palabra de bandas, y el orden solo puede pesar cuando la consulta y el candidato la tienen. Entre esas 53 piezas hay 1378 pares. En 41 de ellos el control sin orden ve el mismo histograma normalizado de tipos, y en 25 de esos 41 la forma canónica difiere: son los únicos pares en que, en el bloque de bandas, el control da distancia cero y M3 no. Contando bandas en lugar de proporciones, solo 3 pares comparten inventario y difieren en el orden. Estos conteos describen las coincidencias que el control no distingue; no acotan cuántas veces el orden cambia la posición relativa de dos candidatos, que también puede cambiar entre piezas con histogramas distintos (sección 5.8.3).
 
-Cuando la pieza de consulta no tiene palabra de bandas, porque su secuencia es `ausente` o no observable, $d_w$ y $d_t$ coinciden para todo candidato y el bloque de adyacencias no es observable. M3 y su control asignan entonces la misma puntuación a todos los candidatos, y la diferencia pareada de H2 es cero por construcción. En desarrollo ocurrió en 8 de las 10 consultas, en las que M3 y M3-sin-orden produjeron el mismo *ranking* completo. Por eso, antes de abrir la partición de prueba y sin ver ningún resultado, se mantuvo la regla de H2 sobre las 30 consultas de prueba y se añadió, como subgrupo descriptivo, la misma comparación en las consultas cuya pieza tiene palabra de bandas (capítulo 7, secciones 7.5 y 7.8).
+Cuando la pieza de consulta no tiene palabra de bandas, porque su secuencia es `ausente` o no observable, $d_w$ y $d_t$ coinciden para todo candidato y el bloque de adyacencias no es observable. M3 y su control asignan entonces a cada candidato la misma puntuación, y la diferencia pareada de H2 es cero por construcción. En desarrollo ocurrió en 8 de las 10 consultas, en las que M3 y M3-sin-orden produjeron el mismo *ranking* completo. Por eso, antes de abrir la partición de prueba y sin ver ningún resultado, se mantuvo la regla de H2 sobre las 30 consultas de prueba y se añadió, como subgrupo descriptivo, la misma comparación en las consultas cuya pieza tiene palabra de bandas (capítulo 7, secciones 7.5 y 7.8).
 
-Así ocurrió en la evaluación final: la diferencia fue cero por construcción en 21 de las 30 consultas, y solo las 9 con palabra de bandas aportaron diferencias distintas de cero. No se detectó una mejora atribuible al orden de las bandas (capítulo 8, sección 8.4). El resultado es compatible con la composición de la galería descrita aquí, con pocas piezas con palabra de bandas y pocas coincidencias de inventario con secuencias distintas, pero esos conteos no fijan por sí solos cuánto podía cambiar el orden los *rankings*.
+Así ocurrió en la evaluación final: la diferencia fue cero por construcción en 21 de las 30 consultas, y solo las 9 con palabra de bandas aportaron diferencias distintas de cero. No se detectó una mejora atribuible al orden de las bandas (capítulo 8, sección 8.4). El resultado es compatible con la galería descrita aquí, que tiene pocas piezas con palabra de bandas y pocas coincidencias de inventario con secuencias distintas, aunque esos conteos no fijan por sí solos cuánto podía cambiar el orden los *rankings*.
 
 ## 5.14 Límites de la formalización
 
